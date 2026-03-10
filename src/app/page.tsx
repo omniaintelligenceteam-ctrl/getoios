@@ -8,9 +8,8 @@ import { NotGetting } from '@/components/sections/NotGetting'
 import { ROINumbers } from '@/components/sections/ROINumbers'
 
 import { VoiceDemo } from '@/components/sections/VoiceDemo'
+import { Pricing } from '@/components/sections/Pricing'
 import { AuditForm } from '@/components/sections/AuditForm'
-import { DashboardPreview } from '@/components/sections/DashboardPreview'
-import { FooterCTA } from '@/components/sections/FooterCTA'
 import { Footer } from '@/components/sections/Footer'
 
 export default function Home() {
@@ -33,11 +32,10 @@ export default function Home() {
       <div className="section-divider" />
       <VoiceDemo />
       <div className="section-divider" />
+      <Pricing />
+      <div className="section-divider" />
       <AuditForm />
       <div className="section-divider" />
-      <DashboardPreview />
-      <div className="section-divider" />
-      <FooterCTA />
       <Footer />
     </div>
   )
