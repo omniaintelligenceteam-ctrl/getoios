@@ -2,13 +2,13 @@ import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-export const alt = 'Silent AI Partner - Workflow Automation for Contractors'
+export const alt = 'OIOS — AI Operations for Service Businesses | Omnia Intelligence AI'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 export default async function Image() {
-  const logoData = await readFile(join(process.cwd(), 'public', 'logo-bolt.png'))
-  const logoSrc = `data:image/png;base64,${logoData.toString('base64')}`
+  const logoData = await readFile(join(process.cwd(), 'public', 'logo-oios.jpg'))
+  const logoSrc = `data:image/jpeg;base64,${logoData.toString('base64')}`
 
   const interBold = await fetch(
     'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZhrib2Bg-4.ttf'
@@ -21,13 +21,13 @@ export default async function Image() {
           display: 'flex',
           width: '100%',
           height: '100%',
-          background: '#1a1f2e',
+          background: '#0B1120',
           padding: '80px',
           alignItems: 'center',
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} width={250} height={250} alt="" />
+        <img src={logoSrc} width={280} height={280} alt="" />
         <div
           style={{
             display: 'flex',
@@ -38,31 +38,40 @@ export default async function Image() {
         >
           <span
             style={{
-              fontSize: 60,
+              fontSize: 56,
               fontWeight: 700,
               color: 'white',
-              letterSpacing: '0.15em',
+              letterSpacing: '0.2em',
             }}
           >
-            SILENT AI PARTNER
+            OIOS
+          </span>
+          <span
+            style={{
+              fontSize: 28,
+              color: '#2DD4BF',
+              letterSpacing: '0.1em',
+            }}
+          >
+            OMNIA INTELLIGENCE AI
           </span>
           <span
             style={{
               fontSize: 36,
-              color: '#f97316',
+              fontWeight: 700,
+              color: '#F59E0B',
+              lineHeight: 1.3,
             }}
           >
-            The Workflow Automation Built for Contractors
+            We Install AI Into Your Business.
           </span>
           <span
             style={{
-              fontSize: 44,
-              fontWeight: 700,
-              color: 'white',
-              lineHeight: 1.2,
+              fontSize: 28,
+              color: '#94A3B8',
             }}
           >
-            Give Your Team 20 Hours Back Every Week
+            It Handles the Rest.
           </span>
         </div>
       </div>

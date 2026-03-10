@@ -40,30 +40,22 @@ export function Header() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled
-        ? 'bg-[#0B1120]/95 backdrop-blur-xl border-b border-slate-700/40 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2),0_1px_0_0_rgba(45,212,191,0.08)]'
-        : 'bg-[#0B1120] border-b border-slate-800/30'
+        ? 'bg-black/95 backdrop-blur-xl border-b border-slate-700/40 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2),0_1px_0_0_rgba(45,212,191,0.08)]'
+        : 'bg-black border-b border-slate-800/30'
     }`}>
       <div className="max-w-7xl mx-auto pl-2 sm:pl-4 pr-4 sm:pr-6 lg:pr-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 lg:space-x-4 group">
+          <Link href="/" className="flex items-center group">
             <Image
-              src="/logo-bolt.png"
-              alt="OIOS"
-              width={2048}
-              height={1842}
-              className="w-auto h-15 lg:h-19.5 object-contain"
+              src="/logo-oios.jpg"
+              alt="OIOS — Omnia Intelligence"
+              width={1024}
+              height={1024}
+              className="w-auto h-12 lg:h-14 object-contain"
               priority
             />
-            <div className="flex flex-col">
-              <span className="text-base lg:text-xl tracking-[0.25em] font-bold leading-none">
-                <span className="gradient-text-warm">OIOS</span>
-              </span>
-              <span className="text-[10px] tracking-[0.15em] text-slate-500 font-medium mt-0.5">
-                by Omnia Intelligence AI
-              </span>
-            </div>
           </Link>
 
           {/* Desktop Navigation */}

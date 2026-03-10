@@ -87,21 +87,17 @@ const Navigation = React.memo(() => {
       <nav className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
+          <Link href="/" className="flex items-center group">
             <Image
-              src="/logo-bolt.png"
-              alt="Silent AI Partner"
-              width={2048}
-              height={1842}
+              src="/logo-oios.jpg"
+              alt="OIOS — Omnia Intelligence"
+              width={1024}
+              height={1024}
               className="w-auto h-12 lg:h-14 object-contain"
               priority
             />
-            <span className="text-base lg:text-lg tracking-[0.15em] font-semibold whitespace-nowrap">
-              <span className="text-white">SILENT</span>{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-300 font-bold">
-                AI
-              </span>{" "}
-              <span className="text-white">PARTNER</span>
+            <span className="text-base lg:text-lg tracking-[0.15em] font-semibold whitespace-nowrap ml-3">
+              <span className="gradient-text-warm font-bold">OIOS</span>
             </span>
           </Link>
 

@@ -20,8 +20,8 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL('https://silentaipartner.com'),
   icons: {
-    icon: '/logo-bolt.png',
-    apple: '/logo-bolt.png',
+    icon: '/logo-oios.jpg',
+    apple: '/apple-touch-icon.png',
   },
   title: "OIOS — AI Operations for Service Businesses | Omnia Intelligence AI",
   description: "We install AI into your business. OIOS handles calls 24/7, automates your back office, and gives you a real-time command center — so you can focus on the actual work.",
