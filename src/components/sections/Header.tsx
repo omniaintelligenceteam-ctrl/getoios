@@ -47,15 +47,23 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center group">
+          <Link href="/" className="flex items-center space-x-3 lg:space-x-4 group">
             <Image
               src="/logo-oios.jpg"
               alt="OIOS — Omnia Intelligence"
               width={1024}
               height={1024}
-              className="w-auto h-12 lg:h-14 object-contain"
+              className="w-auto h-15 lg:h-19.5 object-contain"
               priority
             />
+            <div className="flex flex-col">
+              <span className="text-base lg:text-xl tracking-[0.25em] font-bold leading-none">
+                <span className="text-teal-400">OIOS</span>
+              </span>
+              <span className="text-[10px] tracking-[0.15em] text-slate-500 font-medium mt-0.5">
+                by Omnia Intelligence AI
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
