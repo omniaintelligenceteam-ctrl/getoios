@@ -1,10 +1,7 @@
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { PainPoints } from '@/components/sections/PainPoints'
-import { HowItWorks } from '@/components/sections/HowItWorks'
-import { WhoThisHelps } from '@/components/sections/WhoThisHelps'
-import { TheOutcome } from '@/components/sections/TheOutcome'
-import { Features } from '@/components/sections/Features'
+import { ThreePillars } from '@/components/sections/ThreePillars'
 
 import { VoiceDemo } from '@/components/sections/VoiceDemo'
 import { AuditForm } from '@/components/sections/AuditForm'
@@ -20,13 +17,7 @@ export default function Home() {
       <div className="section-divider" />
       <PainPoints />
       <div className="section-divider" />
-      <HowItWorks />
-      <div className="section-divider" />
-      <WhoThisHelps />
-      <div className="section-divider" />
-      <TheOutcome />
-      <div className="section-divider" />
-      <Features />
+      <ThreePillars />
       <div className="section-divider" />
       <VoiceDemo />
       <div className="section-divider" />
