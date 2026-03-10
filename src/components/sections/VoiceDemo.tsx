@@ -121,16 +121,16 @@ export function VoiceDemo() {
   }
 
   return (
-    <section id="demo" className="py-24 lg:py-32 bg-bg-secondary">
+    <section id="voice-demo" className="py-24 lg:py-32 bg-bg-secondary">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
               Don&apos;t Take Our Word For It —{' '}
-              <span className="gradient-text">Talk to Sarah</span>
+              <span className="gradient-text">Talk to OIOS</span>
             </h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              This is our AI voice receptionist. She answers calls, books appointments, and qualifies leads 24/7. Try her live — right now.
+              Talk to OIOS right now. Ask it anything about your business — pricing, availability, scheduling. This is the AI answering your calls 24/7.
             </p>
           </div>
         </FadeIn>
@@ -139,15 +139,15 @@ export function VoiceDemo() {
           <div className="glass-card p-8 lg:p-10">
             <div className="text-center">
               {/* Avatar */}
-              <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-orange-500 to-orange-400 flex items-center justify-center shadow-lg shadow-orange-500/20">
-                <span className="text-3xl font-bold text-white">S</span>
+              <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-teal-500/20">
+                <span className="text-3xl font-bold text-white">O</span>
               </div>
 
               {callState === 'idle' && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-2xl font-semibold text-white mb-2">Sarah — AI Voice Receptionist</h3>
-                    <p className="text-slate-400">Silent AI Partner</p>
+                    <h3 className="text-2xl font-semibold text-white mb-2">OIOS — AI Voice Receptionist</h3>
+                    <p className="text-slate-400">by Omnia Intelligence AI</p>
                   </div>
 
                   <p className="text-slate-300">
@@ -159,7 +159,7 @@ export function VoiceDemo() {
                       <button
                         onClick={startCall}
                         data-glow
-                        className="bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-400 hover:to-orange-300 text-white min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all btn-glow flex items-center justify-center gap-3"
+                        className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all btn-glow flex items-center justify-center gap-3"
                       >
                         <Phone className="w-6 h-6" />
                         Live Demo
@@ -169,9 +169,9 @@ export function VoiceDemo() {
                     <button
                       onClick={startInterview}
                       data-glow
-                      className="border-2 border-orange-500/30 text-orange-400 min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all hover:border-orange-400 hover:bg-orange-500/10 flex items-center justify-center gap-3"
+                      className="border-2 border-amber-500/30 text-amber-400 min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all hover:border-amber-400 hover:bg-amber-500/10 flex items-center justify-center gap-3"
                     >
-                      🎙️ Interview Sarah
+                      🎙️ Interview OIOS
                     </button>
                   </div>
 
@@ -191,12 +191,12 @@ export function VoiceDemo() {
                 <div className="space-y-6">
                   <div className="flex justify-center mb-4">
                     <div className="flex space-x-2">
-                      <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      <div className="w-3 h-3 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                      <div className="w-3 h-3 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                      <div className="w-3 h-3 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
-                  <p className="text-slate-300 text-lg">Connecting to Sarah...</p>
+                  <p className="text-slate-300 text-lg">Connecting to OIOS...</p>
                   <p className="text-slate-400 text-sm">This may take a few seconds</p>
                   <button
                     onClick={endCall}
@@ -227,8 +227,8 @@ export function VoiceDemo() {
                     </div>
                   </div>
 
-                  <p className="text-emerald-400 font-medium text-lg">🟢 Connected &bull; Speaking with Sarah</p>
-                  <p className="text-slate-400">Sarah can hear you. Speak naturally!</p>
+                  <p className="text-emerald-400 font-medium text-lg">🟢 Connected &bull; Speaking with OIOS</p>
+                  <p className="text-slate-400">OIOS can hear you. Speak naturally!</p>
 
                   <button
                     onClick={endCall}
@@ -250,7 +250,7 @@ export function VoiceDemo() {
                   <button
                     onClick={resetError}
                     data-glow
-                    className="bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-400 hover:to-orange-300 text-white px-6 py-3 rounded-xl font-medium transition-all"
+                    className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white px-6 py-3 rounded-xl font-medium transition-all"
                   >
                     Try Again
                   </button>
