@@ -65,9 +65,9 @@ const phoneHandlerOptions = [
   'Other',
 ]
 
-const inputClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/25 transition-colors duration-200'
-const selectClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/25 transition-colors duration-200'
-const textareaClass = 'w-full min-h-[100px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/25 transition-colors duration-200 resize-y'
+const inputClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-colors duration-200'
+const selectClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-colors duration-200'
+const textareaClass = 'w-full min-h-[100px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-colors duration-200 resize-y'
 
 export function AuditForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData)
@@ -129,7 +129,7 @@ export function AuditForm() {
 
   if (submitted) {
     return (
-      <section id="audit-form" className="py-24 lg:py-32 bg-bg-secondary">
+      <section id="audit" className="py-24 lg:py-32 bg-bg-secondary">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <FadeIn>
             <div className="glass-card p-10 lg:p-14 text-center">
@@ -139,13 +139,13 @@ export function AuditForm() {
                 </svg>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 tracking-tight" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-                Audit Request Received
+                You&apos;re In
               </h3>
               <p className="text-slate-400 text-lg leading-relaxed mb-6">
-                I&apos;m reviewing your business now. Expect a call from me within 24 hours.
+                Your audit request is in. Wes will reach out within 24 hours.
               </p>
-              <p className="text-orange-400 font-semibold">
-                — Wes, Silent AI Partner
+              <p className="text-amber-400 font-semibold">
+                — Wes, Omnia Intelligence AI
               </p>
             </div>
           </FadeIn>
@@ -155,15 +155,15 @@ export function AuditForm() {
   }
 
   return (
-    <section id="audit-form" className="py-24 lg:py-32 bg-bg-secondary">
+    <section id="audit" className="py-24 lg:py-32 bg-bg-secondary">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <FadeIn>
           <div className="text-center mb-14">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-              Get Your Free Workflow Audit
+              Book Your Free AI Operations Audit
             </h2>
             <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Takes 2 minutes. I&apos;ll call you within 24 hours.
+              30 minutes. No pitch. Just a look at where AI can save you the most time.
             </p>
           </div>
         </FadeIn>
@@ -175,8 +175,8 @@ export function AuditForm() {
               <div className="flex items-center gap-2 flex-1">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
                   step === 1
-                    ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-lg shadow-orange-500/20'
-                    : 'bg-orange-500/10 text-orange-400'
+                    ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-lg shadow-amber-500/20'
+                    : 'bg-amber-500/10 text-amber-400'
                 }`}>
                   {step > 1 ? (
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,11 +185,11 @@ export function AuditForm() {
                   ) : '1'}
                 </div>
                 <div className={`h-[2px] flex-1 rounded-full transition-colors duration-500 ${
-                  step > 1 ? 'bg-gradient-to-r from-orange-500 to-orange-400' : 'bg-slate-700/50'
+                  step > 1 ? 'bg-gradient-to-r from-amber-500 to-amber-400' : 'bg-slate-700/50'
                 }`} />
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
                   step === 2
-                    ? 'bg-gradient-to-r from-orange-500 to-orange-400 text-white shadow-lg shadow-orange-500/20'
+                    ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-lg shadow-amber-500/20'
                     : 'bg-slate-800/50 text-slate-500 border border-slate-700/50'
                 }`}>
                   2
@@ -278,7 +278,7 @@ export function AuditForm() {
                     <button
                       type="submit"
                       data-glow
-                      className="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-orange-600 hover:to-orange-500 transition-colors duration-200"
+                      className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200"
                     >
                       Next — Almost Done →
                     </button>
@@ -360,7 +360,7 @@ export function AuditForm() {
                           key={opt}
                           className={`flex items-center justify-center p-3 rounded-xl border cursor-pointer transition-colors duration-200 text-sm text-center ${
                             formData.phoneHandler === opt
-                              ? 'border-orange-500/50 bg-orange-500/10 text-orange-400'
+                              ? 'border-amber-500/50 bg-amber-500/10 text-amber-400'
                               : 'border-slate-700/50 bg-slate-800/30 text-slate-400 hover:border-slate-600/50'
                           }`}
                         >
@@ -428,7 +428,7 @@ export function AuditForm() {
                       type="submit"
                       disabled={submitting}
                       data-glow
-                      className="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-orange-600 hover:to-orange-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {submitting ? 'Submitting...' : 'Book My Audit Call →'}
                     </button>
