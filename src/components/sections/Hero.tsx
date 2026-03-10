@@ -308,7 +308,7 @@ export function Hero() {
         >
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30">
             <span className="text-[11px] font-mono uppercase tracking-[0.12em] text-slate-400">
-              AI Operations for Service Businesses
+              Your AI-Powered Operations Team
             </span>
           </div>
         </motion.div>
@@ -321,9 +321,9 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
-          <span className="text-white">We Install AI Into Your Business.</span>
+          <span className="text-white">Answer Every Call. Capture Every Lead. Run Every Task.</span>
           <br />
-          <span className="gradient-text-warm">It Handles the Rest.</span>
+          <span className="gradient-text-warm">See Everything. 24/7.</span>
         </motion.h1>
 
         {/* Subheadline */}
@@ -333,8 +333,8 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
         >
-          OIOS handles your calls, runs your admin, and gives you a real-time command center —
-          so you can focus on the actual work.
+          OIOS answers calls 24/7, kills your paperwork, and shows you every lead, job, and dollar
+          in real time — so you can run the business, not chase it.
         </motion.p>
 
         {/* Animated Energy Network */}
