@@ -89,11 +89,11 @@ export function Pricing() {
           animate={cardInView ? { opacity: 1, y: 0, scale: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.1, type: 'spring', stiffness: 100 }}
         >
-          <div className="relative glass-card p-8 lg:p-12 gradient-border-animated overflow-hidden">
+          <div className="relative glass-card p-8 lg:p-12 gradient-border-animated">
             {/* Spotlight sweep effect */}
             {cardInView && (
               <motion.div
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl"
                 style={{
                   background: 'linear-gradient(105deg, transparent 40%, rgba(245,158,11,0.08) 45%, rgba(245,158,11,0.12) 50%, rgba(45,212,191,0.08) 55%, transparent 60%)',
                 }}
@@ -104,7 +104,7 @@ export function Pricing() {
             )}
 
             {/* Founding badge with shimmer */}
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
               <motion.div
                 className="relative bg-gradient-to-r from-amber-500 to-amber-400 text-white px-6 py-1.5 rounded-full text-xs font-bold tracking-[0.15em] uppercase shadow-lg shadow-amber-500/30 whitespace-nowrap overflow-hidden"
                 initial={{ scale: 0, opacity: 0 }}
@@ -175,7 +175,7 @@ export function Pricing() {
               <Link
                 href="#audit"
                 data-cursor="cta"
-                className="block w-full py-4 rounded-xl font-bold text-center text-base bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white btn-glow transition-all relative z-10"
+                className="block w-full py-4 rounded-xl font-bold text-center text-base bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white btn-glow transition-all duration-200 relative z-10"
               >
                 Claim Founding Rate →
               </Link>

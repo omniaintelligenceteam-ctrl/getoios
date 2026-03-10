@@ -232,7 +232,7 @@ export function VoiceDemo() {
                       <button
                         onClick={startCall}
                         data-glow
-                        className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all btn-glow flex items-center justify-center gap-3"
+                        className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all duration-200 btn-glow flex items-center justify-center gap-3"
                       >
                         <Phone className="w-6 h-6" />
                         Live Demo
@@ -324,7 +324,7 @@ export function VoiceDemo() {
                   </div>
                   <button
                     onClick={resetError}
-                    className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white px-6 py-3 rounded-xl font-medium transition-all"
+                    className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200"
                   >
                     Try Again
                   </button>
