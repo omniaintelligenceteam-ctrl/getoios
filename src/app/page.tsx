@@ -5,6 +5,7 @@ import { ThreePillars } from '@/components/sections/ThreePillars'
 import { HowItWorksNew } from '@/components/sections/HowItWorksNew'
 import { DailySchedule } from '@/components/sections/DailySchedule'
 import { NotGetting } from '@/components/sections/NotGetting'
+import { ROINumbers } from '@/components/sections/ROINumbers'
 
 import { VoiceDemo } from '@/components/sections/VoiceDemo'
 import { AuditForm } from '@/components/sections/AuditForm'
@@ -27,6 +28,8 @@ export default function Home() {
       <DailySchedule />
       <div className="section-divider" />
       <NotGetting />
+      <div className="section-divider" />
+      <ROINumbers />
       <div className="section-divider" />
       <VoiceDemo />
       <div className="section-divider" />
