@@ -11,32 +11,36 @@ import { VoiceDemo } from '@/components/sections/VoiceDemo'
 import { Pricing } from '@/components/sections/Pricing'
 import { AuditForm } from '@/components/sections/AuditForm'
 import { Footer } from '@/components/sections/Footer'
+import { PageEntrance } from '@/components/ui/PageEntrance'
+import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export default function Home() {
   return (
+    <PageEntrance>
     <div className="bg-bg-primary text-white min-h-screen">
       <Header />
       <Hero />
-      <div className="section-divider" />
+      <SectionTransition />
       <PainPoints />
-      <div className="section-divider" />
+      <SectionTransition />
       <ThreePillars />
-      <div className="section-divider" />
+      <SectionTransition />
       <HowItWorksNew />
-      <div className="section-divider" />
+      <SectionTransition />
       <DailySchedule />
-      <div className="section-divider" />
+      <SectionTransition />
       <NotGetting />
-      <div className="section-divider" />
+      <SectionTransition />
       <ROINumbers />
-      <div className="section-divider" />
+      <SectionTransition />
       <VoiceDemo />
-      <div className="section-divider" />
+      <SectionTransition />
       <Pricing />
-      <div className="section-divider" />
+      <SectionTransition />
       <AuditForm />
-      <div className="section-divider" />
+      <SectionTransition />
       <Footer />
     </div>
+    </PageEntrance>
   )
 }

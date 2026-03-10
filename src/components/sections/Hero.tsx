@@ -1,10 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion, useInView } from 'motion/react'
 import { BarChart2, Zap, RefreshCw, Phone } from 'lucide-react'
 import { FloatingPaths } from '@/components/ui/background-paths'
+import { MagneticButton } from '@/components/ui/MagneticButton'
+import { useScrollVelocity } from '@/hooks/useScrollVelocity'
+import { gsap, ScrollTrigger } from '@/lib/gsap-init'
 
 // ─── Animated Energy Network SVG ────────────────────────────────────────────
 function EnergyNetwork() {
@@ -219,16 +222,78 @@ const stats = [
 
 // ─── Main Hero Export ────────────────────────────────────────────────────────
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null)
+  useScrollVelocity()
+
+  // Parallax on background elements
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const section = sectionRef.current
+    if (!section) return
+
+    const orbs = section.querySelectorAll('.orb')
+    const grid = section.querySelector('.hero-grid')
+    const paths = section.querySelectorAll('.floating-paths')
+
+    const ctx = gsap.context(() => {
+      // Each orb moves at different parallax speed
+      orbs.forEach((orb, i) => {
+        const speed = [0.3, 0.5, 0.2][i] || 0.3
+        gsap.to(orb, {
+          y: () => window.innerHeight * speed * -0.5,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+      })
+
+      // Grid gets subtle parallax
+      if (grid) {
+        gsap.to(grid, {
+          y: () => window.innerHeight * 0.15,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+      }
+
+      // Floating paths get very subtle parallax
+      paths.forEach((path) => {
+        gsap.to(path, {
+          y: () => window.innerHeight * 0.1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+      })
+    }, section)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section className="relative min-h-screen bg-bg-primary overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen bg-bg-primary overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="hero-grid absolute inset-0" />
+        <div className="hero-grid absolute inset-0" style={{ willChange: 'transform' }} />
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
-        <div className="orb orb-3" />
+        <div className="orb orb-1" style={{ willChange: 'transform' }} />
+        <div className="orb orb-2" style={{ willChange: 'transform' }} />
+        <div className="orb orb-3" style={{ willChange: 'transform' }} />
       </div>
 
       {/* Content */}
@@ -337,13 +402,16 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.1 }}
         >
-          <Link
-            href="#audit"
-            data-glow
-            className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-10 py-4 rounded-lg font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
-          >
-            Book Your Free Audit →
-          </Link>
+          <MagneticButton>
+            <Link
+              href="#audit"
+              data-glow
+              data-cursor="cta"
+              className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-10 py-4 rounded-lg font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
+            >
+              Book Your Free Audit →
+            </Link>
+          </MagneticButton>
         </motion.div>
 
       </div>

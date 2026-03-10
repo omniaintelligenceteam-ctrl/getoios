@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { motion, useInView } from 'motion/react'
+import { motion, useInView, AnimatePresence } from 'motion/react'
+import { MagneticButton } from '@/components/ui/MagneticButton'
 
 type FormData = {
   fullName: string
@@ -106,8 +107,7 @@ export function AuditForm() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
-  const [direction, setDirection] = useState<'forward' | 'back'>('forward')
-  const [animating, setAnimating] = useState(false)
+  const [direction, setDirection] = useState<1 | -1>(1)
   const step1Ref = useRef<HTMLFormElement>(null)
   const headerRef = useRef(null)
   const headerInView = useInView(headerRef, { once: true })
@@ -118,21 +118,13 @@ export function AuditForm() {
 
   const goToStep2 = () => {
     if (!step1Ref.current?.reportValidity()) return
-    setDirection('forward')
-    setAnimating(true)
-    setTimeout(() => {
-      setStep(2)
-      setTimeout(() => setAnimating(false), 20)
-    }, 250)
+    setDirection(1)
+    setStep(2)
   }
 
   const goToStep1 = () => {
-    setDirection('back')
-    setAnimating(true)
-    setTimeout(() => {
-      setStep(1)
-      setTimeout(() => setAnimating(false), 20)
-    }, 250)
+    setDirection(-1)
+    setStep(1)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -266,21 +258,20 @@ export function AuditForm() {
 
             {/* Step Content */}
             <div className="relative overflow-hidden">
-              {/* Step 1 */}
-              <div
-                style={{
-                  transform: animating && direction === 'forward' && step === 1
-                    ? 'translateX(-24px)'
-                    : animating && direction === 'back' && step === 2
-                    ? 'translateX(24px)'
-                    : 'translateX(0)',
-                  opacity: step === 1 && !animating ? 1 : step === 1 ? 0 : 0,
-                  position: step === 1 ? 'relative' : 'absolute',
-                  top: 0, left: 0, right: 0,
-                  transition: 'transform 250ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease',
-                  pointerEvents: step === 1 ? 'auto' : 'none',
-                  visibility: step === 1 ? 'visible' : 'hidden',
+              <AnimatePresence mode="wait" initial={false} custom={direction}>
+              {step === 1 && (
+              <motion.div
+                key="step1"
+                custom={direction}
+                variants={{
+                  enter: (d: number) => ({ x: d * -24, opacity: 0 }),
+                  center: { x: 0, opacity: 1 },
+                  exit: (d: number) => ({ x: d * 24, opacity: 0 }),
                 }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
               >
                 <form ref={step1Ref} onSubmit={(e) => { e.preventDefault(); goToStep2() }} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
@@ -337,36 +328,39 @@ export function AuditForm() {
                   </div>
 
                   <div className="pt-4">
-                    <button
-                      type="submit"
-                      data-glow
-                      className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200"
-                    >
-                      Next — Almost Done →
-                    </button>
+                    <MagneticButton className="w-full">
+                      <button
+                        type="submit"
+                        data-glow
+                        data-cursor="cta"
+                        className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200"
+                      >
+                        Next — Almost Done →
+                      </button>
+                    </MagneticButton>
                   </div>
 
                   <p className="text-center text-slate-500 text-sm">
                     No spam. Just 4 quick questions to start.
                   </p>
                 </form>
-              </div>
+              </motion.div>
+              )}
 
               {/* Step 2 */}
-              <div
-                style={{
-                  transform: animating && direction === 'forward' && step === 1
-                    ? 'translateX(24px)'
-                    : animating && direction === 'back' && step === 2
-                    ? 'translateX(-24px)'
-                    : 'translateX(0)',
-                  opacity: step === 2 && !animating ? 1 : step === 2 ? 0 : 0,
-                  position: step === 2 ? 'relative' : 'absolute',
-                  top: 0, left: 0, right: 0,
-                  transition: 'transform 250ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease',
-                  pointerEvents: step === 2 ? 'auto' : 'none',
-                  visibility: step === 2 ? 'visible' : 'hidden',
+              {step === 2 && (
+              <motion.div
+                key="step2"
+                custom={direction}
+                variants={{
+                  enter: (d: number) => ({ x: d * 24, opacity: 0 }),
+                  center: { x: 0, opacity: 1 },
+                  exit: (d: number) => ({ x: d * -24, opacity: 0 }),
                 }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
               >
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
@@ -484,17 +478,21 @@ export function AuditForm() {
                   )}
 
                   <div className="flex flex-col gap-3 pt-4">
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      data-glow
-                      className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {submitting ? 'Submitting...' : 'Book My Audit Call →'}
-                    </button>
+                    <MagneticButton className="w-full">
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        data-glow
+                        data-cursor="cta"
+                        className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {submitting ? 'Submitting...' : 'Book My Audit Call →'}
+                      </button>
+                    </MagneticButton>
                     <button
                       type="button"
                       onClick={goToStep1}
+                      data-cursor="cta"
                       className="text-slate-500 hover:text-slate-300 text-sm font-medium transition-colors duration-200 py-2 rounded-lg"
                     >
                       ← Back
@@ -505,7 +503,9 @@ export function AuditForm() {
                     No spam. One follow-up call max. Usually within 24 hours.
                   </p>
                 </form>
-              </div>
+              </motion.div>
+              )}
+              </AnimatePresence>
             </div>
           </div>
         </motion.div>

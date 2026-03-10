@@ -110,6 +110,7 @@ function StatCard({
   return (
     <motion.div
       className="glass-card p-6 lg:p-8 text-center"
+      data-glow
       initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}

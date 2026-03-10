@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
+import { MagneticButton } from '@/components/ui/MagneticButton'
 
 const navLinks = [
   { href: '#pillars', label: 'What It Does' },
@@ -58,7 +60,7 @@ export function Header() {
             />
             <div className="flex flex-col">
               <span className="text-base lg:text-xl tracking-[0.25em] font-bold leading-none">
-                <span className="text-teal-400">OIOS</span>
+                <span className="text-teal-400 group-hover:drop-shadow-[0_0_8px_rgba(45,212,191,0.4)] transition-all duration-300">OIOS</span>
               </span>
               <span className="text-[10px] tracking-[0.15em] text-slate-500 font-medium mt-0.5">
                 by Omnia Intelligence AI
@@ -67,28 +69,31 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 relative">
             {navLinks.map((link) => {
               const sectionId = link.href.replace('#', '')
               const isActive = activeSection === sectionId
               return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative text-sm tracking-wide transition-colors duration-300 ${
-                    link.accent
-                      ? `${isActive ? 'text-teal-300' : 'text-teal-400 hover:text-teal-300'} font-medium`
-                      : `${isActive ? 'text-white' : 'text-slate-400 hover:text-white'}`
-                  }`}
-                >
-                  {link.label}
-                  {/* Animated underline */}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-px bg-teal-400 transition-all duration-300 ${
-                      isActive ? 'w-full opacity-100' : 'w-0 opacity-0'
+                <MagneticButton key={link.href} strength={0.15}>
+                  <Link
+                    href={link.href}
+                    className={`relative text-sm tracking-wide transition-colors duration-300 ${
+                      link.accent
+                        ? `${isActive ? 'text-teal-300' : 'text-teal-400 hover:text-teal-300'} font-medium`
+                        : `${isActive ? 'text-white' : 'text-slate-400 hover:text-white'}`
                     }`}
-                  />
-                </Link>
+                  >
+                    {link.label}
+                    {/* Animated underline */}
+                    {isActive && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute -bottom-1 left-0 right-0 h-px bg-teal-400"
+                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                </MagneticButton>
               )
             })}
           </nav>
@@ -100,13 +105,16 @@ export function Header() {
               <span className="text-emerald-400/80">Online</span>
             </div>
 
-            <Link
-              href="#audit"
-              data-glow
-              className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-2 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
-            >
-              Book Your Free Audit →
-            </Link>
+            <MagneticButton>
+              <Link
+                href="#audit"
+                data-glow
+                data-cursor="cta"
+                className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-2 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
+              >
+                Book Your Free Audit →
+              </Link>
+            </MagneticButton>
           </div>
 
           {/* Mobile Menu Button */}
@@ -124,42 +132,64 @@ export function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden py-6 border-t border-slate-800/30">
-            <nav className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`transition-colors duration-200 text-sm ${
-                    link.accent
-                      ? 'text-teal-400 hover:text-teal-300 font-medium'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
+        {/* Mobile Menu — Animated */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="md:hidden py-6 border-t border-slate-800/30 overflow-hidden"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <nav className="flex flex-col space-y-4">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -16 }}
+                    transition={{ duration: 0.25, delay: i * 0.05 }}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`transition-colors duration-200 text-sm ${
+                        link.accent
+                          ? 'text-teal-400 hover:text-teal-300 font-medium'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                ))}
 
-              <div className="pt-4 border-t border-slate-800/30 space-y-3">
-                <div className="flex items-center space-x-2 text-xs font-mono">
-                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-                  <span className="text-emerald-400/80">Online</span>
-                </div>
-                <Link
-                  href="#audit"
-                  data-glow
-                  className="block bg-gradient-to-r from-amber-500 to-amber-400 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
-                  onClick={() => setMobileMenuOpen(false)}
+                <motion.div
+                  className="pt-4 border-t border-slate-800/30 space-y-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25, delay: 0.15 }}
                 >
-                  Book Your Free Audit →
-                </Link>
-              </div>
-            </nav>
-          </div>
-        )}
+                  <div className="flex items-center space-x-2 text-xs font-mono">
+                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span className="text-emerald-400/80">Online</span>
+                  </div>
+                  <Link
+                    href="#audit"
+                    data-glow
+                    data-cursor="cta"
+                    className="block bg-gradient-to-r from-amber-500 to-amber-400 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Book Your Free Audit →
+                  </Link>
+                </motion.div>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   )

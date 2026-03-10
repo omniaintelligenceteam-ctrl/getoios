@@ -378,7 +378,7 @@ function Pillar({
       </div>
 
       {/* Right — animated flow diagram */}
-      <div className="glass-card p-6 lg:p-8">
+      <div className="glass-card p-6 lg:p-8" data-glow>
         <div className={`text-[10px] font-mono uppercase tracking-[0.15em] ${accent} mb-6 opacity-70`}>Workflow</div>
         <AnimatedFlow config={flow} />
       </div>

@@ -3,6 +3,9 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { MouseSpotlight } from "@/components/ui/MouseSpotlight";
 import { PointerGlow } from "@/components/ui/pointer-glow";
+import { SmoothScroll } from "@/components/ui/SmoothScroll";
+import { CustomCursor } from "@/components/ui/CustomCursor";
+import { ScrollRevealInit } from "@/components/ui/ScrollRevealInit";
 import "./globals.css";
 
 const inter = Inter({
@@ -57,7 +60,11 @@ export default function RootLayout({
         <ScrollProgress />
         <MouseSpotlight />
         <PointerGlow />
-        {children}
+        <CustomCursor />
+        <ScrollRevealInit />
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

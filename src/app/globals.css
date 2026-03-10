@@ -56,8 +56,24 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Custom cursor styles */
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+
+/* Cursor ring hover states */
+.cursor-ring-hover {
+  width: 56px !important;
+  height: 56px !important;
+  margin-left: -28px !important;
+  margin-top: -28px !important;
+  border-color: rgba(45, 212, 191, 0.8) !important;
+}
+
+.cursor-ring-cta {
+  border-color: rgba(245, 158, 11, 0.8) !important;
+  background-color: rgba(245, 158, 11, 0.06) !important;
 }
 
 body {
@@ -519,12 +535,90 @@ details[open] > div {
 .page-enter-5 { animation-delay: 600ms; }
 
 /* ============================================
-   SECTION DIVIDER
+   SECTION DIVIDER (legacy)
    ============================================ */
 .section-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.15), transparent);
   box-shadow: 0 0 20px rgba(45, 212, 191, 0.05);
+}
+
+/* ============================================
+   SECTION TRANSITION (animated)
+   ============================================ */
+.section-transition {
+  position: relative;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.section-transition-line {
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.3), transparent);
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-transition-glow {
+  position: absolute;
+  width: 0;
+  height: 20px;
+  background: radial-gradient(ellipse at center, rgba(45, 212, 191, 0.08) 0%, transparent 70%);
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+  opacity: 0;
+}
+
+.section-transition-visible .section-transition-line {
+  width: 80%;
+}
+
+.section-transition-visible .section-transition-glow {
+  width: 60%;
+  opacity: 1;
+}
+
+/* ============================================
+   PER-SECTION GRADIENT MESH
+   ============================================ */
+section {
+  position: relative;
+}
+
+section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+/* Teal mesh for pillars/how-it-works sections */
+section:nth-of-type(3)::before,
+section:nth-of-type(4)::before {
+  background: radial-gradient(ellipse at 20% 50%, rgba(45, 212, 191, 0.03) 0%, transparent 60%);
+  animation: mesh-drift 20s ease-in-out infinite alternate;
+}
+
+/* Amber mesh for pricing/CTA sections */
+section:nth-of-type(8)::before,
+section:nth-of-type(9)::before {
+  background: radial-gradient(ellipse at 80% 30%, rgba(245, 158, 11, 0.03) 0%, transparent 60%);
+  animation: mesh-drift 18s ease-in-out infinite alternate-reverse;
+}
+
+/* Red-tinged mesh for pain points */
+section:nth-of-type(2)::before {
+  background: radial-gradient(ellipse at 60% 70%, rgba(239, 68, 68, 0.02) 0%, transparent 50%);
+  animation: mesh-drift 22s ease-in-out infinite alternate;
+}
+
+@keyframes mesh-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -20px) scale(1.05); }
 }
 
 /* ============================================
@@ -571,5 +665,21 @@ details[open] > div {
   [data-glow]::before,
   [data-glow]::after {
     display: none;
+  }
+  /* Disable new elite polish features */
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+  .section-transition-line,
+  .section-transition-glow {
+    transition: none;
+  }
+  section::before {
+    animation: none;
   }
 }

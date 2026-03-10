@@ -30,7 +30,7 @@ export function TiltCard({
     const x = (e.clientX - rect.left) / rect.width - 0.5
     const y = (e.clientY - rect.top) / rect.height - 0.5
     cardRef.current.style.transform =
-      `perspective(1000px) rotateX(${-y * maxTilt}deg) rotateY(${x * maxTilt}deg)`
+      `perspective(1000px) rotateX(${-y * maxTilt}deg) rotateY(${x * maxTilt}deg) scale3d(1.02, 1.02, 1.02)`
   }
 
   function handleMouseLeave() {
@@ -43,6 +43,7 @@ export function TiltCard({
     <div
       ref={cardRef}
       className={`transition-transform duration-300 ease-out ${className}`}
+      style={{ willChange: 'transform' }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

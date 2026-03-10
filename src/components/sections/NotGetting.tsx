@@ -52,6 +52,7 @@ function ObjectionCard({ item, index }: { item: typeof objections[0]; index: num
     <motion.div
       ref={ref}
       className="glass-card p-6 lg:p-8 overflow-hidden relative"
+      data-glow
       initial={{ opacity: 0, y: 32 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}

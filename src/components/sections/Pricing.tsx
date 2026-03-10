@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'motion/react'
+import { MagneticButton } from '@/components/ui/MagneticButton'
 
 const includes = [
   'AI Receptionist — 24/7 call answering + lead capture',
@@ -170,12 +171,15 @@ export function Pricing() {
             </motion.div>
 
             {/* CTA */}
-            <Link
-              href="#audit"
-              className="block w-full py-4 rounded-xl font-bold text-center text-base bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white btn-glow transition-all relative z-10"
-            >
-              Claim Founding Rate →
-            </Link>
+            <MagneticButton>
+              <Link
+                href="#audit"
+                data-cursor="cta"
+                className="block w-full py-4 rounded-xl font-bold text-center text-base bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white btn-glow transition-all relative z-10"
+              >
+                Claim Founding Rate →
+              </Link>
+            </MagneticButton>
 
             {/* Spots counter */}
             <motion.p

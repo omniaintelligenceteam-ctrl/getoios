@@ -245,6 +245,7 @@ function EventCard({ event }: { event: typeof events[0] }) {
       exit={{ opacity: 0, y: -15 }}
       transition={{ duration: 0.35 }}
       className="glass-card p-6"
+      data-glow
     >
       <div className="flex items-center gap-3 mb-3">
         <span className="text-2xl">{event.icon}</span>
