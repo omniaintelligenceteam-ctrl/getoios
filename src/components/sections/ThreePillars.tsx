@@ -1,145 +1,30 @@
 'use client'
 
+import Image from 'next/image'
 import { motion, useInView } from 'motion/react'
 import { useRef } from 'react'
 
-// ─── Pillar 1 SVG: Phone → AI picks up → Lead → Calendar → Text ───────────
+// ─── Pillar flow images ───────────────────────────────────────────────────────
 function ReceptionistFlow() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-
-  const nodes = [
-    { x: 30, y: 60, label: 'Incoming\nCall', color: '#F59E0B', icon: 'phone' },
-    { x: 130, y: 60, label: 'AI Answers\n< 1 sec', color: '#2DD4BF', icon: 'ai' },
-    { x: 230, y: 60, label: 'Lead\nCaptured', color: '#34D399', icon: 'check' },
-    { x: 330, y: 60, label: 'Appt\nBooked', color: '#06B6D4', icon: 'cal' },
-  ]
-
   return (
-    <div ref={ref} className="w-full overflow-x-auto">
-      <svg viewBox="0 0 380 120" className="w-full min-w-[320px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Connecting lines */}
-        {nodes.slice(0, -1).map((node, i) => (
-          <motion.line
-            key={i}
-            x1={node.x + 24} y1={node.y}
-            x2={nodes[i + 1].x - 24} y2={nodes[i + 1].y}
-            stroke="#2DD4BF"
-            strokeWidth="1.5"
-            strokeDasharray="4 3"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={inView ? { pathLength: 1, opacity: 0.5 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 + i * 0.3 }}
-          />
-        ))}
-
-        {/* Nodes */}
-        {nodes.map((node, i) => (
-          <motion.g
-            key={i}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.4, delay: i * 0.3 }}
-          >
-            <circle cx={node.x} cy={node.y} r="22" fill="rgba(15,23,42,0.8)" stroke={node.color} strokeWidth="1.5" strokeOpacity="0.6" />
-            {/* Icon shorthand as text glyph */}
-            <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize="14" fill={node.color} fontFamily="monospace">
-              {node.icon === 'phone' ? '📞' : node.icon === 'ai' ? '⚡' : node.icon === 'check' ? '✓' : '📅'}
-            </text>
-            {/* Label below */}
-            {node.label.split('\n').map((line, li) => (
-              <text key={li} x={node.x} y={node.y + 38 + li * 13} textAnchor="middle" fontSize="9" fill="#94A3B8" fontFamily="sans-serif">
-                {line}
-              </text>
-            ))}
-          </motion.g>
-        ))}
-
-        {/* "600ms" badge on second connector */}
-        <motion.rect x="118" y="48" width="38" height="14" rx="4" fill="rgba(45,212,191,0.15)" stroke="rgba(45,212,191,0.3)" strokeWidth="1"
-          initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.9 }} />
-        <motion.text x="137" y="58.5" textAnchor="middle" fontSize="8" fill="#2DD4BF" fontFamily="monospace"
-          initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 1.0 }}>
-          {'< 1 sec'}
-        </motion.text>
-      </svg>
+    <div className="w-full">
+      <Image src="/flow-receptionist.jpg" alt="AI Receptionist workflow" width={1600} height={500} className="w-full h-auto rounded-lg" />
     </div>
   )
 }
 
-// ─── Pillar 2 SVG: Inbox → Proposal → CRM → Follow-up → Invoice ────────────
 function BackOfficeFlow() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-
-  const nodes = [
-    { x: 30, y: 60, label: 'New\nJob', color: '#F59E0B', glyph: '📥' },
-    { x: 130, y: 60, label: 'Proposal\n30 sec', color: '#2DD4BF', glyph: '📄' },
-    { x: 230, y: 60, label: 'CRM\nUpdated', color: '#34D399', glyph: '✓' },
-    { x: 330, y: 60, label: 'Follow-up\nSent', color: '#06B6D4', glyph: '✉' },
-  ]
-
   return (
-    <div ref={ref} className="w-full overflow-x-auto">
-      <svg viewBox="0 0 380 120" className="w-full min-w-[320px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {nodes.slice(0, -1).map((node, i) => (
-          <motion.line key={i} x1={node.x + 24} y1={node.y} x2={nodes[i + 1].x - 24} y2={nodes[i + 1].y}
-            stroke="#F59E0B" strokeWidth="1.5" strokeDasharray="4 3"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={inView ? { pathLength: 1, opacity: 0.5 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 + i * 0.3 }} />
-        ))}
-        {nodes.map((node, i) => (
-          <motion.g key={i} initial={{ opacity: 0, scale: 0.5 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.4, delay: i * 0.3 }}>
-            <circle cx={node.x} cy={node.y} r="22" fill="rgba(15,23,42,0.8)" stroke={node.color} strokeWidth="1.5" strokeOpacity="0.6" />
-            <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize="14" fill={node.color}>{node.glyph}</text>
-            {node.label.split('\n').map((line, li) => (
-              <text key={li} x={node.x} y={node.y + 38 + li * 13} textAnchor="middle" fontSize="9" fill="#94A3B8" fontFamily="sans-serif">{line}</text>
-            ))}
-          </motion.g>
-        ))}
-        {/* "30 sec" badge */}
-        <motion.rect x="118" y="48" width="36" height="14" rx="4" fill="rgba(245,158,11,0.15)" stroke="rgba(245,158,11,0.3)" strokeWidth="1"
-          initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 0.9 }} />
-        <motion.text x="136" y="58.5" textAnchor="middle" fontSize="8" fill="#F59E0B" fontFamily="monospace"
-          initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ delay: 1.0 }}>30 sec</motion.text>
-      </svg>
+    <div className="w-full">
+      <Image src="/flow-backoffice.jpg" alt="AI Back Office workflow" width={1600} height={500} className="w-full h-auto rounded-lg" />
     </div>
   )
 }
 
-// ─── Pillar 3 SVG: Morning briefing → Dashboard → Query → Alert ────────────
 function CommandCenterFlow() {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-
-  const nodes = [
-    { x: 30, y: 60, label: '6:30 AM\nBriefing', color: '#F59E0B', glyph: '☀' },
-    { x: 130, y: 60, label: 'Live\nDashboard', color: '#2DD4BF', glyph: '📊' },
-    { x: 230, y: 60, label: 'NL\nQuery', color: '#34D399', glyph: '💬' },
-    { x: 330, y: 60, label: 'Proactive\nAlert', color: '#06B6D4', glyph: '🔔' },
-  ]
-
   return (
-    <div ref={ref} className="w-full overflow-x-auto">
-      <svg viewBox="0 0 380 120" className="w-full min-w-[320px]" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {nodes.slice(0, -1).map((node, i) => (
-          <motion.line key={i} x1={node.x + 24} y1={node.y} x2={nodes[i + 1].x - 24} y2={nodes[i + 1].y}
-            stroke="#06B6D4" strokeWidth="1.5" strokeDasharray="4 3"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={inView ? { pathLength: 1, opacity: 0.5 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 + i * 0.3 }} />
-        ))}
-        {nodes.map((node, i) => (
-          <motion.g key={i} initial={{ opacity: 0, scale: 0.5 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.4, delay: i * 0.3 }}>
-            <circle cx={node.x} cy={node.y} r="22" fill="rgba(15,23,42,0.8)" stroke={node.color} strokeWidth="1.5" strokeOpacity="0.6" />
-            <text x={node.x} y={node.y + 5} textAnchor="middle" fontSize="14" fill={node.color}>{node.glyph}</text>
-            {node.label.split('\n').map((line, li) => (
-              <text key={li} x={node.x} y={node.y + 38 + li * 13} textAnchor="middle" fontSize="9" fill="#94A3B8" fontFamily="sans-serif">{line}</text>
-            ))}
-          </motion.g>
-        ))}
-      </svg>
+    <div className="w-full">
+      <Image src="/flow-command.jpg" alt="AI Command Center workflow" width={1600} height={500} className="w-full h-auto rounded-lg" />
     </div>
   )
 }
