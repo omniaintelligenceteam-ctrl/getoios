@@ -333,8 +333,8 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
         >
-          OIOS answers calls 24/7, kills your paperwork, and shows you every lead, job, and dollar
-          in real time — so you can run the business, not chase it.
+          OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job,
+          and dollar in real time — so you can run the business, not chase it.
         </motion.p>
 
         {/* Animated Energy Network */}

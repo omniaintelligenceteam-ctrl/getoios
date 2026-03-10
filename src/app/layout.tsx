@@ -27,18 +27,18 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   title: "OIOS — Your AI-Powered Operations Team | Omnia Intelligence AI",
-  description: "Answer every call. Capture every lead. Run every task. OIOS answers calls 24/7, kills your paperwork, and shows you every lead, job, and dollar in real time.",
+  description: "Answer every call. Capture every lead. Run every task. OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time.",
   keywords: "AI operations, AI for service businesses, AI receptionist, AI back office, business automation, OIOS, Omnia Intelligence AI, AI office manager, contractor AI",
   openGraph: {
     title: "Answer Every Call. Capture Every Lead. Run Every Task. See Everything. 24/7.",
-    description: "OIOS answers calls 24/7, kills your paperwork, and shows you every lead, job, and dollar in real time. Free audit.",
+    description: "OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time. Free audit.",
     type: "website",
     url: "https://silentaipartner.com",
   },
   twitter: {
     card: "summary_large_image",
     title: "Answer Every Call. Capture Every Lead. Run Every Task. See Everything. 24/7.",
-    description: "OIOS answers calls 24/7, kills your paperwork, and shows you every lead, job, and dollar in real time. Free audit.",
+    description: "OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time. Free audit.",
   },
   robots: "index, follow",
 };
