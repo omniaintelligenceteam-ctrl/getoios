@@ -43,8 +43,8 @@ export function FooterCTA() {
           <div className="flex items-center justify-center">
             <span className="text-slate-500 text-sm">
               Questions?{' '}
-              <a href="mailto:team@silentaipartner.com" className="text-orange-400 font-semibold hover:text-orange-300 transition-colors">
-                team@silentaipartner.com
+              <a href="mailto:team@getoios.com" className="text-orange-400 font-semibold hover:text-orange-300 transition-colors">
+                team@getoios.com
               </a>
             </span>
           </div>

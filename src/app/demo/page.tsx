@@ -118,8 +118,8 @@ export default function DemoPage() {
               </p>
               <p className="text-slate-500 text-sm">
                 Questions? Email us at{' '}
-                <a href="mailto:wes@silentaipartner.com" className="text-orange-400 hover:text-orange-300 transition-colors">
-                  wes@silentaipartner.com
+                <a href="mailto:wes@getoios.com" className="text-orange-400 hover:text-orange-300 transition-colors">
+                  wes@getoios.com
                 </a>
               </p>
             </div>

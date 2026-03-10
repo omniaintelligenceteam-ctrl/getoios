@@ -130,7 +130,7 @@ const Navigation = React.memo(() => {
               <span className="text-emerald-400/80">Online</span>
             </div>
             <Button type="button" variant="ghost" size="sm">
-              <a href="mailto:team@silentaipartner.com">Contact</a>
+              <a href="mailto:team@getoios.com">Contact</a>
             </Button>
             <Link href="#audit-form">
               <Button type="button" variant="gradient" size="sm">
@@ -198,7 +198,7 @@ const Navigation = React.memo(() => {
 
             <div className="flex flex-col gap-2 pt-4 border-t border-slate-800/30">
               <a
-                href="mailto:team@silentaipartner.com"
+                href="mailto:team@getoios.com"
                 className="text-sm text-slate-400 hover:text-white transition-colors py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >

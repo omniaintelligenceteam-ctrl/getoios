@@ -20,8 +20,8 @@ export async function POST(request: NextRequest) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Sarah <sarah@silentaipartner.com>',
-          to: ['team@silentaipartner.com'],
+          from: 'Sarah <sarah@getoios.com>',
+          to: ['team@getoios.com'],
           subject: `🔥 New Demo Request — ${company}`,
           html: `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">

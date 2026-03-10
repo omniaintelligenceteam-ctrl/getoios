@@ -21,7 +21,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://silentaipartner.com'),
+  metadataBase: new URL('https://getoios.com'),
   icons: {
     icon: '/logo-oios.jpg',
     apple: '/apple-touch-icon.png',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "Answer Every Call. Capture Every Lead. Run Every Task. See Everything. 24/7.",
     description: "OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time. Free audit.",
     type: "website",
-    url: "https://silentaipartner.com",
+    url: "https://getoios.com",
   },
   twitter: {
     card: "summary_large_image",
