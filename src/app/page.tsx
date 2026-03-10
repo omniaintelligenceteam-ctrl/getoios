@@ -3,6 +3,7 @@ import { Hero } from '@/components/sections/Hero'
 import { PainPoints } from '@/components/sections/PainPoints'
 import { ThreePillars } from '@/components/sections/ThreePillars'
 import { HowItWorksNew } from '@/components/sections/HowItWorksNew'
+import { DailySchedule } from '@/components/sections/DailySchedule'
 
 import { VoiceDemo } from '@/components/sections/VoiceDemo'
 import { AuditForm } from '@/components/sections/AuditForm'
@@ -21,6 +22,8 @@ export default function Home() {
       <ThreePillars />
       <div className="section-divider" />
       <HowItWorksNew />
+      <div className="section-divider" />
+      <DailySchedule />
       <div className="section-divider" />
       <VoiceDemo />
       <div className="section-divider" />
