@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 tools/lead-scraper/node_modules/
 webhook/node_modules/
+
+# brainstorm mockups
+.superpowers/

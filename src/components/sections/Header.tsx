@@ -4,13 +4,34 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
+const navLinks = [
+  { href: '#pillars', label: 'What It Does' },
+  { href: '#how-it-works', label: 'How It Works' },
+  { href: '#voice-demo', label: 'Live Demo', accent: true },
+]
+
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
     function handleScroll() {
       setScrolled(window.scrollY > 20)
+
+      // Scroll spy — find which section is most visible
+      const sections = ['pillars', 'how-it-works', 'voice-demo', 'pricing', 'audit']
+      let current = ''
+      for (const id of sections) {
+        const el = document.getElementById(id)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if (rect.top <= 150 && rect.bottom > 150) {
+            current = id
+          }
+        }
+      }
+      setActiveSection(current)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -47,24 +68,29 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              href="#pillars"
-              className="text-slate-400 hover:text-white transition-colors duration-300 text-sm tracking-wide"
-            >
-              What It Does
-            </Link>
-            <Link
-              href="#how-it-works"
-              className="text-slate-400 hover:text-white transition-colors duration-300 text-sm tracking-wide"
-            >
-              How It Works
-            </Link>
-            <Link
-              href="#voice-demo"
-              className="text-teal-400 hover:text-teal-300 transition-colors duration-300 text-sm tracking-wide font-medium"
-            >
-              Live Demo
-            </Link>
+            {navLinks.map((link) => {
+              const sectionId = link.href.replace('#', '')
+              const isActive = activeSection === sectionId
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative text-sm tracking-wide transition-colors duration-300 ${
+                    link.accent
+                      ? `${isActive ? 'text-teal-300' : 'text-teal-400 hover:text-teal-300'} font-medium`
+                      : `${isActive ? 'text-white' : 'text-slate-400 hover:text-white'}`
+                  }`}
+                >
+                  {link.label}
+                  {/* Animated underline */}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-px bg-teal-400 transition-all duration-300 ${
+                      isActive ? 'w-full opacity-100' : 'w-0 opacity-0'
+                    }`}
+                  />
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Status Badge & CTA */}
@@ -102,27 +128,20 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden py-6 border-t border-slate-800/30">
             <nav className="flex flex-col space-y-4">
-              <Link
-                href="#pillars"
-                className="text-slate-400 hover:text-white transition-colors duration-200 text-sm"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                What It Does
-              </Link>
-              <Link
-                href="#how-it-works"
-                className="text-slate-400 hover:text-white transition-colors duration-200 text-sm"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                How It Works
-              </Link>
-              <Link
-                href="#voice-demo"
-                className="text-teal-400 hover:text-teal-300 transition-colors duration-200 text-sm font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Live Demo
-              </Link>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`transition-colors duration-200 text-sm ${
+                    link.accent
+                      ? 'text-teal-400 hover:text-teal-300 font-medium'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
 
               <div className="pt-4 border-t border-slate-800/30 space-y-3">
                 <div className="flex items-center space-x-2 text-xs font-mono">

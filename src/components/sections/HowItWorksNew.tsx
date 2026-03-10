@@ -2,9 +2,8 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { useScroll, useTransform, motion, AnimatePresence } from 'motion/react'
-import { CheckCircle2, Circle } from 'lucide-react'
 
-// ─── Step 1 Visual: Animated checklist ───────────────────────────────────────
+// ─── Step 1 Visual: Animated checklist with SVG checkmark draw ──────────────
 const auditItems = [
   'How calls are currently handled',
   'Where leads fall through the cracks',
@@ -12,6 +11,41 @@ const auditItems = [
   'Current tools and workflows',
   'Revenue leaks and missed follow-ups',
 ]
+
+function AnimatedCheck({ visible }: { visible: boolean }) {
+  return (
+    <div className="w-5 h-5 flex-shrink-0">
+      {visible ? (
+        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+          <motion.circle
+            cx="12" cy="12" r="10"
+            stroke="#2DD4BF"
+            strokeWidth="2"
+            fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.path
+            d="M8 12.5l2.5 2.5 5.5-5.5"
+            stroke="#2DD4BF"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
+          <circle cx="12" cy="12" r="10" stroke="#334155" strokeWidth="2" fill="none" />
+        </svg>
+      )}
+    </div>
+  )
+}
 
 function AuditChecklist({ active }: { active: boolean }) {
   const [checked, setChecked] = useState<boolean[]>(auditItems.map(() => false))
@@ -39,21 +73,11 @@ function AuditChecklist({ active }: { active: boolean }) {
         <motion.div
           key={item}
           className="flex items-center gap-3"
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: i * 0.1 }}
+          initial={{ opacity: 0, x: -15 }}
+          animate={active ? { opacity: 1, x: 0 } : { opacity: 0, x: -15 }}
+          transition={{ delay: i * 0.08, duration: 0.3 }}
         >
-          <AnimatePresence mode="wait">
-            {checked[i] ? (
-              <motion.div key="check" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 400 }}>
-                <CheckCircle2 className="w-5 h-5 text-teal-400 flex-shrink-0" />
-              </motion.div>
-            ) : (
-              <motion.div key="empty" initial={{ scale: 1 }} exit={{ scale: 0 }}>
-                <Circle className="w-5 h-5 text-slate-600 flex-shrink-0" />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <AnimatedCheck visible={checked[i]} />
           <span className={`text-sm transition-colors duration-300 ${checked[i] ? 'text-white' : 'text-slate-500'}`}>
             {item}
           </span>
@@ -69,7 +93,7 @@ function AuditChecklist({ active }: { active: boolean }) {
   )
 }
 
-// ─── Step 2 Visual: Config UI mock ───────────────────────────────────────────
+// ─── Step 2 Visual: Config UI with slide-in stagger ──────────────────────────
 const workflows = [
   { name: 'Call Answering', status: 'live', color: 'text-teal-400', dot: 'bg-teal-400' },
   { name: 'Lead Capture', status: 'live', color: 'text-teal-400', dot: 'bg-teal-400' },
@@ -99,12 +123,12 @@ function ConfigMock({ active }: { active: boolean }) {
         </div>
       </div>
       <div className="space-y-3">
-        {workflows.slice(0, visibleCount).map((wf, i) => (
+        {workflows.slice(0, visibleCount).map((wf) => (
           <motion.div
             key={wf.name}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, type: 'spring', stiffness: 200 }}
             className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-slate-800/40 border border-slate-700/30"
           >
             <div className="flex items-center gap-2.5">
@@ -115,30 +139,77 @@ function ConfigMock({ active }: { active: boolean }) {
           </motion.div>
         ))}
       </div>
-      <div className="mt-5 pt-4 border-t border-slate-700/30 text-[10px] font-mono text-slate-600">
-        Built with your data · your voice · your workflows
+      {/* Progress bar */}
+      <div className="mt-5 pt-4 border-t border-slate-700/30">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[10px] font-mono text-slate-600">Setup Progress</span>
+          <span className="text-[10px] font-mono text-amber-400">
+            {Math.min(visibleCount, workflows.length)}/{workflows.length}
+          </span>
+        </div>
+        <div className="h-1 bg-slate-800 rounded-full overflow-hidden">
+          <motion.div
+            className="h-full bg-gradient-to-r from-teal-400 to-amber-400 rounded-full"
+            initial={{ width: '0%' }}
+            animate={{ width: `${(visibleCount / workflows.length) * 100}%` }}
+            transition={{ duration: 0.5 }}
+          />
+        </div>
+        <div className="text-[10px] font-mono text-slate-600 mt-2">
+          Built with your data · your voice · your workflows
+        </div>
       </div>
     </div>
   )
 }
 
-// ─── Step 3 Visual: Telegram-style chat mock ──────────────────────────────────
+// ─── Typing indicator ────────────────────────────────────────────────────────
+function TypingIndicator() {
+  return (
+    <div className="flex justify-start">
+      <div className="bg-slate-700/60 px-3 py-2 rounded-2xl rounded-tl-sm">
+        <div className="flex gap-1 items-center h-4">
+          {[0, 1, 2].map((i) => (
+            <motion.div
+              key={i}
+              className="w-1.5 h-1.5 rounded-full bg-slate-400"
+              animate={{ opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Step 3 Visual: Chat with typing indicator ──────────────────────────────
 const messages = [
   { from: 'oios', text: '☀ Good morning. Here\'s your 6:30 briefing:\n• 3 new leads overnight\n• 1 proposal stalled (Johnson HVAC — 5 days)\n• 2 jobs confirmed for today', delay: 0 },
-  { from: 'owner', text: 'Follow up on that Johnson proposal', delay: 1200 },
-  { from: 'oios', text: 'Done. Follow-up sent to Johnson HVAC. Want me to flag it again if no response by Friday?', delay: 2000 },
-  { from: 'owner', text: 'Yes. Also send me the week\'s numbers', delay: 3000 },
-  { from: 'oios', text: '📊 This week: $24,400 revenue · 8 jobs · 94% answer rate · 0 missed follow-ups', delay: 3800 },
+  { from: 'owner', text: 'Follow up on that Johnson proposal', delay: 1800 },
+  { from: 'oios', text: 'Done. Follow-up sent to Johnson HVAC. Want me to flag it again if no response by Friday?', delay: 3200 },
+  { from: 'owner', text: 'Yes. Also send me the week\'s numbers', delay: 4400 },
+  { from: 'oios', text: '📊 This week: $24,400 revenue · 8 jobs · 94% answer rate · 0 missed follow-ups', delay: 5800 },
 ]
 
 function ChatMock({ active }: { active: boolean }) {
   const [visibleCount, setVisibleCount] = useState(0)
+  const [showTyping, setShowTyping] = useState(false)
 
   useEffect(() => {
-    if (!active) { setVisibleCount(0); return }
+    if (!active) { setVisibleCount(0); setShowTyping(false); return }
+    const timers: ReturnType<typeof setTimeout>[] = []
     messages.forEach((msg, i) => {
-      setTimeout(() => setVisibleCount(i + 1), msg.delay + 400)
+      // Show typing indicator before OIOS messages
+      if (msg.from === 'oios' && i > 0) {
+        timers.push(setTimeout(() => setShowTyping(true), msg.delay - 600))
+      }
+      timers.push(setTimeout(() => {
+        setShowTyping(false)
+        setVisibleCount(i + 1)
+      }, msg.delay + 400))
     })
+    return () => timers.forEach(clearTimeout)
   }, [active])
 
   return (
@@ -176,6 +247,7 @@ function ChatMock({ active }: { active: boolean }) {
             </div>
           </motion.div>
         ))}
+        {showTyping && <TypingIndicator />}
       </div>
 
       <div className="pt-3 border-t border-slate-700/30 mt-3">
@@ -270,27 +342,47 @@ export function HowItWorksNew() {
 
               {/* Left panel — step info */}
               <div>
-                {/* Section label */}
                 <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-10">
                   <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">How It Works</span>
                 </div>
 
-                {/* Step progress dots */}
+                {/* Step progress bar */}
                 <div className="flex items-center gap-3 mb-10">
                   {steps.map((_, i) => (
                     <motion.div
                       key={i}
-                      className="h-0.5 rounded-full bg-slate-700 overflow-hidden"
-                      style={{ width: activeStep === i ? 32 : 12 }}
-                      animate={{ width: activeStep === i ? 32 : 12 }}
+                      className="h-1 rounded-full overflow-hidden"
+                      style={{ width: activeStep === i ? 40 : 16 }}
+                      animate={{
+                        width: activeStep === i ? 40 : 16,
+                        backgroundColor: i <= activeStep ? 'transparent' : '#334155',
+                      }}
                       transition={{ duration: 0.3 }}
                     >
                       <motion.div
-                        className={`h-full ${i <= activeStep ? steps[activeStep].accentBg : 'bg-slate-700'}`}
-                        style={{ width: '100%' }}
+                        className="h-full rounded-full"
+                        style={{
+                          background: i <= activeStep
+                            ? `linear-gradient(to right, ${
+                                activeStep === 0 ? '#2DD4BF' :
+                                activeStep === 1 ? '#F59E0B' :
+                                '#06B6D4'
+                              }, ${
+                                activeStep === 0 ? '#2DD4BF' :
+                                activeStep === 1 ? '#F59E0B' :
+                                '#06B6D4'
+                              })`
+                            : '#334155',
+                        }}
+                        initial={{ width: '0%' }}
+                        animate={{ width: i <= activeStep ? '100%' : '0%' }}
+                        transition={{ duration: 0.5 }}
                       />
                     </motion.div>
                   ))}
+                  <span className="text-[10px] font-mono text-slate-600 ml-2">
+                    {activeStep + 1}/{steps.length}
+                  </span>
                 </div>
 
                 <AnimatePresence mode="wait">
@@ -313,7 +405,6 @@ export function HowItWorksNew() {
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Scroll hint */}
                 <div className="mt-12 flex items-center gap-2 text-slate-600 text-xs font-mono">
                   <motion.div
                     animate={{ y: [0, 4, 0] }}
@@ -340,6 +431,18 @@ export function HowItWorksNew() {
 
             </div>
           </div>
+
+          {/* Bottom scroll progress bar */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-teal-400 via-amber-400 to-cyan-400"
+            style={{
+              width: `${((activeStep + 1) / steps.length) * 100}%`,
+            }}
+            animate={{
+              width: `${((activeStep + 1) / steps.length) * 100}%`,
+            }}
+            transition={{ duration: 0.5 }}
+          />
         </div>
       </div>
     </section>

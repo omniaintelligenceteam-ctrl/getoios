@@ -1,163 +1,284 @@
 'use client'
 
-import { motion } from 'motion/react'
-import { FadeIn } from '@/components/ui/FadeIn'
+import { motion, useInView } from 'motion/react'
+import { useRef } from 'react'
 
 const timelineSteps = [
   {
     time: '7:15 AM',
     text: 'Phone rings while you\'re on a job. Goes to voicemail. Lead\'s gone by noon.',
+    icon: '📞',
   },
   {
     time: '9:30 AM',
     text: 'You just remembered to follow up on that proposal from last week. Too late.',
+    icon: '📄',
   },
   {
     time: '11:00 AM',
     text: 'Another customer wants an ETA. You\'re elbow-deep in work. No one answers.',
+    icon: '🔧',
   },
   {
     time: '2:00 PM',
     text: 'Your helper forgot to update the CRM. Now you don\'t know where three jobs stand.',
+    icon: '🗄️',
   },
   {
     time: '4:45 PM',
     text: 'End of day. You\'re exhausted. Tomorrow looks exactly the same.',
+    icon: '😓',
   },
 ]
 
-function ChaosIllustration() {
+// ─── Full-Width Animated Chaos Scene ────────────────────────────────────────
+function ChaosScene() {
+  const ref = useRef<SVGSVGElement>(null)
+  const inView = useInView(ref, { once: true })
+
   return (
-    <div className="relative w-full max-w-sm mx-auto h-40 mb-14">
-      {/* Connecting dotted line */}
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 320 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M60 80 Q130 30 160 80 Q190 130 260 80"
-          stroke="rgba(239,68,68,0.25)"
-          strokeWidth="1.5"
-          strokeDasharray="4 4"
+    <div className="relative w-full max-w-3xl mx-auto mb-16" style={{ aspectRatio: '800/300' }}>
+      <svg
+        ref={ref}
+        viewBox="0 0 800 300"
+        fill="none"
+        className="w-full h-full"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <filter id="chaos-glow-red" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feFlood floodColor="#EF4444" floodOpacity="0.3" result="color" />
+            <feComposite in="color" in2="blur" operator="in" result="glow" />
+            <feMerge>
+              <feMergeNode in="glow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="chaos-glow-amber" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur" />
+            <feFlood floodColor="#F59E0B" floodOpacity="0.25" result="color" />
+            <feComposite in="color" in2="blur" operator="in" result="glow" />
+            <feMerge>
+              <feMergeNode in="glow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        {/* Chaotic dotted connection line */}
+        <motion.path
+          d="M 80 150 Q 180 60 280 140 Q 380 220 480 120 Q 560 60 680 160"
+          stroke="rgba(239,68,68,0.3)"
+          strokeWidth="2"
+          strokeDasharray="6 6"
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={inView ? { pathLength: 1, opacity: 1 } : {}}
+          transition={{ duration: 2, ease: 'easeOut' }}
         />
-      </svg>
 
-      {/* Phone — ringing */}
-      <motion.div
-        className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2"
-        animate={{ rotate: [0, -8, 8, -6, 6, 0] }}
-        transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 2 }}
-      >
-        <div className="w-12 h-12 rounded-xl bg-slate-800/60 border border-slate-700/40 flex items-center justify-center relative">
-          <svg className="w-6 h-6 text-amber-400/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-          </svg>
-          {/* Ripple rings */}
-          <motion.div
-            className="absolute inset-0 rounded-xl border border-red-400/30"
-            animate={{ scale: [1, 1.6], opacity: [0.5, 0] }}
-            transition={{ duration: 1, repeat: Infinity, repeatDelay: 1.5 }}
-          />
-          <motion.div
-            className="absolute inset-0 rounded-xl border border-red-400/20"
-            animate={{ scale: [1, 2.0], opacity: [0.3, 0] }}
-            transition={{ duration: 1, delay: 0.2, repeat: Infinity, repeatDelay: 1.5 }}
-          />
-        </div>
-        <span className="text-[10px] text-slate-600 font-mono">missed</span>
-      </motion.div>
-
-      {/* Papers stacking */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
-        <div className="relative w-12 h-14">
-          {[3, 2, 1, 0].map((i) => (
-            <motion.div
-              key={i}
-              className="absolute w-10 h-3 rounded-sm bg-slate-700/60 border border-slate-600/30"
-              style={{ bottom: i * 5, left: i * 1 }}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.3, duration: 0.4, repeat: Infinity, repeatDelay: 2 }}
-            />
+        {/* === Phone — ringing with missed call ripples === */}
+        <motion.g
+          initial={{ opacity: 0, scale: 0 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.3, type: 'spring', stiffness: 300 }}
+          style={{ transformOrigin: '100px 130px' }}
+        >
+          {/* Phone body */}
+          <rect x="78" y="108" width="44" height="44" rx="10" fill="#0F172A" stroke="#EF4444" strokeWidth="1.2" filter="url(#chaos-glow-red)" />
+          <text x="100" y="137" textAnchor="middle" fontSize="20">📞</text>
+          {/* Missed call ripples */}
+          {inView && [0, 1, 2].map((i) => (
+            <circle key={`ripple-${i}`} cx="100" cy="130" r="22" fill="none" stroke="#EF4444" strokeWidth="1" opacity="0">
+              <animate attributeName="r" values="22;55" dur="2s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.5;0" dur="2s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
+            </circle>
           ))}
-        </div>
-        <span className="text-[10px] text-slate-600 font-mono">backlog</span>
-      </div>
+          <text x="100" y="175" textAnchor="middle" fill="#EF4444" fontSize="9" fontFamily="monospace" fontWeight="bold" letterSpacing="0.1em" opacity="0.7">MISSED</text>
+        </motion.g>
 
-      {/* Clock spinning fast */}
-      <motion.div
-        className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-      >
-        <div className="w-12 h-12 rounded-full bg-slate-800/60 border border-slate-700/40 flex items-center justify-center">
-          <svg className="w-7 h-7 text-amber-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" strokeWidth={1.5} />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6l4 2" />
-          </svg>
-        </div>
-      </motion.div>
-      <div className="absolute right-4 top-[calc(50%+32px)] text-[10px] text-slate-600 font-mono text-center w-12">
-        no time
-      </div>
+        {/* === Inbox overflowing with stacking papers === */}
+        <motion.g
+          initial={{ opacity: 0, scale: 0 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.6, type: 'spring', stiffness: 300 }}
+          style={{ transformOrigin: '280px 130px' }}
+        >
+          <rect x="258" y="108" width="44" height="44" rx="10" fill="#0F172A" stroke="#F59E0B" strokeWidth="1.2" filter="url(#chaos-glow-amber)" />
+          {/* Stacking paper animation */}
+          {inView && [0, 1, 2, 3].map((i) => (
+            <rect key={`paper-${i}`} x={268 + i} y={120 - i * 4} width="20" height="3" rx="1" fill="#F59E0B" opacity="0">
+              <animate attributeName="opacity" values="0;0.5;0.5;0.3" dur="3s" begin={`${i * 0.5}s`} repeatCount="indefinite" />
+              <animate attributeName="y" values={`${130};${118 - i * 4}`} dur="0.5s" begin={`${i * 0.5}s`} repeatCount="indefinite" fill="freeze" />
+            </rect>
+          ))}
+          <text x="280" y="137" textAnchor="middle" fontSize="20">📄</text>
+          <text x="280" y="175" textAnchor="middle" fill="#F59E0B" fontSize="9" fontFamily="monospace" fontWeight="bold" letterSpacing="0.1em" opacity="0.7">BACKLOG</text>
+        </motion.g>
+
+        {/* === Clock spinning fast === */}
+        <motion.g
+          initial={{ opacity: 0, scale: 0 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.9, type: 'spring', stiffness: 300 }}
+          style={{ transformOrigin: '460px 130px' }}
+        >
+          <circle cx="460" cy="130" r="24" fill="#0F172A" stroke="#EF4444" strokeWidth="1.2" filter="url(#chaos-glow-red)" />
+          <text x="460" y="137" textAnchor="middle" fontSize="20">⏰</text>
+          {/* Spinning time indicator */}
+          {inView && (
+            <g>
+              <line x1="460" y1="130" x2="460" y2="112" stroke="#EF4444" strokeWidth="1.5" strokeLinecap="round" opacity="0.5">
+                <animateTransform attributeName="transform" type="rotate" from="0 460 130" to="360 460 130" dur="2s" repeatCount="indefinite" />
+              </line>
+            </g>
+          )}
+          <text x="460" y="175" textAnchor="middle" fill="#EF4444" fontSize="9" fontFamily="monospace" fontWeight="bold" letterSpacing="0.1em" opacity="0.7">NO TIME</text>
+        </motion.g>
+
+        {/* === Calendar with X marks === */}
+        <motion.g
+          initial={{ opacity: 0, scale: 0 }}
+          animate={inView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 1.2, type: 'spring', stiffness: 300 }}
+          style={{ transformOrigin: '640px 130px' }}
+        >
+          <rect x="618" y="108" width="44" height="44" rx="10" fill="#0F172A" stroke="#F59E0B" strokeWidth="1.2" filter="url(#chaos-glow-amber)" />
+          <text x="640" y="137" textAnchor="middle" fontSize="20">📅</text>
+          {/* X marks appearing */}
+          {inView && [0, 1, 2].map((i) => (
+            <text key={`x-${i}`} x={630 + i * 12} y="120" textAnchor="middle" fill="#EF4444" fontSize="10" fontWeight="bold" opacity="0">
+              ✕
+              <animate attributeName="opacity" values="0;0.7" dur="0.3s" begin={`${1.5 + i * 0.4}s`} fill="freeze" />
+            </text>
+          ))}
+          <text x="640" y="175" textAnchor="middle" fill="#F59E0B" fontSize="9" fontFamily="monospace" fontWeight="bold" letterSpacing="0.1em" opacity="0.7">OVERBOOKED</text>
+        </motion.g>
+
+        {/* === Money floating away === */}
+        {inView && [0, 1, 2].map((i) => (
+          <text key={`dollar-${i}`} x={200 + i * 200} y="60" textAnchor="middle" fontSize="14" opacity="0">
+            💸
+            <animate attributeName="y" values="80;30" dur={`${3 + i * 0.5}s`} repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.5;0" dur={`${3 + i * 0.5}s`} repeatCount="indefinite" />
+          </text>
+        ))}
+
+        {/* Horizontal chaos pulse line */}
+        {inView && (
+          <line x1="60" y1="240" x2="740" y2="240" stroke="#EF4444" strokeWidth="0.5" opacity="0.15">
+            <animate attributeName="opacity" values="0.15;0.3;0.15" dur="2s" repeatCount="indefinite" />
+          </line>
+        )}
+      </svg>
     </div>
   )
 }
 
+// ─── Timeline Card with scroll reveal ────────────────────────────────────────
+function TimelineCard({ step, index, total }: { step: typeof timelineSteps[0]; index: number; total: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-30px' })
+
+  return (
+    <motion.div
+      ref={ref}
+      className="flex gap-6"
+      initial={{ opacity: 0, x: -20 }}
+      animate={inView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.5, delay: 0.1 }}
+    >
+      {/* Timeline dot + connector */}
+      <div className="flex flex-col items-center">
+        <motion.div
+          className="w-12 h-12 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center flex-shrink-0"
+          initial={{ scale: 0 }}
+          animate={inView ? { scale: 1 } : {}}
+          transition={{ duration: 0.4, type: 'spring', stiffness: 300 }}
+        >
+          <span className="text-[9px] font-bold text-red-400/80 text-center leading-tight px-1">{step.time}</span>
+        </motion.div>
+        {index < total - 1 && (
+          <motion.div
+            className="w-px h-full min-h-[36px] bg-gradient-to-b from-red-500/20 to-transparent my-1"
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            style={{ transformOrigin: 'top' }}
+          />
+        )}
+      </div>
+
+      {/* Content card */}
+      <motion.div
+        className="glass-card p-5 mb-4 flex-1 border-red-500/10"
+        initial={{ opacity: 0, y: 10 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        <div className="flex items-start gap-3">
+          <span className="text-lg flex-shrink-0">{step.icon}</span>
+          <p className="text-slate-300 text-sm leading-relaxed">{step.text}</p>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// ─── Main export ─────────────────────────────────────────────────────────────
 export function PainPoints() {
+  const headerRef = useRef(null)
+  const headerInView = useInView(headerRef, { once: true })
+
   return (
     <section id="pain-points" className="py-24 lg:py-32 bg-bg-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <FadeIn>
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-              <span className="text-white">Your Day</span>{' '}
-              <span className="gradient-text-warm">Right Now</span>
-            </h2>
-            <p className="text-slate-500 text-base max-w-md mx-auto">
-              If you run a service business, this is probably too familiar.
-            </p>
+        <motion.div
+          ref={headerRef}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 24 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/15 mb-6">
+            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-red-400/80">The Problem</span>
           </div>
-        </FadeIn>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+            <span className="text-white">Your Day</span>{' '}
+            <span className="gradient-text-warm">Right Now</span>
+          </h2>
+          <p className="text-slate-500 text-base max-w-md mx-auto">
+            If you run a service business, this is probably too familiar.
+          </p>
+        </motion.div>
 
-        {/* Chaos illustration */}
-        <FadeIn delay={100}>
-          <ChaosIllustration />
-        </FadeIn>
+        {/* Full-width chaos scene */}
+        <ChaosScene />
 
         {/* Timeline */}
         <div className="max-w-2xl mx-auto">
           <div className="space-y-0">
             {timelineSteps.map((step, index) => (
-              <FadeIn key={index} delay={200 + index * 100}>
-                <div className="flex gap-6">
-                  {/* Timeline dot + connector */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-[9px] font-bold text-red-400/80 text-center leading-tight px-1">{step.time}</span>
-                    </div>
-                    {index < timelineSteps.length - 1 && (
-                      <div className="w-px h-full min-h-[36px] bg-gradient-to-b from-red-500/20 to-transparent my-1" />
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="glass-card p-5 mb-4 flex-1 border-red-500/10">
-                    <p className="text-slate-300 text-sm leading-relaxed">{step.text}</p>
-                  </div>
-                </div>
-              </FadeIn>
+              <TimelineCard key={index} step={step} index={index} total={timelineSteps.length} />
             ))}
           </div>
         </div>
 
         {/* Closing line */}
-        <FadeIn delay={800}>
-          <div className="text-center mt-14">
-            <p className="text-slate-400 text-xl max-w-2xl mx-auto leading-relaxed">
-              Sound familiar?{' '}
-              <span className="gradient-text-warm font-semibold">It doesn&apos;t have to be.</span>
-            </p>
-          </div>
-        </FadeIn>
+        <motion.div
+          className="text-center mt-14"
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="text-slate-400 text-xl max-w-2xl mx-auto leading-relaxed">
+            Sound familiar?{' '}
+            <span className="gradient-text-warm font-semibold">It doesn&apos;t have to be.</span>
+          </p>
+        </motion.div>
 
       </div>
     </section>

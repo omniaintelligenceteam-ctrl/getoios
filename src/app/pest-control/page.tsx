@@ -10,12 +10,12 @@ import { RetellWebClient } from 'retell-client-js-sdk';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { TiltCard } from '@/components/ui/TiltCard';
 import { MagneticButton } from '@/components/ui/MagneticButton';
-import { HowItWorks } from '@/components/sections/HowItWorks';
-import { WhoThisHelps } from '@/components/sections/WhoThisHelps';
-import { TheOutcome } from '@/components/sections/TheOutcome';
-import { Features } from '@/components/sections/Features';
-import { DashboardPreview } from '@/components/sections/DashboardPreview';
-import { FooterCTA } from '@/components/sections/FooterCTA';
+import { HowItWorks } from '@/components/sections/_archived/HowItWorks';
+import { WhoThisHelps } from '@/components/sections/_archived/WhoThisHelps';
+import { TheOutcome } from '@/components/sections/_archived/TheOutcome';
+import { Features } from '@/components/sections/_archived/Features';
+import { DashboardPreview } from '@/components/sections/_archived/DashboardPreview';
+import { FooterCTA } from '@/components/sections/_archived/FooterCTA';
 
 type CallState = 'idle' | 'connecting' | 'connected' | 'error';
 

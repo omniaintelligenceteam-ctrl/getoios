@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { FadeIn } from '@/components/ui/FadeIn'
+import { motion, useInView } from 'motion/react'
 
 type FormData = {
   fullName: string
@@ -31,43 +31,74 @@ const initialFormData: FormData = {
   biggestFrustration: '',
 }
 
-const tradeOptions = [
-  'HVAC',
-  'Plumbing',
-  'Electrical',
-  'Roofing',
-  'Landscaping',
-  'Pest Control',
-  'Locksmith',
-  'General Contractor',
-  'Other',
-]
+const tradeOptions = ['HVAC', 'Plumbing', 'Electrical', 'Roofing', 'Landscaping', 'Pest Control', 'Locksmith', 'General Contractor', 'Other']
+const teamSizeOptions = ['Just me', '2-5 employees', '6-15 employees', '16+ employees']
+const missedCallsOptions = ['1-3', '4-8', '9-15', '15+', 'I have no idea']
+const phoneHandlerOptions = ['I do', 'My helper/office person', 'Nobody — voicemail', 'Other']
 
-const teamSizeOptions = [
-  'Just me',
-  '2-5 employees',
-  '6-15 employees',
-  '16+ employees',
-]
+const inputClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white placeholder-slate-500 focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300'
+const selectClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300'
+const textareaClass = 'w-full min-h-[100px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300 resize-y'
 
-const missedCallsOptions = [
-  '1-3',
-  '4-8',
-  '9-15',
-  '15+',
-  'I have no idea',
-]
-
-const phoneHandlerOptions = [
-  'I do',
-  'My helper/office person',
-  'Nobody — voicemail',
-  'Other',
-]
-
-const inputClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-colors duration-200'
-const selectClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-colors duration-200'
-const textareaClass = 'w-full min-h-[100px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/25 transition-colors duration-200 resize-y'
+// ─── Animated Success Checkmark ──────────────────────────────────────────────
+function SuccessCheckmark() {
+  return (
+    <div className="w-20 h-20 mx-auto mb-8 relative">
+      <motion.div
+        className="absolute inset-0 rounded-full bg-emerald-500/20"
+        initial={{ scale: 0 }}
+        animate={{ scale: [0, 1.3, 1] }}
+        transition={{ duration: 0.6, times: [0, 0.6, 1] }}
+      />
+      <svg className="w-20 h-20 relative z-10" viewBox="0 0 80 80">
+        <motion.circle
+          cx="40" cy="40" r="35"
+          fill="none"
+          stroke="#34D399"
+          strokeWidth="2"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.6 }}
+        />
+        <motion.path
+          d="M25 42l10 10 20-22"
+          fill="none"
+          stroke="#34D399"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        />
+      </svg>
+      {/* Particle burst */}
+      {[...Array(8)].map((_, i) => {
+        const angle = (i / 8) * 360
+        const rad = (angle * Math.PI) / 180
+        return (
+          <motion.div
+            key={i}
+            className="absolute w-1.5 h-1.5 rounded-full"
+            style={{
+              left: '50%',
+              top: '50%',
+              backgroundColor: i % 2 === 0 ? '#2DD4BF' : '#F59E0B',
+            }}
+            initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+            animate={{
+              x: Math.cos(rad) * 50,
+              y: Math.sin(rad) * 50,
+              opacity: 0,
+              scale: 0,
+            }}
+            transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
+          />
+        )
+      })}
+    </div>
+  )
+}
 
 export function AuditForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData)
@@ -78,6 +109,8 @@ export function AuditForm() {
   const [direction, setDirection] = useState<'forward' | 'back'>('forward')
   const [animating, setAnimating] = useState(false)
   const step1Ref = useRef<HTMLFormElement>(null)
+  const headerRef = useRef(null)
+  const headerInView = useInView(headerRef, { once: true })
 
   const handleChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -131,13 +164,13 @@ export function AuditForm() {
     return (
       <section id="audit" className="py-24 lg:py-32 bg-bg-secondary">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FadeIn>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <div className="glass-card p-10 lg:p-14 text-center">
-              <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-8">
-                <svg className="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
+              <SuccessCheckmark />
               <h3 className="text-2xl sm:text-3xl font-bold text-white mb-4 tracking-tight" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
                 You&apos;re In
               </h3>
@@ -148,7 +181,7 @@ export function AuditForm() {
                 — Wes, Omnia Intelligence AI
               </p>
             </div>
-          </FadeIn>
+          </motion.div>
         </div>
       </section>
     )
@@ -157,36 +190,67 @@ export function AuditForm() {
   return (
     <section id="audit" className="py-24 lg:py-32 bg-bg-secondary">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FadeIn>
-          <div className="text-center mb-14">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-              Book Your Free AI Operations Audit
-            </h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              30 minutes. No pitch. Just a look at where AI can save you the most time.
-            </p>
+        <motion.div
+          ref={headerRef}
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-6">
+            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">Get Started</span>
           </div>
-        </FadeIn>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+            Book Your Free AI Operations Audit
+          </h2>
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+            30 minutes. No pitch. Just a look at where AI can save you the most time.
+          </p>
+        </motion.div>
 
-        <FadeIn delay={100}>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
           <div className="glass-card p-8 lg:p-10">
             {/* Step Indicator */}
             <div className="flex items-center gap-3 mb-8">
               <div className="flex items-center gap-2 flex-1">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
-                  step === 1
-                    ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-lg shadow-amber-500/20'
-                    : 'bg-amber-500/10 text-amber-400'
-                }`}>
+                <motion.div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
+                    step === 1
+                      ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-lg shadow-amber-500/20'
+                      : 'bg-amber-500/10 text-amber-400'
+                  }`}
+                  animate={step > 1 ? { scale: [1, 1.2, 1] } : {}}
+                  transition={{ duration: 0.3 }}
+                >
                   {step > 1 ? (
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      <motion.path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M5 13l4 4L19 7"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
                     </svg>
                   ) : '1'}
-                </div>
-                <div className={`h-[2px] flex-1 rounded-full transition-colors duration-500 ${
-                  step > 1 ? 'bg-gradient-to-r from-amber-500 to-amber-400' : 'bg-slate-700/50'
-                }`} />
+                </motion.div>
+                <motion.div
+                  className="h-[2px] flex-1 rounded-full bg-slate-700/50 overflow-hidden"
+                >
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-amber-500 to-amber-400"
+                    initial={{ width: '0%' }}
+                    animate={{ width: step > 1 ? '100%' : '0%' }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </motion.div>
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
                   step === 2
                     ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-lg shadow-amber-500/20'
@@ -212,9 +276,7 @@ export function AuditForm() {
                     : 'translateX(0)',
                   opacity: step === 1 && !animating ? 1 : step === 1 ? 0 : 0,
                   position: step === 1 ? 'relative' : 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
+                  top: 0, left: 0, right: 0,
                   transition: 'transform 250ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease',
                   pointerEvents: step === 1 ? 'auto' : 'none',
                   visibility: step === 1 ? 'visible' : 'hidden',
@@ -300,9 +362,7 @@ export function AuditForm() {
                     : 'translateX(0)',
                   opacity: step === 2 && !animating ? 1 : step === 2 ? 0 : 0,
                   position: step === 2 ? 'relative' : 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
+                  top: 0, left: 0, right: 0,
                   transition: 'transform 250ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease',
                   pointerEvents: step === 2 ? 'auto' : 'none',
                   visibility: step === 2 ? 'visible' : 'hidden',
@@ -358,9 +418,9 @@ export function AuditForm() {
                       {phoneHandlerOptions.map((opt) => (
                         <label
                           key={opt}
-                          className={`flex items-center justify-center p-3 rounded-xl border cursor-pointer transition-colors duration-200 text-sm text-center ${
+                          className={`flex items-center justify-center p-3 rounded-xl border cursor-pointer transition-all duration-200 text-sm text-center ${
                             formData.phoneHandler === opt
-                              ? 'border-amber-500/50 bg-amber-500/10 text-amber-400'
+                              ? 'border-amber-500/50 bg-amber-500/10 text-amber-400 shadow-[0_0_12px_-3px_rgba(245,158,11,0.2)]'
                               : 'border-slate-700/50 bg-slate-800/30 text-slate-400 hover:border-slate-600/50'
                           }`}
                         >
@@ -435,7 +495,6 @@ export function AuditForm() {
                     <button
                       type="button"
                       onClick={goToStep1}
-                      data-glow
                       className="text-slate-500 hover:text-slate-300 text-sm font-medium transition-colors duration-200 py-2 rounded-lg"
                     >
                       ← Back
@@ -449,7 +508,7 @@ export function AuditForm() {
               </div>
             </div>
           </div>
-        </FadeIn>
+        </motion.div>
       </div>
     </section>
   )

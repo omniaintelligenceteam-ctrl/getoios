@@ -1,17 +1,85 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Phone, PhoneOff } from 'lucide-react'
-import { FadeIn } from '@/components/ui/FadeIn'
+import { motion, useInView, AnimatePresence } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { RetellWebClient } from 'retell-client-js-sdk'
 
 type CallState = 'idle' | 'connecting' | 'connected' | 'error'
 
+const suggestions = [
+  '"What services do you offer?"',
+  '"I need someone out today"',
+  '"How much does it cost?"',
+  '"Can you schedule me for Tuesday?"',
+  '"What areas do you serve?"',
+  '"Do you offer warranties?"',
+]
+
+// ─── Animated Waveform ──────────────────────────────────────────────────────
+function Waveform({ active }: { active: boolean }) {
+  return (
+    <div className="flex items-end justify-center space-x-1 h-16">
+      {[...Array(16)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="rounded-full bg-gradient-to-t from-teal-500 to-amber-400"
+          style={{ width: '3px' }}
+          animate={active ? {
+            height: [8, Math.random() * 50 + 12, 8],
+          } : {
+            height: 4,
+          }}
+          transition={active ? {
+            duration: 0.5 + Math.random() * 0.4,
+            repeat: Infinity,
+            repeatType: 'mirror',
+            delay: i * 0.05,
+          } : {
+            duration: 0.3,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+// ─── Rotating suggestion tips ───────────────────────────────────────────────
+function RotatingSuggestion() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % suggestions.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="h-6 overflow-hidden">
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={index}
+          className="text-slate-500 text-sm italic"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.3 }}
+        >
+          Try: {suggestions[index]}
+        </motion.p>
+      </AnimatePresence>
+    </div>
+  )
+}
+
 export function VoiceDemo() {
   const [callState, setCallState] = useState<CallState>('idle')
   const [retellWebClient, setRetellWebClient] = useState<RetellWebClient | null>(null)
   const [error, setError] = useState('')
+  const headerRef = useRef(null)
+  const headerInView = useInView(headerRef, { once: true })
 
   useEffect(() => {
     return () => {
@@ -39,20 +107,9 @@ export function VoiceDemo() {
       const { access_token } = await response.json()
       const webClient = new RetellWebClient()
 
-      webClient.on('call_started', () => {
-        setCallState('connected')
-      })
-
-      webClient.on('call_ended', () => {
-        setCallState('idle')
-        setRetellWebClient(null)
-      })
-
-      webClient.on('error', () => {
-        setError('Call failed. Please try again.')
-        setCallState('error')
-        setRetellWebClient(null)
-      })
+      webClient.on('call_started', () => setCallState('connected'))
+      webClient.on('call_ended', () => { setCallState('idle'); setRetellWebClient(null) })
+      webClient.on('error', () => { setError('Call failed. Please try again.'); setCallState('error'); setRetellWebClient(null) })
 
       setRetellWebClient(webClient)
       await webClient.startCall({ accessToken: access_token })
@@ -82,20 +139,9 @@ export function VoiceDemo() {
       const { access_token } = await response.json()
       const webClient = new RetellWebClient()
 
-      webClient.on('call_started', () => {
-        setCallState('connected')
-      })
-
-      webClient.on('call_ended', () => {
-        setCallState('idle')
-        setRetellWebClient(null)
-      })
-
-      webClient.on('error', () => {
-        setError('Call failed. Please try again.')
-        setCallState('error')
-        setRetellWebClient(null)
-      })
+      webClient.on('call_started', () => setCallState('connected'))
+      webClient.on('call_ended', () => { setCallState('idle'); setRetellWebClient(null) })
+      webClient.on('error', () => { setError('Call failed. Please try again.'); setCallState('error'); setRetellWebClient(null) })
 
       setRetellWebClient(webClient)
       await webClient.startCall({ accessToken: access_token })
@@ -123,28 +169,55 @@ export function VoiceDemo() {
   return (
     <section id="voice-demo" className="py-24 lg:py-32 bg-bg-secondary">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <FadeIn>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-              Don&apos;t Take Our Word For It —{' '}
-              <span className="gradient-text">Talk to OIOS</span>
-            </h2>
-            <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-              Talk to OIOS right now. Ask it anything about your business — pricing, availability, scheduling. This is the AI answering your calls 24/7.
-            </p>
+        <motion.div
+          ref={headerRef}
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 24 }}
+          animate={headerInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-6">
+            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">Live Demo</span>
           </div>
-        </FadeIn>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+            Don&apos;t Take Our Word For It —{' '}
+            <span className="gradient-text">Talk to OIOS</span>
+          </h2>
+          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+            Talk to OIOS right now. Ask it anything about your business — pricing, availability, scheduling. This is the AI answering your calls 24/7.
+          </p>
+        </motion.div>
 
-        <FadeIn delay={100}>
-          <div className="glass-card p-8 lg:p-10">
-            <div className="text-center">
-              {/* Avatar */}
-              <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-teal-500/20">
-                <span className="text-3xl font-bold text-white">O</span>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <div className="glass-card p-8 lg:p-10 relative overflow-hidden gradient-border-animated">
+            <div className="text-center relative z-10">
+              {/* Avatar with breathing glow */}
+              <div className="relative w-24 h-24 mx-auto mb-6">
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-teal-500/20"
+                  animate={callState === 'connected'
+                    ? { scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }
+                    : { scale: [1, 1.15, 1], opacity: [0.1, 0.2, 0.1] }
+                  }
+                  transition={{ duration: callState === 'connected' ? 1 : 3, repeat: Infinity }}
+                />
+                <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-teal-500/20">
+                  <span className="text-3xl font-bold text-white">O</span>
+                </div>
               </div>
 
               {callState === 'idle' && (
-                <div className="space-y-6">
+                <motion.div
+                  className="space-y-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                >
                   <div>
                     <h3 className="text-2xl font-semibold text-white mb-2">OIOS — AI Voice Receptionist</h3>
                     <p className="text-slate-400">by Omnia Intelligence AI</p>
@@ -171,94 +244,95 @@ export function VoiceDemo() {
                       data-glow
                       className="border-2 border-amber-500/30 text-amber-400 min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all hover:border-amber-400 hover:bg-amber-500/10 flex items-center justify-center gap-3"
                     >
-                      🎙️ Interview OIOS
+                      Interview OIOS
                     </button>
                   </div>
 
                   <div className="text-sm text-slate-500 pt-2">
-                    <p className="mb-3">Try asking Sarah about:</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-slate-400">
-                      <p>&bull; &quot;What services do you offer?&quot;</p>
-                      <p>&bull; &quot;I need someone out today&quot;</p>
-                      <p>&bull; &quot;How much does it cost?&quot;</p>
-                      <p>&bull; &quot;Can you schedule me for Tuesday?&quot;</p>
-                    </div>
+                    <RotatingSuggestion />
                   </div>
-                </div>
+                </motion.div>
               )}
 
               {callState === 'connecting' && (
-                <div className="space-y-6">
+                <motion.div
+                  className="space-y-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <Waveform active={false} />
                   <div className="flex justify-center mb-4">
                     <div className="flex space-x-2">
-                      <div className="w-3 h-3 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <div className="w-3 h-3 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <div className="w-3 h-3 bg-amber-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                      {[0, 1, 2].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="w-3 h-3 bg-amber-500 rounded-full"
+                          animate={{ y: [0, -8, 0] }}
+                          transition={{ duration: 0.6, repeat: Infinity, delay: i * 0.15 }}
+                        />
+                      ))}
                     </div>
                   </div>
                   <p className="text-slate-300 text-lg">Connecting to OIOS...</p>
                   <p className="text-slate-400 text-sm">This may take a few seconds</p>
                   <button
                     onClick={endCall}
-                    data-glow="red"
                     className="bg-red-500/20 hover:bg-red-500/30 text-red-400 px-6 py-3 rounded-xl font-medium transition-all"
                   >
                     Cancel
                   </button>
-                </div>
+                </motion.div>
               )}
 
               {callState === 'connected' && (
-                <div className="space-y-6">
-                  <div className="flex justify-center mb-6">
-                    <div className="flex items-end space-x-1 h-16">
-                      {[...Array(12)].map((_, i) => (
-                        <div
-                          key={i}
-                          className="bg-gradient-to-t from-orange-500 to-orange-400 rounded-full animate-pulse"
-                          style={{
-                            width: '4px',
-                            height: `${Math.random() * 60 + 10}px`,
-                            animationDelay: `${i * 100}ms`,
-                            animationDuration: '1s',
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                <motion.div
+                  className="space-y-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  <Waveform active={true} />
 
-                  <p className="text-emerald-400 font-medium text-lg">🟢 Connected &bull; Speaking with OIOS</p>
+                  <p className="text-emerald-400 font-medium text-lg flex items-center justify-center gap-2">
+                    <motion.span
+                      className="w-3 h-3 rounded-full bg-emerald-400"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    />
+                    Connected — Speaking with OIOS
+                  </p>
                   <p className="text-slate-400">OIOS can hear you. Speak naturally!</p>
 
                   <button
                     onClick={endCall}
-                    data-glow="red"
                     className="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all flex items-center gap-3 mx-auto"
                   >
                     <PhoneOff className="w-6 h-6" />
                     End Call
                   </button>
-                </div>
+                </motion.div>
               )}
 
               {callState === 'error' && (
-                <div className="space-y-6">
+                <motion.div
+                  className="space-y-6"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
                   <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-xl">
                     <p className="text-red-400 font-medium mb-2">Call Failed</p>
                     <p className="text-red-300 text-sm">{error}</p>
                   </div>
                   <button
                     onClick={resetError}
-                    data-glow
                     className="bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-white px-6 py-3 rounded-xl font-medium transition-all"
                   >
                     Try Again
                   </button>
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
-        </FadeIn>
+        </motion.div>
       </div>
     </section>
   )
