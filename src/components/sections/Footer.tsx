@@ -30,10 +30,17 @@ export function Footer() {
               AI operations for service businesses. Calls answered, admin handled, pipeline visible — 24/7.
             </p>
             <a
-              href="mailto:team@omniaintel.ai"
+              href="mailto:team@getoios.com"
               className="text-amber-400 hover:text-amber-300 transition-colors duration-200 text-sm font-medium"
             >
-              team@omniaintel.ai
+              team@getoios.com
+            </a>
+            <br />
+            <a
+              href="tel:8667821303"
+              className="text-slate-400 hover:text-white transition-colors duration-200 text-sm mt-2 inline-block"
+            >
+              (866) 782-1303
             </a>
           </div>
 
