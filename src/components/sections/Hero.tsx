@@ -6,6 +6,7 @@ import { motion, useInView } from 'motion/react'
 import { BarChart2, Zap, RefreshCw, Phone } from 'lucide-react'
 import { FloatingPaths } from '@/components/ui/background-paths'
 import { MagneticButton } from '@/components/ui/MagneticButton'
+import { SplineScene } from '@/components/ui/splite'
 import { useScrollVelocity } from '@/hooks/useScrollVelocity'
 import { gsap, ScrollTrigger } from '@/lib/gsap-init'
 
@@ -337,14 +338,23 @@ export function Hero() {
           and dollar in real time — so you can run the business, not chase it.
         </motion.p>
 
-        {/* Animated Energy Network */}
+        {/* Hero Robot Scene */}
         <motion.div
           className="mb-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
         >
-          <EnergyNetwork />
+          <div className="relative mx-auto h-[280px] w-full max-w-[900px] overflow-hidden rounded-2xl border border-teal-400/20 bg-black/40 sm:h-[360px]">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(45,212,191,0.14),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(245,158,11,0.10),transparent_40%)]" />
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="h-full w-full"
+            />
+          </div>
+          <div className="mt-6 hidden md:block">
+            <EnergyNetwork />
+          </div>
         </motion.div>
 
         {/* 4-Column Capability Grid */}
