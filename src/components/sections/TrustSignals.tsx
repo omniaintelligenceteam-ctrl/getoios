@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'motion/react'
 import { Shield, Calendar, MapPin } from 'lucide-react'
+import { LogoMarquee } from '@/components/ui/LogoMarquee'
 
 // ─── Count-up hook ───────────────────────────────────────────────────────────
 function useCountUp(target: number, duration: number, active: boolean) {
@@ -24,7 +25,7 @@ function useCountUp(target: number, duration: number, active: boolean) {
 }
 
 // ─── Powered-by tech badges ─────────────────────────────────────────────────
-const techStack = ['Retell AI', 'Twilio', 'OpenAI', 'Vercel']
+const techStack = ['Retell AI', 'Twilio', 'OpenAI', 'Vercel', 'ServiceTitan', 'Housecall Pro', 'Jobber', 'QuickBooks']
 
 // ─── Trust cards data ────────────────────────────────────────────────────────
 const trustCards = [
@@ -123,27 +124,10 @@ export function TrustSignals() {
         </motion.div>
 
         {/* Powered-by row */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-16"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-500 mr-2">Powered by</span>
-          {techStack.map((tech, i) => (
-            <motion.span
-              key={tech}
-              className="px-3 py-1.5 rounded-full bg-slate-800/30 border border-slate-700/20 text-[11px] font-mono text-slate-500 tracking-wide"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.2 + i * 0.08 }}
-            >
-              {tech}
-            </motion.span>
-          ))}
-        </motion.div>
+        <div className="mb-16">
+          <p className="text-center text-[10px] font-mono uppercase tracking-[0.15em] text-slate-500 mb-4">Powered by</p>
+          <LogoMarquee items={techStack} speed={25} />
+        </div>
 
         {/* Trust cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-16">

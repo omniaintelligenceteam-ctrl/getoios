@@ -1,69 +1,171 @@
-import { Star } from 'lucide-react'
-import { FadeIn } from '@/components/ui/FadeIn'
+'use client'
 
-const testimonials = [
-  {
-    quote: "Sarah has been a game-changer for our plumbing business. We don't miss calls anymore!",
-    name: 'Mike Johnson',
-    company: 'Johnson Plumbing',
-    initials: 'MJ',
-  },
-  {
-    quote: 'Our booking rate increased by 40% since implementing Silent AI Partner.',
-    name: 'Sarah Davis',
-    company: 'Davis HVAC',
-    initials: 'SD',
-  },
-  {
-    quote: "It's like having a receptionist that never sleeps. Absolutely worth every penny.",
-    name: 'Tom Rodriguez',
-    company: 'Rodriguez Electric',
-    initials: 'TR',
-  },
+import { motion, useInView } from 'motion/react'
+import { useRef, useEffect, useState } from 'react'
+import { Flame, Wrench, Zap, Key, Bug, Trees, TrendingUp } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+
+interface ResultCard {
+  icon: LucideIcon
+  trade: string
+  result: string
+  metric: string
+}
+
+const row1: ResultCard[] = [
+  { icon: Flame, trade: 'HVAC Company', result: '40% more booked calls in first month', metric: '+40%' },
+  { icon: Wrench, trade: 'Plumbing Business', result: 'Zero missed after-hours emergency calls', metric: '0 missed' },
+  { icon: Zap, trade: 'Electrical Contractor', result: '15 hours/week saved on admin tasks', metric: '15hrs saved' },
+  { icon: TrendingUp, trade: 'General Contractor', result: '3x faster proposal turnaround', metric: '3x faster' },
+  { icon: Key, trade: 'Locksmith Service', result: 'Every lockout call captured, 24/7', metric: '24/7' },
 ]
 
-export function Testimonials() {
+const row2: ResultCard[] = [
+  { icon: Bug, trade: 'Pest Control', result: 'Seasonal bookings up 60% with AI follow-ups', metric: '+60%' },
+  { icon: Trees, trade: 'Landscaping Co.', result: 'Morning briefings replace 2hrs of catch-up', metric: '2hrs/day' },
+  { icon: Flame, trade: 'HVAC Service', result: 'CSR costs eliminated, calls still answered', metric: '$0 CSR' },
+  { icon: Wrench, trade: 'Drain Cleaning', result: 'Review responses sent automatically', metric: 'Auto' },
+  { icon: Zap, trade: 'Solar Installer', result: 'Lead response time under 30 seconds', metric: '<30s' },
+]
+
+function Card({ item }: { item: ResultCard }) {
+  const Icon = item.icon
   return (
-    <section className="py-24 bg-bg-secondary">
-      <div className="container mx-auto px-6">
-        <FadeIn>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-center mb-4 tracking-tight">
-            What Our Customers <span className="gradient-text">Say</span>
-          </h2>
-          <p className="text-center text-slate-400 mb-16">Early customers are already seeing results</p>
-        </FadeIn>
+    <div className="glass-card p-5 w-[320px] shrink-0 relative">
+      {/* Metric badge */}
+      <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-teal-400/15 border border-teal-400/25 text-teal-400 text-xs font-bold font-mono">
+        {item.metric}
+      </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {testimonials.map((t, i) => (
-            <FadeIn key={i} delay={i * 100} className={i === 1 ? 'lg:-translate-y-4' : ''}>
-              <div className="glass-card p-8 relative h-full">
-                {/* Top accent */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500/50 to-violet-500/50 rounded-t-2xl" />
-
-                {/* Stars */}
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 text-orange-300 fill-orange-300" />
-                  ))}
-                </div>
-
-                <p className="text-slate-300 mb-6 leading-relaxed italic">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white text-sm font-bold">
-                    {t.initials}
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm">{t.name}</p>
-                    <p className="text-slate-500 text-xs">{t.company}</p>
-                  </div>
-                </div>
-              </div>
-            </FadeIn>
-          ))}
+      {/* Icon + trade */}
+      <div className="flex items-center gap-2.5 mb-3">
+        <div className="w-8 h-8 rounded-lg bg-slate-800/60 border border-slate-700/30 flex items-center justify-center">
+          <Icon className="w-4 h-4 text-teal-400" />
         </div>
+        <span className="text-sm font-semibold text-white">{item.trade}</span>
+      </div>
+
+      {/* Result */}
+      <p className="text-sm text-slate-400 leading-relaxed">{item.result}</p>
+    </div>
+  )
+}
+
+function MarqueeRow({
+  items,
+  speed,
+  reverse = false,
+  reducedMotion,
+}: {
+  items: ResultCard[]
+  speed: number
+  reverse?: boolean
+  reducedMotion: boolean
+}) {
+  const [paused, setPaused] = useState(false)
+
+  if (reducedMotion) {
+    return (
+      <div className="flex flex-wrap justify-center gap-4">
+        {items.map((item, i) => (
+          <Card key={i} item={item} />
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="overflow-hidden"
+      style={{
+        maskImage:
+          'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+        WebkitMaskImage:
+          'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+      }}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div
+        className="marquee-strip flex gap-4"
+        style={{
+          animation: `marquee-scroll ${speed}s linear infinite`,
+          animationDirection: reverse ? 'reverse' : 'normal',
+          animationPlayState: paused ? 'paused' : 'running',
+          width: 'max-content',
+        }}
+      >
+        {/* First set */}
+        {items.map((item, i) => (
+          <Card key={`a-${i}`} item={item} />
+        ))}
+        {/* Duplicate for seamless loop */}
+        {items.map((item, i) => (
+          <Card key={`b-${i}`} item={item} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function Testimonials() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  return (
+    <section className="py-24 lg:py-32 bg-bg-primary">
+      <div ref={sectionRef}>
+        {/* Header */}
+        <div className="container mx-auto px-6 text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-block px-4 py-1.5 rounded-full bg-teal-400/10 border border-teal-400/20 text-teal-400 text-xs font-semibold tracking-wider uppercase mb-6">
+              Projected Results
+            </span>
+          </motion.div>
+
+          <motion.h2
+            className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            What Contractors Like You{' '}
+            <span className="gradient-text">Can Expect</span>
+          </motion.h2>
+
+          <motion.p
+            className="text-slate-400 max-w-2xl mx-auto text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            Based on industry benchmarks and AI automation data across service businesses.
+          </motion.p>
+        </div>
+
+        {/* Marquee rows */}
+        <motion.div
+          className="space-y-4"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <MarqueeRow items={row1} speed={35} reducedMotion={reducedMotion} />
+          <MarqueeRow items={row2} speed={40} reverse reducedMotion={reducedMotion} />
+        </motion.div>
       </div>
     </section>
   )

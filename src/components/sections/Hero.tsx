@@ -7,6 +7,7 @@ import { BarChart2, Zap, RefreshCw, Phone } from 'lucide-react'
 import { FloatingPaths } from '@/components/ui/background-paths'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { SplineScene } from '@/components/ui/splite'
+import { RotatingText } from '@/components/ui/RotatingText'
 import { useScrollVelocity } from '@/hooks/useScrollVelocity'
 import { gsap, ScrollTrigger } from '@/lib/gsap-init'
 
@@ -324,7 +325,10 @@ export function Hero() {
         >
           <span className="text-white">Answer Every Call. Capture Every Lead. Run Every Task.</span>
           <br />
-          <span className="gradient-text-warm">See Everything. 24/7.</span>
+          <RotatingText
+            phrases={['See Everything. 24/7.', 'Never Miss a Lead.', 'Automate the Busywork.', 'Know Your Numbers.']}
+            className="gradient-text-warm"
+          />
         </motion.h1>
 
         {/* Subheadline */}

@@ -683,3 +683,29 @@ section:nth-of-type(2)::before {
     animation: none;
   }
 }
+
+/* ─── Logo Marquee ────────────────────────────────────────────────────── */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-strip { animation: none !important; }
+}
+
+/* ─── Shooting Stars ──────────────────────────────────────────────────── */
+@keyframes shooting-star {
+  0% { transform: translate(0, 0) rotate(-45deg); opacity: 0; }
+  5% { opacity: 0.8; }
+  30% { opacity: 0.8; }
+  100% { transform: translate(-400px, 400px) rotate(-45deg); opacity: 0; }
+}
+.shooting-star {
+  animation-name: shooting-star;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .shooting-star { animation: none !important; display: none; }
+}

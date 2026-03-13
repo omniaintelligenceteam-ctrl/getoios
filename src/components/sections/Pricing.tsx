@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRef, useEffect, useState } from 'react'
-import { motion, useInView } from 'motion/react'
+import { motion, useInView, AnimatePresence } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
 const includes = [
@@ -52,10 +52,18 @@ function AnimatedCheckmark({ delay }: { delay: number }) {
   )
 }
 
+const pricing = {
+  monthly: { price: 2000, setup: 2500, label: '/month' },
+  yearly: { price: 1600, setup: 0, label: '/month' },
+}
+
 export function Pricing() {
   const cardRef = useRef(null)
   const cardInView = useInView(cardRef, { once: true, margin: '-60px' })
-  const priceCount = useCountUp(2000, 1.2, cardInView)
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
+
+  const currentPrice = pricing[billingPeriod]
+  const savings = billingPeriod === 'yearly' ? Math.round((1 - pricing.yearly.price / pricing.monthly.price) * 100) : 0
 
   return (
     <section id="pricing" className="py-24 lg:py-32 bg-bg-secondary">
@@ -79,6 +87,53 @@ export function Pricing() {
           <p className="mt-5 text-slate-400 text-base max-w-xl mx-auto">
             We prove the ROI first. If OIOS doesn&apos;t pay for itself in 60 days, you owe nothing. Founding cohort — 10 spots only.
           </p>
+        </motion.div>
+
+        {/* Billing toggle */}
+        <motion.div
+          className="flex items-center justify-center gap-3 mb-10"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+        >
+          <div className="relative flex items-center bg-slate-800/50 border border-slate-700/30 rounded-full p-1">
+            <button
+              onClick={() => setBillingPeriod('monthly')}
+              className={`relative z-10 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${billingPeriod === 'monthly' ? 'text-white' : 'text-slate-400'}`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingPeriod('yearly')}
+              className={`relative z-10 px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${billingPeriod === 'yearly' ? 'text-white' : 'text-slate-400'}`}
+            >
+              Yearly
+            </button>
+            {/* Sliding indicator */}
+            <motion.div
+              className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-400"
+              layoutId="billing-toggle"
+              style={{
+                left: billingPeriod === 'monthly' ? '4px' : '50%',
+                width: 'calc(50% - 4px)',
+              }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            />
+          </div>
+          {/* Save badge */}
+          <AnimatePresence>
+            {billingPeriod === 'yearly' && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8, x: -10 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.8, x: -10 }}
+                className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/25 text-emerald-400 text-xs font-bold"
+              >
+                Save {savings}%
+              </motion.span>
+            )}
+          </AnimatePresence>
         </motion.div>
 
         {/* Pricing card with spotlight reveal */}
@@ -121,16 +176,38 @@ export function Pricing() {
               </motion.div>
             </div>
 
-            {/* Price with countUp */}
+            {/* Price with animated transition */}
             <div className="text-center mb-8 pt-4 relative z-10">
-              <p className="text-slate-500 text-lg line-through mb-1">$3,000/mo</p>
+              <p className="text-slate-500 text-lg line-through mb-1">
+                {billingPeriod === 'yearly' ? '$2,000/mo' : '$3,000/mo'}
+              </p>
               <div className="flex items-baseline justify-center gap-2 mb-2">
-                <span className="text-6xl font-bold gradient-text-warm" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-                  ${priceCount.toLocaleString()}
-                </span>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={billingPeriod}
+                    className="text-6xl font-bold gradient-text-warm"
+                    style={{ fontFamily: 'var(--font-display), sans-serif' }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    ${currentPrice.price.toLocaleString()}
+                  </motion.span>
+                </AnimatePresence>
                 <span className="text-slate-400 text-lg">/month</span>
               </div>
-              <p className="text-slate-500 text-sm font-mono">+ $2,500 one-time setup</p>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={billingPeriod}
+                  className="text-slate-500 text-sm font-mono"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {billingPeriod === 'yearly' ? 'Setup fee waived with annual plan' : '+ $2,500 one-time setup'}
+                </motion.p>
+              </AnimatePresence>
             </div>
 
             {/* Zero-risk guarantee — THE headline of this card */}

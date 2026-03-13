@@ -12,6 +12,8 @@ import { ROINumbers } from '@/components/sections/ROINumbers'
 import { FAQ } from '@/components/sections/FAQ'
 import { Pricing } from '@/components/sections/Pricing'
 import { AuditForm } from '@/components/sections/AuditForm'
+import { Testimonials } from '@/components/sections/Testimonials'
+import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Footer } from '@/components/sections/Footer'
 import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
@@ -37,6 +39,8 @@ export default function Home() {
       <SectionTransition />
       <TrustSignals />
       <SectionTransition />
+      <Testimonials />
+      <SectionTransition />
       <NotGetting />
       <SectionTransition />
       <ROINumbers />
@@ -46,6 +50,8 @@ export default function Home() {
       <Pricing />
       <SectionTransition />
       <AuditForm />
+      <SectionTransition />
+      <FinalCTA />
       <SectionTransition />
       <Footer />
     </div>

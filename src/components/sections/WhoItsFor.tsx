@@ -1,48 +1,62 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import {
-  Thermometer,
+  Flame,
   Wrench,
   Zap,
-  KeyRound,
+  Key,
   Bug,
   Trees,
 } from 'lucide-react';
 
 const trades = [
-  {
-    icon: Thermometer,
-    name: 'HVAC',
-    hook: 'Never miss an emergency call again',
-  },
-  {
-    icon: Wrench,
-    name: 'Plumbing',
-    hook: "Book jobs while you're under the sink",
-  },
-  {
-    icon: Zap,
-    name: 'Electrical',
-    hook: 'Let AI handle the phone while you handle the wires',
-  },
-  {
-    icon: KeyRound,
-    name: 'Locksmith',
-    hook: 'Capture lockout calls 24/7',
-  },
-  {
-    icon: Bug,
-    name: 'Pest Control',
-    hook: 'Schedule treatments without stopping work',
-  },
-  {
-    icon: Trees,
-    name: 'Landscaping',
-    hook: "Quote new clients while you're on the mower",
-  },
+  { icon: Flame, name: 'HVAC', hook: 'Never lose a service call to voicemail again', span: 2 },
+  { icon: Wrench, name: 'Plumbing', hook: 'Emergency calls answered instantly, 24/7', span: 1 },
+  { icon: Zap, name: 'Electrical', hook: 'Book more jobs while you\'re on the job', span: 1 },
+  { icon: Key, name: 'Locksmith', hook: 'Capture every lockout call, day or night', span: 2 },
+  { icon: Bug, name: 'Pest Control', hook: 'Fill your schedule without lifting a finger', span: 1 },
+  { icon: Trees, name: 'Landscaping', hook: 'Turn seasonal inquiries into year-round revenue', span: 1 },
 ];
+
+function SpotlightCard({ children, className, delay = 0 }: { children: React.ReactNode, className?: string, delay?: number }) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [isHovered, setIsHovered] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+  }
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className={`glass-card relative overflow-hidden ${className || ''}`}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      data-glow
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, delay }}
+    >
+      {/* Spotlight overlay */}
+      {isHovered && (
+        <div
+          className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-0"
+          style={{
+            background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(45,212,191,0.08), transparent 40%)`,
+          }}
+        />
+      )}
+      <div className="relative z-10">{children}</div>
+    </motion.div>
+  )
+}
 
 export function WhoItsFor() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -80,43 +94,25 @@ export function WhoItsFor() {
           <span className="gradient-text">This Is For You.</span>
         </motion.h2>
 
-        {/* Trade Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-16">
-          {trades.map((trade, index) => {
-            const Icon = trade.icon;
-            return (
-              <motion.div
-                key={trade.name}
-                className="glass-card group relative rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(45,212,191,0.08)]"
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.5,
-                  delay: 0.2 + index * 0.1,
-                  ease: 'easeOut',
-                }}
-              >
-                <div className="flex flex-col items-center text-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-teal-400/10 border border-teal-400/20 flex items-center justify-center group-hover:bg-teal-400/15 group-hover:border-teal-400/30 transition-colors duration-300">
-                    <Icon className="w-6 h-6 text-teal-400" />
-                  </div>
-                  <div>
-                    <h3
-                      className="text-lg font-semibold text-white mb-1"
-                      style={{
-                        fontFamily: 'var(--font-display), sans-serif',
-                      }}
-                    >
-                      {trade.name}
-                    </h3>
-                    <p className="text-sm text-slate-400 leading-relaxed">
-                      {trade.hook}
-                    </p>
-                  </div>
+        {/* Bento Trade Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5 mt-16">
+          {trades.map((trade, i) => (
+            <SpotlightCard
+              key={trade.name}
+              className={`p-6 lg:p-8 ${trade.span === 2 ? 'md:col-span-2' : ''}`}
+              delay={i * 0.1}
+            >
+              <div className={trade.span === 2 ? 'flex items-center gap-6 md:flex-row' : 'text-center'}>
+                <div className={`${trade.span === 2 ? '' : 'mx-auto mb-4'} w-14 h-14 rounded-xl bg-teal-400/10 border border-teal-400/20 flex items-center justify-center flex-shrink-0`}>
+                  <trade.icon className="w-7 h-7 text-teal-400" />
                 </div>
-              </motion.div>
-            );
-          })}
+                <div className={trade.span === 2 ? 'text-left' : ''}>
+                  <h3 className="text-lg font-bold text-white mb-1" style={{ fontFamily: 'var(--font-display), sans-serif' }}>{trade.name}</h3>
+                  <p className="text-sm text-slate-400">{trade.hook}</p>
+                </div>
+              </div>
+            </SpotlightCard>
+          ))}
         </div>
 
         {/* Bold Statement */}
