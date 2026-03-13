@@ -356,13 +356,13 @@ function TierCard({
             <Link
               href="/audit"
               data-cursor="cta"
-              className={`block w-full py-4 rounded-xl font-bold text-center text-sm transition-all duration-300 ${
+              className={`block w-full py-4.5 rounded-xl font-bold text-center text-base tracking-wide transition-all duration-300 ${
                 tier.popular
-                  ? 'bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white shadow-[0_0_20px_rgba(245,158,11,0.25)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)]'
-                  : `bg-slate-800/60 border ${a.border} text-white hover:bg-slate-800 ${a.borderHover}`
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)]'
+                  : `bg-slate-800/80 border-2 ${a.border} text-white hover:bg-slate-700/80 ${a.borderHover}`
               }`}
             >
-              {tier.popular ? 'Book Your Free Audit →' : 'Learn More →'}
+              {tier.popular ? 'Book Your Free Audit →' : 'Get Started →'}
             </Link>
           </MagneticButton>
         </div>
@@ -651,7 +651,7 @@ export function WhatToExpect() {
                 <Link
                   href="/audit"
                   data-cursor="cta"
-                  className="inline-block bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-10 py-4 rounded-xl text-base font-bold shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)] transition-all duration-300 relative"
+                  className="inline-block bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-12 py-4.5 rounded-xl text-lg font-bold shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)] transition-all duration-300 relative tracking-wide"
                 >
                   Start Risk-Free →
                 </Link>
