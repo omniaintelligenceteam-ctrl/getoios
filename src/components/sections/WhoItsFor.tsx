@@ -12,12 +12,12 @@ import {
 } from 'lucide-react';
 
 const trades = [
-  { icon: Flame, name: 'HVAC', hook: 'Never lose a service call to voicemail again', span: 2 },
-  { icon: Wrench, name: 'Plumbing', hook: 'Emergency calls answered instantly, 24/7', span: 1 },
-  { icon: Zap, name: 'Electrical', hook: 'Book more jobs while you\'re on the job', span: 1 },
-  { icon: Key, name: 'Locksmith', hook: 'Capture every lockout call, day or night', span: 2 },
-  { icon: Bug, name: 'Pest Control', hook: 'Fill your schedule without lifting a finger', span: 1 },
-  { icon: Trees, name: 'Landscaping', hook: 'Turn seasonal inquiries into year-round revenue', span: 1 },
+  { icon: Flame, name: 'HVAC', hook: 'Never lose a service call to voicemail again' },
+  { icon: Wrench, name: 'Plumbing', hook: 'Emergency calls answered instantly, 24/7' },
+  { icon: Zap, name: 'Electrical', hook: 'Book more jobs while you\'re on the job' },
+  { icon: Key, name: 'Locksmith', hook: 'Capture every lockout call, day or night' },
+  { icon: Bug, name: 'Pest Control', hook: 'Fill your schedule without lifting a finger' },
+  { icon: Trees, name: 'Landscaping', hook: 'Turn seasonal inquiries into year-round revenue' },
 ];
 
 function SpotlightCard({ children, className, delay = 0 }: { children: React.ReactNode, className?: string, delay?: number }) {
@@ -99,17 +99,15 @@ export function WhoItsFor() {
           {trades.map((trade, i) => (
             <SpotlightCard
               key={trade.name}
-              className={`p-6 lg:p-8 ${trade.span === 2 ? 'md:col-span-2' : ''}`}
+              className="p-6 lg:p-8"
               delay={i * 0.1}
             >
-              <div className={trade.span === 2 ? 'flex items-center gap-6 md:flex-row' : 'text-center'}>
-                <div className={`${trade.span === 2 ? '' : 'mx-auto mb-4'} w-14 h-14 rounded-xl bg-teal-400/10 border border-teal-400/20 flex items-center justify-center flex-shrink-0`}>
+              <div className="text-center">
+                <div className="mx-auto mb-4 w-14 h-14 rounded-xl bg-teal-400/10 border border-teal-400/20 flex items-center justify-center">
                   <trade.icon className="w-7 h-7 text-teal-400" />
                 </div>
-                <div className={trade.span === 2 ? 'text-left' : ''}>
-                  <h3 className="text-lg font-bold text-white mb-1" style={{ fontFamily: 'var(--font-display), sans-serif' }}>{trade.name}</h3>
-                  <p className="text-sm text-slate-400">{trade.hook}</p>
-                </div>
+                <h3 className="text-lg font-bold text-white mb-1" style={{ fontFamily: 'var(--font-display), sans-serif' }}>{trade.name}</h3>
+                <p className="text-sm text-slate-400">{trade.hook}</p>
               </div>
             </SpotlightCard>
           ))}
