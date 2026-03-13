@@ -3,39 +3,28 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
 const navLinks = [
-  { href: '#pillars', label: 'What It Does' },
-  { href: '#how-it-works', label: 'How It Works' },
-  { href: '#voice-demo', label: 'Live Demo', accent: true },
+  { href: '/features', label: 'What It Does' },
+  { href: '/how-it-works', label: 'How It Works' },
+  { href: '/solutions', label: 'Solutions' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/demo', label: 'Live Demo', accent: true },
 ]
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState('')
   const [showMobileCTA, setShowMobileCTA] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     function handleScroll() {
       setScrolled(window.scrollY > 20)
       setShowMobileCTA(window.scrollY > 500)
-
-      // Scroll spy — find which section is most visible
-      const sections = ['pillars', 'how-it-works', 'voice-demo', 'pricing', 'audit']
-      let current = ''
-      for (const id of sections) {
-        const el = document.getElementById(id)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top <= 150 && rect.bottom > 150) {
-            current = id
-          }
-        }
-      }
-      setActiveSection(current)
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
@@ -74,8 +63,7 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8 relative">
             {navLinks.map((link) => {
-              const sectionId = link.href.replace('#', '')
-              const isActive = activeSection === sectionId
+              const isActive = pathname === link.href
               return (
                 <MagneticButton key={link.href} strength={0.15}>
                   <Link
@@ -110,7 +98,7 @@ export function Header() {
 
             <MagneticButton>
               <Link
-                href="#audit"
+                href="/audit"
                 data-glow
                 data-cursor="cta"
                 className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-2 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
@@ -180,7 +168,7 @@ export function Header() {
                     <span className="text-emerald-400/80">Online</span>
                   </div>
                   <Link
-                    href="#audit"
+                    href="/audit"
                     data-glow
                     data-cursor="cta"
                     className="block bg-gradient-to-r from-amber-500 to-amber-400 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
@@ -208,7 +196,7 @@ export function Header() {
           >
             <div className="px-4 pt-3 pb-6">
               <Link
-                href="#audit"
+                href="/audit"
                 data-glow
                 data-cursor="cta"
                 className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-3 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"

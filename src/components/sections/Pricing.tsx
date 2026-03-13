@@ -112,7 +112,7 @@ export function Pricing() {
             </button>
             {/* Sliding indicator */}
             <motion.div
-              className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-400"
+              className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-amber-500 to-amber-400 pointer-events-none"
               layoutId="billing-toggle"
               style={{
                 left: billingPeriod === 'monthly' ? '4px' : '50%',

@@ -4,11 +4,12 @@ import Link from 'next/link'
 
 export function Footer() {
   const navLinks = [
-    { name: 'What It Does', href: '#pillars' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Live Demo', href: '#voice-demo' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'Book Your Audit', href: '#audit' },
+    { name: 'What It Does', href: '/features' },
+    { name: 'How It Works', href: '/how-it-works' },
+    { name: 'Solutions', href: '/solutions' },
+    { name: 'Live Demo', href: '/demo' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Book Your Audit', href: '/audit' },
   ]
 
   const legalLinks = [
