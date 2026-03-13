@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRef, useState } from 'react'
-import { motion, useInView, AnimatePresence } from 'motion/react'
+import { motion, useInView, AnimatePresence, useMotionValue, useTransform } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import {
   Phone,
@@ -12,7 +12,7 @@ import {
   Zap,
   Clock,
   ChevronDown,
-  Check,
+  ArrowRight,
 } from 'lucide-react'
 
 /* ─── Tier Data ──────────────────────────────────────────────────────────────── */
@@ -22,7 +22,10 @@ const tiers = [
     name: 'Starter',
     tagline: 'Stop missing calls.',
     icon: Phone,
-    accent: 'teal',
+    accent: 'teal' as const,
+    gradient: 'from-teal-500/20 via-teal-400/5 to-transparent',
+    glowColor: 'rgba(45,212,191,0.15)',
+    hexColor: '#2DD4BF',
     description:
       'AI receptionist answers every call 24/7, captures leads, and books appointments — so you never lose another job to voicemail.',
     includes: [
@@ -38,7 +41,10 @@ const tiers = [
     name: 'Growth',
     tagline: 'Run the back office on autopilot.',
     icon: FileText,
-    accent: 'amber',
+    accent: 'amber' as const,
+    gradient: 'from-amber-500/20 via-amber-400/5 to-transparent',
+    glowColor: 'rgba(245,158,11,0.15)',
+    hexColor: '#F59E0B',
     popular: true,
     description:
       'Everything in Starter plus automated follow-ups, proposal generation, invoicing reminders, and CRM updates — your admin disappears.',
@@ -53,10 +59,13 @@ const tiers = [
     bestFor: 'Growing teams doing $500K–$2M/year',
   },
   {
-    name: 'Full Operations',
+    name: 'Full Ops',
     tagline: 'Your entire business, orchestrated.',
     icon: BarChart3,
-    accent: 'cyan',
+    accent: 'cyan' as const,
+    gradient: 'from-cyan-500/20 via-cyan-400/5 to-transparent',
+    glowColor: 'rgba(6,182,212,0.15)',
+    hexColor: '#06B6D4',
     description:
       'Everything in Growth plus weekly reporting, proactive alerts, marketing content, compliance tracking, and multi-channel automation.',
     includes: [
@@ -72,24 +81,36 @@ const tiers = [
   },
 ]
 
-const accentClasses: Record<string, { border: string; bg: string; text: string; glow: string }> = {
+const accentMap = {
   teal: {
-    border: 'border-teal-400/30 hover:border-teal-400/50',
-    bg: 'bg-teal-400/10',
     text: 'text-teal-400',
-    glow: 'shadow-teal-400/5',
+    bg: 'bg-teal-400/10',
+    border: 'border-teal-400/20',
+    borderHover: 'hover:border-teal-400/40',
+    ring: 'ring-teal-400/20',
+    checkBg: 'bg-teal-400/10',
+    checkBorder: 'border-teal-400/20',
+    checkStroke: '#2DD4BF',
   },
   amber: {
-    border: 'border-amber-400/30 hover:border-amber-400/50',
-    bg: 'bg-amber-400/10',
     text: 'text-amber-400',
-    glow: 'shadow-amber-400/5',
+    bg: 'bg-amber-400/10',
+    border: 'border-amber-400/20',
+    borderHover: 'hover:border-amber-400/40',
+    ring: 'ring-amber-400/20',
+    checkBg: 'bg-amber-400/10',
+    checkBorder: 'border-amber-400/20',
+    checkStroke: '#FBBF24',
   },
   cyan: {
-    border: 'border-cyan-400/30 hover:border-cyan-400/50',
-    bg: 'bg-cyan-400/10',
     text: 'text-cyan-400',
-    glow: 'shadow-cyan-400/5',
+    bg: 'bg-cyan-400/10',
+    border: 'border-cyan-400/20',
+    borderHover: 'hover:border-cyan-400/40',
+    ring: 'ring-cyan-400/20',
+    checkBg: 'bg-cyan-400/10',
+    checkBorder: 'border-cyan-400/20',
+    checkStroke: '#22D3EE',
   },
 }
 
@@ -102,6 +123,8 @@ const steps = [
     description:
       'We analyze your current workflow — calls missed, time wasted on admin, revenue left on the table. Takes 15 minutes.',
     icon: Zap,
+    accent: 'text-amber-400',
+    glow: 'rgba(245,158,11,0.12)',
   },
   {
     num: '02',
@@ -109,6 +132,8 @@ const steps = [
     description:
       'We configure your AI to match your business — your services, your tone, your process. You review everything before it goes live.',
     icon: Shield,
+    accent: 'text-teal-400',
+    glow: 'rgba(45,212,191,0.12)',
   },
   {
     num: '03',
@@ -116,20 +141,21 @@ const steps = [
     description:
       "Your AI goes live and we track every metric. If it doesn't pay for itself in 60 days, you owe nothing. Zero risk.",
     icon: Clock,
+    accent: 'text-emerald-400',
+    glow: 'rgba(52,211,153,0.12)',
   },
 ]
 
 /* ─── Animated Checkmark ─────────────────────────────────────────────────────── */
 
-function AnimatedCheck({ delay, color }: { delay: number; color: string }) {
+function AnimatedCheck({ delay, accent }: { delay: number; accent: 'teal' | 'amber' | 'cyan' }) {
+  const a = accentMap[accent]
   return (
-    <div
-      className={`w-5 h-5 rounded-full ${color === 'amber' ? 'bg-amber-400/15 border-amber-400/25' : color === 'cyan' ? 'bg-cyan-400/15 border-cyan-400/25' : 'bg-teal-400/15 border-teal-400/25'} border flex items-center justify-center flex-shrink-0 mt-0.5`}
-    >
+    <div className={`w-5 h-5 rounded-full ${a.checkBg} border ${a.checkBorder} flex items-center justify-center flex-shrink-0 mt-0.5`}>
       <svg viewBox="0 0 12 12" className="w-3 h-3">
         <motion.path
           d="M2.5 6.5l2 2 5-5"
-          stroke={color === 'amber' ? '#FBBF24' : color === 'cyan' ? '#22D3EE' : '#2DD4BF'}
+          stroke={a.checkStroke}
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -153,136 +179,277 @@ function TierCard({
   tier: (typeof tiers)[0]
   index: number
 }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, margin: '-40px' })
   const [expanded, setExpanded] = useState(false)
-  const ac = accentClasses[tier.accent]
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [isHovered, setIsHovered] = useState(false)
+  const a = accentMap[tier.accent]
   const Icon = tier.icon
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+  }
 
   return (
     <motion.div
       ref={ref}
-      className={`relative glass-card border ${ac.border} transition-all duration-300 shadow-lg ${ac.glow} ${tier.popular ? 'lg:scale-105 lg:-my-2' : ''}`}
-      initial={{ opacity: 0, y: 40 }}
+      className={`relative group ${tier.popular ? 'lg:-mt-6 lg:mb-6' : ''}`}
+      initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.12 }}
+      transition={{ duration: 0.7, delay: index * 0.15, type: 'spring', stiffness: 80 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Popular badge */}
+      {/* Outer glow for popular */}
       {tier.popular && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-10">
-          <motion.span
-            className="relative bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-1 rounded-full text-xs font-bold tracking-[0.12em] uppercase shadow-lg shadow-amber-500/25 overflow-hidden"
-            initial={{ scale: 0 }}
-            animate={inView ? { scale: 1 } : {}}
-            transition={{ delay: 0.4, type: 'spring' }}
-          >
-            MOST POPULAR
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              animate={{ x: ['-100%', '200%'] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
-            />
-          </motion.span>
-        </div>
+        <div
+          className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"
+          style={{ background: `linear-gradient(135deg, ${tier.hexColor}33, transparent 50%, ${tier.hexColor}22)` }}
+        />
       )}
 
-      <div className="p-7 lg:p-9">
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className={`w-10 h-10 rounded-xl ${ac.bg} flex items-center justify-center`}>
-            <Icon className={`w-5 h-5 ${ac.text}`} />
-          </div>
-          <div>
-            <h3 className="text-xl font-bold text-white" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-              {tier.name}
-            </h3>
-            <p className={`text-sm font-medium ${ac.text}`}>{tier.tagline}</p>
-          </div>
-        </div>
+      {/* Card container */}
+      <div className={`relative overflow-hidden rounded-2xl border ${
+        tier.popular
+          ? 'border-amber-400/30 bg-[rgba(15,23,42,0.6)]'
+          : 'border-slate-700/40 bg-[rgba(15,23,42,0.4)]'
+      } backdrop-blur-xl transition-all duration-500 ${
+        tier.popular ? 'shadow-[0_0_40px_rgba(245,158,11,0.08)]' : ''
+      } group-hover:border-opacity-60`}>
 
-        <p className="text-slate-400 text-sm leading-relaxed mb-6">
-          {tier.description}
-        </p>
+        {/* Spotlight follow cursor */}
+        {isHovered && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-300"
+            style={{
+              background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, ${tier.glowColor}, transparent 40%)`,
+            }}
+          />
+        )}
 
-        {/* Custom pricing line */}
-        <div className="flex items-baseline gap-2 mb-6">
-          <span className={`text-2xl font-bold ${ac.text}`} style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-            Custom
-          </span>
-          <span className="text-slate-500 text-sm">— based on your audit</span>
-        </div>
+        {/* Top gradient bleed */}
+        <div className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b ${tier.gradient} pointer-events-none`} />
 
-        {/* Includes - collapsed on mobile */}
-        <div className="mb-6">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-3 md:pointer-events-none"
-          >
-            <Check className="w-4 h-4 text-slate-500" />
-            <span>What&apos;s included</span>
-            <motion.span
-              className="md:hidden"
-              animate={{ rotate: expanded ? 180 : 0 }}
-              transition={{ duration: 0.2 }}
+        {/* Popular badge */}
+        {tier.popular && (
+          <div className="absolute -top-px left-0 right-0 z-20 flex justify-center">
+            <motion.div
+              className="relative"
+              initial={{ y: -20, opacity: 0 }}
+              animate={inView ? { y: 0, opacity: 1 } : {}}
+              transition={{ delay: 0.5, type: 'spring', stiffness: 200 }}
             >
-              <ChevronDown className="w-4 h-4 text-slate-500" />
-            </motion.span>
-          </button>
+              <div className="bg-gradient-to-r from-amber-500 to-orange-400 text-white px-6 py-1.5 rounded-b-xl text-[10px] font-bold tracking-[0.2em] uppercase shadow-[0_4px_20px_rgba(245,158,11,0.3)] overflow-hidden">
+                MOST POPULAR
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                  animate={{ x: ['-100%', '200%'] }}
+                  transition={{ duration: 2.5, repeat: Infinity, repeatDelay: 3 }}
+                />
+              </div>
+            </motion.div>
+          </div>
+        )}
 
-          {/* Always visible on desktop, toggle on mobile */}
-          <div className="hidden md:block">
-            <div className="space-y-3">
-              {tier.includes.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <AnimatedCheck delay={0.5 + i * 0.08} color={tier.accent} />
-                  <span className="text-slate-300 text-sm leading-relaxed">{item}</span>
-                </div>
-              ))}
+        <div className={`relative z-10 p-8 lg:p-10 ${tier.popular ? 'pt-12' : ''}`}>
+
+          {/* Icon + name */}
+          <div className="flex items-start gap-4 mb-5">
+            <motion.div
+              className={`w-12 h-12 rounded-2xl ${a.bg} border ${a.border} flex items-center justify-center flex-shrink-0`}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ type: 'spring', stiffness: 400 }}
+            >
+              <Icon className={`w-6 h-6 ${a.text}`} />
+            </motion.div>
+            <div>
+              <h3
+                className="text-2xl font-bold text-white"
+                style={{ fontFamily: 'var(--font-display), sans-serif' }}
+              >
+                {tier.name}
+              </h3>
+              <p className={`text-sm font-semibold ${a.text} mt-0.5`}>{tier.tagline}</p>
             </div>
           </div>
 
-          {/* Mobile accordion */}
-          <AnimatePresence>
-            {expanded && (
-              <motion.div
-                className="md:hidden overflow-hidden"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
+          <p className="text-slate-400 text-sm leading-relaxed mb-7">
+            {tier.description}
+          </p>
+
+          {/* Custom pricing — styled */}
+          <div className="flex items-baseline gap-3 mb-7 pb-7 border-b border-slate-700/30">
+            <span
+              className={`text-3xl font-bold ${a.text}`}
+              style={{ fontFamily: 'var(--font-display), sans-serif' }}
+            >
+              Custom
+            </span>
+            <span className="text-slate-500 text-sm">based on your audit</span>
+          </div>
+
+          {/* Includes */}
+          <div className="mb-7">
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.12em] text-slate-500 mb-4 md:pointer-events-none"
+            >
+              <span>What&apos;s included</span>
+              <motion.span
+                className="md:hidden"
+                animate={{ rotate: expanded ? 180 : 0 }}
+                transition={{ duration: 0.2 }}
               >
-                <div className="space-y-3">
+                <ChevronDown className="w-3.5 h-3.5" />
+              </motion.span>
+            </button>
+
+            {/* Desktop — always visible */}
+            <div className="hidden md:block space-y-3">
+              {tier.includes.map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-start gap-3"
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.4 + i * 0.07 }}
+                >
+                  <AnimatedCheck delay={0.5 + i * 0.07} accent={tier.accent} />
+                  <span className="text-slate-300 text-sm leading-relaxed">{item}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Mobile accordion */}
+            <AnimatePresence>
+              {expanded && (
+                <motion.div
+                  className="md:hidden overflow-hidden space-y-3"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
                   {tier.includes.map((item, i) => (
                     <div key={i} className="flex items-start gap-3">
-                      <AnimatedCheck delay={0.1 + i * 0.06} color={tier.accent} />
+                      <AnimatedCheck delay={0.08 + i * 0.05} accent={tier.accent} />
                       <span className="text-slate-300 text-sm leading-relaxed">{item}</span>
                     </div>
                   ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
-        {/* Best for */}
-        <div className="text-xs font-mono text-slate-500 mb-6">
-          Best for: <span className="text-slate-400">{tier.bestFor}</span>
-        </div>
+          {/* Best for */}
+          <div className="text-[11px] font-mono text-slate-500 mb-7">
+            Best for:{' '}
+            <span className="text-slate-400">{tier.bestFor}</span>
+          </div>
 
-        {/* CTA */}
-        <MagneticButton>
-          <Link
-            href="/audit"
-            data-cursor="cta"
-            className={`block w-full py-3.5 rounded-xl font-bold text-center text-sm transition-all duration-200 ${
-              tier.popular
-                ? 'bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white btn-glow'
-                : 'bg-slate-800/60 border border-slate-700/40 text-white hover:border-slate-600/60 hover:bg-slate-800'
-            }`}
+          {/* CTA */}
+          <MagneticButton>
+            <Link
+              href="/audit"
+              data-cursor="cta"
+              className={`block w-full py-4 rounded-xl font-bold text-center text-sm transition-all duration-300 ${
+                tier.popular
+                  ? 'bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white shadow-[0_0_20px_rgba(245,158,11,0.25)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)]'
+                  : `bg-slate-800/60 border ${a.border} text-white hover:bg-slate-800 ${a.borderHover}`
+              }`}
+            >
+              {tier.popular ? 'Book Your Free Audit →' : 'Learn More →'}
+            </Link>
+          </MagneticButton>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+/* ─── Process Step Card ──────────────────────────────────────────────────────── */
+
+function StepCard({ step, index }: { step: (typeof steps)[0]; index: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-40px' })
+  const Icon = step.icon
+
+  return (
+    <motion.div
+      ref={ref}
+      className="relative"
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.2 }}
+    >
+      {/* Connecting line (not on last) */}
+      {index < steps.length - 1 && (
+        <div className="hidden md:block absolute top-12 left-[calc(100%+1rem)] w-[calc(100%-2rem)] z-0">
+          <motion.div
+            className="h-px bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700"
+            initial={{ scaleX: 0 }}
+            animate={inView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.4 + index * 0.2 }}
+            style={{ transformOrigin: 'left' }}
+          />
+          <motion.div
+            className="absolute right-0 top-1/2 -translate-y-1/2"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 1 + index * 0.2 }}
           >
-            {tier.popular ? 'Book Your Free Audit →' : 'Learn More →'}
-          </Link>
-        </MagneticButton>
+            <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
+          </motion.div>
+        </div>
+      )}
+
+      <div className="glass-card p-8 text-center relative overflow-hidden group hover:border-slate-600/40 transition-all duration-300">
+        {/* Background glow */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background: `radial-gradient(circle at 50% 0%, ${step.glow}, transparent 70%)` }}
+        />
+
+        <div className="relative z-10">
+          {/* Step number ring */}
+          <div className="relative w-16 h-16 mx-auto mb-5">
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="28" fill="none" stroke="rgba(51,65,85,0.4)" strokeWidth="1.5" />
+              <motion.circle
+                cx="32" cy="32" r="28"
+                fill="none"
+                stroke={step.glow.replace('0.12', '0.6')}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeDasharray={175.9}
+                initial={{ strokeDashoffset: 175.9 }}
+                animate={inView ? { strokeDashoffset: 0 } : {}}
+                transition={{ duration: 1.5, delay: 0.3 + index * 0.2, ease: 'easeOut' }}
+                transform="rotate(-90 32 32)"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Icon className={`w-6 h-6 ${step.accent}`} />
+            </div>
+          </div>
+
+          <div className="text-[10px] font-mono text-slate-500 tracking-[0.2em] mb-2 uppercase">
+            Step {step.num}
+          </div>
+          <h3
+            className="text-lg font-bold text-white mb-3"
+            style={{ fontFamily: 'var(--font-display), sans-serif' }}
+          >
+            {step.title}
+          </h3>
+          <p className="text-slate-400 text-sm leading-relaxed">
+            {step.description}
+          </p>
+        </div>
       </div>
     </motion.div>
   )
@@ -293,167 +460,203 @@ function TierCard({
 export function WhatToExpect() {
   const guaranteeRef = useRef(null)
   const guaranteeInView = useInView(guaranteeRef, { once: true, margin: '-60px' })
+  const tiersRef = useRef(null)
+  const tiersInView = useInView(tiersRef, { once: true, margin: '-80px' })
 
   return (
     <>
-      {/* Tiers Section */}
-      <section className="py-24 lg:py-32 bg-bg-secondary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ═══ Tiers Section ═══ */}
+      <section className="py-28 lg:py-36 bg-bg-secondary relative overflow-hidden">
+        {/* Background ambient glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-r from-teal-500/[0.03] via-amber-500/[0.04] to-cyan-500/[0.03] rounded-full blur-[120px]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
-            className="text-center mb-16 lg:mb-20"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            ref={tiersRef}
+            className="text-center mb-20 lg:mb-24"
+            initial={{ opacity: 0, y: 30 }}
+            animate={tiersInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
           >
-            <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-6">
-              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">
+            <motion.div
+              className="inline-flex items-center px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/40 mb-8"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={tiersInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.1 }}
+            >
+              <div className="w-1.5 h-1.5 bg-amber-400 rounded-full mr-2.5 animate-pulse" />
+              <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400">
                 Choose Your Level
               </span>
-            </div>
+            </motion.div>
+
             <h2
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
               style={{ fontFamily: 'var(--font-display), sans-serif' }}
             >
-              <span className="text-white">Three Tiers.</span>{' '}
-              <span className="gradient-text-warm">One Goal.</span>
+              <motion.span
+                className="text-white block"
+                initial={{ opacity: 0, y: 20 }}
+                animate={tiersInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.15, duration: 0.6 }}
+              >
+                Three Tiers.
+              </motion.span>
+              <motion.span
+                className="gradient-text-warm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={tiersInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: 0.25, duration: 0.6 }}
+              >
+                One Goal.
+              </motion.span>
             </h2>
-            <p className="mt-5 text-slate-400 text-base max-w-xl mx-auto">
-              Every business is different. Your audit determines which tier fits — and the price is based on what you actually need.
-            </p>
+
+            <motion.p
+              className="mt-6 text-slate-400 text-lg max-w-lg mx-auto"
+              initial={{ opacity: 0 }}
+              animate={tiersInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.4 }}
+            >
+              Your audit determines which tier fits — and the price is based on what you actually need.
+            </motion.p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-start">
+          {/* Tier Cards */}
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-start max-w-6xl mx-auto">
             {tiers.map((tier, i) => (
               <TierCard key={tier.name} tier={tier} index={i} />
             ))}
           </div>
 
-          {/* No-contract callout */}
-          <motion.p
-            className="text-center text-slate-500 text-sm font-mono mt-10"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+          {/* No-contract strip */}
+          <motion.div
+            className="flex items-center justify-center gap-6 mt-14"
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
           >
-            Month-to-month · No contracts · Cancel anytime
-          </motion.p>
+            {['Month-to-month', 'No contracts', 'Cancel anytime'].map((item, i) => (
+              <div key={item} className="flex items-center gap-2">
+                {i > 0 && <span className="text-slate-700 hidden sm:inline">·</span>}
+                <span className="text-slate-500 text-sm font-mono">{item}</span>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Process Section */}
-      <section className="py-24 lg:py-32 bg-bg-primary">
+      {/* ═══ Process Section ═══ */}
+      <section className="py-28 lg:py-36 bg-bg-primary relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="text-center mb-16 lg:mb-20"
+            className="text-center mb-20"
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-6">
-              <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/40 mb-8">
+              <div className="w-1.5 h-1.5 bg-teal-400 rounded-full mr-2.5 animate-pulse" />
+              <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400">
                 The Process
               </span>
             </div>
             <h2
-              className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
               style={{ fontFamily: 'var(--font-display), sans-serif' }}
             >
-              <span className="text-white">From Audit to</span>{' '}
+              <span className="text-white">From Audit to </span>
               <span className="gradient-text">Autopilot.</span>
             </h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {steps.map((step, i) => {
-              const Icon = step.icon
-              return (
-                <motion.div
-                  key={step.num}
-                  className="glass-card p-8 text-center"
-                  initial={{ opacity: 0, y: 32 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.15 }}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-slate-800/60 border border-slate-700/30 flex items-center justify-center mx-auto mb-5">
-                    <Icon className="w-6 h-6 text-teal-400" />
-                  </div>
-                  <div className="text-[10px] font-mono text-slate-500 tracking-[0.15em] mb-2">
-                    STEP {step.num}
-                  </div>
-                  <h3
-                    className="text-lg font-bold text-white mb-3"
-                    style={{ fontFamily: 'var(--font-display), sans-serif' }}
-                  >
-                    {step.title}
-                  </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">
-                    {step.description}
-                  </p>
-                </motion.div>
-              )
-            })}
+            {steps.map((step, i) => (
+              <StepCard key={step.num} step={step} index={i} />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Guarantee Section */}
-      <section className="py-20 lg:py-28 bg-bg-secondary">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ═══ Guarantee Section ═══ */}
+      <section className="py-24 lg:py-32 bg-bg-secondary relative overflow-hidden">
+        {/* Ambient glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/[0.06] to-transparent rounded-full blur-[100px]" />
+        </div>
+
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <motion.div
             ref={guaranteeRef}
-            className="glass-card p-8 lg:p-12 text-center relative overflow-hidden gradient-border-animated"
+            className="relative rounded-2xl overflow-hidden"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={guaranteeInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.7, type: 'spring', stiffness: 100 }}
+            transition={{ duration: 0.8, type: 'spring', stiffness: 80 }}
           >
-            {/* Spotlight sweep */}
-            {guaranteeInView && (
-              <motion.div
-                className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl"
-                style={{
-                  background:
-                    'linear-gradient(105deg, transparent 40%, rgba(52,211,153,0.08) 45%, rgba(52,211,153,0.12) 50%, rgba(45,212,191,0.08) 55%, transparent 60%)',
-                }}
-                initial={{ x: '-100%' }}
-                animate={{ x: '200%' }}
-                transition={{ duration: 1.5, delay: 0.3, ease: 'easeInOut' }}
-              />
-            )}
+            {/* Animated gradient border */}
+            <div className="absolute -inset-px rounded-2xl gradient-border-animated" />
 
-            <motion.span
-              className="text-4xl block mb-4"
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              🛡️
-            </motion.span>
+            <div className="relative bg-[rgba(15,23,42,0.7)] backdrop-blur-xl p-10 lg:p-14 text-center rounded-2xl">
+              {/* Spotlight sweep */}
+              {guaranteeInView && (
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  style={{
+                    background:
+                      'linear-gradient(105deg, transparent 40%, rgba(52,211,153,0.1) 45%, rgba(52,211,153,0.15) 50%, rgba(45,212,191,0.1) 55%, transparent 60%)',
+                  }}
+                  initial={{ x: '-100%' }}
+                  animate={{ x: '200%' }}
+                  transition={{ duration: 1.8, delay: 0.4, ease: 'easeInOut' }}
+                />
+              )}
 
-            <h3
-              className="text-2xl sm:text-3xl font-bold text-white mb-3"
-              style={{ fontFamily: 'var(--font-display), sans-serif' }}
-            >
-              60-Day Performance Guarantee
-            </h3>
-            <p className="text-emerald-400 font-semibold text-base mb-3">
-              You Don&apos;t Pay Until It Pays for Itself
-            </p>
-            <p className="text-slate-400 text-sm leading-relaxed max-w-lg mx-auto mb-8">
-              If OIOS doesn&apos;t generate enough value to cover its cost in the first 60 days, you pay nothing. Not a discount — a full walk-away. We take the risk so you don&apos;t have to.
-            </p>
+              {/* Shield icon with pulse ring */}
+              <div className="relative w-20 h-20 mx-auto mb-6">
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-emerald-400/10 border border-emerald-400/20"
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+                <div className="absolute inset-0 rounded-full bg-emerald-400/5 border border-emerald-400/15 flex items-center justify-center">
+                  <motion.span
+                    className="text-4xl"
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    🛡️
+                  </motion.span>
+                </div>
+              </div>
 
-            <MagneticButton>
-              <Link
-                href="/audit"
-                data-cursor="cta"
-                className="inline-block bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white px-8 py-3.5 rounded-xl text-sm font-bold btn-glow transition-all duration-200"
+              <h3
+                className="text-3xl sm:text-4xl font-bold text-white mb-3 relative"
+                style={{ fontFamily: 'var(--font-display), sans-serif' }}
               >
-                Start Risk-Free →
-              </Link>
-            </MagneticButton>
+                60-Day Performance Guarantee
+              </h3>
+              <p className="text-emerald-400 font-bold text-lg mb-4 relative">
+                You Don&apos;t Pay Until It Pays for Itself
+              </p>
+              <p className="text-slate-400 text-base leading-relaxed max-w-lg mx-auto mb-10 relative">
+                If OIOS doesn&apos;t generate enough value to cover its cost in the first 60 days,
+                you pay nothing. Not a discount — a full walk-away. We take the risk so you don&apos;t have to.
+              </p>
+
+              <MagneticButton>
+                <Link
+                  href="/audit"
+                  data-cursor="cta"
+                  className="inline-block bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-10 py-4 rounded-xl text-base font-bold shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)] transition-all duration-300 relative"
+                >
+                  Start Risk-Free →
+                </Link>
+              </MagneticButton>
+            </div>
           </motion.div>
         </div>
       </section>
