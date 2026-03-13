@@ -47,7 +47,7 @@ export function Header() {
               alt="OIOS — Omnia Intelligence"
               width={1024}
               height={1024}
-              className="w-auto h-15 lg:h-19.5 object-contain"
+              className="w-auto h-[60px] lg:h-[78px] object-contain"
               priority
             />
             <div className="flex flex-col">
@@ -111,7 +111,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
+            className="md:hidden p-3 -mr-1 text-slate-400 hover:text-white transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileMenuOpen ? (
@@ -171,7 +171,7 @@ export function Header() {
                     href="/audit"
                     data-glow
                     data-cursor="cta"
-                    className="block bg-gradient-to-r from-amber-500 to-amber-400 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
+                    className="block bg-gradient-to-r from-amber-500 to-amber-400 text-white px-4 py-3.5 rounded-lg text-sm font-bold btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Start Risk-Free →
@@ -194,14 +194,14 @@ export function Header() {
             exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
-            <div className="px-4 pt-3 pb-6">
+            <div className="px-4 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
               <Link
                 href="/audit"
                 data-glow
                 data-cursor="cta"
-                className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-3 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
+                className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-3.5 rounded-lg text-sm font-bold btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
               >
-                Start Risk-Free — Pay Only When It Works →
+                Start Risk-Free →
               </Link>
             </div>
           </motion.div>

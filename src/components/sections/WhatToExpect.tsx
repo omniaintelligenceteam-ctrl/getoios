@@ -296,7 +296,7 @@ function TierCard({
           <div className="mb-7">
             <button
               onClick={() => setExpanded(!expanded)}
-              className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.12em] text-slate-500 mb-4 md:pointer-events-none"
+              className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.12em] text-slate-500 mb-4 py-2 -my-2 md:pointer-events-none min-h-[44px]"
             >
               <span>What&apos;s included</span>
               <motion.span
@@ -304,7 +304,7 @@ function TierCard({
                 animate={{ rotate: expanded ? 180 : 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <ChevronDown className="w-3.5 h-3.5" />
+                <ChevronDown className="w-4 h-4" />
               </motion.span>
             </button>
 
@@ -356,7 +356,7 @@ function TierCard({
             <Link
               href="/audit"
               data-cursor="cta"
-              className={`block w-full py-4.5 rounded-xl font-bold text-center text-base tracking-wide transition-all duration-300 ${
+              className={`block w-full py-[18px] rounded-xl font-bold text-center text-base tracking-wide transition-all duration-300 ${
                 tier.popular
                   ? 'bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)]'
                   : `bg-slate-800/80 border-2 ${a.border} text-white hover:bg-slate-700/80 ${a.borderHover}`
@@ -651,7 +651,7 @@ export function WhatToExpect() {
                 <Link
                   href="/audit"
                   data-cursor="cta"
-                  className="inline-block bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-12 py-4.5 rounded-xl text-lg font-bold shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)] transition-all duration-300 relative tracking-wide"
+                  className="inline-block bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-12 py-[18px] rounded-xl text-lg font-bold shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)] transition-all duration-300 relative tracking-wide"
                 >
                   Start Risk-Free →
                 </Link>
