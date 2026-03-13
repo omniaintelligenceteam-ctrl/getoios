@@ -16,10 +16,12 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('')
+  const [showMobileCTA, setShowMobileCTA] = useState(false)
 
   useEffect(() => {
     function handleScroll() {
       setScrolled(window.scrollY > 20)
+      setShowMobileCTA(window.scrollY > 500)
 
       // Scroll spy — find which section is most visible
       const sections = ['pillars', 'how-it-works', 'voice-demo', 'pricing', 'audit']
@@ -40,6 +42,7 @@ export function Header() {
   }, [])
 
   return (
+    <>
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled
         ? 'bg-black/95 backdrop-blur-xl border-b border-slate-700/40 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.2),0_1px_0_0_rgba(45,212,191,0.08)]'
@@ -192,5 +195,30 @@ export function Header() {
         </AnimatePresence>
       </div>
     </header>
+
+      {/* Sticky Mobile CTA Bar */}
+      <AnimatePresence>
+        {showMobileCTA && (
+          <motion.div
+            className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-black/95 backdrop-blur-xl border-t border-slate-700/40"
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          >
+            <div className="px-4 pt-3 pb-6">
+              <Link
+                href="#audit"
+                data-glow
+                data-cursor="cta"
+                className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-3 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
+              >
+                Book Your Free Audit →
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }

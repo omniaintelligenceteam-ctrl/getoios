@@ -1,41 +1,26 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { motion, useInView, AnimatePresence } from 'motion/react'
+import { motion, useInView } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
 type FormData = {
   fullName: string
   businessName: string
-  businessWebsite: string
   phoneNumber: string
   trade: string
-  teamSize: string
-  missedCalls: string
-  phoneHandler: string
-  currentSoftware: string
-  extraHours: string
   biggestFrustration: string
 }
 
 const initialFormData: FormData = {
   fullName: '',
   businessName: '',
-  businessWebsite: '',
   phoneNumber: '',
   trade: '',
-  teamSize: '',
-  missedCalls: '',
-  phoneHandler: '',
-  currentSoftware: '',
-  extraHours: '',
   biggestFrustration: '',
 }
 
 const tradeOptions = ['HVAC', 'Plumbing', 'Electrical', 'Roofing', 'Landscaping', 'Pest Control', 'Locksmith', 'General Contractor', 'Other']
-const teamSizeOptions = ['Just me', '2-5 employees', '6-15 employees', '16+ employees']
-const missedCallsOptions = ['1-3', '4-8', '9-15', '15+', 'I have no idea']
-const phoneHandlerOptions = ['I do', 'My helper/office person', 'Nobody — voicemail', 'Other']
 
 const inputClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white placeholder-slate-500 focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300'
 const selectClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300'
@@ -103,28 +88,14 @@ function SuccessCheckmark() {
 
 export function AuditForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData)
-  const [step, setStep] = useState<1 | 2>(1)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
-  const [direction, setDirection] = useState<1 | -1>(1)
-  const step1Ref = useRef<HTMLFormElement>(null)
   const headerRef = useRef(null)
   const headerInView = useInView(headerRef, { once: true })
 
   const handleChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
-  }
-
-  const goToStep2 = () => {
-    if (!step1Ref.current?.reportValidity()) return
-    setDirection(1)
-    setStep(2)
-  }
-
-  const goToStep1 = () => {
-    setDirection(-1)
-    setStep(1)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -196,7 +167,7 @@ export function AuditForm() {
             Book Your Free AI Operations Audit
           </h2>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            30 minutes. No pitch. Just a look at where AI can save you the most time.
+            4 questions. 30 seconds. We&apos;ll show you exactly where AI saves you the most time.
           </p>
         </motion.div>
 
@@ -207,306 +178,101 @@ export function AuditForm() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <div className="glass-card p-8 lg:p-10">
-            {/* Step Indicator */}
-            <div className="flex items-center gap-3 mb-8">
-              <div className="flex items-center gap-2 flex-1">
-                <motion.div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
-                    step === 1
-                      ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-lg shadow-amber-500/20'
-                      : 'bg-amber-500/10 text-amber-400'
-                  }`}
-                  animate={step > 1 ? { scale: [1, 1.2, 1] } : {}}
-                  transition={{ duration: 0.3 }}
-                >
-                  {step > 1 ? (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <motion.path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M5 13l4 4L19 7"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                    </svg>
-                  ) : '1'}
-                </motion.div>
-                <motion.div
-                  className="h-[2px] flex-1 rounded-full bg-slate-700/50 overflow-hidden"
-                >
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-amber-500 to-amber-400"
-                    initial={{ width: '0%' }}
-                    animate={{ width: step > 1 ? '100%' : '0%' }}
-                    transition={{ duration: 0.5 }}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Your Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Your name"
+                    value={formData.fullName}
+                    onChange={(e) => handleChange('fullName', e.target.value)}
+                    className={inputClass}
                   />
-                </motion.div>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
-                  step === 2
-                    ? 'bg-gradient-to-r from-amber-500 to-amber-400 text-white shadow-lg shadow-amber-500/20'
-                    : 'bg-slate-800/50 text-slate-500 border border-slate-700/50'
-                }`}>
-                  2
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Business Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="ABC Plumbing"
+                    value={formData.businessName}
+                    onChange={(e) => handleChange('businessName', e.target.value)}
+                    className={inputClass}
+                  />
                 </div>
               </div>
-              <span className="text-xs text-slate-500 ml-2">
-                Step {step} of 2
-              </span>
-            </div>
 
-            {/* Step Content */}
-            <div className="relative overflow-hidden">
-              <AnimatePresence mode="wait" initial={false} custom={direction}>
-              {step === 1 && (
-              <motion.div
-                key="step1"
-                custom={direction}
-                variants={{
-                  enter: (d: number) => ({ x: d * -24, opacity: 0 }),
-                  center: { x: 0, opacity: 1 },
-                  exit: (d: number) => ({ x: d * 24, opacity: 0 }),
-                }}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
-              >
-                <form ref={step1Ref} onSubmit={(e) => { e.preventDefault(); goToStep2() }} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Full Name *</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Your name"
-                        value={formData.fullName}
-                        onChange={(e) => handleChange('fullName', e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Business Name *</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="ABC Plumbing"
-                        value={formData.businessName}
-                        onChange={(e) => handleChange('businessName', e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number *</label>
+                  <input
+                    type="tel"
+                    required
+                    placeholder="(XXX) XXX-XXXX"
+                    value={formData.phoneNumber}
+                    onChange={(e) => handleChange('phoneNumber', e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">What trade are you in? *</label>
+                  <select
+                    required
+                    value={formData.trade}
+                    onChange={(e) => handleChange('trade', e.target.value)}
+                    className={selectClass}
+                  >
+                    <option value="" disabled className="bg-slate-800">Select your trade</option>
+                    {tradeOptions.map((opt) => (
+                      <option key={opt} value={opt} className="bg-slate-800">{opt}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number *</label>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="(XXX) XXX-XXXX"
-                        value={formData.phoneNumber}
-                        onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">What trade are you in? *</label>
-                      <select
-                        required
-                        value={formData.trade}
-                        onChange={(e) => handleChange('trade', e.target.value)}
-                        className={selectClass}
-                      >
-                        <option value="" disabled className="bg-slate-800">Select your trade</option>
-                        {tradeOptions.map((opt) => (
-                          <option key={opt} value={opt} className="bg-slate-800">{opt}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-2">
+                  What&apos;s your biggest frustration?{' '}
+                  <span className="text-slate-500 font-normal">(optional)</span>
+                </label>
+                <textarea
+                  placeholder="The thing that keeps you up at night..."
+                  value={formData.biggestFrustration}
+                  onChange={(e) => handleChange('biggestFrustration', e.target.value)}
+                  rows={2}
+                  className={textareaClass}
+                />
+              </div>
 
-                  <div className="pt-4">
-                    <MagneticButton className="w-full">
-                      <button
-                        type="submit"
-                        data-glow
-                        data-cursor="cta"
-                        className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200"
-                      >
-                        Next — Almost Done →
-                      </button>
-                    </MagneticButton>
-                  </div>
-
-                  <p className="text-center text-slate-500 text-sm">
-                    No spam. Just 4 quick questions to start.
-                  </p>
-                </form>
-              </motion.div>
+              {error && (
+                <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                  <p className="text-red-400 text-sm">{error}</p>
+                </div>
               )}
 
-              {/* Step 2 */}
-              {step === 2 && (
-              <motion.div
-                key="step2"
-                custom={direction}
-                variants={{
-                  enter: (d: number) => ({ x: d * 24, opacity: 0 }),
-                  center: { x: 0, opacity: 1 },
-                  exit: (d: number) => ({ x: d * -24, opacity: 0 }),
-                }}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
-              >
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Business Website *</label>
-                      <input
-                        type="url"
-                        required
-                        placeholder="yourcompany.com"
-                        value={formData.businessWebsite}
-                        onChange={(e) => handleChange('businessWebsite', e.target.value)}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">How many people on your team? *</label>
-                      <select
-                        required
-                        value={formData.teamSize}
-                        onChange={(e) => handleChange('teamSize', e.target.value)}
-                        className={selectClass}
-                      >
-                        <option value="" disabled className="bg-slate-800">Select team size</option>
-                        {teamSizeOptions.map((opt) => (
-                          <option key={opt} value={opt} className="bg-slate-800">{opt}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
+              <div className="pt-4">
+                <MagneticButton className="w-full">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    data-glow
+                    data-cursor="cta"
+                    className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {submitting ? 'Submitting...' : 'Book My Audit Call →'}
+                  </button>
+                </MagneticButton>
+                <p className="text-center text-slate-500 text-xs mt-3">
+                  Takes 30 seconds
+                </p>
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">On a busy day, how many calls do you miss? *</label>
-                    <select
-                      required
-                      value={formData.missedCalls}
-                      onChange={(e) => handleChange('missedCalls', e.target.value)}
-                      className={selectClass}
-                    >
-                      <option value="" disabled className="bg-slate-800">Select range</option>
-                      {missedCallsOptions.map((opt) => (
-                        <option key={opt} value={opt} className="bg-slate-800">{opt}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-3">Who handles your phones right now? *</label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      {phoneHandlerOptions.map((opt) => (
-                        <label
-                          key={opt}
-                          className={`flex items-center justify-center p-3 rounded-xl border cursor-pointer transition-all duration-200 text-sm text-center ${
-                            formData.phoneHandler === opt
-                              ? 'border-amber-500/50 bg-amber-500/10 text-amber-400 shadow-[0_0_12px_-3px_rgba(245,158,11,0.2)]'
-                              : 'border-slate-700/50 bg-slate-800/30 text-slate-400 hover:border-slate-600/50'
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="phoneHandler"
-                            value={opt}
-                            checked={formData.phoneHandler === opt}
-                            onChange={(e) => handleChange('phoneHandler', e.target.value)}
-                            className="sr-only"
-                            required
-                          />
-                          {opt}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">What software runs your business? *</label>
-                    <textarea
-                      required
-                      placeholder="QuickBooks, ServiceTitan, Housecall Pro, etc."
-                      value={formData.currentSoftware}
-                      onChange={(e) => handleChange('currentSoftware', e.target.value)}
-                      rows={2}
-                      className={textareaClass}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">If you had an extra 10 hours a week, what would you do? *</label>
-                    <textarea
-                      required
-                      placeholder="Close more deals? Actually take weekends off?..."
-                      value={formData.extraHours}
-                      onChange={(e) => handleChange('extraHours', e.target.value)}
-                      rows={2}
-                      className={textareaClass}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      What&apos;s your biggest frustration running the business?{' '}
-                      <span className="text-slate-500 font-normal">(optional)</span>
-                    </label>
-                    <textarea
-                      placeholder="The thing that keeps you up at night..."
-                      value={formData.biggestFrustration}
-                      onChange={(e) => handleChange('biggestFrustration', e.target.value)}
-                      rows={2}
-                      className={textareaClass}
-                    />
-                  </div>
-
-                  {error && (
-                    <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
-                      <p className="text-red-400 text-sm">{error}</p>
-                    </div>
-                  )}
-
-                  <div className="flex flex-col gap-3 pt-4">
-                    <MagneticButton className="w-full">
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        data-glow
-                        data-cursor="cta"
-                        className="w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {submitting ? 'Submitting...' : 'Book My Audit Call →'}
-                      </button>
-                    </MagneticButton>
-                    <button
-                      type="button"
-                      onClick={goToStep1}
-                      data-cursor="cta"
-                      className="text-slate-500 hover:text-slate-300 text-sm font-medium transition-colors duration-200 py-2 rounded-lg"
-                    >
-                      ← Back
-                    </button>
-                  </div>
-
-                  <p className="text-center text-slate-500 text-sm">
-                    No spam. One follow-up call max. Usually within 24 hours.
-                  </p>
-                </form>
-              </motion.div>
-              )}
-              </AnimatePresence>
-            </div>
+              <p className="text-center text-slate-500 text-sm">
+                No spam. One follow-up call max. Usually within 24 hours.
+              </p>
+            </form>
           </div>
         </motion.div>
       </div>

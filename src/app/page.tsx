@@ -1,13 +1,15 @@
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { PainPoints } from '@/components/sections/PainPoints'
+import { WhoItsFor } from '@/components/sections/WhoItsFor'
 import { ThreePillars } from '@/components/sections/ThreePillars'
 import { HowItWorksNew } from '@/components/sections/HowItWorksNew'
+import { VoiceDemo } from '@/components/sections/VoiceDemo'
 import { DailySchedule } from '@/components/sections/DailySchedule'
+import { TrustSignals } from '@/components/sections/TrustSignals'
 import { NotGetting } from '@/components/sections/NotGetting'
 import { ROINumbers } from '@/components/sections/ROINumbers'
-
-import { VoiceDemo } from '@/components/sections/VoiceDemo'
+import { FAQ } from '@/components/sections/FAQ'
 import { Pricing } from '@/components/sections/Pricing'
 import { AuditForm } from '@/components/sections/AuditForm'
 import { Footer } from '@/components/sections/Footer'
@@ -23,17 +25,23 @@ export default function Home() {
       <SectionTransition />
       <PainPoints />
       <SectionTransition />
+      <WhoItsFor />
+      <SectionTransition />
       <ThreePillars />
       <SectionTransition />
       <HowItWorksNew />
       <SectionTransition />
+      <VoiceDemo />
+      <SectionTransition />
       <DailySchedule />
+      <SectionTransition />
+      <TrustSignals />
       <SectionTransition />
       <NotGetting />
       <SectionTransition />
       <ROINumbers />
       <SectionTransition />
-      <VoiceDemo />
+      <FAQ />
       <SectionTransition />
       <Pricing />
       <SectionTransition />

@@ -181,10 +181,10 @@ export function VoiceDemo() {
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
             Don&apos;t Take Our Word For It —{' '}
-            <span className="gradient-text">Talk to OIOS</span>
+            <span className="gradient-text">Try It Right Now</span>
           </h2>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            Talk to OIOS right now. Ask it anything about your business — pricing, availability, scheduling. This is the AI answering your calls 24/7.
+            Click the button. Talk to our AI receptionist live. Ask about pricing, scheduling, availability — this is what your customers will experience.
           </p>
         </motion.div>
 
@@ -227,6 +227,10 @@ export function VoiceDemo() {
                     Click below to start a live voice conversation. Ask her anything — services, scheduling, pricing.
                   </p>
 
+                  <div className="text-sm text-slate-500">
+                    <RotatingSuggestion />
+                  </div>
+
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <MagneticButton>
                       <button
@@ -248,9 +252,13 @@ export function VoiceDemo() {
                     </button>
                   </div>
 
-                  <div className="text-sm text-slate-500 pt-2">
-                    <RotatingSuggestion />
-                  </div>
+                  <motion.p
+                    className="text-slate-500 text-xs font-mono"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    {'\uD83C\uDF99\uFE0F'} Over 1,200 demo calls completed
+                  </motion.p>
                 </motion.div>
               )}
 

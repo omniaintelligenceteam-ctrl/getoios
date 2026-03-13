@@ -123,6 +123,7 @@ export function Pricing() {
 
             {/* Price with countUp */}
             <div className="text-center mb-8 pt-4 relative z-10">
+              <p className="text-slate-500 text-lg line-through mb-1">$3,000/mo</p>
               <div className="flex items-baseline justify-center gap-2 mb-2">
                 <span className="text-6xl font-bold gradient-text-warm" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
                   ${priceCount.toLocaleString()}
@@ -170,6 +171,16 @@ export function Pricing() {
               <div className="text-slate-400 text-xs">If OIOS doesn&apos;t pay for itself in the first 60 days, you don&apos;t pay. Full stop.</div>
             </motion.div>
 
+            {/* Flexibility callout */}
+            <motion.p
+              className="text-center text-slate-300 font-medium text-sm mb-8 relative z-10"
+              initial={{ opacity: 0 }}
+              animate={cardInView ? { opacity: 1 } : {}}
+              transition={{ delay: 1.3 }}
+            >
+              Month-to-month. No contracts. Cancel anytime.
+            </motion.p>
+
             {/* CTA */}
             <MagneticButton>
               <Link
@@ -182,14 +193,20 @@ export function Pricing() {
             </MagneticButton>
 
             {/* Spots counter */}
-            <motion.p
-              className="text-center text-slate-600 text-xs font-mono mt-5 relative z-10"
+            <motion.div
+              className="flex items-center justify-center gap-2 mt-5 relative z-10"
               initial={{ opacity: 0 }}
               animate={cardInView ? { opacity: 1 } : {}}
               transition={{ delay: 1.5 }}
             >
-              After founding cohort: $3,000/month · Only <span className="text-amber-400">10</span> founding spots available
-            </motion.p>
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
+              </span>
+              <span className="text-slate-400 text-xs font-mono">
+                Only <span className="text-amber-400 font-bold">10</span> founding spots — price increases to $3,000/mo after
+              </span>
+            </motion.div>
           </div>
         </motion.div>
 
