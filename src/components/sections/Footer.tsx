@@ -8,7 +8,7 @@ export function Footer() {
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'Solutions', href: '/solutions' },
     { name: 'Live Demo', href: '/demo' },
-    { name: 'Pricing', href: '/pricing' },
+    { name: 'What to Expect', href: '/pricing' },
     { name: 'Book Your Audit', href: '/audit' },
   ]
 

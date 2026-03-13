@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { Header } from '@/components/sections/Header'
 import { PageHero } from '@/components/sections/PageHero'
-import { Pricing } from '@/components/sections/Pricing'
-import { ROINumbers } from '@/components/sections/ROINumbers'
+import { WhatToExpect } from '@/components/sections/WhatToExpect'
 import { FAQ } from '@/components/sections/FAQ'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Footer } from '@/components/sections/Footer'
@@ -10,25 +9,22 @@ import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export const metadata: Metadata = {
-  title: 'Pricing — OIOS | AI Operations for Service Businesses',
+  title: 'What to Expect — OIOS | AI Operations for Service Businesses',
   description:
-    "Transparent pricing with a 60-day performance guarantee. Don't pay until OIOS pays for itself — see the ROI numbers and find the plan that fits your business.",
+    'See how OIOS works for your business. Three service tiers, a 60-day performance guarantee, and custom pricing based on what you actually need.',
 }
 
-export default function PricingPage() {
+export default function WhatToExpectPage() {
   return (
     <PageEntrance>
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <PageHero
-          title="Simple Pricing. Real ROI."
-          subtitle="Don't pay until it pays for itself. 60-day performance guarantee."
-          badge="Pricing"
+          title="What to Expect"
+          subtitle="Custom pricing based on your audit. Three tiers, one guarantee — if it doesn't pay for itself, you don't pay."
+          badge="Your Journey"
         />
-        <SectionTransition />
-        <Pricing />
-        <SectionTransition />
-        <ROINumbers />
+        <WhatToExpect />
         <SectionTransition />
         <FAQ />
         <SectionTransition />
