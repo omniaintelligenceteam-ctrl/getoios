@@ -73,11 +73,11 @@ export function Pricing() {
             <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">Pricing</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-            <span className="text-white">Simple.</span>{' '}
-            <span className="gradient-text-warm">Founding Rate.</span>
+            <span className="text-white">Don&apos;t Pay Until</span>{' '}
+            <span className="gradient-text-warm">It Pays for Itself.</span>
           </h2>
           <p className="mt-5 text-slate-400 text-base max-w-xl mx-auto">
-            We&apos;re in our first cohort. 10 spots only. Once they&apos;re gone, this price goes up.
+            We prove the ROI first. If OIOS doesn&apos;t pay for itself in 60 days, you owe nothing. Founding cohort — 10 spots only.
           </p>
         </motion.div>
 
@@ -133,6 +133,29 @@ export function Pricing() {
               <p className="text-slate-500 text-sm font-mono">+ $2,500 one-time setup</p>
             </div>
 
+            {/* Zero-risk guarantee — THE headline of this card */}
+            <motion.div
+              className="bg-emerald-500/8 border-2 border-emerald-500/25 rounded-xl p-6 mb-8 text-center relative z-10"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={cardInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{ delay: 0.5, type: 'spring', stiffness: 150 }}
+            >
+              <motion.span
+                className="text-3xl block mb-2"
+                animate={{ scale: [1, 1.15, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                🛡️
+              </motion.span>
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+                You Don&apos;t Pay Until It Pays for Itself
+              </h3>
+              <p className="text-emerald-400 font-semibold text-sm mb-1">60-Day Performance Guarantee</p>
+              <p className="text-slate-400 text-sm leading-relaxed">
+                If OIOS doesn&apos;t generate enough value to cover its cost in the first 60 days, you pay nothing. Not a discount — a full walk-away. We take the risk so you don&apos;t have to.
+              </p>
+            </motion.div>
+
             <div className="border-t border-slate-700/30 mb-8" />
 
             {/* Includes with staggered checkmarks */}
@@ -143,33 +166,13 @@ export function Pricing() {
                   className="flex items-start gap-3"
                   initial={{ opacity: 0, x: -10 }}
                   animate={cardInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.3, delay: 0.5 + i * 0.1 }}
+                  transition={{ duration: 0.3, delay: 0.7 + i * 0.1 }}
                 >
-                  <AnimatedCheckmark delay={0.6 + i * 0.12} />
+                  <AnimatedCheckmark delay={0.8 + i * 0.12} />
                   <span className="text-slate-300 text-sm leading-relaxed">{item}</span>
                 </motion.div>
               ))}
             </div>
-
-            {/* 60-day guarantee with pulsing shield */}
-            <motion.div
-              className="bg-amber-500/8 border border-amber-500/20 rounded-xl p-4 mb-8 text-center relative z-10"
-              initial={{ opacity: 0 }}
-              animate={cardInView ? { opacity: 1 } : {}}
-              transition={{ delay: 1.2 }}
-            >
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <motion.span
-                  className="text-lg"
-                  animate={{ scale: [1, 1.15, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  🛡️
-                </motion.span>
-                <span className="text-amber-400 text-sm font-semibold">60-Day Guarantee</span>
-              </div>
-              <div className="text-slate-400 text-xs">If OIOS doesn&apos;t pay for itself in the first 60 days, you don&apos;t pay. Full stop.</div>
-            </motion.div>
 
             {/* Flexibility callout */}
             <motion.p
@@ -188,7 +191,7 @@ export function Pricing() {
                 data-cursor="cta"
                 className="block w-full py-4 rounded-xl font-bold text-center text-base bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white btn-glow transition-all duration-200 relative z-10"
               >
-                Claim Founding Rate →
+                Start Risk-Free →
               </Link>
             </MagneticButton>
 

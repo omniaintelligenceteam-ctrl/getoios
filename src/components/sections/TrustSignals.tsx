@@ -30,8 +30,8 @@ const techStack = ['Retell AI', 'Twilio', 'OpenAI', 'Vercel']
 const trustCards = [
   {
     icon: Shield,
-    title: '60-Day Guarantee',
-    description: "If OIOS doesn't pay for itself, you don't pay.",
+    title: 'Pay Nothing Until It Works',
+    description: "60-day performance guarantee. If OIOS doesn't pay for itself, you walk away free.",
     pulse: true,
   },
   {
@@ -116,9 +116,9 @@ export function TrustSignals() {
             className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight"
             style={{ fontFamily: 'var(--font-display), sans-serif' }}
           >
-            <span className="text-white">Built on Enterprise Tech.</span>
+            <span className="text-white">Zero Risk.</span>
             <br />
-            <span className="gradient-text">Backed by Results.</span>
+            <span className="gradient-text">We Prove It First.</span>
           </h2>
         </motion.div>
 

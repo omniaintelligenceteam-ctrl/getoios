@@ -329,7 +329,7 @@ export function Hero() {
 
         {/* Subheadline */}
         <motion.p
-          className="text-base sm:text-lg text-slate-400 text-center mb-10 max-w-2xl mx-auto leading-relaxed"
+          className="text-base sm:text-lg text-slate-400 text-center mb-6 max-w-2xl mx-auto leading-relaxed"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
@@ -337,6 +337,21 @@ export function Hero() {
           OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job,
           and dollar in real time — so you can run the business, not chase it.
         </motion.p>
+
+        {/* Risk-reversal callout */}
+        <motion.div
+          className="flex justify-center mb-10"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+        >
+          <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            <span className="text-lg">🛡️</span>
+            <span className="text-sm sm:text-base font-semibold text-emerald-400">
+              Don&apos;t pay a dime until it pays for itself
+            </span>
+          </div>
+        </motion.div>
 
         {/* Hero Robot Scene */}
         <motion.div
@@ -419,7 +434,7 @@ export function Hero() {
               data-cursor="cta"
               className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-10 py-4 rounded-lg font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
             >
-              Book Your Free Audit →
+              Start Free — Pay Only When It Works →
             </Link>
           </MagneticButton>
         </motion.div>

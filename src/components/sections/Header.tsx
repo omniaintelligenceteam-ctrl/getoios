@@ -115,7 +115,7 @@ export function Header() {
                 data-cursor="cta"
                 className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-2 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
               >
-                Book Your Free Audit →
+                Start Risk-Free →
               </Link>
             </MagneticButton>
           </div>
@@ -186,7 +186,7 @@ export function Header() {
                     className="block bg-gradient-to-r from-amber-500 to-amber-400 text-white px-4 py-2.5 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Book Your Free Audit →
+                    Start Risk-Free →
                   </Link>
                 </motion.div>
               </nav>
@@ -213,7 +213,7 @@ export function Header() {
                 data-cursor="cta"
                 className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-3 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
               >
-                Book Your Free Audit →
+                Start Risk-Free — Pay Only When It Works →
               </Link>
             </div>
           </motion.div>
