@@ -38,10 +38,10 @@ export function Footer() {
             </a>
             <br />
             <a
-              href="tel:8667821303"
+              href="tel:4803050357"
               className="text-slate-400 hover:text-white transition-colors duration-200 text-sm mt-2 inline-block"
             >
-              (866) 782-1303
+              (480) 305-0357
             </a>
           </div>
 

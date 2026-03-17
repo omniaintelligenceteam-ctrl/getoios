@@ -12,12 +12,12 @@ import {
 } from 'lucide-react';
 
 const trades = [
-  { icon: Flame, name: 'HVAC', hook: 'Never lose a service call to voicemail again' },
-  { icon: Wrench, name: 'Plumbing', hook: 'Emergency calls answered instantly, 24/7' },
-  { icon: Zap, name: 'Electrical', hook: 'Book more jobs while you\'re on the job' },
-  { icon: Key, name: 'Locksmith', hook: 'Capture every lockout call, day or night' },
-  { icon: Bug, name: 'Pest Control', hook: 'Fill your schedule without lifting a finger' },
-  { icon: Trees, name: 'Landscaping', hook: 'Turn seasonal inquiries into year-round revenue' },
+  { icon: Flame, name: 'HVAC', hook: 'Calls, proposals, follow-ups, and invoices — handled while you\'re on the roof' },
+  { icon: Wrench, name: 'Plumbing', hook: 'Emergency dispatch to payment collection, fully automated 24/7' },
+  { icon: Zap, name: 'Electrical', hook: 'From lead to invoice without touching a keyboard' },
+  { icon: Key, name: 'Locksmith', hook: 'Dispatch, quote, and collect — even at 3 AM' },
+  { icon: Bug, name: 'Pest Control', hook: 'Scheduling, route planning, and review collection on autopilot' },
+  { icon: Trees, name: 'Landscape Lighting', hook: 'Estimates, follow-ups, and seasonal upsells — all automated' },
 ];
 
 function SpotlightCard({ children, className, delay = 0 }: { children: React.ReactNode, className?: string, delay?: number }) {
@@ -77,7 +77,7 @@ export function WhoItsFor() {
         >
           <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-6">
             <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">
-              Who This Is For
+              Built For the Trades
             </span>
           </span>
         </motion.div>
@@ -90,8 +90,8 @@ export function WhoItsFor() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          If Your Phone Goes to Voicemail,{' '}
-          <span className="gradient-text">This Is For You.</span>
+          Your Entire Back Office,{' '}
+          <span className="gradient-text">Run by AI.</span>
         </motion.h2>
 
         {/* Bento Trade Grid */}
@@ -121,9 +121,9 @@ export function WhoItsFor() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.8 }}
         >
-          5-50 person service companies losing leads to voicemail.{' '}
+          5-50 person service companies drowning in admin work.{' '}
           <span className="text-white">
-            That&apos;s who we built this for.
+            We automate the entire operation.
           </span>
         </motion.p>
       </div>

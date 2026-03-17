@@ -11,7 +11,7 @@ import { SectionTransition } from '@/components/ui/SectionTransition'
 export const metadata: Metadata = {
   title: 'What to Expect — OIOS | AI Operations for Service Businesses',
   description:
-    'See how OIOS works for your business. Three service tiers, a 60-day performance guarantee, and custom pricing based on what you actually need.',
+    'See how OIOS works for your business. A 60-day performance guarantee and a team built around what you actually need.',
 }
 
 export default function WhatToExpectPage() {
@@ -21,7 +21,7 @@ export default function WhatToExpectPage() {
         <Header />
         <PageHero
           title="What to Expect"
-          subtitle="Custom pricing based on your audit. Three tiers, one guarantee — if it doesn't pay for itself, you don't pay."
+          subtitle="We build a custom plan around your audit. One guarantee — if it doesn't pay for itself, you don't pay."
           badge="Your Journey"
         />
         <WhatToExpect />

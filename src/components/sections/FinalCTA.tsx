@@ -43,7 +43,7 @@ export function FinalCTA() {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 mb-8"
         >
-          <span className="text-amber-400 text-sm font-medium tracking-wide">Last Call</span>
+          <span className="text-amber-400 text-sm font-medium tracking-wide">Get Started</span>
         </motion.div>
 
         {/* Headline */}
@@ -65,7 +65,7 @@ export function FinalCTA() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto"
         >
-          Join the founding cohort. Your AI operations team is ready.
+          Your AI operations team is ready.
         </motion.p>
 
         {/* CTA Button */}
@@ -86,19 +86,6 @@ export function FinalCTA() {
           </MagneticButton>
         </motion.div>
 
-        {/* Scarcity note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-6 text-sm text-muted-foreground flex items-center justify-center gap-2"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
-          </span>
-          Only 10 founding spots — price increases to $3,000/mo after
-        </motion.p>
       </div>
     </section>
   )

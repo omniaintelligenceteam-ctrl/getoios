@@ -154,21 +154,21 @@ const stats = [
     ringMax: 100,
   },
   {
-    prefix: '$',
-    value: 2000,
-    suffix: '/mo',
-    label: 'Founding Rate',
-    sublabel: 'vs $3,500/mo office admin',
+    prefix: '',
+    value: 24,
+    suffix: '/7',
+    label: 'Always On',
+    sublabel: 'nights, weekends, holidays',
     accent: 'text-cyan-400',
     hexColor: '#06B6D4',
-    ringMax: 3500,
+    ringMax: 24,
   },
   {
     prefix: '',
-    value: 1,
-    suffix: ' job',
-    label: 'Pays the Bill',
-    sublabel: 'one saved job per month covers it',
+    value: 3,
+    suffix: 'x',
+    label: 'More Leads Captured',
+    sublabel: 'vs missed calls after hours',
     accent: 'text-emerald-400',
     hexColor: '#34D399',
     ringMax: 5,
@@ -213,8 +213,6 @@ function ComparisonBar({
 export function ROINumbers() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
-  const compRef = useRef(null)
-  const compInView = useInView(compRef, { once: true, margin: '-40px' })
 
   return (
     <section id="roi" className="py-24 lg:py-32 bg-bg-primary">
@@ -245,64 +243,6 @@ export function ROINumbers() {
           ))}
         </div>
 
-        {/* Cost comparison bars */}
-        <motion.div
-          ref={compRef}
-          className="max-w-2xl mx-auto mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="glass-card p-6 lg:p-8">
-            <div className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.15em] mb-6">Cost Comparison</div>
-            <div className="space-y-4">
-              <ComparisonBar
-                label="OIOS"
-                value="$2,000/mo"
-                maxValue={57}
-                color="#2DD4BF"
-                active={compInView}
-                delay={0.2}
-              />
-              <ComparisonBar
-                label="Office Admin"
-                value="$3,500/mo"
-                maxValue={100}
-                color="#EF4444"
-                active={compInView}
-                delay={0.4}
-              />
-            </div>
-            <div className="mt-4 pt-4 border-t border-slate-700/30 flex items-center justify-between">
-              <span className="text-xs text-slate-500 font-mono">Monthly savings</span>
-              <span className="text-sm font-bold text-teal-400 font-mono">$1,500/mo</span>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* ROI statement */}
-        <motion.div
-          className="text-center max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          <div className="glass-card p-8 lg:p-12 relative overflow-hidden">
-            {/* Animated gradient border effect */}
-            <div className="absolute inset-0 rounded-xl opacity-30" style={{
-              background: 'linear-gradient(135deg, rgba(245,158,11,0.15) 0%, transparent 50%, rgba(45,212,191,0.15) 100%)',
-            }} />
-            <p className="text-2xl lg:text-3xl font-bold leading-snug mb-3 relative" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-              <span className="gradient-text-warm">One saved job per month</span>
-              <span className="text-white"> covers your entire OIOS bill.</span>
-            </p>
-            <p className="text-slate-400 text-base relative">
-              Everything else is pure margin.
-            </p>
-          </div>
-        </motion.div>
 
       </div>
     </section>

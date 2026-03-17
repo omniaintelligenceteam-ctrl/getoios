@@ -85,7 +85,7 @@ export function Pricing() {
             <span className="gradient-text-warm">It Pays for Itself.</span>
           </h2>
           <p className="mt-5 text-slate-400 text-base max-w-xl mx-auto">
-            We prove the ROI first. If OIOS doesn&apos;t pay for itself in 60 days, you owe nothing. Founding cohort — 10 spots only.
+            We prove the ROI first. If OIOS doesn&apos;t pay for itself in 60 days, you owe nothing.
           </p>
         </motion.div>
 
@@ -166,7 +166,7 @@ export function Pricing() {
                 animate={cardInView ? { scale: 1, opacity: 1 } : {}}
                 transition={{ duration: 0.5, delay: 0.3, type: 'spring' }}
               >
-                FOUNDING MEMBER RATE
+                CURRENT RATE
                 {/* Shimmer */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -178,8 +178,8 @@ export function Pricing() {
 
             {/* Price with animated transition */}
             <div className="text-center mb-8 pt-4 relative z-10">
-              <p className="text-slate-500 text-lg line-through mb-1">
-                {billingPeriod === 'yearly' ? '$2,000/mo' : '$3,000/mo'}
+              <p className="text-slate-500 text-lg mb-1">
+                &nbsp;
               </p>
               <div className="flex items-baseline justify-center gap-2 mb-2">
                 <AnimatePresence mode="wait">
@@ -272,21 +272,6 @@ export function Pricing() {
               </Link>
             </MagneticButton>
 
-            {/* Spots counter */}
-            <motion.div
-              className="flex items-center justify-center gap-2 mt-5 relative z-10"
-              initial={{ opacity: 0 }}
-              animate={cardInView ? { opacity: 1 } : {}}
-              transition={{ delay: 1.5 }}
-            >
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
-              </span>
-              <span className="text-slate-400 text-xs font-mono">
-                Only <span className="text-amber-400 font-bold">10</span> founding spots — price increases to $3,000/mo after
-              </span>
-            </motion.div>
           </div>
         </motion.div>
 

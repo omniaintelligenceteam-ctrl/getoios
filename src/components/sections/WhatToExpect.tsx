@@ -362,7 +362,7 @@ function TierCard({
                   : `bg-slate-800/80 border-2 ${a.border} text-white hover:bg-slate-700/80 ${a.borderHover}`
               }`}
             >
-              {tier.popular ? 'Book Your Free Audit →' : 'Get Started →'}
+              {tier.popular ? 'Book Your Free Audit →' : 'Start Risk-Free →'}
             </Link>
           </MagneticButton>
         </div>
