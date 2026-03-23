@@ -7,6 +7,7 @@ import { MagneticButton } from '@/components/ui/MagneticButton'
 type FormData = {
   fullName: string
   businessName: string
+  email: string
   phoneNumber: string
   trade: string
   biggestFrustration: string
@@ -15,6 +16,7 @@ type FormData = {
 const initialFormData: FormData = {
   fullName: '',
   businessName: '',
+  email: '',
   phoneNumber: '',
   trade: '',
   biggestFrustration: '',
@@ -205,6 +207,17 @@ export function AuditForm() {
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Email *</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="you@company.com"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-300 mb-2">Phone Number *</label>
                   <input

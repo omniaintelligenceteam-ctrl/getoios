@@ -7,28 +7,32 @@ import { Plus } from 'lucide-react'
 
 const faqs = [
   {
-    q: 'Will it sound robotic to my customers?',
-    a: "No. OIOS uses the latest conversational AI \u2014 it sounds natural, handles interruptions, and adapts tone to each caller. Most customers don\u2019t realize they\u2019re speaking with AI.",
-  },
-  {
-    q: "What happens if the AI can\u2019t answer something?",
-    a: "OIOS captures the caller\u2019s details and flags the conversation for you. You get a notification immediately so you can follow up personally. Nothing falls through the cracks.",
+    q: 'Is my business data secure?',
+    a: 'Yes. All data is encrypted in transit and at rest. We use enterprise-grade infrastructure with SOC 2 compliant providers. Your business data is never shared with third parties or used to train AI models.',
   },
   {
     q: 'How long does setup take?',
-    a: 'Most businesses are live within 48 hours. We handle the technical setup \u2014 you just tell us about your services, pricing, and how you want calls handled.',
+    a: 'Most businesses are up and running within 24 hours. We connect to your phone system, email, and calendar \u2014 no software to install, no hardware to buy. Your AI team starts working on day one.',
   },
   {
-    q: 'Can I keep my existing phone number?',
-    a: 'Absolutely. OIOS works with your current number through simple call forwarding. No need to change anything your customers already know.',
+    q: 'What if my team doesn\u2019t like it?',
+    a: 'OIOS handles the admin work your team already doesn\u2019t want to do \u2014 answering after-hours calls, updating the CRM, sending follow-ups. Your team focuses on the skilled work they were hired for.',
   },
   {
-    q: 'What if I want to cancel?',
-    a: 'Cancel anytime. Month-to-month, no contracts, no cancellation fees. We earn your business every month.',
+    q: 'Can I cancel anytime?',
+    a: 'Absolutely. No long-term contracts, no cancellation fees. We believe in earning your business every month. If OIOS isn\u2019t delivering value, you can cancel with 30 days notice.',
   },
   {
-    q: 'Is my customer data secure?',
-    a: 'Yes. All data is encrypted in transit and at rest. We never sell or share your customer information. Enterprise-grade security from day one.',
+    q: 'Do I need to change my phone number?',
+    a: 'No. OIOS works with your existing business phone number through call forwarding. Your customers call the same number they always have \u2014 they just get a much better experience.',
+  },
+  {
+    q: 'What happens if the AI gets something wrong?',
+    a: 'Every AI interaction is logged and reviewable. You set the rules for how your AI team operates \u2014 what to say, when to escalate, which calls to transfer. You\u2019re always in control.',
+  },
+  {
+    q: 'How is this different from Jobber or ServiceTitan?',
+    a: 'Those are CRM tools that require your team to log in and operate them. OIOS is an AI team that operates autonomously \u2014 answering calls, following up on leads, tracking finances, and running marketing. It\u2019s the difference between a tool and an employee.',
   },
 ]
 

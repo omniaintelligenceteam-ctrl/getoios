@@ -1,7 +1,10 @@
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { PainPoints } from '@/components/sections/PainPoints'
+import { HowItWorks } from '@/components/sections/HowItWorks'
 import { WhoItsFor } from '@/components/sections/WhoItsFor'
+import { ComparisonTable } from '@/components/sections/ComparisonTable'
+import { FAQ } from '@/components/sections/FAQ'
 import { AuditForm } from '@/components/sections/AuditForm'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Footer } from '@/components/sections/Footer'
@@ -17,7 +20,13 @@ export default function Home() {
         <SectionTransition />
         <PainPoints />
         <SectionTransition />
+        <HowItWorks />
+        <SectionTransition />
         <WhoItsFor />
+        <SectionTransition />
+        <ComparisonTable />
+        <SectionTransition />
+        <FAQ />
         <SectionTransition />
         <AuditForm />
         <SectionTransition />

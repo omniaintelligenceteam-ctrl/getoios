@@ -31,6 +31,34 @@ const timelineSteps = [
   },
 ]
 
+const solutionSteps = [
+  {
+    time: '7:15 AM',
+    text: 'Phone rings. OIOS answers, qualifies the lead, texts you a summary. You finish the job.',
+    icon: '✅',
+  },
+  {
+    time: '9:30 AM',
+    text: 'OIOS already followed up on that proposal yesterday. Client replied "yes."',
+    icon: '🎯',
+  },
+  {
+    time: '11:00 AM',
+    text: 'Customer asks for ETA. OIOS replies with your schedule link. Booked in 30 seconds.',
+    icon: '📅',
+  },
+  {
+    time: '2:00 PM',
+    text: 'CRM is always current. OIOS shows you 3 jobs: 1 closing today, 2 need follow-up.',
+    icon: '📊',
+  },
+  {
+    time: '4:45 PM',
+    text: 'End of day. OIOS sends your summary: 4 calls handled, 2 leads qualified, $12K in pipeline.',
+    icon: '🚀',
+  },
+]
+
 // ─── Full-Width Animated Chaos Scene ────────────────────────────────────────
 function ChaosScene() {
   const ref = useRef<SVGSVGElement>(null)
@@ -268,7 +296,7 @@ export function PainPoints() {
 
         {/* Closing line */}
         <motion.div
-          className="text-center mt-14"
+          className="text-center mt-14 mb-16"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -277,6 +305,48 @@ export function PainPoints() {
           <p className="text-slate-400 text-xl max-w-2xl mx-auto leading-relaxed">
             Sound familiar?{' '}
             <span className="gradient-text-warm font-semibold">It doesn&apos;t have to be.</span>
+          </p>
+        </motion.div>
+
+        {/* Your Day WITH OIOS — Counter Timeline */}
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/15 mb-6">
+            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-emerald-400/80">The Solution</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+            <span className="text-white">Your Day</span>{' '}
+            <span className="gradient-text">With OIOS</span>
+          </h2>
+          <p className="text-slate-500 text-base max-w-md mx-auto">
+            Same day. Completely different outcome.
+          </p>
+        </motion.div>
+
+        <div className="max-w-2xl mx-auto">
+          <div className="space-y-0">
+            {solutionSteps.map((step, index) => (
+              <TimelineCard key={`solution-${index}`} step={step} index={index} total={solutionSteps.length} />
+            ))}
+          </div>
+        </div>
+
+        {/* Closing CTA after solution timeline */}
+        <motion.div
+          className="text-center mt-14"
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="text-slate-400 text-xl max-w-2xl mx-auto leading-relaxed">
+            That&apos;s the difference.{' '}
+            <span className="gradient-text font-semibold">Your AI COO never clocks out.</span>
           </p>
         </motion.div>
 

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useRef, useEffect } from 'react'
 import { motion, useInView } from 'motion/react'
-import { BarChart2, Zap, RefreshCw, Phone } from 'lucide-react'
+import { Phone, Target, Megaphone, Settings, DollarSign, HeartHandshake } from 'lucide-react'
 import { FloatingPaths } from '@/components/ui/background-paths'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { SplineScene } from '@/components/ui/splite'
@@ -17,19 +17,23 @@ function EnergyNetwork() {
   const inView = useInView(ref, { once: true })
 
   const nodes = [
-    { id: 'monitor', x: 160, y: 100, icon: '📊', color: '#2DD4BF', label: 'MONITOR' },
-    { id: 'build', x: 440, y: 60, icon: '⚡', color: '#F59E0B', label: 'BUILD' },
-    { id: 'automate', x: 440, y: 240, icon: '🔄', color: '#06B6D4', label: 'AUTOMATE' },
-    { id: 'run', x: 160, y: 200, icon: '📞', color: '#34D399', label: 'RUN' },
+    { id: 'receptionist', x: 120, y: 80, icon: '📞', color: '#34D399', label: 'RECEPTION' },
+    { id: 'sales', x: 300, y: 50, icon: '🎯', color: '#F59E0B', label: 'SALES' },
+    { id: 'marketing', x: 480, y: 80, icon: '📣', color: '#F472B6', label: 'MARKETING' },
+    { id: 'operations', x: 120, y: 220, icon: '⚙️', color: '#2DD4BF', label: 'OPERATIONS' },
+    { id: 'finance', x: 300, y: 250, icon: '💰', color: '#06B6D4', label: 'FINANCE' },
+    { id: 'success', x: 480, y: 220, icon: '💜', color: '#A78BFA', label: 'SUCCESS' },
   ]
 
   const connections = [
-    { from: 0, to: 1, d: 'M 190 110 Q 300 50 410 75' },
-    { from: 1, to: 2, d: 'M 455 90 Q 480 160 455 220' },
-    { from: 2, to: 3, d: 'M 410 245 Q 300 270 190 215' },
-    { from: 3, to: 0, d: 'M 150 185 Q 120 150 150 115' },
-    { from: 0, to: 2, d: 'M 190 125 Q 300 170 410 230' },
-    { from: 1, to: 3, d: 'M 415 80 Q 300 150 185 195' },
+    { from: 0, to: 1, d: 'M 150 85 Q 220 50 270 60' },
+    { from: 1, to: 2, d: 'M 330 60 Q 400 50 450 85' },
+    { from: 0, to: 3, d: 'M 130 105 Q 120 160 130 200' },
+    { from: 2, to: 5, d: 'M 490 105 Q 490 160 490 200' },
+    { from: 3, to: 4, d: 'M 150 230 Q 220 260 270 255' },
+    { from: 4, to: 5, d: 'M 330 255 Q 400 260 450 230' },
+    { from: 0, to: 4, d: 'M 145 100 Q 220 170 275 240' },
+    { from: 1, to: 5, d: 'M 325 70 Q 410 150 470 205' },
   ]
 
   return (
@@ -178,48 +182,66 @@ function AnimatedStat({ value, label }: { value: string; label: string }) {
 // ─── Capability Data ─────────────────────────────────────────────────────────
 const capabilities = [
   {
-    label: 'MONITOR',
-    icon: BarChart2,
-    color: 'text-teal-400',
-    border: 'border-teal-400/20',
-    glow: 'group-hover:text-teal-300',
-    bg: 'group-hover:bg-teal-400/5',
-    items: ['Pipeline at a glance', 'Revenue tracking', 'AI morning briefing', 'Weekly report'],
-  },
-  {
-    label: 'BUILD',
-    icon: Zap,
-    color: 'text-amber-400',
-    border: 'border-amber-400/20',
-    glow: 'group-hover:text-amber-300',
-    bg: 'group-hover:bg-amber-400/5',
-    items: ['Proposals in 30 sec', 'Client onboarding', 'Email drafts ready', 'Workflows on day 1'],
-  },
-  {
-    label: 'AUTOMATE',
-    icon: RefreshCw,
-    color: 'text-cyan-400',
-    border: 'border-cyan-400/20',
-    glow: 'group-hover:text-cyan-300',
-    bg: 'group-hover:bg-cyan-400/5',
-    items: ['Follow-ups sent', 'CRM kept current', 'Stale deal alerts', 'Review requests'],
-  },
-  {
-    label: 'RUN',
+    label: 'AI RECEPTIONIST',
     icon: Phone,
     color: 'text-emerald-400',
     border: 'border-emerald-400/20',
     glow: 'group-hover:text-emerald-300',
     bg: 'group-hover:bg-emerald-400/5',
-    items: ['24/7 call answering', 'Lead scoring', 'Appt booking', 'Call transcripts'],
+    items: ['24/7 call answering', 'Appointment booking', 'Call transcripts', 'After-hours coverage'],
+  },
+  {
+    label: 'AI SALES',
+    icon: Target,
+    color: 'text-amber-400',
+    border: 'border-amber-400/20',
+    glow: 'group-hover:text-amber-300',
+    bg: 'group-hover:bg-amber-400/5',
+    items: ['Lead scoring', 'Automated follow-ups', 'Proposal generation', 'Pipeline tracking'],
+  },
+  {
+    label: 'AI MARKETING',
+    icon: Megaphone,
+    color: 'text-pink-400',
+    border: 'border-pink-400/20',
+    glow: 'group-hover:text-pink-300',
+    bg: 'group-hover:bg-pink-400/5',
+    items: ['Content creation', 'Social posting', 'Review requests', 'Campaign management'],
+  },
+  {
+    label: 'AI OPERATIONS',
+    icon: Settings,
+    color: 'text-teal-400',
+    border: 'border-teal-400/20',
+    glow: 'group-hover:text-teal-300',
+    bg: 'group-hover:bg-teal-400/5',
+    items: ['CRM updates', 'Workflow automation', 'KPI dashboards', 'Morning briefings'],
+  },
+  {
+    label: 'AI FINANCE',
+    icon: DollarSign,
+    color: 'text-cyan-400',
+    border: 'border-cyan-400/20',
+    glow: 'group-hover:text-cyan-300',
+    bg: 'group-hover:bg-cyan-400/5',
+    items: ['Revenue tracking', 'Expense alerts', 'Billing management', 'Weekly reports'],
+  },
+  {
+    label: 'AI CLIENT SUCCESS',
+    icon: HeartHandshake,
+    color: 'text-violet-400',
+    border: 'border-violet-400/20',
+    glow: 'group-hover:text-violet-300',
+    bg: 'group-hover:bg-violet-400/5',
+    items: ['Client onboarding', 'Satisfaction tracking', 'Follow-ups', 'Upsell identification'],
   },
 ]
 
 const stats = [
-  { value: '98%', label: 'Call Answer Rate' },
-  { value: '24/7/365', label: 'Coverage' },
-  { value: '30 sec', label: 'Proposals' },
-  { value: '0', label: 'Missed Follow-Ups' },
+  { value: '6', label: 'AI Departments' },
+  { value: '24/7', label: 'Operations' },
+  { value: '0', label: 'Missed Leads' },
+  { value: '$0', label: 'Additional Hires' },
 ]
 
 // ─── Main Hero Export ────────────────────────────────────────────────────────
@@ -310,7 +332,7 @@ export function Hero() {
         >
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-slate-800/30 border border-slate-700/30">
             <span className="text-[11px] font-mono uppercase tracking-[0.12em] text-slate-400">
-              Your AI-Powered Operations Team
+              Your AI COO
             </span>
           </div>
         </motion.div>
@@ -323,10 +345,10 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
-          <span className="text-white">Answer Every Call. Capture Every Lead. Run Every Task.</span>
+          <span className="text-white">Your Entire Back Office.</span>
           <br />
           <RotatingText
-            phrases={['See Everything. 24/7.', 'Never Miss a Lead.', 'Automate the Busywork.', 'Know Your Numbers.']}
+            phrases={['Run by AI. 24/7.', 'Six AI Departments.', 'Zero Additional Hires.', 'One Platform.']}
             className="gradient-text-warm"
           />
         </motion.h1>
@@ -338,8 +360,9 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
         >
-          OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job,
-          and dollar in real time — so you can run the business, not chase it.
+          OIOS is a team of AI agents that runs operations for your service business — answering calls,
+          managing leads, automating follow-ups, tracking revenue, and giving you real-time visibility
+          into every part of your company. For a fraction of hiring cost.
         </motion.p>
 
         {/* Risk-reversal callout */}
@@ -377,7 +400,7 @@ export function Hero() {
         </motion.div>
 
         {/* 4-Column Capability Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-8">
           {capabilities.map((cap, i) => {
             const Icon = cap.icon
             return (
