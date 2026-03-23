@@ -48,7 +48,7 @@ export function Header() {
               alt="OIOS — Omnia Intelligence"
               width={1024}
               height={1024}
-              className="w-auto h-[60px] lg:h-[78px] object-contain"
+              className="w-auto h-14 lg:h-[72px] object-contain"
               priority
             />
             <div className="flex flex-col">
@@ -92,17 +92,12 @@ export function Header() {
 
           {/* Status Badge & CTA */}
           <div className="hidden md:flex items-center space-x-5">
-            <div className="flex items-center space-x-2 text-xs font-mono">
-              <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-              <span className="text-emerald-400/80">Online</span>
-            </div>
-
             <MagneticButton>
               <Link
                 href="/audit"
                 data-glow
                 data-cursor="cta"
-                className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-2 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
+                className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-2 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 whitespace-nowrap shrink-0"
               >
                 Start Risk-Free →
               </Link>
@@ -164,10 +159,6 @@ export function Header() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25, delay: 0.15 }}
                 >
-                  <div className="flex items-center space-x-2 text-xs font-mono">
-                    <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span className="text-emerald-400/80">Online</span>
-                  </div>
                   <Link
                     href="/audit"
                     data-glow

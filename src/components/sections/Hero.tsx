@@ -241,7 +241,7 @@ const stats = [
   { value: '6', label: 'AI Departments' },
   { value: '24/7', label: 'Operations' },
   { value: '0', label: 'Missed Leads' },
-  { value: '$0', label: 'Additional Hires' },
+  { value: '0', label: 'Additional Hires' },
 ]
 
 // ─── Main Hero Export ────────────────────────────────────────────────────────
