@@ -13,6 +13,30 @@ export const metadata: Metadata = {
   title: 'Pricing — OIOS | AI Operations for Service Businesses',
   description:
     'Simple, transparent pricing for AI-powered operations. Less than a part-time hire. More than an entire operations team.',
+  openGraph: {
+    title: 'Pricing — OIOS | AI Operations for Service Businesses',
+    description:
+      'Simple, transparent pricing for AI-powered operations. Less than a part-time hire. More than an entire operations team.',
+    url: 'https://getoios.com/pricing',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Pricing — OIOS | AI Operations for Service Businesses — OIOS by Omnia Intelligence AI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pricing — OIOS | AI Operations for Service Businesses',
+    description:
+      'Simple, transparent pricing for AI-powered operations. Less than a part-time hire. More than an entire operations team.',
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: 'https://getoios.com/pricing',
+  },
 }
 
 export default function PricingPage() {

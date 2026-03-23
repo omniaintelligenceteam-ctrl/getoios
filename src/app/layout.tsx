@@ -26,21 +26,47 @@ export const metadata: Metadata = {
     icon: '/logo-oios.jpg',
     apple: '/apple-touch-icon.png',
   },
-  title: "OIOS — Your AI-Powered Operations Team | Omnia Intelligence AI",
+  title: {
+    default: "OIOS — Your AI-Powered Operations Team | Omnia Intelligence AI",
+    template: "%s | OIOS by Omnia Intelligence AI",
+  },
   description: "Answer every call. Capture every lead. Run every task. OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time.",
   keywords: "AI operations, AI for service businesses, AI receptionist, AI back office, business automation, OIOS, Omnia Intelligence AI, AI office manager, contractor AI",
   openGraph: {
-    title: "Answer Every Call. Capture Every Lead. Run Every Task. See Everything. 24/7.",
+    title: "OIOS — AI-Powered Operations for Service Businesses",
     description: "OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time. Free audit.",
     type: "website",
     url: "https://getoios.com",
+    siteName: "OIOS by Omnia Intelligence AI",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "OIOS — AI Operations Platform for Service Businesses",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Answer Every Call. Capture Every Lead. Run Every Task. See Everything. 24/7.",
+    title: "OIOS — AI-Powered Operations for Service Businesses",
     description: "OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time. Free audit.",
+    images: ["/og-image.png"],
   },
-  robots: "index, follow",
+  alternates: {
+    canonical: "https://getoios.com",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -53,8 +79,75 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://getoios.com/#organization",
+    "name": "Omnia Intelligence AI",
+    "alternateName": "OIOS",
+    "url": "https://getoios.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://getoios.com/logo-oios.jpg",
+      "width": 512,
+      "height": 512,
+    },
+    "description": "OIOS is an AI-powered operations platform for service businesses. It answers calls 24/7, automates back office workflows, and provides real-time visibility into leads, jobs, and revenue.",
+    "email": "team@getoios.com",
+    "telephone": "+1-480-305-0357",
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "telephone": "+1-480-305-0357",
+      "email": "team@getoios.com",
+      "contactType": "sales",
+      "availableLanguage": "English",
+    }],
+    "areaServed": { "@type": "Country", "name": "United States" },
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://getoios.com/#website",
+    "name": "OIOS",
+    "alternateName": "OIOS by Omnia Intelligence AI",
+    "url": "https://getoios.com",
+    "publisher": { "@id": "https://getoios.com/#organization" },
+  };
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://getoios.com/#software",
+    "name": "OIOS",
+    "alternateName": "OIOS AI Operations Platform",
+    "description": "AI-powered operations platform for service businesses. Includes 24/7 AI receptionist, automated scheduling, follow-up automation, CRM management, revenue tracking, and marketing content generation.",
+    "url": "https://getoios.com",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web-based (SaaS)",
+    "featureList": [
+      "24/7 AI Receptionist",
+      "Automated Lead Capture",
+      "Appointment Scheduling",
+      "Follow-Up Automation",
+      "Proposal Generation",
+      "CRM Management",
+      "Revenue Tracking",
+      "Marketing Content Generation",
+    ],
+    "publisher": { "@id": "https://getoios.com/#organization" },
+  };
+
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([organizationSchema, websiteSchema, softwareSchema]),
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <div className="noise-overlay" aria-hidden="true" />
         <ScrollProgress />

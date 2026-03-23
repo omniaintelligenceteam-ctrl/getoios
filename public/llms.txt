@@ -1,0 +1,21 @@
+# OIOS by Omnia Intelligence AI
+
+> OIOS is an AI operations platform for service businesses (HVAC, plumbing, electrical, roofing, and more). It provides six AI departments — receptionist, sales, marketing, operations, finance, and client success — that run 24/7 for a fraction of hiring cost.
+
+## Core Pages
+- [What OIOS Does](https://getoios.com/features): Three-pillar platform overview (AI Receptionist, AI Back Office, AI Command Center)
+- [How It Works](https://getoios.com/how-it-works): Three-step onboarding process (Audit, Build, Run)
+- [Pricing](https://getoios.com/pricing): Pricing plans and comparison
+- [About](https://getoios.com/about): Company story, mission, and security commitments
+
+## Industry Solutions
+- [HVAC](https://getoios.com/hvac): AI operations for HVAC contractors
+- [Plumbing](https://getoios.com/plumbing): AI operations for plumbing businesses
+- [Electrical](https://getoios.com/electrical): AI operations for electrical contractors
+- [Pest Control](https://getoios.com/pest-control): AI operations for pest control services
+- [Locksmith](https://getoios.com/locksmith): AI operations for locksmith services
+- [Landscape Lighting](https://getoios.com/landscape-lighting): AI operations for landscape lighting
+
+## Optional
+- [Book an Audit](https://getoios.com/audit): Free AI operations audit
+- [Live Demo](https://getoios.com/demo): Interactive product demonstration

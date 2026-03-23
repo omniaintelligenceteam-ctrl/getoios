@@ -11,6 +11,30 @@ export const metadata: Metadata = {
   title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
   description:
     'From missed calls to forgotten invoices, OIOS automates every repetitive task in your service business. 13 workflows. Zero manual work. 24/7 coverage.',
+  openGraph: {
+    title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
+    description:
+      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your service business. 13 workflows. Zero manual work. 24/7 coverage.',
+    url: 'https://getoios.com/solutions',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Solutions — 13 Workflows OIOS Automates for Your Business — OIOS by Omnia Intelligence AI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
+    description:
+      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your service business. 13 workflows. Zero manual work. 24/7 coverage.',
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: 'https://getoios.com/solutions',
+  },
 }
 
 export default function SolutionsPage() {

@@ -13,6 +13,30 @@ export const metadata: Metadata = {
   title: 'What OIOS Does — AI Operations for Service Businesses',
   description:
     'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your service business running around the clock.',
+  openGraph: {
+    title: 'What OIOS Does — AI Operations for Service Businesses',
+    description:
+      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your service business running around the clock.',
+    url: 'https://getoios.com/features',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'What OIOS Does — AI Operations for Service Businesses — OIOS by Omnia Intelligence AI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'What OIOS Does — AI Operations for Service Businesses',
+    description:
+      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your service business running around the clock.',
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: 'https://getoios.com/features',
+  },
 }
 
 export default function FeaturesPage() {

@@ -10,6 +10,30 @@ export const metadata: Metadata = {
   title: 'Book Your AI Operations Audit — OIOS',
   description:
     'Book your free 60-minute AI operations audit with OIOS. Four quick questions, and we\'ll show you exactly where AI saves your business the most time and money.',
+  openGraph: {
+    title: 'Book Your AI Operations Audit — OIOS',
+    description:
+      'Book your free 60-minute AI operations audit with OIOS. Four quick questions, and we\'ll show you exactly where AI saves your business the most time and money.',
+    url: 'https://getoios.com/audit',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Book Your AI Operations Audit — OIOS — OIOS by Omnia Intelligence AI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Book Your AI Operations Audit — OIOS',
+    description:
+      'Book your free 60-minute AI operations audit with OIOS. Four quick questions, and we\'ll show you exactly where AI saves your business the most time and money.',
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: 'https://getoios.com/audit',
+  },
 }
 
 export default function AuditPage() {

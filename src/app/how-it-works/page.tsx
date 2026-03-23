@@ -13,6 +13,30 @@ export const metadata: Metadata = {
   title: 'How OIOS Works — Audit, Build, Run',
   description:
     'A simple 3-step process: we audit your current operations, build your AI systems, and run them for you — so you can focus on the work, not the admin.',
+  openGraph: {
+    title: 'How OIOS Works — Audit, Build, Run',
+    description:
+      'A simple 3-step process: we audit your current operations, build your AI systems, and run them for you — so you can focus on the work, not the admin.',
+    url: 'https://getoios.com/how-it-works',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'How OIOS Works — Audit, Build, Run — OIOS by Omnia Intelligence AI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'How OIOS Works — Audit, Build, Run',
+    description:
+      'A simple 3-step process: we audit your current operations, build your AI systems, and run them for you — so you can focus on the work, not the admin.',
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: 'https://getoios.com/how-it-works',
+  },
 }
 
 export default function HowItWorksPage() {

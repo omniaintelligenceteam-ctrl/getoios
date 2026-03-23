@@ -11,6 +11,30 @@ export const metadata: Metadata = {
   title: 'About — OIOS | The AI COO for Service Businesses',
   description:
     'The story behind OIOS — the AI COO built for service businesses. Learn why we built it, how it works, and our commitment to your data security.',
+  openGraph: {
+    title: 'About — OIOS | The AI COO for Service Businesses',
+    description:
+      'The story behind OIOS — the AI COO built for service businesses. Learn why we built it, how it works, and our commitment to your data security.',
+    url: 'https://getoios.com/about',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'About — OIOS | The AI COO for Service Businesses — OIOS by Omnia Intelligence AI',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About — OIOS | The AI COO for Service Businesses',
+    description:
+      'The story behind OIOS — the AI COO built for service businesses. Learn why we built it, how it works, and our commitment to your data security.',
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: 'https://getoios.com/about',
+  },
 }
 
 export default function AboutPage() {
