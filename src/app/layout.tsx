@@ -22,6 +22,9 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://getoios.com'),
+  verification: {
+    google: 'opWpVmIdfuvdOo0-FtRN0Uad-wFNI7IKtx',
+  },
   icons: {
     icon: '/logo-oios.jpg',
     apple: '/apple-touch-icon.png',
