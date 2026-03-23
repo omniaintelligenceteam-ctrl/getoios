@@ -37,21 +37,24 @@ export function AboutContent() {
             </h2>
             <div className="space-y-6 text-slate-400 text-lg leading-relaxed">
               <p>
-                Every day, thousands of contractors lose revenue — not because they do bad work,
-                but because the business side falls apart. A missed call becomes a lost $5,000 job.
-                A forgotten follow-up means a competitor wins the deal. A scattered CRM means nobody
-                knows which jobs are closing this week.
+                Wes Overstreet ran a landscape lighting company across 8 cities for 10 years. He
+                lived every problem OIOS solves — missed calls that cost thousands, leads that
+                slipped through the cracks, and endless admin work that pulled him away from the
+                craft he actually loved. He built OIOS because he knew there had to be a better way.
               </p>
               <p>
-                We built OIOS because we watched this happen over and over. Service business owners
-                are incredible at their craft — HVAC, plumbing, electrical, roofing — but they&apos;re
-                forced to also be the receptionist, the sales manager, the marketing team, and the CFO.
-                All at once. While on a ladder.
+                His story isn&apos;t unique. Every day, thousands of contractors lose revenue — not
+                because they do bad work, but because the business side falls apart. A missed call
+                becomes a lost $5,000 job. A forgotten follow-up means a competitor wins the deal.
+                Service business owners are incredible at their trade, but they&apos;re forced to
+                also be the receptionist, the sales manager, the marketing team, and the CFO. All
+                at once. While on a ladder.
               </p>
               <p className="text-white font-medium">
-                OIOS is the operations team they deserve but could never afford. Six AI departments
-                that handle calls, qualify leads, send follow-ups, manage the CRM, track revenue, and
-                deliver a morning briefing — every single day, 24/7, for a fraction of one hire.
+                OIOS is the AI operations team they deserve but could never afford. Six AI
+                departments that handle calls, qualify leads, send follow-ups, manage the CRM,
+                track revenue, and deliver a morning briefing — every single day, 24/7, for a
+                fraction of one hire.
               </p>
             </div>
           </motion.div>
@@ -168,7 +171,7 @@ export function AboutContent() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { icon: Lock, title: 'End-to-End Encryption', description: 'All data encrypted in transit and at rest', color: 'text-teal-400', border: 'border-teal-400/20' },
-              { icon: Shield, title: 'SOC 2 Compliant', description: 'Enterprise-grade security standards', color: 'text-emerald-400', border: 'border-emerald-400/20' },
+              { icon: Shield, title: 'Enterprise-Grade Security', description: 'Built on trusted, audited infrastructure providers', color: 'text-emerald-400', border: 'border-emerald-400/20' },
               { icon: Eye, title: 'Private by Default', description: 'Your data is never shared or used for training', color: 'text-cyan-400', border: 'border-cyan-400/20' },
               { icon: ServerCog, title: '99.9% Uptime', description: 'Redundant infrastructure — your AI team never sleeps', color: 'text-amber-400', border: 'border-amber-400/20' },
             ].map((item, i) => {
