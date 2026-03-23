@@ -8,12 +8,12 @@ import { FAQ } from '@/components/sections/FAQ'
 import { AuditForm } from '@/components/sections/AuditForm'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Footer } from '@/components/sections/Footer'
-import { PageEntrance } from '@/components/ui/PageEntrance'
+import { CinematicEntrance } from '@/components/ui/CinematicEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export default function Home() {
   return (
-    <PageEntrance>
+    <CinematicEntrance>
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <Hero />
@@ -34,6 +34,6 @@ export default function Home() {
         <SectionTransition />
         <Footer />
       </div>
-    </PageEntrance>
+    </CinematicEntrance>
   )
 }

@@ -138,6 +138,24 @@ a:focus-visible {
   background-clip: text;
 }
 
+.gradient-text-hero {
+  background: linear-gradient(
+    110deg,
+    #F8FAFC 0%,
+    #F8FAFC 30%,
+    #2DD4BF 42%,
+    #67e8f9 50%,
+    #2DD4BF 58%,
+    #F8FAFC 70%,
+    #F8FAFC 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s ease-in-out infinite;
+}
+
 /* ============================================
    GLASSMORPHISM
    ============================================ */
@@ -622,6 +640,15 @@ section:nth-of-type(2)::before {
 }
 
 /* ============================================
+   CINEMATIC ENTRANCE
+   ============================================ */
+@media (prefers-reduced-motion: no-preference) {
+  .cinematic-ring {
+    will-change: transform, opacity;
+  }
+}
+
+/* ============================================
    REDUCED MOTION
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -649,7 +676,8 @@ section:nth-of-type(2)::before {
   .glass-card:hover {
     transform: none;
   }
-  .gradient-text-shimmer {
+  .gradient-text-shimmer,
+  .gradient-text-hero {
     animation: none;
     background-position: 0% 50%;
   }

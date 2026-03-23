@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import {
   Flame,
@@ -15,6 +15,7 @@ import {
   Sparkles,
   DoorOpen,
 } from 'lucide-react';
+import { GlowingEffect } from '@/components/ui/glowing-effect';
 
 const trades = [
   { icon: Flame, name: 'HVAC', href: '/hvac', outcomes: ['Never miss an emergency call', 'Auto-quote maintenance plans', '+40% more booked appointments'] },
@@ -28,44 +29,6 @@ const trades = [
   { icon: Sparkles, name: 'Cleaning', href: '/audit', outcomes: ['Recurring appointment management', 'Last-minute booking capture', 'Automated supply tracking'] },
   { icon: DoorOpen, name: 'Garage Door', href: '/audit', outcomes: ['Emergency repair dispatch 24/7', 'Spring replacement reminders', 'Warranty tracking automation'] },
 ];
-
-function SpotlightCard({ children, className, delay = 0 }: { children: React.ReactNode, className?: string, delay?: number }) {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const [isHovered, setIsHovered] = useState(false)
-  const cardRef = useRef<HTMLDivElement>(null)
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top })
-  }
-
-  return (
-    <motion.div
-      ref={cardRef}
-      className={`glass-card relative overflow-hidden ${className || ''}`}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      data-glow
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, delay }}
-    >
-      {/* Spotlight overlay */}
-      {isHovered && (
-        <div
-          className="absolute inset-0 pointer-events-none transition-opacity duration-300 z-0"
-          style={{
-            background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(45,212,191,0.08), transparent 40%)`,
-          }}
-        />
-      )}
-      <div className="relative z-10">{children}</div>
-    </motion.div>
-  )
-}
 
 export function WhoItsFor() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -107,11 +70,24 @@ export function WhoItsFor() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 mt-16">
           {trades.map((trade, i) => (
             <Link key={trade.name} href={trade.href}>
-              <SpotlightCard
-                className="p-4 lg:p-5 h-full"
-                delay={i * 0.06}
+              <motion.div
+                className="relative rounded-xl bg-slate-900/60 border border-slate-700/30 p-4 lg:p-5 h-full"
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: i * 0.06 }}
               >
-                <div className="text-center">
+                <GlowingEffect
+                  disabled={false}
+                  spread={40}
+                  glow
+                  blur={6}
+                  proximity={80}
+                  inactiveZone={0.01}
+                  borderWidth={2}
+                  movementDuration={1.5}
+                />
+                <div className="relative z-10 text-center">
                   <div className="mx-auto mb-3 w-11 h-11 rounded-xl bg-teal-400/10 border border-teal-400/20 flex items-center justify-center">
                     <trade.icon className="w-5 h-5 text-teal-400" />
                   </div>
@@ -125,7 +101,7 @@ export function WhoItsFor() {
                     ))}
                   </ul>
                 </div>
-              </SpotlightCard>
+              </motion.div>
             </Link>
           ))}
         </div>

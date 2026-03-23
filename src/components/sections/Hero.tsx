@@ -10,6 +10,8 @@ import { Activity, Bell } from 'lucide-react'
 import { RotatingText } from '@/components/ui/RotatingText'
 import { useScrollVelocity } from '@/hooks/useScrollVelocity'
 import { gsap, ScrollTrigger } from '@/lib/gsap-init'
+import { ShaderBackground } from '@/components/ui/ShaderBackground'
+import { SplineHero } from '@/components/ui/SplineHero'
 
 // ─── Animated Energy Network SVG ────────────────────────────────────────────
 function EnergyNetwork() {
@@ -312,12 +314,10 @@ export function Hero() {
     <section ref={sectionRef} className="relative min-h-screen bg-bg-primary overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
+        <ShaderBackground />
         <div className="hero-grid absolute inset-0" style={{ willChange: 'transform' }} />
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
-        <div className="orb orb-1" style={{ willChange: 'transform' }} />
-        <div className="orb orb-2" style={{ willChange: 'transform' }} />
-        <div className="orb orb-3" style={{ willChange: 'transform' }} />
       </div>
 
       {/* Content */}
@@ -345,7 +345,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
-          <span className="text-white">Your Entire Back Office.</span>
+          <span className="gradient-text-hero">Your Entire Back Office.</span>
           <br />
           <RotatingText
             phrases={['Run by AI. 24/7.', 'Six AI Departments.', 'Zero Additional Hires.', 'One Platform.']}
@@ -381,6 +381,9 @@ export function Hero() {
         </motion.div>
 
         {/* Hero Robot Scene */}
+        {/* Interactive 3D Spline Scene (desktop only) */}
+        <SplineHero className="absolute inset-0 z-0 pointer-events-auto hidden lg:block" />
+
         <motion.div
           className="mb-8"
           initial={{ opacity: 0 }}
