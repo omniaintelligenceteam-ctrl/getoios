@@ -22,7 +22,10 @@ const initialFormData: FormData = {
   biggestFrustration: '',
 }
 
-const tradeOptions = ['HVAC', 'Plumbing', 'Electrical', 'Roofing', 'Landscaping', 'Pest Control', 'Locksmith', 'General Contractor', 'Other']
+// Cal.com embed URL — update this with your real booking link
+const CALCOM_EMBED_URL = 'https://cal.com/oios/audit'
+
+const tradeOptions = ['HVAC', 'Plumbing', 'Electrical', 'Roofing', 'Landscaping', 'Pest Control', 'Locksmith', 'General Contractor', 'Cleaning', 'Garage Door', 'Other']
 
 const inputClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white placeholder-slate-500 focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300'
 const selectClass = 'w-full h-[52px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 text-white appearance-none cursor-pointer focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300'
@@ -93,6 +96,7 @@ export function AuditForm() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const [activeTab, setActiveTab] = useState<'schedule' | 'callback'>('schedule')
   const headerRef = useRef(null)
   const headerInView = useInView(headerRef, { once: true })
 
@@ -180,6 +184,50 @@ export function AuditForm() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <div className="glass-card p-8 lg:p-10">
+            {/* Tab Toggle */}
+            <div className="flex justify-center mb-8">
+              <div className="inline-flex bg-slate-800/50 rounded-xl p-1 border border-slate-700/50">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('schedule')}
+                  className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    activeTab === 'schedule'
+                      ? 'bg-teal-400/15 text-teal-400 border border-teal-400/30'
+                      : 'text-slate-400 hover:text-white border border-transparent'
+                  }`}
+                >
+                  📅 Schedule Instantly
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('callback')}
+                  className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    activeTab === 'callback'
+                      ? 'bg-teal-400/15 text-teal-400 border border-teal-400/30'
+                      : 'text-slate-400 hover:text-white border border-transparent'
+                  }`}
+                >
+                  📞 Request a Callback
+                </button>
+              </div>
+            </div>
+
+            {/* Cal.com Embed Tab */}
+            {activeTab === 'schedule' && (
+              <div>
+                <p className="text-center text-slate-300 text-sm mb-4">Pick a time that works for you</p>
+                <div className="rounded-xl overflow-hidden border border-slate-700/30 bg-slate-900/50">
+                  <iframe
+                    src={`${CALCOM_EMBED_URL}?embed=true&theme=dark&hideEventTypeDetails=false`}
+                    style={{ width: '100%', border: 'none', minHeight: '500px' }}
+                    title="Schedule your free audit"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Callback Form Tab */}
+            {activeTab === 'callback' && (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -286,6 +334,14 @@ export function AuditForm() {
                 No spam. One follow-up call max. Usually within 24 hours.
               </p>
             </form>
+            )}
+
+            {/* Trust micro-copy */}
+            <div className="text-center mt-6 pt-6 border-t border-slate-700/30">
+              <p className="text-sm text-slate-500">
+                ✓ No commitment  ·  ✓ No credit card  ·  ✓ 30-minute call
+              </p>
+            </div>
           </div>
         </motion.div>
       </div>

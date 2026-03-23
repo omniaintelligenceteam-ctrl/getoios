@@ -6,7 +6,7 @@ import { motion, useInView } from 'motion/react'
 import { Phone, Target, Megaphone, Settings, DollarSign, HeartHandshake } from 'lucide-react'
 import { FloatingPaths } from '@/components/ui/background-paths'
 import { MagneticButton } from '@/components/ui/MagneticButton'
-import { SplineScene } from '@/components/ui/splite'
+import { Activity, Bell } from 'lucide-react'
 import { RotatingText } from '@/components/ui/RotatingText'
 import { useScrollVelocity } from '@/hooks/useScrollVelocity'
 import { gsap, ScrollTrigger } from '@/lib/gsap-init'
@@ -387,12 +387,81 @@ export function Hero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
         >
-          <div className="relative mx-auto h-[280px] w-full max-w-[900px] overflow-hidden rounded-2xl border border-teal-400/20 bg-black/40 sm:h-[360px]">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(45,212,191,0.14),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(245,158,11,0.10),transparent_40%)]" />
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="h-full w-full"
-            />
+          <div className="relative mx-auto h-[280px] w-full max-w-[900px] overflow-hidden rounded-2xl border border-teal-400/20 bg-slate-900/80 sm:h-[360px]">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(45,212,191,0.08),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(245,158,11,0.06),transparent_40%)]" />
+            {/* Dashboard Mockup */}
+            <div className="relative h-full flex flex-col">
+              {/* Top Bar */}
+              <div className="flex items-center justify-between px-3 sm:px-4 h-8 sm:h-9 bg-slate-800/80 border-b border-slate-700/50 flex-shrink-0">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-3 h-3 text-teal-400" />
+                  <span className="text-[10px] sm:text-xs font-mono text-slate-300 font-semibold">OIOS Dashboard</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                  <span className="text-[9px] sm:text-[10px] font-mono text-emerald-400/80">All Systems Active</span>
+                  <Bell className="w-3 h-3 text-slate-500 ml-1 hidden sm:block" />
+                </div>
+              </div>
+
+              <div className="flex flex-1 min-h-0">
+                {/* Sidebar - hidden on mobile */}
+                <div className="hidden sm:flex flex-col items-center gap-2 py-3 px-2 w-11 bg-slate-800/50 border-r border-slate-700/30 flex-shrink-0">
+                  {[
+                    { Icon: Phone, color: 'text-emerald-400' },
+                    { Icon: Target, color: 'text-amber-400' },
+                    { Icon: Megaphone, color: 'text-pink-400' },
+                    { Icon: Settings, color: 'text-teal-400' },
+                    { Icon: DollarSign, color: 'text-cyan-400' },
+                    { Icon: HeartHandshake, color: 'text-violet-400' },
+                  ].map(({ Icon, color }, idx) => (
+                    <div key={idx} className={`w-7 h-7 rounded-lg bg-slate-700/30 border border-slate-600/20 flex items-center justify-center hover:bg-slate-700/50 transition-colors ${idx === 0 ? 'bg-teal-400/10 border-teal-400/20' : ''}`}>
+                      <Icon className={`w-3.5 h-3.5 ${idx === 0 ? 'text-teal-400' : 'text-slate-500'}`} />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Main Content */}
+                <div className="flex-1 p-3 sm:p-4 overflow-hidden">
+                  {/* KPI Cards */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-3 sm:mb-4">
+                    {[
+                      { label: 'Calls Today', value: '12', color: 'text-emerald-400', trend: '+3' },
+                      { label: 'Leads Qualified', value: '4', color: 'text-amber-400', trend: '+1' },
+                      { label: 'Pipeline', value: '$28.5K', color: 'text-teal-400', trend: '+$4.2K' },
+                      { label: 'Follow-ups', value: '8', color: 'text-cyan-400', trend: 'Sent' },
+                    ].map((kpi, idx) => (
+                      <div key={idx} className="bg-slate-800/40 border border-slate-700/30 rounded-lg p-2 sm:p-2.5">
+                        <div className="text-[8px] sm:text-[9px] font-mono text-slate-500 uppercase tracking-wider mb-1">{kpi.label}</div>
+                        <div className="flex items-baseline gap-1.5">
+                          <span className={`text-sm sm:text-lg font-bold ${kpi.color}`}>{kpi.value}</span>
+                          <span className="text-[8px] text-emerald-400/70">{kpi.trend}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Activity Feed */}
+                  <div className="bg-slate-800/30 border border-slate-700/20 rounded-lg p-2.5 sm:p-3">
+                    <div className="text-[8px] sm:text-[9px] font-mono text-slate-500 uppercase tracking-wider mb-2">Live Activity</div>
+                    <div className="space-y-2">
+                      {[
+                        { text: 'New lead: Mike R. — HVAC repair', time: '2m ago', dot: 'bg-emerald-400' },
+                        { text: 'Follow-up sent: Johnson proposal', time: '8m ago', dot: 'bg-amber-400' },
+                        { text: 'Call answered: Emergency plumbing', time: '14m ago', dot: 'bg-teal-400' },
+                        { text: 'Appointment booked: Smith residence', time: '22m ago', dot: 'bg-cyan-400' },
+                      ].map((item, idx) => (
+                        <div key={idx} className={`flex items-center gap-2 ${idx > 2 ? 'hidden sm:flex' : ''}`}>
+                          <div className={`w-1.5 h-1.5 rounded-full ${item.dot} flex-shrink-0 ${idx === 0 ? 'animate-pulse' : ''}`} />
+                          <span className="text-[10px] sm:text-xs text-slate-400 truncate flex-1">{item.text}</span>
+                          <span className="text-[8px] sm:text-[9px] text-slate-600 flex-shrink-0">{item.time}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="mt-6 hidden md:block">
             <EnergyNetwork />

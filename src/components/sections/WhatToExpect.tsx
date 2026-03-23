@@ -13,6 +13,10 @@ import {
   Clock,
   ChevronDown,
   ArrowRight,
+  Calculator,
+  TrendingUp,
+  Wallet,
+  CalendarClock,
 } from 'lucide-react'
 
 /* ─── Tier Data ──────────────────────────────────────────────────────────────── */
@@ -371,6 +375,197 @@ function TierCard({
   )
 }
 
+/* ─── ROI Calculator ──────────────────────────────────────────────────────────── */
+
+function ROICalculator() {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
+  const [jobsPerMonth, setJobsPerMonth] = useState(40)
+  const [avgJobValue, setAvgJobValue] = useState(1500)
+  const [adminHours, setAdminHours] = useState(20)
+  const [teamSize, setTeamSize] = useState(5)
+
+  const monthlyAdminSaved = Math.round(adminHours * 4.33 * 25)
+  const monthlyRevenue = Math.round(jobsPerMonth * 0.15 * avgJobValue)
+  const annualSavings = (monthlyAdminSaved + monthlyRevenue) * 12
+  const roiDays = Math.max(7, Math.round(30 - (monthlyRevenue / 1000) * 2))
+
+  const sliderClass = 'w-full h-2 bg-slate-700/50 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-teal-400 [&::-webkit-slider-thumb]:shadow-[0_0_12px_rgba(45,212,191,0.5)] [&::-webkit-slider-thumb]:cursor-pointer'
+
+  return (
+    <section className="py-28 lg:py-36 bg-bg-primary relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-500/[0.04] to-emerald-500/[0.04] rounded-full blur-[100px]" />
+      </div>
+
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <motion.div
+          ref={ref}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+        >
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700/40 mb-8">
+            <Calculator className="w-3.5 h-3.5 text-teal-400 mr-2" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400">ROI Calculator</span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+            <span className="text-white">Calculate Your </span>
+            <span className="gradient-text">ROI</span>
+          </h2>
+          <p className="text-slate-400 text-lg max-w-lg mx-auto">See how much OIOS saves your business</p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Inputs */}
+          <motion.div
+            className="glass-card p-8 space-y-8"
+            initial={{ opacity: 0, x: -30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {[
+              { label: 'Jobs per month', value: jobsPerMonth, set: setJobsPerMonth, min: 10, max: 200, display: String(jobsPerMonth) },
+              { label: 'Average job value', value: avgJobValue, set: setAvgJobValue, min: 100, max: 10000, display: `$${avgJobValue.toLocaleString()}` },
+              { label: 'Admin hours per week', value: adminHours, set: setAdminHours, min: 5, max: 60, display: `${adminHours}hrs` },
+              { label: 'Team size', value: teamSize, set: setTeamSize, min: 1, max: 50, display: String(teamSize) },
+            ].map((slider) => (
+              <div key={slider.label}>
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-sm text-slate-300 font-medium">{slider.label}</span>
+                  <span className="text-sm font-bold text-teal-400 font-mono">{slider.display}</span>
+                </div>
+                <input
+                  type="range"
+                  min={slider.min}
+                  max={slider.max}
+                  value={slider.value}
+                  onChange={(e) => slider.set(Number(e.target.value))}
+                  className={sliderClass}
+                />
+              </div>
+            ))}
+          </motion.div>
+
+          {/* Outputs */}
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, x: 30 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            {[
+              { icon: Wallet, label: 'Monthly admin cost saved', value: `$${monthlyAdminSaved.toLocaleString()}`, color: 'text-emerald-400', border: 'border-emerald-400/20' },
+              { icon: TrendingUp, label: 'Revenue from captured leads', value: `$${monthlyRevenue.toLocaleString()}`, color: 'text-amber-400', border: 'border-amber-400/20' },
+              { icon: BarChart3, label: 'Annual total savings', value: `$${annualSavings.toLocaleString()}`, color: 'text-teal-400', border: 'border-teal-400/20' },
+              { icon: CalendarClock, label: 'Pays for itself in', value: `~${roiDays} days`, color: 'text-cyan-400', border: 'border-cyan-400/20' },
+            ].map((output) => {
+              const Icon = output.icon
+              return (
+                <div key={output.label} className={`glass-card p-5 border ${output.border} flex items-center gap-4`}>
+                  <div className={`w-10 h-10 rounded-xl bg-slate-800/80 border ${output.border} flex items-center justify-center flex-shrink-0`}>
+                    <Icon className={`w-5 h-5 ${output.color}`} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-xs text-slate-500 font-mono uppercase tracking-wider">{output.label}</div>
+                    <div className={`text-2xl font-bold ${output.color}`} style={{ fontFamily: 'var(--font-display), sans-serif' }}>{output.value}</div>
+                  </div>
+                </div>
+              )
+            })}
+
+            <div className="mt-4">
+              <MagneticButton className="w-full">
+                <Link
+                  href="/audit"
+                  data-cursor="cta"
+                  className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-bold text-center text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors"
+                >
+                  Get Your Custom Quote →
+                </Link>
+              </MagneticButton>
+              <p className="text-center text-slate-500 text-xs mt-3">Based on industry averages. Your results may vary.</p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─── Pricing FAQ ──────────────────────────────────────────────────────────── */
+
+const pricingFaqs = [
+  { q: "Why don't you list prices publicly?", a: "Every service business is different. We build custom packages based on your trade, team size, and operations needs. Book a free audit and we'll give you exact pricing in 24 hours." },
+  { q: 'Is there a contract?', a: "No long-term contracts. We're so confident OIOS will pay for itself that we offer a 60-day performance guarantee. Month-to-month, cancel anytime." },
+  { q: "What's included in the free audit?", a: 'A 30-minute call where we analyze your current operations, identify revenue leaks, and show you exactly how OIOS would work for your business. No obligation.' },
+  { q: 'Can I upgrade or downgrade?', a: 'Absolutely. As your business grows, your AI team grows with you. Upgrades take effect immediately — no waiting period.' },
+]
+
+function PricingFAQ() {
+  const [open, setOpen] = useState<number | null>(null)
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-60px' })
+
+  return (
+    <section className="py-24 lg:py-32 bg-bg-primary relative">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          ref={ref}
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold text-white" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
+            Pricing Questions
+          </h2>
+        </motion.div>
+
+        <div className="space-y-3">
+          {pricingFaqs.map((faq, i) => (
+            <motion.div
+              key={i}
+              className="glass-card overflow-hidden"
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+            >
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-center justify-between p-5 text-left"
+              >
+                <span className="text-sm font-semibold text-white pr-4">{faq.q}</span>
+                <motion.span
+                  animate={{ rotate: open === i ? 45 : 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-teal-400 flex-shrink-0 text-lg"
+                >
+                  +
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {open === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="px-5 pb-5 text-sm text-slate-400 leading-relaxed">{faq.a}</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 /* ─── Process Step Card ──────────────────────────────────────────────────────── */
 
 function StepCard({ step, index }: { step: (typeof steps)[0]; index: number }) {
@@ -549,6 +744,9 @@ export function WhatToExpect() {
         </div>
       </section>
 
+      {/* ═══ ROI Calculator ═══ */}
+      <ROICalculator />
+
       {/* ═══ Process Section ═══ */}
       <section className="py-28 lg:py-36 bg-bg-primary relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -660,6 +858,9 @@ export function WhatToExpect() {
           </motion.div>
         </div>
       </section>
+
+      {/* ═══ Pricing FAQ ═══ */}
+      <PricingFAQ />
     </>
   )
 }
