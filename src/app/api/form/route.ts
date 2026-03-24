@@ -61,6 +61,12 @@ export async function POST(req: Request) {
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Who Handles Calls</td>
             <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.callHandler}</td>
           </tr>
+          ${data.biggestPainPoint ? `
+          <tr style="border-bottom: 1px solid #1e293b;">
+            <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Biggest Pain Point</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.biggestPainPoint}</td>
+          </tr>
+          ` : ''}
           ${data.currentSoftware ? `
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Current Software</td>

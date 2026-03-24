@@ -10,6 +10,7 @@ type FormData = {
   teamSize: string
   callsPerWeek: string
   callHandler: string
+  biggestPainPoint: string
   currentSoftware: string
   phoneNumber: string
   bestTime: string
@@ -22,6 +23,7 @@ const initialFormData: FormData = {
   teamSize: '',
   callsPerWeek: '',
   callHandler: '',
+  biggestPainPoint: '',
   currentSoftware: '',
   phoneNumber: '',
   bestTime: '',
@@ -219,7 +221,7 @@ export function DiscoveryForm() {
             Let&apos;s see what we can do for you
           </h1>
           <p className="text-slate-400 text-base">
-            Quick questions so I can prep something specific for our call.
+            Takes about 3 minutes. I&apos;ll use this to prep something specific for our call.
           </p>
         </div>
 
@@ -294,6 +296,20 @@ export function DiscoveryForm() {
               value={formData.callHandler}
               onChange={(val) => handleChange('callHandler', val)}
             />
+
+            {/* Biggest Pain Point */}
+            <div>
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                What&apos;s your biggest pain point right now?
+              </label>
+              <textarea
+                placeholder="The thing that keeps you up at night..."
+                value={formData.biggestPainPoint}
+                onChange={(e) => handleChange('biggestPainPoint', e.target.value)}
+                rows={2}
+                className="w-full min-h-[80px] bg-slate-800/50 border border-slate-700/50 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-teal-400/50 focus:ring-1 focus:ring-teal-400/25 focus:shadow-[0_0_15px_-3px_rgba(45,212,191,0.15)] transition-all duration-300 resize-y"
+              />
+            </div>
 
             {/* Current Software */}
             <div>
