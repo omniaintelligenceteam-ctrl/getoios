@@ -19,61 +19,27 @@ export default async function Image() {
       <div
         style={{
           display: 'flex',
+          flexDirection: 'column',
           width: '100%',
           height: '100%',
-          background: '#0B1120',
-          padding: '80px',
+          background: '#000000',
           alignItems: 'center',
+          justifyContent: 'center',
+          gap: '24px',
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} width={280} height={280} alt="" />
-        <div
+        <img src={logoSrc} width={320} height={320} alt="" />
+        <span
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            marginLeft: '60px',
-            gap: '20px',
+            fontSize: 32,
+            fontWeight: 700,
+            color: '#2DD4BF',
+            letterSpacing: '0.05em',
           }}
         >
-          <span
-            style={{
-              fontSize: 56,
-              fontWeight: 700,
-              color: 'white',
-              letterSpacing: '0.2em',
-            }}
-          >
-            OIOS
-          </span>
-          <span
-            style={{
-              fontSize: 28,
-              color: '#2DD4BF',
-              letterSpacing: '0.1em',
-            }}
-          >
-            OMNIA INTELLIGENCE AI
-          </span>
-          <span
-            style={{
-              fontSize: 36,
-              fontWeight: 700,
-              color: '#F59E0B',
-              lineHeight: 1.3,
-            }}
-          >
-            We Install AI Into Your Business.
-          </span>
-          <span
-            style={{
-              fontSize: 28,
-              color: '#94A3B8',
-            }}
-          >
-            It Handles the Rest.
-          </span>
-        </div>
+          Your AI-Powered Back Office
+        </span>
       </div>
     ),
     {
