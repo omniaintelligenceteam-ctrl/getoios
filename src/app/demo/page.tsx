@@ -31,8 +31,8 @@ export default function DemoPage() {
             </p>
             <p className="text-slate-400 text-sm">
               Book a workflow audit at{' '}
-              <Link href="/audit" className="text-amber-400 hover:text-amber-300 transition-colors">
-                getoios.com/audit
+              <Link href="/form" className="text-amber-400 hover:text-amber-300 transition-colors">
+                getoios.com/form
               </Link>{' '}
               or email{' '}
               <a href="mailto:team@getoios.com" className="text-amber-400 hover:text-amber-300 transition-colors">

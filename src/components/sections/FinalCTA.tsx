@@ -76,7 +76,7 @@ export function FinalCTA() {
         >
           <MagneticButton>
             <Link
-              href="#audit"
+              href="/form"
               data-glow
               data-cursor="cta"
               className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-10 py-4 rounded-lg font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"

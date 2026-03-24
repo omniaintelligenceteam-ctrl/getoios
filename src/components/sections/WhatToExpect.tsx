@@ -358,7 +358,7 @@ function TierCard({
           {/* CTA */}
           <MagneticButton>
             <Link
-              href="/audit"
+              href="/form"
               data-cursor="cta"
               className={`block w-full py-[18px] rounded-xl font-bold text-center text-base tracking-wide transition-all duration-300 ${
                 tier.popular
@@ -478,7 +478,7 @@ function ROICalculator() {
             <div className="mt-4">
               <MagneticButton className="w-full">
                 <Link
-                  href="/audit"
+                  href="/form"
                   data-cursor="cta"
                   className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white py-4 rounded-xl font-bold text-center text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-colors"
                 >
@@ -847,7 +847,7 @@ export function WhatToExpect() {
 
               <MagneticButton>
                 <Link
-                  href="/audit"
+                  href="/form"
                   data-cursor="cta"
                   className="inline-block bg-gradient-to-r from-amber-500 via-orange-400 to-amber-500 bg-[length:200%_100%] hover:bg-[position:100%_0] text-white px-12 py-[18px] rounded-xl text-lg font-bold shadow-[0_0_24px_rgba(245,158,11,0.3)] hover:shadow-[0_0_36px_rgba(245,158,11,0.5)] transition-all duration-300 relative tracking-wide"
                 >

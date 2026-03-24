@@ -264,7 +264,7 @@ export function Pricing() {
             {/* CTA */}
             <MagneticButton>
               <Link
-                href="#audit"
+                href="/form"
                 data-cursor="cta"
                 className="block w-full py-4 rounded-xl font-bold text-center text-base bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white btn-glow transition-all duration-200 relative z-10"
               >

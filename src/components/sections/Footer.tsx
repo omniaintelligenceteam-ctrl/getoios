@@ -9,7 +9,7 @@ export function Footer() {
     { name: 'Solutions', href: '/solutions' },
     { name: 'Live Demo', href: '/demo' },
     { name: 'What to Expect', href: '/pricing' },
-    { name: 'Book Your Audit', href: '/audit' },
+    { name: 'Book Your Audit', href: '/form' },
   ]
 
   const legalLinks = [

@@ -135,7 +135,7 @@ export function Hero() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-start gap-3">
-              <Link href="/audit">
+              <Link href="/form">
                 <button className="border border-white text-white font-semibold py-3.5 px-8 rounded-2xl transition duration-300 hover:bg-white hover:text-black w-full sm:w-auto">
                   Start Risk-Free
                 </button>

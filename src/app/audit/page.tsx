@@ -1,56 +1,5 @@
-import type { Metadata } from 'next'
-import { Header } from '@/components/sections/Header'
-import { PageHero } from '@/components/sections/PageHero'
-import { AuditForm } from '@/components/sections/AuditForm'
-import { Footer } from '@/components/sections/Footer'
-import { PageEntrance } from '@/components/ui/PageEntrance'
-import { SectionTransition } from '@/components/ui/SectionTransition'
-
-export const metadata: Metadata = {
-  title: 'Book Your AI Operations Audit — OIOS',
-  description:
-    'Book your free 60-minute AI operations audit with OIOS. Four quick questions, and we\'ll show you exactly where AI saves your business the most time and money.',
-  openGraph: {
-    title: 'Book Your AI Operations Audit — OIOS',
-    description:
-      'Book your free 60-minute AI operations audit with OIOS. Four quick questions, and we\'ll show you exactly where AI saves your business the most time and money.',
-    url: 'https://getoios.com/audit',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Book Your AI Operations Audit — OIOS — OIOS by Omnia Intelligence AI',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Book Your AI Operations Audit — OIOS',
-    description:
-      'Book your free 60-minute AI operations audit with OIOS. Four quick questions, and we\'ll show you exactly where AI saves your business the most time and money.',
-    images: ['/og-image.png'],
-  },
-  alternates: {
-    canonical: 'https://getoios.com/audit',
-  },
-}
+import { redirect } from 'next/navigation'
 
 export default function AuditPage() {
-  return (
-    <PageEntrance>
-      <div className="bg-bg-primary text-white min-h-screen">
-        <Header />
-        <PageHero
-          badge="Get Started"
-          title="Book Your Free Audit"
-          subtitle="4 questions. 30 seconds. We'll show you exactly where AI saves you the most time."
-        />
-        <SectionTransition />
-        <AuditForm />
-        <SectionTransition />
-        <Footer />
-      </div>
-    </PageEntrance>
-  )
+  redirect('/form')
 }

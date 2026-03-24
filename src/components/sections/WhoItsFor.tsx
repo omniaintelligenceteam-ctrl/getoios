@@ -24,10 +24,10 @@ const trades = [
   { icon: Key, name: 'Locksmith', href: '/locksmith', outcomes: ['Capture every lockout call 24/7', 'Instant quote generation', 'GPS-based job routing'] },
   { icon: Bug, name: 'Pest Control', href: '/pest-control', outcomes: ['+60% seasonal booking capture', 'Automated retreatment reminders', 'Review requests after every job'] },
   { icon: Trees, name: 'Landscape Lighting', href: '/landscape-lighting', outcomes: ['Same-day consultation booking', 'Seasonal promotion campaigns', 'Project milestone updates'] },
-  { icon: HardHat, name: 'General Contractors', href: '/audit', outcomes: ['Subcontractor coordination automation', 'Change order tracking', '3x faster proposal turnaround'] },
-  { icon: Home, name: 'Roofing', href: '/audit', outcomes: ['Storm damage lead capture', 'Insurance claim follow-ups', 'Drone inspection scheduling'] },
-  { icon: Sparkles, name: 'Cleaning', href: '/audit', outcomes: ['Recurring appointment management', 'Last-minute booking capture', 'Automated supply tracking'] },
-  { icon: DoorOpen, name: 'Garage Door', href: '/audit', outcomes: ['Emergency repair dispatch 24/7', 'Spring replacement reminders', 'Warranty tracking automation'] },
+  { icon: HardHat, name: 'General Contractors', href: '/form', outcomes: ['Subcontractor coordination automation', 'Change order tracking', '3x faster proposal turnaround'] },
+  { icon: Home, name: 'Roofing', href: '/form', outcomes: ['Storm damage lead capture', 'Insurance claim follow-ups', 'Drone inspection scheduling'] },
+  { icon: Sparkles, name: 'Cleaning', href: '/form', outcomes: ['Recurring appointment management', 'Last-minute booking capture', 'Automated supply tracking'] },
+  { icon: DoorOpen, name: 'Garage Door', href: '/form', outcomes: ['Emergency repair dispatch 24/7', 'Spring replacement reminders', 'Warranty tracking automation'] },
 ];
 
 export function WhoItsFor() {
