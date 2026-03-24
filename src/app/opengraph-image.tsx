@@ -7,7 +7,7 @@ export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 export default async function Image() {
-  const logoData = await readFile(join(process.cwd(), 'public', 'logo-oios.jpg'))
+  const logoData = await readFile(join(process.cwd(), 'public', 'LOGO OIOS.jpg'))
   const logoSrc = `data:image/jpeg;base64,${logoData.toString('base64')}`
 
   const interBold = await fetch(

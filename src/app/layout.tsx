@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     google: 'opWpVmIdfuvdOo0-FtRN0Uad-wFNI7IKtx',
   },
   icons: {
-    icon: '/logo-oios.jpg',
+    icon: '/LOGO OIOS.jpg',
     apple: '/apple-touch-icon.png',
   },
   title: {
@@ -91,7 +91,7 @@ export default function RootLayout({
     "url": "https://getoios.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://getoios.com/logo-oios.jpg",
+      "url": "https://getoios.com/LOGO%20OIOS.jpg",
       "width": 512,
       "height": 512,
     },

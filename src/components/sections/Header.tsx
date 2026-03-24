@@ -44,7 +44,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 lg:space-x-4 group">
             <Image
-              src="/logo-oios.jpg"
+              src="/LOGO OIOS.jpg"
               alt="OIOS — Omnia Intelligence"
               width={1024}
               height={1024}
