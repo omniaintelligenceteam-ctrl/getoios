@@ -5,7 +5,7 @@ import { HowItWorks } from '@/components/sections/HowItWorks'
 import { WhoItsFor } from '@/components/sections/WhoItsFor'
 import { ComparisonTable } from '@/components/sections/ComparisonTable'
 import { FAQ } from '@/components/sections/FAQ'
-import { AuditForm } from '@/components/sections/AuditForm'
+import { DiscoveryForm } from '@/components/sections/DiscoveryForm'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Footer } from '@/components/sections/Footer'
 import { CinematicEntrance } from '@/components/ui/CinematicEntrance'
@@ -28,7 +28,7 @@ export default function Home() {
         <SectionTransition />
         <FAQ />
         <SectionTransition />
-        <AuditForm />
+        <DiscoveryForm />
         <SectionTransition />
         <FinalCTA />
         <SectionTransition />

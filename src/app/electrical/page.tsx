@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Phone, PhoneOff, Zap, Plug, Gauge, Fan } from 'lucide-react';
 import { FadeIn } from '@/components/ui/FadeIn';
-import { AuditForm } from '@/components/sections/AuditForm';
+import { DiscoveryForm } from '@/components/sections/DiscoveryForm';
 import { Header } from '@/components/sections/Header';
 import { Footer } from '@/components/sections/Footer';
 import { RetellWebClient } from 'retell-client-js-sdk';
@@ -510,7 +510,7 @@ export default function ElectricalPage() {
       <div className="section-divider" />
 
       {/* Audit Form Section */}
-      <AuditForm />
+      <DiscoveryForm />
       <div className="section-divider" />
       <DashboardPreview />
       <div className="section-divider" />
