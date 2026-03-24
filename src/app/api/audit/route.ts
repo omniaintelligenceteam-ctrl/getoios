@@ -106,8 +106,8 @@ export async function POST(req: Request) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Silent AI Partner <audit@getoios.com>',
-        to: ['team@getoios.com'],
+        from: 'OIOS <audit@getoios.com>',
+        to: ['omniaintelligenceteam@gmail.com'],
         subject: `New Audit Request: ${data.businessName} (${data.trade})`,
         html: emailHtml,
       }),
