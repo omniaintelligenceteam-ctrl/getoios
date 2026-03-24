@@ -14,7 +14,7 @@ const suggestions = [
   '"How much does it cost?"',
   '"Can you schedule me for Tuesday?"',
   '"What areas do you serve?"',
-  '"Do you offer warranties?"',
+  '"Do you offer emergency service?"',
 ]
 
 // ─── Animated Waveform ──────────────────────────────────────────────────────
@@ -120,38 +120,6 @@ export function VoiceDemo() {
     }
   }
 
-  const startInterview = async () => {
-    try {
-      setCallState('connecting')
-      setError('')
-
-      const response = await fetch('/api/retell', {
-        method: 'POST',
-        body: JSON.stringify({ agent_id: 'agent_d4388c25d4ce0732b4882f18ad' }),
-        headers: { 'Content-Type': 'application/json' },
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to get access token')
-      }
-
-      const { access_token } = await response.json()
-      const webClient = new RetellWebClient()
-
-      webClient.on('call_started', () => setCallState('connected'))
-      webClient.on('call_ended', () => { setCallState('idle'); setRetellWebClient(null) })
-      webClient.on('error', () => { setError('Call failed. Please try again.'); setCallState('error'); setRetellWebClient(null) })
-
-      setRetellWebClient(webClient)
-      await webClient.startCall({ accessToken: access_token })
-    } catch (err: any) {
-      setError(err.message || 'Failed to start call.')
-      setCallState('error')
-      setRetellWebClient(null)
-    }
-  }
-
   const endCall = () => {
     if (retellWebClient) {
       retellWebClient.stopCall()
@@ -231,7 +199,7 @@ export function VoiceDemo() {
                     <RotatingSuggestion />
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <div className="flex justify-center">
                     <MagneticButton>
                       <button
                         onClick={startCall}
@@ -242,15 +210,11 @@ export function VoiceDemo() {
                         Live Demo
                       </button>
                     </MagneticButton>
-
-                    <button
-                      onClick={startInterview}
-                      data-glow
-                      className="border-2 border-amber-500/30 text-amber-400 min-w-[220px] px-8 py-4 rounded-xl text-lg font-medium transition-all hover:border-amber-400 hover:bg-amber-500/10 flex items-center justify-center gap-3"
-                    >
-                      Interview OIOS
-                    </button>
                   </div>
+
+                  <p className="text-slate-500 text-xs font-mono">
+                    OIOS Business Line &bull; (866) 782-1303
+                  </p>
 
                   <motion.p
                     className="text-slate-500 text-xs font-mono"
