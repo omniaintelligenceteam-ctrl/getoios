@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/pest-control',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'AI Operations for Pest Control Services — OIOS by Omnia Intelligence AI',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'AI Operations for Pest Control Services',
     description:
       'OIOS answers every pest control call 24/7, books appointments, automates follow-ups, and tracks your revenue — so no lead slips through.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/pest-control',

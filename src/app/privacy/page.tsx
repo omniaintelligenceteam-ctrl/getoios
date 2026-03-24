@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/privacy',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'Privacy Policy — OIOS by Omnia Intelligence AI',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: 'Privacy Policy — OIOS | AI Operations for Service Businesses',
     description:
       'How OIOS by Omnia Intelligence AI collects, uses, and protects your data. Your business data stays yours — always.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/privacy',

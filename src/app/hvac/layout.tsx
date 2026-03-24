@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/hvac',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'AI Operations for HVAC Contractors — OIOS by Omnia Intelligence AI',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'AI Operations for HVAC Contractors',
     description:
       'OIOS answers every HVAC service call 24/7, books appointments, automates follow-ups, and tracks revenue — so you never miss a job.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/hvac',

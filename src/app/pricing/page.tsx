@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/pricing',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'Pricing — OIOS | AI Operations for Service Businesses — OIOS by Omnia Intelligence AI',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'Pricing — OIOS | AI Operations for Service Businesses',
     description:
       'Simple, transparent pricing for AI-powered operations. Less than a part-time hire. More than an entire operations team.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/pricing',

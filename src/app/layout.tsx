@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "OIOS by Omnia Intelligence AI",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "OIOS — AI Operations Platform for Service Businesses",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "OIOS — AI-Powered Operations for Service Businesses",
     description: "OIOS answers calls 24/7, automates back office workflows, and shows you every lead, job, and dollar in real time. Free audit.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   alternates: {
     canonical: "https://getoios.com",

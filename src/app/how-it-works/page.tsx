@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/how-it-works',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'How OIOS Works — Audit, Build, Run — OIOS by Omnia Intelligence AI',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'How OIOS Works — Audit, Build, Run',
     description:
       'A simple 3-step process: we audit your current operations, build your AI systems, and run them for you — so you can focus on the work, not the admin.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/how-it-works',

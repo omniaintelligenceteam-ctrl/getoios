@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/locksmith',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'AI Operations for Locksmith Services — OIOS by Omnia Intelligence AI',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'AI Operations for Locksmith Services',
     description:
       'OIOS answers every locksmith call 24/7, dispatches jobs, automates follow-ups, and tracks revenue in real time.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/locksmith',

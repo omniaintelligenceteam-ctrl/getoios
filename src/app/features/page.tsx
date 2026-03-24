@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/features',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'What OIOS Does — AI Operations for Service Businesses — OIOS by Omnia Intelligence AI',
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'What OIOS Does — AI Operations for Service Businesses',
     description:
       'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your service business running around the clock.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/features',

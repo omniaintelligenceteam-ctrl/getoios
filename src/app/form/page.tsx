@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/form',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'OIOS by Omnia Intelligence AI',

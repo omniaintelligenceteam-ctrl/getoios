@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/plumbing',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'AI Operations for Plumbing Businesses — OIOS by Omnia Intelligence AI',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'AI Operations for Plumbing Businesses',
     description:
       'OIOS answers every plumbing call 24/7, books emergency and routine appointments, automates follow-ups, and tracks your revenue in real time.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/plumbing',

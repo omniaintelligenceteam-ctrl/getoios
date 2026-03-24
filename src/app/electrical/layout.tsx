@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/electrical',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'AI Operations for Electrical Contractors — OIOS by Omnia Intelligence AI',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'AI Operations for Electrical Contractors',
     description:
       'OIOS answers every electrical service call 24/7, books appointments, automates follow-ups, and gives you full visibility into leads and revenue.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/electrical',

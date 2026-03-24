@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/terms',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'Terms of Service — OIOS by Omnia Intelligence AI',
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: 'Terms of Service — OIOS | AI Operations for Service Businesses',
     description:
       'Terms of Service for OIOS by Omnia Intelligence AI. No long-term contracts, no cancellation fees — just AI operations that work.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/terms',

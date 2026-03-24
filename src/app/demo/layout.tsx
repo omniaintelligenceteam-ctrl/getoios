@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     url: 'https://getoios.com/demo',
     images: [
       {
-        url: '/og-image.png',
+        url: '/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'Live Demo — See OIOS in Action — OIOS by Omnia Intelligence AI',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: 'Live Demo — See OIOS in Action',
     description:
       'Try OIOS live. Talk to our AI receptionist, see the command center, and experience how AI runs operations for service businesses.',
-    images: ['/og-image.png'],
+    images: ['/opengraph-image'],
   },
   alternates: {
     canonical: 'https://getoios.com/demo',
