@@ -110,34 +110,6 @@ export default function LandscapeLightingPage() {
     setError('');
   };
 
-  
-  const startInterview = async () => {
-    try {
-      setCallState('connecting');
-      setError('');
-      const response = await fetch("/api/retell", {
-        method: 'POST',
-        body: JSON.stringify({ agent_id: "agent_d4388c25d4ce0732b4882f18ad" }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get access token');
-      }
-      const { access_token } = await response.json();
-      const webClient = new RetellWebClient();
-      webClient.on('call_started', () => { setCallState('connected'); });
-      webClient.on('call_ended', () => { setCallState('idle'); setRetellWebClient(null); });
-      webClient.on('error', (error: any) => { setError('Call failed.'); setCallState('error'); setRetellWebClient(null); });
-      setRetellWebClient(webClient);
-      await webClient.startCall({ accessToken: access_token });
-    } catch (error: any) {
-      setError(error.message || 'Failed to start call.');
-      setCallState('error');
-      setRetellWebClient(null);
-    }
-  };
-
   const resetError = () => {
     setCallState('idle');
     setError('');
@@ -326,13 +298,6 @@ export default function LandscapeLightingPage() {
                         Live Demo
                       </button>
                     </MagneticButton>
-                    <button
-                      onClick={startInterview}
-                      data-glow
-                      className="border-2 border-orange-500/30 text-orange-400 px-8 py-4 rounded-full text-lg font-medium transition-all hover:border-orange-400 hover:bg-orange-500/10 flex items-center gap-3 mx-auto"
-                    >
-                      🎙️ Interview Sarah
-                    </button>
                     <div className="text-sm text-slate-500 mt-6">
                       <p className="mb-3">Try asking Sarah about:</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-400">

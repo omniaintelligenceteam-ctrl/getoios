@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const RETELL_API_KEY = 'key_57a1e44d75cffc9b5e9f8188f048';
-const DEFAULT_AGENT_ID = 'agent_d4388c25d4ce0732b4882f18ad';
+const RETELL_API_KEY = process.env.RETELL_API_KEY!;
+const DEFAULT_AGENT_ID = 'agent_b8f7dab7124e978dacac4a3b60';
 
 // Valid agent IDs for trade-specific demos
 const VALID_AGENTS = new Set([
-  'agent_d4388c25d4ce0732b4882f18ad', // Sarah - Mike's Plumbing (original)
+  'agent_b8f7dab7124e978dacac4a3b60',  // OIOS Business Line (default)
   'agent_5c7497a9685bfbf3fe546f07e7',  // Mike's Plumbing
   'agent_61fc1cc265e6885ac41dcfb527',  // Cool Air HVAC
   'agent_032f8dd6a242ac38256c7b9954',  // Premier Outdoor Lighting
