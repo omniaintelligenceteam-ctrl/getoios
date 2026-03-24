@@ -103,7 +103,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         from: 'OIOS <form@getoios.com>',
-        to: ['team@getoios.com'],
+        to: ['omniaintelligenceteam@gmail.com'],
         subject: `New Warm Lead: ${data.businessName} — ${data.businessDescription}`,
         html: emailHtml,
       }),
