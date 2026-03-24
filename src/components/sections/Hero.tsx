@@ -143,7 +143,7 @@ export function Hero() {
               <Link href="/demo">
                 <button className="bg-white text-black font-semibold py-3.5 px-8 rounded-2xl transition duration-300 hover:scale-105 flex items-center justify-center w-full sm:w-auto">
                   <Plus className="w-5 h-5 mr-2 text-teal-500" />
-                  Book a Demo
+                  Receptionist Demo
                 </button>
               </Link>
             </div>
