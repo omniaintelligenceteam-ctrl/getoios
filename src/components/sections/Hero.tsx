@@ -11,7 +11,6 @@ import { RotatingText } from '@/components/ui/RotatingText'
 import { useScrollVelocity } from '@/hooks/useScrollVelocity'
 import { gsap, ScrollTrigger } from '@/lib/gsap-init'
 import { ShaderBackground } from '@/components/ui/ShaderBackground'
-import { SplineHero } from '@/components/ui/SplineHero'
 
 // ─── Animated Energy Network SVG ────────────────────────────────────────────
 function EnergyNetwork() {
@@ -381,9 +380,6 @@ export function Hero() {
         </motion.div>
 
         {/* Hero Robot Scene */}
-        {/* Interactive 3D Spline Scene (desktop only) */}
-        <SplineHero className="absolute inset-0 z-0 pointer-events-auto hidden lg:block" />
-
         <motion.div
           className="mb-8"
           initial={{ opacity: 0 }}
