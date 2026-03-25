@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+/* useState still needed for SubTopicAccordion */
 import {
   Phone,
   Calendar,
@@ -411,15 +412,57 @@ function SubTopicAccordion({ subtopic }: { subtopic: SubTopic }) {
   );
 }
 
-export function CapabilityBreakdown() {
-  const [activeTab, setActiveTab] = useState(0);
-  const active = capabilities[activeTab];
+function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.45, delay: index * 0.08 }}
+      className={`relative rounded-2xl bg-slate-900/60 border ${cap.borderColor} p-6 sm:p-8`}
+    >
+      <GlowingEffect
+        disabled={false}
+        spread={50}
+        glow
+        blur={8}
+        proximity={100}
+        inactiveZone={0.01}
+        borderWidth={2}
+        movementDuration={1.5}
+      />
+      {/* Card Header */}
+      <div className="flex items-center gap-4 mb-2">
+        <div className={`w-12 h-12 rounded-xl ${cap.bgColor} border ${cap.borderColor} flex items-center justify-center`}>
+          <cap.icon className={`w-6 h-6 ${cap.color}`} />
+        </div>
+        <div>
+          <h3
+            className="text-2xl font-bold text-white"
+            style={{ fontFamily: 'var(--font-display), sans-serif' }}
+          >
+            {cap.name}
+          </h3>
+          <p className="text-sm text-slate-400">{cap.tagline}</p>
+        </div>
+      </div>
 
+      {/* Sub-topic Accordions */}
+      <div className="mt-6 border-t border-slate-700/30">
+        {cap.subtopics.map((sub) => (
+          <SubTopicAccordion key={sub.name} subtopic={sub} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+export function CapabilityBreakdown() {
   return (
     <section className="py-24 lg:py-32 bg-bg-primary relative overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -439,79 +482,12 @@ export function CapabilityBreakdown() {
           </h2>
         </motion.div>
 
-        {/* Tab Bar */}
-        <div className="flex flex-wrap justify-center gap-3 mb-10">
+        {/* All 6 Cards in Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
           {capabilities.map((cap, i) => (
-            <div key={cap.name} className="relative rounded-xl">
-              <GlowingEffect
-                disabled={false}
-                spread={30}
-                glow
-                blur={4}
-                proximity={60}
-                inactiveZone={0.01}
-                borderWidth={2}
-                movementDuration={1.5}
-              />
-              <button
-                onClick={() => setActiveTab(i)}
-                className={`relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-                  activeTab === i
-                    ? `bg-slate-800 border border-slate-600 text-white shadow-lg`
-                    : 'bg-slate-900/40 border border-slate-700/30 text-slate-400 hover:text-white hover:border-slate-600'
-                }`}
-              >
-                <cap.icon className={`w-4 h-4 ${activeTab === i ? cap.color : ''}`} />
-                {cap.name}
-              </button>
-            </div>
+            <CapabilityCard key={cap.name} cap={cap} index={i} />
           ))}
         </div>
-
-        {/* Active Tab Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active.name}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.25 }}
-            className={`relative rounded-2xl bg-slate-900/60 border ${active.borderColor} p-6 sm:p-8`}
-          >
-            <GlowingEffect
-              disabled={false}
-              spread={50}
-              glow
-              blur={8}
-              proximity={100}
-              inactiveZone={0.01}
-              borderWidth={2}
-              movementDuration={1.5}
-            />
-            {/* Tab Header */}
-            <div className="flex items-center gap-4 mb-2">
-              <div className={`w-12 h-12 rounded-xl ${active.bgColor} border ${active.borderColor} flex items-center justify-center`}>
-                <active.icon className={`w-6 h-6 ${active.color}`} />
-              </div>
-              <div>
-                <h3
-                  className="text-2xl font-bold text-white"
-                  style={{ fontFamily: 'var(--font-display), sans-serif' }}
-                >
-                  {active.name}
-                </h3>
-                <p className="text-sm text-slate-400">{active.tagline}</p>
-              </div>
-            </div>
-
-            {/* Sub-topic Accordions */}
-            <div className="mt-6 border-t border-slate-700/30">
-              {active.subtopics.map((sub) => (
-                <SubTopicAccordion key={sub.name} subtopic={sub} />
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
       </div>
     </section>
   );
