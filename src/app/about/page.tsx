@@ -43,8 +43,8 @@ export default function AboutPage() {
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <PageHero
-          title="Built for Contractors. By People Who Get It."
-          subtitle="OIOS exists because service businesses deserve operations that actually work — without hiring an army to run them."
+          title="Built for Small Business. By People Who Get It."
+          subtitle="OIOS exists because small businesses deserve operations that actually work — without hiring an army to run them."
           badge="Our Story"
         />
         <SectionTransition />

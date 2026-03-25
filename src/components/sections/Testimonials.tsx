@@ -2,7 +2,7 @@
 
 import { motion, useInView } from 'motion/react'
 import { useRef, useEffect, useState } from 'react'
-import { Flame, Wrench, Zap, Key, Bug, Trees, TrendingUp } from 'lucide-react'
+import { Phone, Calendar, TrendingUp, Megaphone, Settings, DollarSign, Briefcase, Heart, Home, Shield, UtensilsCrossed } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 interface ResultCard {
@@ -13,19 +13,19 @@ interface ResultCard {
 }
 
 const row1: ResultCard[] = [
-  { icon: Flame, trade: 'HVAC Company', result: '40% more booked calls in first month', metric: '+40%' },
-  { icon: Wrench, trade: 'Plumbing Business', result: 'Zero missed after-hours emergency calls', metric: '0 missed' },
-  { icon: Zap, trade: 'Electrical Contractor', result: '15 hours/week saved on admin tasks', metric: '15hrs saved' },
-  { icon: TrendingUp, trade: 'General Contractor', result: '3x faster proposal turnaround', metric: '3x faster' },
-  { icon: Key, trade: 'Locksmith Service', result: 'Every lockout call captured, 24/7', metric: '24/7' },
+  { icon: Phone, trade: 'Insurance Agency', result: '40% more booked calls in first month', metric: '+40%' },
+  { icon: Heart, trade: 'Dental Practice', result: 'Zero missed appointment requests', metric: '0 missed' },
+  { icon: Home, trade: 'Real Estate Office', result: '3x faster lead response time', metric: '3x faster' },
+  { icon: UtensilsCrossed, trade: 'Restaurant', result: 'Every reservation captured, 24/7', metric: '24/7' },
+  { icon: Briefcase, trade: 'Consulting Firm', result: '15 hours/week saved on admin tasks', metric: '15hrs saved' },
 ]
 
 const row2: ResultCard[] = [
-  { icon: Bug, trade: 'Pest Control', result: 'Seasonal bookings up 60% with AI follow-ups', metric: '+60%' },
-  { icon: Trees, trade: 'Landscaping Co.', result: 'Morning briefings replace 2hrs of catch-up', metric: '2hrs/day' },
-  { icon: Flame, trade: 'HVAC Service', result: 'CSR costs eliminated, calls still answered', metric: '$0 CSR' },
-  { icon: Wrench, trade: 'Drain Cleaning', result: 'Review responses sent automatically', metric: 'Auto' },
-  { icon: Zap, trade: 'Solar Installer', result: 'Lead response time under 30 seconds', metric: '<30s' },
+  { icon: Shield, trade: 'Law Firm', result: 'Client intake handled automatically', metric: 'Auto' },
+  { icon: Settings, trade: 'Plumbing Company', result: 'Morning briefings replace 2hrs of catch-up', metric: '2hrs/day' },
+  { icon: DollarSign, trade: 'Accounting Firm', result: 'Invoice follow-ups sent automatically', metric: '$0 effort' },
+  { icon: Megaphone, trade: 'Marketing Agency', result: 'Review requests after every project', metric: '3x reviews' },
+  { icon: TrendingUp, trade: 'HVAC Company', result: 'Lead response time under 30 seconds', metric: '<30s' },
 ]
 
 function Card({ item }: { item: ResultCard }) {
@@ -142,7 +142,7 @@ export function Testimonials() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            What Contractors Like You{' '}
+            What Small Business Owners{' '}
             <span className="gradient-text">Can Expect</span>
           </motion.h2>
 
@@ -152,7 +152,7 @@ export function Testimonials() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Based on industry benchmarks and AI automation data across service businesses.
+            Based on industry benchmarks and AI automation data across small businesses.
           </motion.p>
         </div>
 
