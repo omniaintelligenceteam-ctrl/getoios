@@ -46,7 +46,7 @@ export default function PricingPage() {
         <Header />
         <PageHero
           title="Custom-Built for Your Business"
-          subtitle="No fixed tiers. We build exactly what you need — nothing more, nothing less."
+          subtitle="Only pay for what works."
           badge="Pricing"
         />
         <WhatToExpect />
