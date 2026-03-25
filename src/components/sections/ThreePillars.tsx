@@ -261,15 +261,17 @@ const receptionistFlow: FlowConfig = {
   color: 'teal',
   glowColor: '#2DD4BF',
   nodes: [
-    { icon: '📞', label: 'INCOMING CALL', x: 100, y: 100 },
-    { icon: '⚡', label: 'AI ANSWERS', x: 290, y: 100 },
-    { icon: '✅', label: 'LEAD CAPTURED', x: 470, y: 100 },
-    { icon: '📅', label: 'BOOKED', x: 620, y: 100 },
+    { icon: '📞', label: 'INCOMING CALL', x: 70, y: 100 },
+    { icon: '⚡', label: 'AI ANSWERS', x: 220, y: 100 },
+    { icon: '✅', label: 'LEAD CAPTURED', x: 370, y: 100 },
+    { icon: '📅', label: 'BOOKED', x: 510, y: 100 },
+    { icon: '📱', label: 'TEXT SENT', x: 640, y: 100 },
   ],
   connections: [
-    { from: 0, to: 1, d: 'M 140 100 Q 215 80 255 100' },
-    { from: 1, to: 2, d: 'M 325 100 Q 398 80 435 100' },
-    { from: 2, to: 3, d: 'M 505 100 Q 562 80 585 100' },
+    { from: 0, to: 1, d: 'M 108 100 Q 164 80 185 100' },
+    { from: 1, to: 2, d: 'M 256 100 Q 313 80 335 100' },
+    { from: 2, to: 3, d: 'M 405 100 Q 458 80 475 100' },
+    { from: 3, to: 4, d: 'M 545 100 Q 592 80 605 100' },
   ],
   badge: { text: '< 1 SEC', nodeIndex: 1 },
 }
@@ -278,15 +280,17 @@ const backOfficeFlow: FlowConfig = {
   color: 'amber',
   glowColor: '#F59E0B',
   nodes: [
-    { icon: '📥', label: 'NEW JOB', x: 100, y: 100 },
-    { icon: '📄', label: 'PROPOSAL', x: 290, y: 100 },
-    { icon: '🗄️', label: 'CRM UPDATE', x: 470, y: 100 },
-    { icon: '✉️', label: 'FOLLOW-UP', x: 620, y: 100 },
+    { icon: '📥', label: 'NEW JOB', x: 70, y: 100 },
+    { icon: '📄', label: 'PROPOSAL', x: 220, y: 100 },
+    { icon: '✅', label: 'APPROVED', x: 370, y: 100 },
+    { icon: '💰', label: 'INVOICE', x: 510, y: 100 },
+    { icon: '⭐', label: 'REVIEW', x: 640, y: 100 },
   ],
   connections: [
-    { from: 0, to: 1, d: 'M 140 100 Q 215 80 255 100' },
-    { from: 1, to: 2, d: 'M 325 100 Q 398 80 435 100' },
-    { from: 2, to: 3, d: 'M 505 100 Q 562 80 585 100' },
+    { from: 0, to: 1, d: 'M 108 100 Q 164 80 185 100' },
+    { from: 1, to: 2, d: 'M 256 100 Q 313 80 335 100' },
+    { from: 2, to: 3, d: 'M 405 100 Q 458 80 475 100' },
+    { from: 3, to: 4, d: 'M 545 100 Q 592 80 605 100' },
   ],
   badge: { text: '30 SEC', nodeIndex: 1 },
   statusBar: { label: 'ACTIVE', value: 'EFFICIENCY 98%' },
@@ -296,15 +300,15 @@ const commandCenterFlow: FlowConfig = {
   color: 'cyan',
   glowColor: '#06B6D4',
   nodes: [
-    { icon: '☀️', label: 'BRIEFING', x: 100, y: 100 },
-    { icon: '📊', label: 'DASHBOARD', x: 290, y: 100 },
-    { icon: '💬', label: 'NL QUERY', x: 470, y: 100 },
-    { icon: '🛡️', label: 'SECURE', x: 620, y: 100 },
+    { icon: '☀️', label: 'BRIEFING', x: 70, y: 100 },
+    { icon: '📊', label: 'DASHBOARD', x: 220, y: 100 },
+    { icon: '💬', label: 'ASK ANYTHING', x: 370, y: 100 },
+    { icon: '🎯', label: 'ACTION PLAN', x: 540, y: 100 },
   ],
   connections: [
-    { from: 0, to: 1, d: 'M 140 100 Q 215 80 255 100' },
-    { from: 1, to: 2, d: 'M 325 100 Q 398 80 435 100' },
-    { from: 2, to: 3, d: 'M 505 100 Q 562 80 585 100' },
+    { from: 0, to: 1, d: 'M 108 100 Q 164 80 185 100' },
+    { from: 1, to: 2, d: 'M 256 100 Q 313 80 335 100' },
+    { from: 2, to: 3, d: 'M 405 100 Q 472 80 505 100' },
   ],
   badge: { text: 'REAL-TIME', nodeIndex: 1 },
 }
@@ -418,14 +422,16 @@ export function ThreePillars() {
             description="Every call answered in under a second. Leads captured, qualified, and booked — automatically. Your phone never goes to voicemail again."
             bullets={[
               '24/7 call answering — no hold music, no voicemail',
+              'Caller memory — recognizes returning customers by name',
               'Lead capture, qualification, and scoring',
-              'Appointment booking with calendar sync',
-              'Confirmation texts sent to customers automatically',
-              'Call transcripts + sentiment analysis',
+              'Appointment booking with calendar sync + confirmation texts',
+              'Spam and robocall filtering — junk calls never reach you',
+              'Full English and Spanish support',
+              'Call transcripts, recordings, and sentiment analysis',
             ]}
             flow={receptionistFlow}
-            before="Calls go to voicemail. Leads ghost you before you can call back."
-            after="Every call answered. Every lead captured. Calendar booked automatically."
+            before="You're on a ladder and your phone rings. By the time you call back, they already booked your competitor."
+            after="Every call answered. Every lead captured. Calendar booked and confirmation text sent — automatically."
             accent="text-teal-400"
           />
 
@@ -437,15 +443,17 @@ export function ThreePillars() {
             title="AI Back Office"
             description="Proposals in 30 seconds. Follow-ups sent automatically. CRM always current. The paperwork handles itself — you just approve."
             bullets={[
-              'Proposals generated from templates in 30 seconds',
-              'Automated follow-up sequences after quotes',
+              'Proposals and estimates generated in 30 seconds',
+              'Automated follow-up sequences after every quote',
+              'Invoicing + payment links texted to customers',
+              'Review requests auto-sent after job completion',
               'CRM updates without anyone touching it',
-              'Email triage and response drafting',
-              'Client onboarding sequences',
+              'Customer status texts — "your tech is 20 minutes away"',
+              'Client onboarding sequences for new accounts',
             ]}
             flow={backOfficeFlow}
-            before="You're doing the actual work AND all the admin. Something always slips."
-            after="Paperwork handles itself. You review and approve. Nothing falls through."
+            before="You're doing the actual work AND the paperwork. Something always slips."
+            after="Job finishes at 3pm. By 3:05 — invoice sent, review requested, CRM updated, next follow-up scheduled. You didn't touch anything."
             accent="text-amber-400"
           />
 
@@ -457,15 +465,17 @@ export function ThreePillars() {
             title="AI Command Center"
             description="Morning briefing at 6:30 AM. Real-time pipeline visibility. Ask OIOS anything about your business in plain English — it answers."
             bullets={[
-              'Daily morning briefing via text',
-              'Real-time pipeline and revenue dashboard',
-              'Natural language queries: "How\'s my pipeline this week?"',
-              'Proactive alerts on stalled deals',
-              'Weekly performance report every Friday',
+              'Daily morning briefing via text — overnight calls, today\'s schedule, priorities',
+              'Revenue forecasting — "You\'re on pace for $47K this month"',
+              'Cash flow alerts — overdue invoices flagged before they become a crisis',
+              'Ask anything in plain English — "How\'s my pipeline this week?"',
+              'Proactive alerts on stalled deals and missed follow-ups',
+              'Team scorecards — who closes, who upsells, who gets the best reviews',
+              'Weekly performance report delivered every Friday',
             ]}
             flow={commandCenterFlow}
-            before="You have no idea where things stand until something breaks."
-            after="You know everything. OIOS keeps you briefed — without you having to ask."
+            before="You find out you're behind on revenue when the bank account looks wrong."
+            after="You know your numbers before your morning coffee. OIOS tells you what to focus on today."
             accent="text-cyan-400"
           />
         </div>
