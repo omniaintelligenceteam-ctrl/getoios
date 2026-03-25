@@ -2,7 +2,7 @@ import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { WhoItsFor } from '@/components/sections/WhoItsFor'
 import { CapabilityBreakdown } from '@/components/sections/CapabilityBreakdown'
-import { ComparisonTable } from '@/components/sections/ComparisonTable'
+
 import { FAQ } from '@/components/sections/FAQ'
 import { DiscoveryForm } from '@/components/sections/DiscoveryForm'
 import { FinalCTA } from '@/components/sections/FinalCTA'
@@ -20,8 +20,6 @@ export default function Home() {
         <WhoItsFor />
         <SectionTransition />
         <CapabilityBreakdown />
-        <SectionTransition />
-        <ComparisonTable />
         <SectionTransition />
         <FAQ />
         <SectionTransition />

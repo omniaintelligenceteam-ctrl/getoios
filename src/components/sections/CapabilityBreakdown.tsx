@@ -12,6 +12,7 @@ import {
   ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
+import { GlowingEffect } from '@/components/ui/glowing-effect';
 
 interface SubTopic {
   name: string;
@@ -439,20 +440,31 @@ export function CapabilityBreakdown() {
         </motion.div>
 
         {/* Tab Bar */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
           {capabilities.map((cap, i) => (
-            <button
-              key={cap.name}
-              onClick={() => setActiveTab(i)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-                activeTab === i
-                  ? `bg-slate-800 border border-slate-600 text-white shadow-lg`
-                  : 'bg-slate-900/40 border border-slate-700/30 text-slate-400 hover:text-white hover:border-slate-600'
-              }`}
-            >
-              <cap.icon className={`w-4 h-4 ${activeTab === i ? cap.color : ''}`} />
-              {cap.name}
-            </button>
+            <div key={cap.name} className="relative rounded-xl">
+              <GlowingEffect
+                disabled={false}
+                spread={30}
+                glow
+                blur={4}
+                proximity={60}
+                inactiveZone={0.01}
+                borderWidth={2}
+                movementDuration={1.5}
+              />
+              <button
+                onClick={() => setActiveTab(i)}
+                className={`relative z-10 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  activeTab === i
+                    ? `bg-slate-800 border border-slate-600 text-white shadow-lg`
+                    : 'bg-slate-900/40 border border-slate-700/30 text-slate-400 hover:text-white hover:border-slate-600'
+                }`}
+              >
+                <cap.icon className={`w-4 h-4 ${activeTab === i ? cap.color : ''}`} />
+                {cap.name}
+              </button>
+            </div>
           ))}
         </div>
 
@@ -464,8 +476,18 @@ export function CapabilityBreakdown() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.25 }}
-            className={`rounded-2xl bg-slate-900/60 border ${active.borderColor} p-6 sm:p-8`}
+            className={`relative rounded-2xl bg-slate-900/60 border ${active.borderColor} p-6 sm:p-8`}
           >
+            <GlowingEffect
+              disabled={false}
+              spread={50}
+              glow
+              blur={8}
+              proximity={100}
+              inactiveZone={0.01}
+              borderWidth={2}
+              movementDuration={1.5}
+            />
             {/* Tab Header */}
             <div className="flex items-center gap-4 mb-2">
               <div className={`w-12 h-12 rounded-xl ${active.bgColor} border ${active.borderColor} flex items-center justify-center`}>

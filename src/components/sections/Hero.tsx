@@ -123,7 +123,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <p className="text-base sm:text-lg text-gray-300 opacity-80 mb-8 max-w-md leading-relaxed">
-              OIOS is a team of AI agents that runs operations for your business — answering calls, managing leads, automating follow-ups, and tracking revenue. 24/7.
+              OIOS handles your phones, scheduling, sales, marketing, operations, and finance — so you can focus on what you do best. 24/7.
             </p>
 
             {/* Risk-reversal callout */}
