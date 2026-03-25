@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     q: 'How long does setup take?',
-    a: 'Most businesses are up and running within 24 hours. We connect to your phone system, email, and calendar \u2014 no software to install, no hardware to buy. Your AI team starts working on day one.',
+    a: 'Each project takes roughly 2 weeks to a month, depending on what you want to do. We connect to your systems, train the AI on your specific business, and build out your workflows. The more areas you want covered, the more we customize. Every project is scoped around your business.',
   },
   {
     q: 'What if my team doesn\u2019t like it?',
@@ -31,8 +31,8 @@ const faqs = [
     a: 'Every AI interaction is logged and reviewable. You set the rules for how your AI team operates \u2014 what to say, when to escalate, which calls to transfer. You\u2019re always in control.',
   },
   {
-    q: 'How is this different from Jobber or ServiceTitan?',
-    a: 'Those are CRM tools that require your team to log in and operate them. OIOS is an AI team that operates autonomously \u2014 answering calls, following up on leads, tracking finances, and running marketing. It\u2019s the difference between a tool and an employee.',
+    q: 'What types of businesses do you work with?',
+    a: 'Any small business that has a phone and customers. We work with service companies, insurance agencies, dental practices, real estate offices, restaurants, consulting firms, and more. If you have calls to answer and a back office to run, OIOS can help.',
   },
 ]
 
@@ -132,7 +132,7 @@ export function FAQ() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-slate-400 text-base md:text-lg max-w-xl mx-auto"
           >
-            Everything contractors ask before they sign up.
+            Everything business owners ask before they sign up.
           </motion.p>
         </div>
 
