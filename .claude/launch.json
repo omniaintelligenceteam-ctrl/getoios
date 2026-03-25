@@ -3,11 +3,10 @@
   "configurations": [
     {
       "name": "getoios-dev",
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["node_modules/.bin/next", "dev"],
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev"],
       "cwd": "C:\\Users\\default.DESKTOP-ON29PVN\\getoios",
-      "port": 3000,
-      "autoPort": false
+      "port": 3000
     }
   ]
 }

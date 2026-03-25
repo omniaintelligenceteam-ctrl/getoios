@@ -1,8 +1,7 @@
 import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
-import { PainPoints } from '@/components/sections/PainPoints'
-import { HowItWorks } from '@/components/sections/HowItWorks'
 import { WhoItsFor } from '@/components/sections/WhoItsFor'
+import { CapabilityBreakdown } from '@/components/sections/CapabilityBreakdown'
 import { ComparisonTable } from '@/components/sections/ComparisonTable'
 import { FAQ } from '@/components/sections/FAQ'
 import { DiscoveryForm } from '@/components/sections/DiscoveryForm'
@@ -18,11 +17,9 @@ export default function Home() {
         <Header />
         <Hero />
         <SectionTransition />
-        <PainPoints />
-        <SectionTransition />
-        <HowItWorks />
-        <SectionTransition />
         <WhoItsFor />
+        <SectionTransition />
+        <CapabilityBreakdown />
         <SectionTransition />
         <ComparisonTable />
         <SectionTransition />

@@ -22,7 +22,7 @@ const solutions: SolutionCard[] = [
     title: 'Phones & First Contact',
     description: 'Every call answered. Every lead captured.',
     impact: '$1,600-2,400/mo recovered',
-    problem: "Phone rings while you're on a job. Lead's gone by noon.",
+    problem: "Phone rings while you're with a customer. Lead's gone by noon.",
     bullets: [
       'AI answers every call in under 1 second',
       'Qualifies leads with custom questions',
@@ -76,7 +76,7 @@ const solutions: SolutionCard[] = [
     title: 'Estimates & Proposals',
     description: 'Voice-note the scope. Estimate sent in 30 seconds.',
     impact: '20-30% higher close rate',
-    problem: "I type up estimates at 9pm after a 12-hour day. Then never follow up.",
+    problem: "I type up estimates at 9pm after a long day. Then never follow up.",
     bullets: [
       'Voice-note the scope \u2192 estimate generated in 30 sec',
       'Professional proposal emailed to customer instantly',
@@ -171,7 +171,7 @@ const solutions: SolutionCard[] = [
       'Application screening and candidate ranking',
       'Automated interview scheduling',
       'Onboarding sequence with checklists',
-      'Daily crew dispatch via text message',
+      'Daily team dispatch via text message',
     ],
     impactMetrics: [
       '5-8 hours saved per hire',

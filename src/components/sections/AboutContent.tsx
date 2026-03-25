@@ -37,18 +37,18 @@ export function AboutContent() {
             </h2>
             <div className="space-y-6 text-slate-400 text-lg leading-relaxed">
               <p>
-                Wes Overstreet ran a landscape lighting company across 8 cities for 10 years. He
+                Wes Overstreet ran a small business across 8 cities for 10 years. He
                 lived every problem OIOS solves — missed calls that cost thousands, leads that
                 slipped through the cracks, and endless admin work that pulled him away from the
-                craft he actually loved. He built OIOS because he knew there had to be a better way.
+                work he actually loved. He built OIOS because he knew there had to be a better way.
               </p>
               <p>
-                His story isn&apos;t unique. Every day, thousands of contractors lose revenue — not
+                His story isn&apos;t unique. Every day, thousands of small business owners lose revenue — not
                 because they do bad work, but because the business side falls apart. A missed call
-                becomes a lost $5,000 job. A forgotten follow-up means a competitor wins the deal.
-                Service business owners are incredible at their trade, but they&apos;re forced to
+                becomes a lost customer. A forgotten follow-up means a competitor wins the deal.
+                Small business owners are incredible at what they do, but they&apos;re forced to
                 also be the receptionist, the sales manager, the marketing team, and the CFO. All
-                at once. While on a ladder.
+                at once. While running everything else.
               </p>
               <p className="text-white font-medium">
                 OIOS is the AI operations team they deserve but could never afford. Six AI
@@ -78,8 +78,8 @@ export function AboutContent() {
               style={{ fontFamily: 'var(--font-display), sans-serif' }}
             >
               <span className="text-white">Make AI-powered operations </span>
-              <span className="gradient-text">accessible to every service business</span>
-              <span className="text-white"> — from solo operators to 50-person crews.</span>
+              <span className="gradient-text">accessible to every small business</span>
+              <span className="text-white"> — from solo operators to 50-person teams.</span>
             </h2>
           </motion.div>
         </div>
@@ -114,8 +114,8 @@ export function AboutContent() {
               },
               {
                 icon: Wrench,
-                title: 'Built for Your Trade',
-                description: "We don't build generic AI. Every workflow, every response, every follow-up is tuned for home services — HVAC, plumbing, electrical, roofing, and more.",
+                title: 'Built for Your Business',
+                description: "We don't build generic AI. Every workflow, every response, every follow-up is tuned for your specific business — whatever industry you are in.",
                 color: 'text-teal-400',
                 border: 'border-teal-400/20',
               },

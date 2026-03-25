@@ -28,7 +28,7 @@ export function Footer() {
             </Link>
             <p className="text-slate-600 text-xs font-mono mb-5">by Omnia Intelligence AI</p>
             <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
-              AI operations for service businesses. Calls answered, admin handled, pipeline visible — 24/7.
+              AI operations for small businesses. Calls answered, admin handled, pipeline visible — 24/7.
             </p>
             <a
               href="mailto:team@getoios.com"
