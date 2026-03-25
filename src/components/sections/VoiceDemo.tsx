@@ -1,21 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Phone, PhoneOff } from 'lucide-react'
-import { motion, useInView, AnimatePresence } from 'motion/react'
+import { motion } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { RetellWebClient } from 'retell-client-js-sdk'
 
 type CallState = 'idle' | 'connecting' | 'connected' | 'error'
-
-const suggestions = [
-  '"What services do you offer?"',
-  '"I need someone out today"',
-  '"How much does it cost?"',
-  '"Can you schedule me for Tuesday?"',
-  '"What areas do you serve?"',
-  '"Do you offer emergency service?"',
-]
 
 // ─── Animated Waveform ──────────────────────────────────────────────────────
 function Waveform({ active }: { active: boolean }) {
@@ -45,41 +36,10 @@ function Waveform({ active }: { active: boolean }) {
   )
 }
 
-// ─── Rotating suggestion tips ───────────────────────────────────────────────
-function RotatingSuggestion() {
-  const [index, setIndex] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % suggestions.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
-
-  return (
-    <div className="h-6 overflow-hidden">
-      <AnimatePresence mode="wait">
-        <motion.p
-          key={index}
-          className="text-slate-500 text-sm italic"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.3 }}
-        >
-          Try: {suggestions[index]}
-        </motion.p>
-      </AnimatePresence>
-    </div>
-  )
-}
-
 export function VoiceDemo() {
   const [callState, setCallState] = useState<CallState>('idle')
   const [retellWebClient, setRetellWebClient] = useState<RetellWebClient | null>(null)
   const [error, setError] = useState('')
-  const headerRef = useRef(null)
-  const headerInView = useInView(headerRef, { once: true })
 
   useEffect(() => {
     return () => {
@@ -138,25 +98,6 @@ export function VoiceDemo() {
     <section id="voice-demo" className="py-24 lg:py-32 bg-bg-secondary">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          ref={headerRef}
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 24 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-6">
-            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">Live Demo</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-5" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-            Don&apos;t Take Our Word For It —{' '}
-            <span className="gradient-text">Try It Right Now</span>
-          </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
-            Click the button. Talk to our AI receptionist live. Ask about pricing, scheduling, availability — this is what your customers will experience.
-          </p>
-        </motion.div>
-
-        <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -195,10 +136,6 @@ export function VoiceDemo() {
                     Click below to start a live voice conversation. Ask her anything — services, scheduling, pricing.
                   </p>
 
-                  <div className="text-sm text-slate-500">
-                    <RotatingSuggestion />
-                  </div>
-
                   <div className="flex justify-center">
                     <MagneticButton>
                       <button
@@ -211,18 +148,6 @@ export function VoiceDemo() {
                       </button>
                     </MagneticButton>
                   </div>
-
-                  <p className="text-slate-500 text-xs font-mono">
-                    OIOS Business Line &bull; (866) 782-1303
-                  </p>
-
-                  <motion.p
-                    className="text-slate-500 text-xs font-mono"
-                    animate={{ opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    {'\uD83C\uDF99\uFE0F'} Over 1,200 demo calls completed
-                  </motion.p>
                 </motion.div>
               )}
 
