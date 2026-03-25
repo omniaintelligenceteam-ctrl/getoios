@@ -266,7 +266,7 @@ export function DiscoveryForm() {
               <input
                 type="text"
                 required
-                placeholder="e.g. HVAC installation and repair, landscaping, consulting..."
+                placeholder="e.g. dental practice, insurance agency, restaurant, real estate..."
                 value={formData.businessDescription}
                 onChange={(e) => handleChange('businessDescription', e.target.value)}
                 className={inputClass}
