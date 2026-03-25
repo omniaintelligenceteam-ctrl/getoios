@@ -459,29 +459,8 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
 
 export function CapabilityBreakdown() {
   return (
-    <section className="py-24 lg:py-32 bg-bg-primary relative overflow-hidden">
+    <section className="pb-24 lg:pb-32 bg-bg-primary relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <span className="inline-flex items-center px-3 py-1.5 rounded-full bg-slate-800/40 border border-slate-700/30 mb-6">
-            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">
-              What We Cover
-            </span>
-          </span>
-          <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold"
-            style={{ fontFamily: 'var(--font-display), sans-serif' }}
-          >
-            Six Areas.{' '}
-            <span className="gradient-text">Zero Hires.</span>
-          </h2>
-        </motion.div>
-
         {/* All 6 Cards in Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
           {capabilities.map((cap, i) => (
