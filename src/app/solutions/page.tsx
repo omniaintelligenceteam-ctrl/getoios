@@ -10,11 +10,11 @@ import { SectionTransition } from '@/components/ui/SectionTransition'
 export const metadata: Metadata = {
   title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
   description:
-    'From missed calls to forgotten invoices, OIOS automates every repetitive task in your service business. 13 workflows. Zero manual work. 24/7 coverage.',
+    'From missed calls to forgotten invoices, OIOS automates every repetitive task in your small business. 13 workflows. Zero manual work. 24/7 coverage.',
   openGraph: {
     title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
     description:
-      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your service business. 13 workflows. Zero manual work. 24/7 coverage.',
+      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your small business. 13 workflows. Zero manual work. 24/7 coverage.',
     url: 'https://getoios.com/solutions',
     images: [
       {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
     description:
-      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your service business. 13 workflows. Zero manual work. 24/7 coverage.',
+      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your small business. 13 workflows. Zero manual work. 24/7 coverage.',
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -44,7 +44,7 @@ export default function SolutionsPage() {
         <Header />
         <PageHero
           title="13 Workflows. Zero Manual Work."
-          subtitle="Every repetitive task in your service business — answered, automated, and monitored."
+          subtitle="Every repetitive task in your small business — answered, automated, and monitored."
           badge="Solutions"
         />
         <SectionTransition />

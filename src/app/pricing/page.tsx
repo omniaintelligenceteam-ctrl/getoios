@@ -10,11 +10,11 @@ import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export const metadata: Metadata = {
-  title: 'Pricing — OIOS | AI Operations for Service Businesses',
+  title: 'Pricing — OIOS | AI Operations for Small Businesses',
   description:
-    'Simple, transparent pricing for AI-powered operations. Less than a part-time hire. More than an entire operations team.',
+    'Custom-built AI operations for your business. No fixed tiers — we build exactly what you need.',
   openGraph: {
-    title: 'Pricing — OIOS | AI Operations for Service Businesses',
+    title: 'Pricing — OIOS | AI Operations for Small Businesses',
     description:
       'Simple, transparent pricing for AI-powered operations. Less than a part-time hire. More than an entire operations team.',
     url: 'https://getoios.com/pricing',
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Pricing — OIOS | AI Operations for Service Businesses — OIOS by Omnia Intelligence AI',
+        alt: 'Pricing — OIOS | AI Operations for Small Businesses — OIOS by Omnia Intelligence AI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pricing — OIOS | AI Operations for Service Businesses',
+    title: 'Pricing — OIOS | AI Operations for Small Businesses',
     description:
       'Simple, transparent pricing for AI-powered operations. Less than a part-time hire. More than an entire operations team.',
     images: ['/opengraph-image'],
@@ -45,8 +45,8 @@ export default function PricingPage() {
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <PageHero
-          title="Simple, Transparent Pricing"
-          subtitle="Less than a part-time hire. More than an entire operations team."
+          title="Custom-Built for Your Business"
+          subtitle="No fixed tiers. We build exactly what you need — nothing more, nothing less."
           badge="Pricing"
         />
         <WhatToExpect />

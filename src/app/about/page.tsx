@@ -8,28 +8,28 @@ import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export const metadata: Metadata = {
-  title: 'About — OIOS | The AI COO for Service Businesses',
+  title: 'About — OIOS | The AI COO for Small Businesses',
   description:
-    'The story behind OIOS — the AI COO built for service businesses. Learn why we built it, how it works, and our commitment to your data security.',
+    'The story behind OIOS — the AI COO built for small businesses. Learn why we built it, how it works, and our commitment to your data security.',
   openGraph: {
-    title: 'About — OIOS | The AI COO for Service Businesses',
+    title: 'About — OIOS | The AI COO for Small Businesses',
     description:
-      'The story behind OIOS — the AI COO built for service businesses. Learn why we built it, how it works, and our commitment to your data security.',
+      'The story behind OIOS — the AI COO built for small businesses. Learn why we built it, how it works, and our commitment to your data security.',
     url: 'https://getoios.com/about',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'About — OIOS | The AI COO for Service Businesses — OIOS by Omnia Intelligence AI',
+        alt: 'About — OIOS | The AI COO for Small Businesses — OIOS by Omnia Intelligence AI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About — OIOS | The AI COO for Service Businesses',
+    title: 'About — OIOS | The AI COO for Small Businesses',
     description:
-      'The story behind OIOS — the AI COO built for service businesses. Learn why we built it, how it works, and our commitment to your data security.',
+      'The story behind OIOS — the AI COO built for small businesses. Learn why we built it, how it works, and our commitment to your data security.',
     images: ['/opengraph-image'],
   },
   alternates: {

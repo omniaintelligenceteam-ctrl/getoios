@@ -39,7 +39,7 @@ const tiers = [
       'Daily summary briefings',
       'Direct access to Wes during setup',
     ],
-    bestFor: 'Solo operators and 1–3 person crews',
+    bestFor: 'Solo operators and 1–3 person teams',
   },
   {
     name: 'Growth',
@@ -497,7 +497,7 @@ function ROICalculator() {
 /* ─── Pricing FAQ ──────────────────────────────────────────────────────────── */
 
 const pricingFaqs = [
-  { q: "Why don't you list prices publicly?", a: "Every service business is different. We build custom packages based on your trade, team size, and operations needs. Book a free audit and we'll give you exact pricing in 24 hours." },
+  { q: "Why don't you list prices publicly?", a: "Every business is different. We build custom packages based on your industry, team size, and operations needs. Book a free audit and we'll give you exact pricing in 24 hours." },
   { q: 'Is there a contract?', a: "No long-term contracts. We're so confident OIOS will pay for itself that we offer a 60-day performance guarantee. Month-to-month, cancel anytime." },
   { q: "What's included in the free audit?", a: 'A 30-minute call where we analyze your current operations, identify revenue leaks, and show you exactly how OIOS would work for your business. No obligation.' },
   { q: 'Can I upgrade or downgrade?', a: 'Absolutely. As your business grows, your AI team grows with you. Upgrades take effect immediately — no waiting period.' },

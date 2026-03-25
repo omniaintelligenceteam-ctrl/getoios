@@ -5,11 +5,11 @@ import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — OIOS | AI Operations for Service Businesses',
+  title: 'Privacy Policy — OIOS | AI Operations for Small Businesses',
   description:
     'How OIOS by Omnia Intelligence AI collects, uses, and protects your data. Your business data stays yours — always.',
   openGraph: {
-    title: 'Privacy Policy — OIOS | AI Operations for Service Businesses',
+    title: 'Privacy Policy — OIOS | AI Operations for Small Businesses',
     description:
       'How OIOS by Omnia Intelligence AI collects, uses, and protects your data. Your business data stays yours — always.',
     url: 'https://getoios.com/privacy',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Privacy Policy — OIOS | AI Operations for Service Businesses',
+    title: 'Privacy Policy — OIOS | AI Operations for Small Businesses',
     description:
       'How OIOS by Omnia Intelligence AI collects, uses, and protects your data. Your business data stays yours — always.',
     images: ['/opengraph-image'],

@@ -3,11 +3,11 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Live Demo — See OIOS in Action',
   description:
-    'Try OIOS live. Talk to our AI receptionist, see the command center, and experience how AI runs operations for service businesses.',
+    'Try OIOS live. Talk to our AI receptionist, see the command center, and experience how AI runs operations for small businesses.',
   openGraph: {
     title: 'Live Demo — See OIOS in Action',
     description:
-      'Try OIOS live. Talk to our AI receptionist, see the command center, and experience how AI runs operations for service businesses.',
+      'Try OIOS live. Talk to our AI receptionist, see the command center, and experience how AI runs operations for small businesses.',
     url: 'https://getoios.com/demo',
     images: [
       {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Live Demo — See OIOS in Action',
     description:
-      'Try OIOS live. Talk to our AI receptionist, see the command center, and experience how AI runs operations for service businesses.',
+      'Try OIOS live. Talk to our AI receptionist, see the command center, and experience how AI runs operations for small businesses.',
     images: ['/opengraph-image'],
   },
   alternates: {

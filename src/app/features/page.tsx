@@ -10,28 +10,28 @@ import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export const metadata: Metadata = {
-  title: 'What OIOS Does — AI Operations for Service Businesses',
+  title: 'What OIOS Does — AI Operations for Small Businesses',
   description:
-    'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your service business running around the clock.',
+    'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your small business running around the clock.',
   openGraph: {
-    title: 'What OIOS Does — AI Operations for Service Businesses',
+    title: 'What OIOS Does — AI Operations for Small Businesses',
     description:
-      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your service business running around the clock.',
+      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your small business running around the clock.',
     url: 'https://getoios.com/features',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'What OIOS Does — AI Operations for Service Businesses — OIOS by Omnia Intelligence AI',
+        alt: 'What OIOS Does — AI Operations for Small Businesses — OIOS by Omnia Intelligence AI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'What OIOS Does — AI Operations for Service Businesses',
+    title: 'What OIOS Does — AI Operations for Small Businesses',
     description:
-      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your service business running around the clock.',
+      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your small business running around the clock.',
     images: ['/opengraph-image'],
   },
   alternates: {

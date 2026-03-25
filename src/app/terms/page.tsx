@@ -5,11 +5,11 @@ import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — OIOS | AI Operations for Service Businesses',
+  title: 'Terms of Service — OIOS | AI Operations for Small Businesses',
   description:
     'Terms of Service for OIOS by Omnia Intelligence AI. No long-term contracts, no cancellation fees — just AI operations that work.',
   openGraph: {
-    title: 'Terms of Service — OIOS | AI Operations for Service Businesses',
+    title: 'Terms of Service — OIOS | AI Operations for Small Businesses',
     description:
       'Terms of Service for OIOS by Omnia Intelligence AI. No long-term contracts, no cancellation fees — just AI operations that work.',
     url: 'https://getoios.com/terms',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Terms of Service — OIOS | AI Operations for Service Businesses',
+    title: 'Terms of Service — OIOS | AI Operations for Small Businesses',
     description:
       'Terms of Service for OIOS by Omnia Intelligence AI. No long-term contracts, no cancellation fees — just AI operations that work.',
     images: ['/opengraph-image'],
@@ -99,7 +99,7 @@ export default function TermsPage() {
                   What OIOS Does
                 </h2>
                 <p className="text-slate-400 text-base leading-relaxed mb-4">
-                  OIOS provides AI-powered operations for service businesses, including:
+                  OIOS provides AI-powered operations for small businesses, including:
                 </p>
                 <ul className="space-y-3 text-slate-400 text-base leading-relaxed">
                   <li className="flex items-start gap-3">
