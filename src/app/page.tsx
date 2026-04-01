@@ -2,6 +2,7 @@ import { Header } from '@/components/sections/Header'
 import { Hero } from '@/components/sections/Hero'
 import { WhoItsFor } from '@/components/sections/WhoItsFor'
 import { CapabilityBreakdown } from '@/components/sections/CapabilityBreakdown'
+import { DepartmentTicker } from '@/components/ui/DepartmentTicker'
 
 import { FAQ } from '@/components/sections/FAQ'
 import { DiscoveryForm } from '@/components/sections/DiscoveryForm'
@@ -16,6 +17,7 @@ export default function Home() {
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <Hero />
+        <DepartmentTicker />
         <SectionTransition />
         <WhoItsFor />
         <SectionTransition />

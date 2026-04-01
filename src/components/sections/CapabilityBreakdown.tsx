@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 /* useState still needed for SubTopicAccordion */
@@ -412,14 +413,14 @@ function SubTopicAccordion({ subtopic }: { subtopic: SubTopic }) {
   );
 }
 
-function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
+function CapabilityCard({ cap, index, isWide }: { cap: Capability; index: number; isWide: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: index * 0.08 }}
-      className={`relative rounded-2xl bg-slate-900/60 border ${cap.borderColor} p-6 sm:p-8`}
+      className={`relative rounded-2xl bg-slate-900/60 border ${cap.borderColor} p-6 sm:p-8 pointer-events-auto ${isWide ? 'lg:col-span-2' : ''}`}
     >
       <GlowingEffect
         disabled={false}
@@ -453,6 +454,12 @@ function CapabilityCard({ cap, index }: { cap: Capability; index: number }) {
           <SubTopicAccordion key={sub.name} subtopic={sub} />
         ))}
       </div>
+      <Link
+        href="/demo"
+        className="inline-flex items-center gap-1 mt-5 text-xs font-medium text-teal-400 hover:text-teal-300 transition-colors"
+      >
+        See it in action →
+      </Link>
     </motion.div>
   );
 }
@@ -464,7 +471,7 @@ export function CapabilityBreakdown() {
         {/* All 6 Cards in Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
           {capabilities.map((cap, i) => (
-            <CapabilityCard key={cap.name} cap={cap} index={i} />
+            <CapabilityCard key={cap.name} cap={cap} index={i} isWide={i === 0 || i === 3} />
           ))}
         </div>
       </div>

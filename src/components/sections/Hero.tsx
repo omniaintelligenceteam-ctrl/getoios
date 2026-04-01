@@ -111,7 +111,7 @@ export function Hero() {
               </span>
             </h1>
             <div className="text-xs sm:text-sm text-gray-400 opacity-70 mt-6 tracking-[0.2em] uppercase font-mono">
-              Receptionist \ Sales \ Marketing \ Operations \ Finance \ Success
+              Replaces your receptionist, sales rep, marketing coordinator, ops manager, and bookkeeper.
             </div>
           </motion.div>
 
