@@ -4,32 +4,26 @@ import Link from 'next/link'
 import { useRef, useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { RotatingText } from '@/components/ui/RotatingText'
-import { Card } from '@/components/ui/card'
 import { Spotlight } from '@/components/ui/spotlight'
 import { SplineScene } from '@/components/ui/splite'
 import { ArrowRight, Plus, Cpu } from 'lucide-react'
 
-// ─── Branded Spline scene ───────────────────────────────────────────────────────────
-// Paste your Spline export URL here (app.spline.design → Export → copy production URL).
-// While this is empty, a lightweight branded fallback renders instead of mounting the
-// heavy 3D runtime — so the hero never crashes or stalls waiting on an unset scene.
-const HERO_SPLINE_SCENE: string = ''
+// ─── Spline robot scene ──────────────────────────────────────────────────────────────
+// Public Spline demo robot (follows the cursor). Swap for the branded export when ready:
+// app.spline.design → Export → copy the production .splinecode URL.
+const HERO_SPLINE_SCENE: string = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
 
 // ─── Hero 3D visual ──────────────────────────────────────────────────────────────────
-// Reuses the proven guard pattern from SplineHero.tsx: skip on mobile / reduced-motion,
-// lazy-load only when scrolled into view, and degrade to a static fallback when there's
-// no scene URL set.
+// Lazy-loads the Spline robot only when it nears the viewport, and skips the heavy 3D
+// runtime entirely for reduced-motion users. While it loads, SplineScene shows its own
+// spinner.
 function HeroSplineVisual() {
   const ref = useRef<HTMLDivElement>(null)
   const [showScene, setShowScene] = useState(false)
 
   useEffect(() => {
-    // Desktop + motion-allowed only, and only when a scene URL is set — the 3D runtime
-    // is too heavy for mobile/LCP. Otherwise the static fallback stays.
-    const allow3D =
-      window.innerWidth >= 768 &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!allow3D || !HERO_SPLINE_SCENE) return
+    // Respect reduced-motion — never mount the heavy 3D runtime.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const el = ref.current
     if (!el) return
@@ -50,33 +44,7 @@ function HeroSplineVisual() {
 
   return (
     <div ref={ref} className="absolute inset-0">
-      {showScene ? (
-        <SplineScene scene={HERO_SPLINE_SCENE} className="h-full w-full" />
-      ) : (
-        <HeroVisualFallback />
-      )}
-    </div>
-  )
-}
-
-// Static, on-brand placeholder — concentric teal rings around a glowing core. Echoes the
-// hero's backlit-sphere language so the empty/unset state reads as intentional, not broken.
-function HeroVisualFallback() {
-  return (
-    <div className="flex h-full w-full items-center justify-center">
-      <div className="relative h-56 w-56 sm:h-72 sm:w-72">
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(45,212,191,0.18) 0%, transparent 60%)',
-            filter: 'blur(30px)',
-          }}
-        />
-        <div className="absolute inset-0 rounded-full border border-teal-500/20" />
-        <div className="absolute inset-6 rounded-full border border-teal-500/15" />
-        <div className="absolute inset-12 rounded-full border border-cyan-400/10" />
-        <div className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-teal-400 shadow-[0_0_24px_rgba(45,212,191,0.85)]" />
-      </div>
+      {showScene && <SplineScene scene={HERO_SPLINE_SCENE} className="h-full w-full" />}
     </div>
   )
 }
@@ -175,13 +143,13 @@ export function Hero() {
         />
       </div>
 
-      {/* ── Foreground content (two-column on lg+) ── */}
+      {/* ── Foreground content (copy + 3D robot, stacked) ── */}
       <div
         ref={heroRef}
-        className="relative z-10 flex-1 w-full max-w-7xl mx-auto grid lg:grid-cols-2 items-center gap-10 lg:gap-12 px-4 sm:px-6 lg:px-8 pt-32 lg:pt-28 pb-16 lg:pb-12"
+        className="relative z-10 flex-1 w-full max-w-6xl mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-32 pb-16"
       >
-        {/* Left column — copy + CTAs */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+        {/* Copy + CTAs */}
+        <div className="flex flex-col items-center text-center">
           {/* Badge pill */}
           <motion.div
             initial={animate ? { opacity: 0, y: 16 } : false}
@@ -200,7 +168,7 @@ export function Hero() {
             initial={animate ? { opacity: 0, y: 24 } : false}
             animate={animate ? { opacity: 1, y: 0 } : undefined}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-bold leading-[0.98] tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.98] tracking-tight"
             style={{ fontFamily: 'var(--font-display), sans-serif' }}
           >
             <span className="gradient-text-hero">Your AI Operating System.</span>
@@ -246,17 +214,17 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Right column — interactive 3D scene in a spotlight card */}
+        {/* 3D robot — right under the hero, floating over the orb (no black box) */}
         <motion.div
           initial={animate ? { opacity: 0, y: 40 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full"
+          className="relative mt-6 sm:mt-8 w-full"
         >
-          <Card className="relative h-[440px] sm:h-[520px] w-full overflow-hidden border border-white/10 bg-black/[0.96]">
+          <div className="relative h-[420px] sm:h-[520px] w-full overflow-hidden">
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#2DD4BF" />
             <HeroSplineVisual />
-          </Card>
+          </div>
         </motion.div>
       </div>
     </section>
