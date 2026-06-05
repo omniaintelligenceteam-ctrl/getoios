@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from 'motion/react'
 import { RotatingText } from '@/components/ui/RotatingText'
 import { Spotlight } from '@/components/ui/spotlight'
 import { SplineScene } from '@/components/ui/splite'
+import { Boxes } from '@/components/ui/background-boxes'
 import { ArrowRight, Plus, Cpu } from 'lucide-react'
 
 // ─── Spline robot scene ──────────────────────────────────────────────────────────────
@@ -51,92 +52,28 @@ function HeroSplineVisual() {
 
 // ─── Hero Section ──────────────────────────────────────────────────────────────────
 export function Hero() {
-  const heroRef = useRef<HTMLDivElement>(null)
   const reduceMotion = useReducedMotion()
   const animate = !reduceMotion
 
-  // Fade content on scroll
-  useEffect(() => {
-    const el = heroRef.current
-    if (!el) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    const handleScroll = () => {
-      requestAnimationFrame(() => {
-        const opacity = 1 - Math.min(window.scrollY / 600, 1)
-        if (el) el.style.opacity = opacity.toString()
-      })
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
     <section className="relative min-h-screen bg-bg-primary flex flex-col">
-      {/* ── Background: backlit sphere + sweeping light streaks (matches reference) ── */}
+      {/* ── Background: animated boxes grid (aceternity) ── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="hero-mesh" />
-        <div className="orb orb-1" />
-        <div className="orb orb-3" />
+        <Boxes />
 
-        {/* Backlit central sphere behind the headline */}
-        <div className="absolute left-1/2 top-[52%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-          <div className="relative w-[26rem] h-[26rem] sm:w-[36rem] sm:h-[36rem] lg:w-[44rem] lg:h-[44rem]">
-            {/* soft outer halo */}
-            <div
-              className="absolute inset-[-18%] rounded-full"
-              style={{
-                background: 'radial-gradient(circle, rgba(45,212,191,0.14) 0%, transparent 60%)',
-                filter: 'blur(50px)',
-              }}
-            />
-            {/* dark dome body (slightly lit toward top) */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background:
-                  'radial-gradient(circle at 50% 32%, rgba(20,40,62,0.85) 0%, rgba(11,17,32,0.55) 52%, transparent 72%)',
-              }}
-            />
-            {/* glowing rim */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background:
-                  'radial-gradient(circle, transparent 54%, rgba(45,212,191,0.14) 60%, rgba(45,212,191,0.7) 65%, rgba(103,232,249,0.45) 68%, rgba(45,212,191,0.12) 72%, transparent 78%)',
-                filter: 'blur(1.5px)',
-              }}
-            />
-            {/* bright top-rim highlight (crescent) */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background:
-                  'radial-gradient(circle at 50% 3%, rgba(165,243,252,0.8) 0%, rgba(103,232,249,0.28) 13%, transparent 25%)',
-                filter: 'blur(2px)',
-              }}
-            />
-          </div>
-        </div>
-
-        {/* Sweeping light streaks (giant arcs peeking from the bottom) */}
+        {/* gentle radial vignette so the grid fades toward the edges */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 bottom-[-120vw] w-[230vw] h-[230vw] rounded-full pointer-events-none"
-          style={{ border: '1.5px solid rgba(45,212,191,0.38)', boxShadow: '0 0 90px rgba(45,212,191,0.22)' }}
-        />
-        <div
-          className="absolute left-1/2 -translate-x-1/2 bottom-[-128vw] w-[230vw] h-[230vw] rounded-full pointer-events-none"
-          style={{ border: '1px solid rgba(6,182,212,0.24)' }}
-        />
-        <div
-          className="absolute left-1/2 -translate-x-1/2 bottom-[-112vw] w-[230vw] h-[230vw] rounded-full pointer-events-none"
-          style={{ border: '1px solid rgba(103,232,249,0.16)' }}
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: 'var(--bg-primary)',
+            maskImage:
+              'radial-gradient(ellipse 85% 80% at 50% 42%, transparent 50%, var(--bg-primary) 100%)',
+            WebkitMaskImage:
+              'radial-gradient(ellipse 85% 80% at 50% 42%, transparent 50%, var(--bg-primary) 100%)',
+          }}
         />
 
-        {/* subtle grid dots */}
-        <div className="absolute inset-0 hero-grid opacity-25" />
-
-        {/* bottom fade so the card bleeds cleanly into the next section */}
+        {/* bottom fade so the hero bleeds cleanly into the next section */}
         <div
           className="absolute inset-x-0 bottom-0 h-64 pointer-events-none"
           style={{ background: 'linear-gradient(to bottom, transparent, var(--bg-primary))' }}
@@ -145,7 +82,6 @@ export function Hero() {
 
       {/* ── Foreground content (copy + 3D robot, stacked) ── */}
       <div
-        ref={heroRef}
         className="relative z-10 flex-1 w-full max-w-6xl mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-32 pb-16"
       >
         {/* Copy + CTAs */}
@@ -214,7 +150,8 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* 3D robot — right under the hero, floating over the orb (no black box) */}
+        {/* 3D robot — right under the hero, lit by a soft backlight so it reads
+            against the boxes (not the orb — just enough glow to keep it visible) */}
         <motion.div
           initial={animate ? { opacity: 0, y: 40 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
@@ -222,6 +159,14 @@ export function Hero() {
           className="relative mt-6 sm:mt-8 w-full"
         >
           <div className="relative h-[420px] sm:h-[520px] w-full overflow-hidden">
+            {/* soft teal backlight behind the robot */}
+            <div
+              className="absolute left-1/2 top-1/2 h-72 w-72 sm:h-96 sm:w-96 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
+              style={{
+                background: 'radial-gradient(circle, rgba(45,212,191,0.20) 0%, transparent 65%)',
+                filter: 'blur(40px)',
+              }}
+            />
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#2DD4BF" />
             <HeroSplineVisual />
           </div>
