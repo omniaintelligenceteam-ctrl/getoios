@@ -1,7 +1,28 @@
 import { NextResponse } from 'next/server'
+import { sanitizeHtml } from '@/lib/sanitize'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 
 export async function POST(req: Request) {
   try {
+    // Rate limiting
+    const ip = getClientIp(req)
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429 }
+      )
+    }
+
+    // Validate required env var
+    const resendKey = process.env.RESEND_API_KEY
+    if (!resendKey) {
+      console.error('RESEND_API_KEY not configured')
+      return NextResponse.json(
+        { error: 'Email service not configured' },
+        { status: 500 }
+      )
+    }
+
     const data = await req.json()
 
     // Validate required fields
@@ -27,6 +48,21 @@ export async function POST(req: Request) {
       }
     }
 
+    // Sanitize all user-supplied strings
+    const s = {
+      fullName: sanitizeHtml(data.fullName),
+      businessName: sanitizeHtml(data.businessName),
+      businessWebsite: sanitizeHtml(data.businessWebsite),
+      phoneNumber: sanitizeHtml(data.phoneNumber),
+      trade: sanitizeHtml(data.trade),
+      teamSize: sanitizeHtml(data.teamSize),
+      missedCalls: sanitizeHtml(data.missedCalls),
+      phoneHandler: sanitizeHtml(data.phoneHandler),
+      currentSoftware: sanitizeHtml(data.currentSoftware),
+      extraHours: sanitizeHtml(data.extraHours),
+      biggestFrustration: data.biggestFrustration ? sanitizeHtml(data.biggestFrustration) : '',
+    }
+
     const timestamp = new Date().toLocaleString('en-US', {
       timeZone: 'America/Phoenix',
       dateStyle: 'full',
@@ -41,63 +77,53 @@ export async function POST(req: Request) {
         <table style="width: 100%; border-collapse: collapse;">
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px; width: 40%;">Full Name</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.fullName}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.fullName}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Business Name</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.businessName}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.businessName}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Website</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;"><a href="${data.businessWebsite}" style="color: #f97316;">${data.businessWebsite}</a></td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;"><a href="${s.businessWebsite}" style="color: #f97316;">${s.businessWebsite}</a></td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Phone</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;"><a href="tel:${data.phoneNumber}" style="color: #f97316;">${data.phoneNumber}</a></td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;"><a href="tel:${s.phoneNumber}" style="color: #f97316;">${s.phoneNumber}</a></td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Trade</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.trade}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.trade}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Team Size</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.teamSize}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.teamSize}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Missed Calls/Day</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.missedCalls}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.missedCalls}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Who Handles Phones</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.phoneHandler}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.phoneHandler}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Current Software</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.currentSoftware}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.currentSoftware}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Extra 10 Hours</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.extraHours}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.extraHours}</td>
           </tr>
-          ${data.biggestFrustration ? `
+          ${s.biggestFrustration ? `
           <tr>
             <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Biggest Frustration</td>
-            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${data.biggestFrustration}</td>
+            <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.biggestFrustration}</td>
           </tr>
           ` : ''}
         </table>
       </div>
     `
-
-    // Send via Resend
-    const resendKey = process.env.RESEND_API_KEY
-    if (!resendKey) {
-      console.error('RESEND_API_KEY not configured')
-      return NextResponse.json(
-        { error: 'Email service not configured' },
-        { status: 500 }
-      )
-    }
 
     const emailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -108,14 +134,14 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         from: 'OIOS <audit@getoios.com>',
         to: ['omniaintelligenceteam@gmail.com'],
-        subject: `New Audit Request: ${data.businessName} (${data.trade})`,
+        subject: `New Audit Request: ${s.businessName} (${s.trade})`,
         html: emailHtml,
       }),
     })
 
     if (!emailRes.ok) {
       const errBody = await emailRes.text()
-      console.error('Resend error:', errBody)
+      console.error('Resend API error:', errBody)
       return NextResponse.json(
         { error: 'Failed to send notification' },
         { status: 500 }

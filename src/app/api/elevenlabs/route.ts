@@ -1,15 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
-const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 const VOICE_ID = 'EXAVITQu4vr4xnSDxMaL'; // Sarah's voice
 const MODEL_ID = 'eleven_turbo_v2_5';
 
 export async function POST(request: NextRequest) {
   try {
-    if (!ELEVENLABS_API_KEY) {
+    // Rate limiting
+    const ip = getClientIp(request);
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429 }
+      );
+    }
+
+    // Validate required env var
+    const apiKey = process.env.ELEVENLABS_API_KEY;
+    if (!apiKey) {
       console.error('ELEVENLABS_API_KEY not configured');
       return NextResponse.json(
-        { error: 'TTS service not configured' }, 
+        { error: 'TTS service not configured' },
         { status: 500 }
       );
     }
@@ -18,7 +29,7 @@ export async function POST(request: NextRequest) {
 
     if (!text) {
       return NextResponse.json(
-        { error: 'Text is required' }, 
+        { error: 'Text is required' },
         { status: 400 }
       );
     }
@@ -31,7 +42,7 @@ export async function POST(request: NextRequest) {
         headers: {
           'Accept': 'audio/mpeg',
           'Content-Type': 'application/json',
-          'xi-api-key': ELEVENLABS_API_KEY,
+          'xi-api-key': apiKey,
         },
         body: JSON.stringify({
           text: text,
@@ -49,8 +60,8 @@ export async function POST(request: NextRequest) {
     if (!response.ok) {
       console.error('ElevenLabs API error:', response.status, response.statusText);
       return NextResponse.json(
-        { error: 'TTS generation failed' }, 
-        { status: response.status }
+        { error: 'TTS generation failed' },
+        { status: 500 }
       );
     }
 
@@ -68,7 +79,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('ElevenLabs API error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' }, 
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

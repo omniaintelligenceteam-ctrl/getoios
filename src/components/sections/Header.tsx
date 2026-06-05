@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
+import { useCalPopup } from '@/components/ui/CalBooking'
 
 const navLinks = [
   { href: '/features', label: 'What It Does' },
@@ -20,6 +21,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [showMobileCTA, setShowMobileCTA] = useState(false)
   const pathname = usePathname()
+  const { openPopup: openCalPopup } = useCalPopup()
 
   useEffect(() => {
     function handleScroll() {
@@ -90,7 +92,16 @@ export function Header() {
           </nav>
 
           {/* Status Badge & CTA */}
-          <div className="hidden md:flex items-center space-x-5">
+          <div className="hidden md:flex items-center space-x-3">
+            <MagneticButton>
+              <button
+                onClick={openCalPopup}
+                data-cursor="cta"
+                className="border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 hover:border-teal-400/50 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                Book a Call
+              </button>
+            </MagneticButton>
             <MagneticButton>
               <Link
                 href="/form"
@@ -158,6 +169,16 @@ export function Header() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25, delay: 0.15 }}
                 >
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false)
+                      openCalPopup()
+                    }}
+                    data-cursor="cta"
+                    className="block w-full border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 px-4 py-3.5 rounded-lg text-sm font-bold transition-all duration-200 text-center cursor-pointer"
+                  >
+                    Book a Call
+                  </button>
                   <Link
                     href="/form"
                     data-glow

@@ -4,6 +4,7 @@ import { PageHero } from '@/components/sections/PageHero'
 import { WhatToExpect } from '@/components/sections/WhatToExpect'
 import { OnboardingTimeline } from '@/components/sections/OnboardingTimeline'
 import { FAQ } from '@/components/sections/FAQ'
+import { BookDiscoveryCall } from '@/components/sections/BookDiscoveryCall'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Footer } from '@/components/sections/Footer'
 import { PageEntrance } from '@/components/ui/PageEntrance'
@@ -54,6 +55,8 @@ export default function PricingPage() {
         <OnboardingTimeline />
         <SectionTransition />
         <FAQ />
+        <SectionTransition />
+        <BookDiscoveryCall />
         <SectionTransition />
         <FinalCTA />
         <SectionTransition />

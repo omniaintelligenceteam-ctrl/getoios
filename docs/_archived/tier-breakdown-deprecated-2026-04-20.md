@@ -1,3 +1,26 @@
+# ⚠️ ARCHIVED 2026-04-20 — Deprecated pricing doc
+
+This file is the OLD "Silent AI Partner" 4-tier pricing doc ($197 / $297 / $497 / $997). **Deprecated** by the 2026-04-20 OIOS positioning overhaul.
+
+**Violations in the original:**
+- Old brand name ("Silent AI Partner") — OIOS now
+- Explicit OIOS pricing — HARD RULE violation. All pricing is custom per deal.
+- Old 4-tier names — Build. Run. Ship. replaces the tier spine.
+
+**The new model:**
+- No fixed tiers or tier names in customer-facing copy
+- Custom monthly retainer set per deal by Wes
+- Build. Run. Ship. is the capability spine
+- Cost anchored against the cost of the alternative (hires, SaaS, lost revenue), never quoted as an OIOS number
+- Canonical source: `~/.claude/references/oios/positioning.md`
+- Capabilities sheet: `~/set up/docs/OIOS/oios-capabilities-2026-04-20.md`
+
+**Do NOT use this file** for anything — not website docs, not pricing, not positioning. Preserved for historical reference only.
+
+---
+
+[ORIGINAL CONTENT PRESERVED BELOW]
+
 # Silent AI Partner — 4 Tier Breakdown
 
 ## All Tiers Include:

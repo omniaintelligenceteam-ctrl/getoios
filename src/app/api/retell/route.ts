@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
-const RETELL_API_KEY = process.env.RETELL_API_KEY!;
 const DEFAULT_AGENT_ID = 'agent_b8f7dab7124e978dacac4a3b60';
 
 // Valid agent IDs for trade-specific demos
@@ -14,6 +14,25 @@ const VALID_AGENTS = new Set([
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const ip = getClientIp(request);
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests' },
+        { status: 429 }
+      );
+    }
+
+    // Validate required env var
+    const retellApiKey = process.env.RETELL_API_KEY;
+    if (!retellApiKey) {
+      console.error('RETELL_API_KEY not configured');
+      return NextResponse.json(
+        { error: 'Voice service not configured' },
+        { status: 500 }
+      );
+    }
+
     const body = await request.json().catch(() => ({}));
     const agentId = VALID_AGENTS.has(body.agent_id) ? body.agent_id : DEFAULT_AGENT_ID;
 
@@ -21,7 +40,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RETELL_API_KEY}`,
+        'Authorization': `Bearer ${retellApiKey}`,
       },
       body: JSON.stringify({
         agent_id: agentId,
@@ -29,14 +48,18 @@ export async function POST(request: NextRequest) {
     });
 
     if (!response.ok) {
-      throw new Error(`Retell API error: ${response.statusText}`);
+      console.error('Retell API error:', response.status, response.statusText);
+      return NextResponse.json(
+        { error: 'Failed to create web call' },
+        { status: 500 }
+      );
     }
 
     const data = await response.json();
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       access_token: data.access_token,
-      call_id: data.call_id 
+      call_id: data.call_id
     });
   } catch (error) {
     console.error('Error creating web call:', error);

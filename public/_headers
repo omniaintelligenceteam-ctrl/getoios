@@ -1,0 +1,26 @@
+# Netlify _headers — long-cache static assets to minimize re-fetch bandwidth
+# https://docs.netlify.com/routing/headers/
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/_next/image*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Static images, fonts, and SVGs in /public
+/*.svg
+  Cache-Control: public, max-age=604800, must-revalidate
+/*.jpg
+  Cache-Control: public, max-age=604800, must-revalidate
+/*.png
+  Cache-Control: public, max-age=604800, must-revalidate
+/*.webp
+  Cache-Control: public, max-age=604800, must-revalidate
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# llms.txt and robots.txt — short cache so updates ship fast
+/llms.txt
+  Cache-Control: public, max-age=3600
+/robots.txt
+  Cache-Control: public, max-age=3600

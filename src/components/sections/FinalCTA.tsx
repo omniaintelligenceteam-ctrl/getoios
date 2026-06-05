@@ -53,9 +53,9 @@ export function FinalCTA() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
         >
-          Ready to Stop Chasing
+          Ready to Install
           <br />
-          <span className="gradient-text-warm">and Start Running?</span>
+          <span className="gradient-text-warm">Your AI OS?</span>
         </motion.h2>
 
         {/* Subtext */}
@@ -65,7 +65,7 @@ export function FinalCTA() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto"
         >
-          Your AI operations team is ready.
+          Month 1: install + your first build live by Day 7. Month-to-month. You own every tool, integration, and piece of data we build.
         </motion.p>
 
         {/* CTA Button */}
@@ -81,7 +81,7 @@ export function FinalCTA() {
               data-cursor="cta"
               className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-10 py-4 rounded-lg font-semibold text-lg btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200"
             >
-              Start Risk-Free &rarr;
+              Start Month 1 &rarr;
             </Link>
           </MagneticButton>
         </motion.div>
