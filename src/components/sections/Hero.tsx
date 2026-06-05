@@ -61,18 +61,6 @@ export function Hero() {
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Boxes />
 
-        {/* gentle radial vignette so the grid fades toward the edges */}
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: 'var(--bg-primary)',
-            maskImage:
-              'radial-gradient(ellipse 85% 80% at 50% 42%, transparent 50%, var(--bg-primary) 100%)',
-            WebkitMaskImage:
-              'radial-gradient(ellipse 85% 80% at 50% 42%, transparent 50%, var(--bg-primary) 100%)',
-          }}
-        />
-
         {/* bottom fade so the hero bleeds cleanly into the next section */}
         <div
           className="absolute inset-x-0 bottom-0 h-64 pointer-events-none"

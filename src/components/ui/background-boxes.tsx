@@ -1,40 +1,64 @@
 'use client'
 
-import React from 'react'
-import { motion } from 'motion/react'
+import React, { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 
-// Aceternity "Background Boxes" — a skewed grid of cells that light up a random
-// brand color on hover. Adapted for this repo: uses `motion/react` (not the
-// original's framer-motion) and real hex colors (the upstream `--sky-300`-style
-// CSS vars aren't defined in this Tailwind v4 theme). Grid count is trimmed from
-// the upstream 150×100 to keep the DOM/motion overhead sane on a marketing page.
+// Aceternity "Background Boxes" — a skewed perspective grid. Adapted for this repo:
+// dropped framer-motion (the upstream per-cell whileHover never fired behind the
+// robot — content/canvas on top ate the pointer events — and 3k motion components
+// is heavy). Instead the grid AMBIENTLY twinkles: a light loop imperatively lights
+// random cells a brand color across the WHOLE grid, so it lights up everywhere,
+// including behind the 3D robot, with zero React re-renders. Respects reduced-motion.
 export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
+  const rootRef = useRef<HTMLDivElement>(null)
   const rows = new Array(70).fill(1)
   const cols = new Array(45).fill(1)
 
-  // Brand-leaning palette: teal/cyan family + a warm gold accent.
-  const colors = [
-    '#2DD4BF', // teal-400
-    '#22D3EE', // cyan-400
-    '#67E8F9', // cyan-300
-    '#38BDF8', // sky-400
-    '#5EEAD4', // teal-300
-    '#34D399', // emerald-400
-    '#A5F3FC', // cyan-200
-    '#FBBF24', // amber-400 (brand warm accent)
-    '#0EA5E9', // sky-500
-  ]
-  const getRandomColor = () => colors[Math.floor(Math.random() * colors.length)]
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const root = rootRef.current
+    if (!root) return
+    const cells = Array.from(root.querySelectorAll<HTMLElement>('[data-cell]'))
+    if (!cells.length) return
+
+    // Brand-leaning palette: teal/cyan family + a warm gold accent.
+    const colors = [
+      '#2DD4BF', '#22D3EE', '#67E8F9', '#38BDF8', '#5EEAD4',
+      '#34D399', '#A5F3FC', '#FBBF24', '#0EA5E9',
+    ]
+    const pending = new Set<number>()
+
+    // Every tick, light a handful of random cells; clear them shortly after so the
+    // `transition-colors` on each cell fades them back out — a soft, continuous twinkle.
+    const tick = () => {
+      for (let n = 0; n < 6; n++) {
+        const cell = cells[Math.floor(Math.random() * cells.length)]
+        cell.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+        const t = window.setTimeout(() => {
+          cell.style.backgroundColor = ''
+          pending.delete(t)
+        }, 350)
+        pending.add(t)
+      }
+    }
+    const interval = window.setInterval(tick, 140)
+
+    return () => {
+      window.clearInterval(interval)
+      pending.forEach((t) => window.clearTimeout(t))
+    }
+  }, [])
 
   return (
     <div
+      ref={rootRef}
       style={{
-        // Center the grid on the hero and scale it up so it covers the viewport.
+        // Center the grid on the hero and scale it up so it covers the ENTIRE
+        // hero (overflowing every edge off-screen — no visible grid boundary).
         // (The upstream component leans on a 150×100 grid that's huge enough to
         // cover from an off-center anchor; our trimmed grid must be centered.)
         transform:
-          'translate(-50%,-50%) skewX(-48deg) skewY(14deg) scale(0.9) translateZ(0)',
+          'translate(-50%,-50%) skewX(-48deg) skewY(14deg) scale(1.2) translateZ(0)',
       }}
       className={cn('absolute left-1/2 top-1/2 z-0 flex p-4', className)}
       {...rest}
@@ -42,13 +66,10 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
       {rows.map((_, i) => (
         <div key={`row` + i} className="relative h-8 w-16 border-l border-slate-700/60">
           {cols.map((_, j) => (
-            <motion.div
-              whileHover={{
-                backgroundColor: getRandomColor(),
-                transition: { duration: 0 },
-              }}
+            <div
+              data-cell
               key={`col` + j}
-              className="relative h-8 w-16 border-r border-t border-slate-700/60"
+              className="relative h-8 w-16 border-r border-t border-slate-700/60 transition-colors duration-700"
             >
               {j % 2 === 0 && i % 2 === 0 ? (
                 <svg
@@ -62,7 +83,7 @@ export const BoxesCore = ({ className, ...rest }: { className?: string }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" />
                 </svg>
               ) : null}
-            </motion.div>
+            </div>
           ))}
         </div>
       ))}
