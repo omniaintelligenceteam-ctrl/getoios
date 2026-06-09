@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 /* useState still needed for SubTopicAccordion */
@@ -454,12 +453,6 @@ function CapabilityCard({ cap, index, isWide }: { cap: Capability; index: number
           <SubTopicAccordion key={sub.name} subtopic={sub} />
         ))}
       </div>
-      <Link
-        href="/demo"
-        className="inline-flex items-center gap-1 mt-5 text-xs font-medium text-teal-400 hover:text-teal-300 transition-colors"
-      >
-        See it in action →
-      </Link>
     </motion.div>
   );
 }

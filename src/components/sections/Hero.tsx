@@ -7,7 +7,7 @@ import { RotatingText } from '@/components/ui/RotatingText'
 import { Spotlight } from '@/components/ui/spotlight'
 import { SplineScene } from '@/components/ui/splite'
 import { Boxes } from '@/components/ui/background-boxes'
-import { ArrowRight, Plus, Cpu } from 'lucide-react'
+import { ArrowRight, Cpu } from 'lucide-react'
 
 // ─── Spline robot scene ──────────────────────────────────────────────────────────────
 // Public Spline demo robot (follows the cursor). Swap for the branded export when ready:
@@ -127,12 +127,6 @@ export function Hero() {
               <button className="bg-white text-black font-semibold py-3.5 px-8 rounded-2xl transition duration-300 hover:scale-105 flex items-center justify-center w-full sm:w-auto">
                 Start Month 1
                 <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
-            </Link>
-            <Link href="/demo">
-              <button className="border border-white/70 text-white font-semibold py-3.5 px-8 rounded-2xl transition duration-300 hover:bg-white hover:text-black flex items-center justify-center w-full sm:w-auto">
-                <Plus className="w-5 h-5 mr-2 text-teal-400" />
-                See It Live
               </button>
             </Link>
           </motion.div>

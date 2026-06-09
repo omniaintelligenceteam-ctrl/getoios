@@ -6,7 +6,6 @@ const routes = [
   { path: '/how-it-works', titlePattern: /How.*Works/i },
   { path: '/pricing', titlePattern: /Pricing|What to Expect/i },
   { path: '/solutions', titlePattern: /Solutions/i },
-  { path: '/demo', titlePattern: /OIOS|Demo/i },
   { path: '/form', titlePattern: /OIOS|Form|See What/i },
   { path: '/about', titlePattern: /About/i },
   { path: '/privacy', titlePattern: /Privacy/i },
@@ -29,7 +28,6 @@ test.describe('Navigation: Header links work', () => {
     { label: 'What It Does', href: '/features' },
     { label: 'How It Works', href: '/how-it-works' },
     { label: 'What to Expect', href: '/pricing' },
-    { label: 'Live Demo', href: '/demo' },
     { label: 'About', href: '/about' },
   ]
 
@@ -89,6 +87,14 @@ test.describe('Navigation: Browser history', () => {
 test.describe('Navigation: /audit redirects to /form', () => {
   test('visiting /audit redirects to /form', async ({ page }) => {
     await page.goto('/audit')
+    await page.waitForLoadState('domcontentloaded')
+    expect(page.url()).toContain('/form')
+  })
+})
+
+test.describe('Navigation: /demo redirects to /form', () => {
+  test('visiting /demo redirects to /form (live demo offline)', async ({ page }) => {
+    await page.goto('/demo')
     await page.waitForLoadState('domcontentloaded')
     expect(page.url()).toContain('/form')
   })

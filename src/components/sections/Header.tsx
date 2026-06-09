@@ -8,11 +8,10 @@ import { motion, AnimatePresence } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 import { useCalPopup } from '@/components/ui/CalBooking'
 
-const navLinks = [
+const navLinks: { href: string; label: string; accent?: boolean }[] = [
   { href: '/features', label: 'What It Does' },
   { href: '/how-it-works', label: 'How It Works' },
   { href: '/pricing', label: 'What to Expect' },
-  { href: '/demo', label: 'Live Demo', accent: true },
   { href: '/about', label: 'About' },
 ]
 

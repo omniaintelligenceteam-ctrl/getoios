@@ -7,7 +7,6 @@ export function Footer() {
     { name: 'What It Does', href: '/features' },
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'Solutions', href: '/solutions' },
-    { name: 'Live Demo', href: '/demo' },
     { name: 'What to Expect', href: '/pricing' },
     { name: 'Book Your Audit', href: '/form' },
   ]

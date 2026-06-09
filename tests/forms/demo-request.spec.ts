@@ -1,39 +1,5 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Demo page', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/demo')
-    await page.waitForLoadState('domcontentloaded')
-  })
-
-  test('loads successfully', async ({ page }) => {
-    const response = await page.goto('/demo')
-    expect(response!.status()).toBe(200)
-  })
-
-  test('header is visible', async ({ page }) => {
-    await expect(page.locator('header')).toBeVisible()
-  })
-
-  test('voice demo section renders', async ({ page }) => {
-    // VoiceDemo component should render
-    const content = page.getByText(/demo|voice|call|try|talk/i).first()
-    await expect(content).toBeVisible({ timeout: 10_000 })
-  })
-
-  test('footer renders', async ({ page }) => {
-    const footer = page.locator('footer')
-    await footer.scrollIntoViewIfNeeded()
-    await expect(footer).toBeVisible()
-  })
-
-  test('has link to /form', async ({ page }) => {
-    const formLink = page.locator('a[href="/form"]')
-    const count = await formLink.count()
-    expect(count).toBeGreaterThan(0)
-  })
-})
-
 test.describe('Demo Request API', () => {
   test('POST /api/demo-request with valid data returns 200 or 500', async ({ request }) => {
     const response = await request.post('/api/demo-request', {
