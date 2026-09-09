@@ -21,10 +21,24 @@ const HERO_SPLINE_SCENE: string = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/s
 function HeroSplineVisual() {
   const ref = useRef<HTMLDivElement>(null)
   const [showScene, setShowScene] = useState(false)
+  const [canRenderScene, setCanRenderScene] = useState(false)
 
   useEffect(() => {
-    // Respect reduced-motion — never mount the heavy 3D runtime.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const mediaQuery = window.matchMedia(
+      '(min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference)'
+    )
+    const syncSceneEligibility = () => setCanRenderScene(mediaQuery.matches)
+
+    syncSceneEligibility()
+    mediaQuery.addEventListener('change', syncSceneEligibility)
+    return () => mediaQuery.removeEventListener('change', syncSceneEligibility)
+  }, [])
+
+  useEffect(() => {
+    if (!canRenderScene) {
+      setShowScene(false)
+      return
+    }
 
     const el = ref.current
     if (!el) return
@@ -41,11 +55,13 @@ function HeroSplineVisual() {
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [])
+  }, [canRenderScene])
 
   return (
     <div ref={ref} className="absolute inset-0">
-      {showScene && <SplineScene scene={HERO_SPLINE_SCENE} className="h-full w-full" />}
+      {canRenderScene && showScene && (
+        <SplineScene scene={HERO_SPLINE_SCENE} className="h-full w-full" />
+      )}
     </div>
   )
 }
@@ -138,7 +154,7 @@ export function Hero() {
           initial={animate ? { opacity: 0, y: 40 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mt-6 sm:mt-8 w-full"
+          className="relative mt-6 hidden w-full md:block"
         >
           <div className="relative h-[420px] sm:h-[520px] w-full overflow-hidden">
             {/* soft teal backlight behind the robot */}

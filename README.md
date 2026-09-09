@@ -39,7 +39,7 @@ npm run test:report  # View last test report
 
 ## Environment Variables
 
-Create `.env.local` in the project root. Required variables (values in `reference_access_credentials.md`):
+Copy `.env.example` to `.env.local`, then add the credentials required for the features you are running. Never commit real credentials.
 
 ```
 RETELL_API_KEY
@@ -49,6 +49,8 @@ ELEVENLABS_API_KEY
 NEXT_PUBLIC_CALCOM_LINK
 CALCOM_WEBHOOK_SECRET
 DISCORD_WEBHOOK_ALERTS
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_KEY
 ```
 
 ## API Routes
@@ -86,7 +88,7 @@ Deployed on **Vercel** with automatic deploys from the `main` branch.
 
 - **Production URL:** https://getoios.com
 - **Vercel project:** omniaintelligenceai/getoios
-- **GitHub repo:** omniaintelligenceteam-ctrl/silent-ai-partner
+- **GitHub repo:** omniaintelligenceteam-ctrl/getoios
 
 ```bash
 # Manual deploy

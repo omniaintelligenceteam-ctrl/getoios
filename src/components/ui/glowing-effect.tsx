@@ -98,7 +98,12 @@ const GlowingEffect = memo(
     );
 
     useEffect(() => {
-      if (disabled) return;
+      if (
+        disabled ||
+        window.matchMedia(
+          "(hover: none), (pointer: coarse), (prefers-reduced-motion: reduce)"
+        ).matches
+      ) return;
 
       const handleScroll = () => handleMove();
       const handlePointerMove = (e: PointerEvent) => handleMove(e);

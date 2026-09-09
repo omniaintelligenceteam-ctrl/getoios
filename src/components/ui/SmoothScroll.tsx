@@ -8,8 +8,10 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
-    // Respect reduced motion preference
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    // Native scrolling is faster and more predictable for touch and motion-sensitive users.
+    if (
+      window.matchMedia('(pointer: coarse), (prefers-reduced-motion: reduce)').matches
+    ) return
 
     const lenis = new Lenis({
       duration: 1.2,

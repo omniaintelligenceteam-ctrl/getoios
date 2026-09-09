@@ -14,8 +14,8 @@ The OIOS marketing website. Next.js 16 (App Router) · React 19 · TypeScript 5.
 - `npm run lint` — ESLint
 
 ## Gotchas
-- **Deploy = Vercel auto-deploy from `main`.** Manual: `npx vercel --prod`. Vercel project `getoios` (team `omniaintelligenceai`); repo `omniaintelligenceteam-ctrl/silent-ai-partner`. Account for build lag + CDN cache before calling a change live.
-- Env vars live in `.env.local` (values in `reference_access_credentials.md`); never commit secrets.
+- **Deploy = Vercel auto-deploy from `main`.** Manual: `npx vercel --prod`. Vercel project `getoios` (team `omniaintelligenceai`); repo `omniaintelligenceteam-ctrl/getoios`. Account for build lag + CDN cache before calling a change live.
+- Copy `.env.example` to `.env.local` and add only the credentials you need; never commit secrets.
 - Every API route must keep its rate limiting + input sanitization (`src/lib/`).
 - `next.config.ts` whitelists remote image hosts (unsplash, videos.getoios.com, `*.r2.dev`, R2). New external image sources must be added there or `next/image` will throw.
 

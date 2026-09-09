@@ -490,21 +490,22 @@ export function CinematicEntrance({ children }: { children: React.ReactNode }) {
   const networkRef = useRef<CinematicRenderer | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
-  // Check session/motion on mount
-  useEffect(() => {
-    if (sessionStorage.getItem('oios-entered')) {
-      setSkipEntrance(true)
-      setShow(true)
-    } else if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setSkipEntrance(true)
-      setShow(true)
-      sessionStorage.setItem('oios-entered', '1')
-    }
-  }, [])
-
   // ─── Master GSAP Animation ─────────────────────────────────────────────────
   useEffect(() => {
     if (skipEntrance) return
+
+    const shouldSkip =
+      sessionStorage.getItem('oios-entered') !== null ||
+      window.matchMedia(
+        '(max-width: 767px), (pointer: coarse), (prefers-reduced-motion: reduce)'
+      ).matches
+
+    if (shouldSkip) {
+      sessionStorage.setItem('oios-entered', '1')
+      setShow(true)
+      setSkipEntrance(true)
+      return
+    }
 
     const overlay = overlayRef.current
     const canvas = canvasRef.current
@@ -692,6 +693,7 @@ export function CinematicEntrance({ children }: { children: React.ReactNode }) {
       {!skipEntrance && (
         <div
           ref={overlayRef}
+          className="cinematic-overlay"
           style={{
             position: 'fixed',
             inset: 0,
@@ -822,6 +824,7 @@ export function CinematicEntrance({ children }: { children: React.ReactNode }) {
       {/* Page content */}
       <div
         ref={contentRef}
+        className="cinematic-content"
         style={{
           opacity: show ? 1 : undefined,
           transform: show ? 'translateY(0)' : undefined,

@@ -74,6 +74,18 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: clip;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-width: 320px;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+}
+
 /* Custom cursor styles */
 .custom-cursor-active,
 .custom-cursor-active * {
@@ -432,6 +444,15 @@ details[open] > div {
    RESPONSIVE: reduce animations on mobile
    ============================================ */
 @media (max-width: 768px) {
+  .cinematic-overlay {
+    display: none !important;
+  }
+
+  .cinematic-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .orb-1, .orb-2, .orb-3 {
     width: 300px;
     height: 300px;
