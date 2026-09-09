@@ -7,29 +7,30 @@ import { Footer } from '@/components/sections/Footer'
 import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
+const title = 'Why we built Jarvis'
+const description =
+  'Ten years running a landscape lighting company across seven cities, needing a COO I couldn’t afford. Jarvis is what I built instead — and OIOS installs him in businesses like the one I ran.'
+
 export const metadata: Metadata = {
-  title: 'About — OIOS | The AI COO for Small Businesses',
-  description:
-    'The story behind OIOS — the AI COO built for small businesses. Learn why we built it, how it works, and our commitment to your data security.',
+  title,
+  description,
   openGraph: {
-    title: 'About — OIOS | The AI COO for Small Businesses',
-    description:
-      'The story behind OIOS — the AI COO built for small businesses. Learn why we built it, how it works, and our commitment to your data security.',
+    title,
+    description,
     url: 'https://getoios.com/about',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'About — OIOS | The AI COO for Small Businesses — OIOS by Omnia Intelligence AI',
+        alt: 'Why we built Jarvis — OIOS by Omnia Intelligence AI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About — OIOS | The AI COO for Small Businesses',
-    description:
-      'The story behind OIOS — the AI COO built for small businesses. Learn why we built it, how it works, and our commitment to your data security.',
+    title,
+    description,
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -43,9 +44,9 @@ export default function AboutPage() {
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <PageHero
-          title="Built for Small Business. By People Who Get It."
-          subtitle="OIOS exists because small businesses deserve operations that actually work — without hiring an army to run them."
-          badge="Our Story"
+          title="I needed a COO I couldn't afford."
+          subtitle="So I built one. Then we started installing him in businesses like the one I ran."
+          badge="Our story"
         />
         <SectionTransition />
         <AboutContent />

@@ -111,12 +111,15 @@ export function PageEntrance({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* Page content */}
+      {/*
+        Content is never hidden by opacity — the black overlay above already
+        covers it during the entrance. Hiding it here too meant a browser that
+        never ran the timers (or never ran JS at all) got a blank page.
+      */}
       <div
         style={{
-          opacity: show ? 1 : 0,
-          transform: show ? 'translateY(0)' : 'translateY(12px)',
-          transition: 'opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out)',
+          transform: show || skipEntrance ? 'translateY(0)' : undefined,
+          transition: 'transform 0.25s var(--ease-out)',
         }}
       >
         {children}

@@ -1,174 +1,86 @@
-'use client'
-
 import Link from 'next/link'
-import { useRef, useEffect, useState } from 'react'
-import { motion, useReducedMotion } from 'motion/react'
-import { RotatingText } from '@/components/ui/RotatingText'
-import { Spotlight } from '@/components/ui/spotlight'
-import { SplineScene } from '@/components/ui/splite'
-import { Boxes } from '@/components/ui/background-boxes'
-import { ArrowRight, Cpu } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+import { HeroReadBack } from '@/components/ui/HeroReadBack'
+import { Reveal } from '@/components/ui/Reveal'
 
-// ─── Spline robot scene ──────────────────────────────────────────────────────────────
-// Public Spline demo robot (follows the cursor). Swap for the branded export when ready:
-// app.spline.design → Export → copy the production .splinecode URL.
-const HERO_SPLINE_SCENE: string = 'https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode'
-
-// ─── Hero 3D visual ──────────────────────────────────────────────────────────────────
-// Lazy-loads the Spline robot only when it nears the viewport, and skips the heavy 3D
-// runtime entirely for reduced-motion users. While it loads, SplineScene shows its own
-// spinner.
-function HeroSplineVisual() {
-  const ref = useRef<HTMLDivElement>(null)
-  const [showScene, setShowScene] = useState(false)
-  const [canRenderScene, setCanRenderScene] = useState(false)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(
-      '(min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference)'
-    )
-    const syncSceneEligibility = () => setCanRenderScene(mediaQuery.matches)
-
-    syncSceneEligibility()
-    mediaQuery.addEventListener('change', syncSceneEligibility)
-    return () => mediaQuery.removeEventListener('change', syncSceneEligibility)
-  }, [])
-
-  useEffect(() => {
-    if (!canRenderScene) {
-      setShowScene(false)
-      return
-    }
-
-    const el = ref.current
-    if (!el) return
-
-    // Lazy-load via IntersectionObserver — only mount Spline near the viewport.
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setShowScene(true)
-          observer.disconnect()
-        }
-      },
-      { rootMargin: '200px' }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [canRenderScene])
-
-  return (
-    <div ref={ref} className="absolute inset-0">
-      {canRenderScene && showScene && (
-        <SplineScene scene={HERO_SPLINE_SCENE} className="h-full w-full" />
-      )}
-    </div>
-  )
-}
-
-// ─── Hero Section ──────────────────────────────────────────────────────────────────
+/**
+ * The hero holds one frame: Jarvis stopping to read an order back.
+ *
+ * No 3D scene, no cursor-following robot. The proof of the product is the
+ * pause before the money moves, so that is what the top of the page shows.
+ * When the HyperFrames render lands, <HeroReadBack /> is replaced by <Video>
+ * with this composition as its poster.
+ */
 export function Hero() {
-  const reduceMotion = useReducedMotion()
-  const animate = !reduceMotion
-
   return (
-    <section className="relative min-h-screen bg-bg-primary flex flex-col">
-      {/* ── Background: animated boxes grid (aceternity) ── */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <Boxes />
-
-        {/* bottom fade so the hero bleeds cleanly into the next section */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-64 pointer-events-none"
-          style={{ background: 'linear-gradient(to bottom, transparent, var(--bg-primary))' }}
-        />
-      </div>
-
-      {/* ── Foreground content (copy + 3D robot, stacked) ── */}
+    <section className="relative overflow-hidden bg-bg-primary pt-28 pb-16 sm:pt-32 lg:pt-36 lg:pb-24">
+      {/* Backdrop */}
       <div
-        className="relative z-10 flex-1 w-full max-w-6xl mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8 pt-32 pb-16"
-      >
-        {/* Copy + CTAs */}
-        <div className="flex flex-col items-center text-center">
-          {/* Badge pill */}
-          <motion.div
-            initial={animate ? { opacity: 0, y: 16 } : false}
-            animate={animate ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-teal-500/20 mb-7"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 75% 55% at 50% 0%, rgba(111,165,210,0.10) 0%, transparent 68%), radial-gradient(ellipse 45% 40% at 85% 90%, rgba(45,212,191,0.05) 0%, transparent 60%)',
+        }}
+      />
+      <div className="hero-grid pointer-events-none absolute inset-0 opacity-20" />
+
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl text-center">
+          <Reveal as="p" className="font-mono text-[11px] uppercase tracking-[0.16em] text-teal-400 sm:text-xs">
+            We install AI Operating Systems for small businesses. Ours is named Jarvis.
+          </Reveal>
+
+          <Reveal
+            as="h1"
+            delay={1}
+            className="mt-6 text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl"
           >
-            <Cpu className="w-4 h-4 text-teal-400" />
-            <span className="text-sm font-medium text-slate-200">
+            <span className="gradient-text-hero">Jarvis handles the day.</span>
+            <span className="mt-2 block text-white">Big decisions stay yours.</span>
+          </Reveal>
+
+          <Reveal
+            as="p"
+            delay={2}
+            className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-slate-300/85 sm:text-lg"
+          >
+            A briefing by 7 AM. The schedule kept, the follow-ups written, the past-due invoices
+            chased while you work. Anything that can&rsquo;t be undone, he reads back to you first.
+          </Reveal>
+
+          <Reveal delay={3} className="mt-9 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href="/form"
+              data-glow
+              data-cursor="cta"
+              className="btn-glow inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 px-8 py-3.5 font-semibold text-white transition-all duration-200 hover:from-amber-600 hover:to-amber-500 sm:w-auto"
+            >
+              Start Month 1
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+            <Link
+              href="#how-a-request-moves"
+              data-cursor="cta"
+              className="inline-flex w-full items-center justify-center rounded-xl border border-teal-500/30 px-8 py-3.5 font-medium text-teal-300 transition-all duration-200 hover:border-teal-400/50 hover:bg-teal-500/10 sm:w-auto"
+            >
+              Meet Jarvis
+            </Link>
+          </Reveal>
+
+          <Reveal delay={4} className="mt-6">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-700/50 bg-slate-800/40 px-4 py-1.5 text-xs text-slate-400 sm:text-sm">
               Month-to-month. You own everything we build.
             </span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1
-            initial={animate ? { opacity: 0, y: 24 } : false}
-            animate={animate ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.98] tracking-tight"
-            style={{ fontFamily: 'var(--font-display), sans-serif' }}
-          >
-            <span className="gradient-text-hero">Your AI Operating System.</span>
-            <span className="mt-2 block">
-              <RotatingText
-                phrases={['Installed.', 'Running.', 'Shipping monthly.', 'On retainer.']}
-                className="gradient-text-warm"
-              />
-            </span>
-          </motion.h1>
-
-          {/* Sub-paragraph */}
-          <motion.p
-            initial={animate ? { opacity: 0, y: 24 } : false}
-            animate={animate ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.8, delay: 0.25 }}
-            className="mt-7 max-w-xl text-base sm:text-lg text-gray-300/80 leading-relaxed"
-          >
-            We build the software you need, run the operations you can&apos;t afford to hire for, and
-            ship something new every 30 days. Phones, scheduling, sales, marketing, ops, finance &mdash;
-            running 24/7.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            initial={animate ? { opacity: 0, y: 24 } : false}
-            animate={animate ? { opacity: 1, y: 0 } : undefined}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-9 flex flex-col sm:flex-row items-center gap-3"
-          >
-            <Link href="/form">
-              <button className="bg-white text-black font-semibold py-3.5 px-8 rounded-2xl transition duration-300 hover:scale-105 flex items-center justify-center w-full sm:w-auto">
-                Start Month 1
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
-            </Link>
-          </motion.div>
+          </Reveal>
         </div>
 
-        {/* 3D robot — right under the hero, lit by a soft backlight so it reads
-            against the boxes (not the orb — just enough glow to keep it visible) */}
-        <motion.div
-          initial={animate ? { opacity: 0, y: 40 } : false}
-          animate={animate ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mt-6 hidden w-full md:block"
-        >
-          <div className="relative h-[420px] sm:h-[520px] w-full overflow-hidden">
-            {/* soft teal backlight behind the robot */}
-            <div
-              className="absolute left-1/2 top-1/2 h-72 w-72 sm:h-96 sm:w-96 -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
-              style={{
-                background: 'radial-gradient(circle, rgba(45,212,191,0.20) 0%, transparent 65%)',
-                filter: 'blur(40px)',
-              }}
-            />
-            <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#2DD4BF" />
-            <HeroSplineVisual />
-          </div>
-        </motion.div>
+        <Reveal delay={5} className="mx-auto mt-12 max-w-4xl lg:mt-16">
+          <HeroReadBack />
+          <p className="mt-4 text-center text-sm text-slate-500">
+            That&rsquo;s how a request moves through Jarvis. Example order, real read-back.
+          </p>
+        </Reveal>
       </div>
     </section>
   )

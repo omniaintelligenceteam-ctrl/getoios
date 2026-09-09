@@ -177,7 +177,7 @@ test.describe('Accessibility: Form page', () => {
 })
 
 test.describe('Accessibility: All pages have lang attribute', () => {
-  const pages = ['/', '/features', '/pricing', '/demo', '/about']
+  const pages = ['/', '/features', '/pricing', '/solutions', '/about']
 
   for (const path of pages) {
     test(`${path} has html lang attribute`, async ({ page }) => {

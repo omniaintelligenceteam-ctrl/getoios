@@ -6,12 +6,12 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
-import { useCalPopup } from '@/components/ui/CalBooking'
 
 const navLinks: { href: string; label: string; accent?: boolean }[] = [
-  { href: '/features', label: 'What It Does' },
-  { href: '/how-it-works', label: 'How It Works' },
-  { href: '/pricing', label: 'What to Expect' },
+  { href: '/features', label: 'What you can say' },
+  { href: '/how-it-works', label: 'How it works' },
+  { href: '/#he-asks-first', label: 'He asks first' },
+  { href: '/pricing', label: 'Month 1' },
   { href: '/about', label: 'About' },
 ]
 
@@ -20,7 +20,6 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [showMobileCTA, setShowMobileCTA] = useState(false)
   const pathname = usePathname()
-  const { openPopup: openCalPopup } = useCalPopup()
 
   useEffect(() => {
     function handleScroll() {
@@ -62,7 +61,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8 relative">
+          <nav className="hidden lg:flex items-center space-x-6 relative">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               return (
@@ -90,15 +89,15 @@ export function Header() {
           </nav>
 
           {/* Status Badge & CTA */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-3">
             <MagneticButton>
-              <button
-                onClick={openCalPopup}
+              <Link
+                href="/#how-a-request-moves"
                 data-cursor="cta"
-                className="border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 hover:border-teal-400/50 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap shrink-0 cursor-pointer"
+                className="border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 hover:border-teal-400/50 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap shrink-0"
               >
-                Book a Call
-              </button>
+                Meet Jarvis
+              </Link>
             </MagneticButton>
             <MagneticButton>
               <Link
@@ -115,7 +114,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-3 -mr-1 text-slate-400 hover:text-white transition-colors"
+            className="lg:hidden p-3 -mr-1 text-slate-400 hover:text-white transition-colors"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileMenuOpen ? (
@@ -131,7 +130,7 @@ export function Header() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              className="md:hidden py-6 border-t border-slate-800/30 overflow-hidden"
+              className="lg:hidden py-6 border-t border-slate-800/30 overflow-hidden"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -167,16 +166,14 @@ export function Header() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25, delay: 0.15 }}
                 >
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false)
-                      openCalPopup()
-                    }}
+                  <Link
+                    href="/#how-a-request-moves"
                     data-cursor="cta"
-                    className="block w-full border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 px-4 py-3.5 rounded-lg text-sm font-bold transition-all duration-200 text-center cursor-pointer"
+                    className="block w-full border border-teal-500/30 text-teal-400 hover:bg-teal-500/10 px-4 py-3.5 rounded-lg text-sm font-bold transition-all duration-200 text-center"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
-                    Book a Call
-                  </button>
+                    Meet Jarvis
+                  </Link>
                   <Link
                     href="/form"
                     data-glow
@@ -198,7 +195,7 @@ export function Header() {
       <AnimatePresence>
         {showMobileCTA && (
           <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-black/95 backdrop-blur-xl border-t border-slate-700/40"
+            className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-black/95 backdrop-blur-xl border-t border-slate-700/40"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}

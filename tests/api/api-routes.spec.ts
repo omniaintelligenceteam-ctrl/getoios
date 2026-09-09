@@ -56,49 +56,6 @@ test.describe('POST /api/form — Discovery Form', () => {
     expect(response.status()).toBe(400)
   })
 })
-
-test.describe('POST /api/audit — Audit Request', () => {
-  const validPayload = {
-    fullName: 'Mike Johnson',
-    businessName: 'Johnson HVAC',
-    businessWebsite: 'https://johnsonhvac.com',
-    phoneNumber: '(602) 555-1234',
-    trade: 'HVAC',
-    teamSize: '6-15',
-    missedCalls: '5-10 per day',
-    phoneHandler: 'Office manager',
-    currentSoftware: 'ServiceTitan',
-    extraHours: 'Follow-ups and marketing',
-    biggestFrustration: 'Losing leads after hours',
-  }
-
-  test('valid data returns 200 or 500 (env-dependent)', async ({ request }) => {
-    const response = await request.post('/api/audit', { data: validPayload })
-    expect([200, 500]).toContain(response.status())
-  })
-
-  test('missing trade returns 400', async ({ request }) => {
-    const { trade, ...partial } = validPayload
-    const response = await request.post('/api/audit', { data: partial })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('trade')
-  })
-
-  test('missing phoneNumber returns 400', async ({ request }) => {
-    const { phoneNumber, ...partial } = validPayload
-    const response = await request.post('/api/audit', { data: partial })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('phoneNumber')
-  })
-
-  test('empty object returns 400', async ({ request }) => {
-    const response = await request.post('/api/audit', { data: {} })
-    expect(response.status()).toBe(400)
-  })
-})
-
 test.describe('POST /api/demo-request — Demo Request', () => {
   const validPayload = {
     name: 'Sarah Connor',
@@ -173,7 +130,6 @@ test.describe('POST /api/retell — Voice Web Call', () => {
 test.describe('GET on POST-only routes', () => {
   const postOnlyRoutes = [
     '/api/form',
-    '/api/audit',
     '/api/demo-request',
     '/api/chat',
     '/api/retell',

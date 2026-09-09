@@ -4,10 +4,11 @@ import Link from 'next/link'
 
 export function Footer() {
   const navLinks = [
-    { name: 'What It Does', href: '/features' },
-    { name: 'How It Works', href: '/how-it-works' },
-    { name: 'Solutions', href: '/solutions' },
-    { name: 'What to Expect', href: '/pricing' },
+    { name: 'What you can say', href: '/features' },
+    { name: 'How it works', href: '/how-it-works' },
+    { name: 'Say it to Jarvis', href: '/solutions' },
+    { name: 'Month 1', href: '/pricing' },
+    { name: 'About', href: '/about' },
     { name: 'Start Month 1', href: '/form' },
   ]
 
@@ -26,8 +27,9 @@ export function Footer() {
               <span className="text-xl tracking-[0.1em] font-bold gradient-text-warm">OIOS</span>
             </Link>
             <p className="text-slate-600 text-xs font-mono mb-5">by Omnia Intelligence AI</p>
-            <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
-              We install AI Operating Systems for small businesses. Calls answered, admin handled, pipeline visible — 24/7.
+            <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-sm">
+              We install AI Operating Systems for small businesses. Ours is named Jarvis. Briefed by
+              7 AM, the day handled, anything that can&rsquo;t be undone read back to you first.
             </p>
             <a
               href="mailto:team@getoios.com"

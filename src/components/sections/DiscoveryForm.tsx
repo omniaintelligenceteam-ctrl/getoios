@@ -134,7 +134,7 @@ function SuccessCheckmark() {
 }
 
 // ─── Discovery Form ─────────────────────────────────────────────────────────
-export function DiscoveryForm() {
+export function DiscoveryForm({ headingLevel: Heading = 'h2' }: { headingLevel?: 'h1' | 'h2' } = {}) {
   const [formData, setFormData] = useState<FormData>(initialFormData)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -206,7 +206,7 @@ export function DiscoveryForm() {
   const formView = (
       <motion.div
         key="form"
-        initial={{ opacity: 0, y: 24 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -12, scale: 0.99, transition: { duration: 0.25, ease: [0.23, 1, 0.32, 1] } }}
         transition={{ duration: 0.6 }}
@@ -215,14 +215,14 @@ export function DiscoveryForm() {
         <div className="max-w-xl w-full">
         {/* Header */}
         <div className="text-center mb-10">
-          <h1
+          <Heading
             className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3"
             style={{ fontFamily: 'var(--font-display), sans-serif' }}
           >
             What&apos;s eating your week?
-          </h1>
+          </Heading>
           <p className="text-slate-400 text-base">
-            Takes about 3 minutes. I&apos;ll use this to prep something specific for our call.
+            Takes about 3 minutes. We&apos;ll use it to prep something specific for the first call.
           </p>
         </div>
 
@@ -301,10 +301,10 @@ export function DiscoveryForm() {
             {/* Biggest Pain Point */}
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                What&apos;s your biggest pain point right now?
+                What&apos;s the thing you keep doing by hand?
               </label>
               <textarea
-                placeholder="The thing that keeps you up at night..."
+                placeholder="The one that never gets off your list..."
                 value={formData.biggestPainPoint}
                 onChange={(e) => handleChange('biggestPainPoint', e.target.value)}
                 rows={2}
@@ -320,7 +320,7 @@ export function DiscoveryForm() {
               </label>
               <input
                 type="text"
-                placeholder="e.g. Jobber, ServiceTitan, QuickBooks, spreadsheets..."
+                placeholder="e.g. the scheduling tool, the books, spreadsheets, sticky notes..."
                 value={formData.currentSoftware}
                 onChange={(e) => handleChange('currentSoftware', e.target.value)}
                 className={inputClass}
@@ -364,7 +364,7 @@ export function DiscoveryForm() {
                 disabled={submitting}
                 className="w-full bg-gradient-to-r from-teal-500 to-teal-400 text-white py-4 rounded-xl font-semibold text-lg hover:from-teal-600 hover:to-teal-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? 'Sending...' : 'Submit'}
+                {submitting ? 'Sending...' : 'Start Month 1'}
               </button>
             </div>
           </form>

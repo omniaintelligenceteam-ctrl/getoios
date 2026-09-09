@@ -46,10 +46,9 @@ test.describe('Homepage', () => {
     await expect(nav).toBeVisible()
 
     const expectedLinks = [
-      { label: 'What It Does', href: '/features' },
-      { label: 'How It Works', href: '/how-it-works' },
-      { label: 'What to Expect', href: '/pricing' },
-      { label: 'Live Demo', href: '/demo' },
+      { label: 'What you can say', href: '/features' },
+      { label: 'How it works', href: '/how-it-works' },
+      { label: 'Month 1', href: '/pricing' },
       { label: 'About', href: '/about' },
     ]
 
@@ -61,8 +60,7 @@ test.describe('Homepage', () => {
 
   // ─── CTA buttons ─────────────────────────────────────────────────────
   test('CTA buttons are present and clickable', async ({ page }) => {
-    // Look for primary CTA links that go to /form, /demo, or /audit
-    const ctas = page.locator('a[href="/form"], a[href="/demo"], a[href="/audit"]')
+    const ctas = page.locator('a[href="/form"]')
     const count = await ctas.count()
     expect(count).toBeGreaterThan(0)
 
@@ -73,11 +71,10 @@ test.describe('Homepage', () => {
   })
 
   // ─── Key sections render ─────────────────────────────────────────────
-  test('WhoItsFor section renders', async ({ page }) => {
-    // Scroll down to find the section — look for trade-related keywords
-    const section = page.getByText(/who.*for|small business|trade/i).first()
-    await section.scrollIntoViewIfNeeded()
-    await expect(section).toBeVisible()
+  test('the spine and the read-back both appear', async ({ page }) => {
+    await expect(page.locator('h1')).toContainText('Jarvis handles the day')
+    await expect(page.locator('#a-day-with-jarvis')).toContainText('Briefed')
+    await expect(page.locator('#he-asks-first')).toContainText(/read back|reads it back|without a yes/i)
   })
 
   test('FAQ section renders', async ({ page }) => {

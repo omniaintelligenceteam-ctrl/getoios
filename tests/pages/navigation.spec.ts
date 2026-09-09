@@ -2,12 +2,12 @@ import { test, expect } from '@playwright/test'
 
 const routes = [
   { path: '/', titlePattern: /OIOS/ },
-  { path: '/features', titlePattern: /What OIOS Does|Features/i },
-  { path: '/how-it-works', titlePattern: /How.*Works/i },
-  { path: '/pricing', titlePattern: /Pricing|What to Expect/i },
-  { path: '/solutions', titlePattern: /Solutions/i },
+  { path: '/features', titlePattern: /What Jarvis does/i },
+  { path: '/how-it-works', titlePattern: /How a request moves/i },
+  { path: '/pricing', titlePattern: /Month 1/i },
+  { path: '/solutions', titlePattern: /say to Jarvis/i },
   { path: '/form', titlePattern: /OIOS|Form|See What/i },
-  { path: '/about', titlePattern: /About/i },
+  { path: '/about', titlePattern: /Why we built Jarvis/i },
   { path: '/privacy', titlePattern: /Privacy/i },
   { path: '/terms', titlePattern: /Terms/i },
 ]
@@ -25,9 +25,9 @@ test.describe('Navigation: All pages load', () => {
 
 test.describe('Navigation: Header links work', () => {
   const headerLinks = [
-    { label: 'What It Does', href: '/features' },
-    { label: 'How It Works', href: '/how-it-works' },
-    { label: 'What to Expect', href: '/pricing' },
+    { label: 'What you can say', href: '/features' },
+    { label: 'How it works', href: '/how-it-works' },
+    { label: 'Month 1', href: '/pricing' },
     { label: 'About', href: '/about' },
   ]
 
@@ -41,7 +41,7 @@ test.describe('Navigation: Header links work', () => {
       // Use the desktop nav (hidden on mobile)
       const navLink = page.locator(`header nav a[href="${link.href}"]`)
       await navLink.click()
-      await page.waitForLoadState('domcontentloaded')
+      await page.waitForURL(`**${link.href}`)
       expect(page.url()).toContain(link.href)
     })
   }
@@ -51,7 +51,7 @@ test.describe('Navigation: Header links work', () => {
     await page.waitForLoadState('domcontentloaded')
     const logo = page.locator('header a[href="/"]').first()
     await logo.click()
-    await page.waitForLoadState('domcontentloaded')
+    await page.waitForURL((url) => url.pathname === '/')
     expect(page.url()).toMatch(/\/$/)
   })
 })
@@ -66,7 +66,7 @@ test.describe('Navigation: Browser history', () => {
     expect(page.url()).toContain('/features')
 
     await page.goBack()
-    await page.waitForLoadState('domcontentloaded')
+    await page.waitForURL((url) => url.pathname === '/')
     expect(page.url()).toMatch(/\/$/)
   })
 
@@ -123,7 +123,7 @@ test.describe('Navigation: Mobile menu', () => {
     // Wait a moment for animation
     await page.waitForTimeout(500)
 
-    const mobileNavLink = page.locator('a[href="/features"]').first()
+    const mobileNavLink = page.locator('header a[href="/features"]:visible').first()
     await expect(mobileNavLink).toBeVisible()
   })
 })

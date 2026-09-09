@@ -9,29 +9,30 @@ import { Footer } from '@/components/sections/Footer'
 import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
+const title = 'Month 1 — what you get and what it’s scoped against'
+const description =
+  'Installed in the first few days, first build live by Day 7, then one meeting a month. Month-to-month, and you own every tool, integration and note we build.'
+
 export const metadata: Metadata = {
-  title: 'What to Expect — OIOS | AI Operations for Small Businesses',
-  description:
-    'Three capability bands, every engagement custom-quoted. Month 1 installs your AI Operating System with your first build live by Day 7 — then one big build every month.',
+  title,
+  description,
   openGraph: {
-    title: 'What to Expect — OIOS | AI Operations for Small Businesses',
-    description:
-      'Three capability bands, every engagement custom-quoted. Month 1 installs your AI Operating System with your first build live by Day 7 — then one big build every month.',
+    title,
+    description,
     url: 'https://getoios.com/pricing',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Pricing — OIOS | AI Operations for Small Businesses — OIOS by Omnia Intelligence AI',
+        alt: 'Month 1 with Jarvis — OIOS by Omnia Intelligence AI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'What to Expect — OIOS | AI Operations for Small Businesses',
-    description:
-      'Three capability bands, every engagement custom-quoted. Month 1 installs your AI Operating System with your first build live by Day 7 — then one big build every month.',
+    title,
+    description,
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -45,9 +46,9 @@ export default function PricingPage() {
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <PageHero
-          title="Custom-Built for Your Business"
-          subtitle="Scope that fits, quoted against the hires you'll never make."
-          badge="What to Expect"
+          title="Installed, and your first build live by Day 7."
+          subtitle="Every engagement is scoped and quoted on its own. Here's what's in Month 1, and what moves the number."
+          badge="Month 1"
         />
         <WhatToExpect />
         <SectionTransition />

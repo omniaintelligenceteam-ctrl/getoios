@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function FormPage() {
   return (
     <div className="bg-[#0B1120] text-white min-h-screen">
-      <DiscoveryForm />
+      <DiscoveryForm headingLevel="h1" />
     </div>
   )
 }

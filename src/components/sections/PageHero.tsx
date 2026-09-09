@@ -1,7 +1,4 @@
-'use client'
-
-import { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
+import { Reveal } from '@/components/ui/Reveal'
 
 interface PageHeroProps {
   title: string
@@ -9,10 +6,12 @@ interface PageHeroProps {
   badge?: string
 }
 
+/**
+ * Reveals through the `.reveal` CSS layer rather than motion's `initial`, which
+ * wrote opacity:0 into the SSR output — so every inner page's own title was
+ * invisible to anything that didn't run JS.
+ */
 export function PageHero({ title, subtitle, badge }: PageHeroProps) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
-
   return (
     <section className="relative bg-bg-primary overflow-hidden pt-28 pb-16 lg:pt-32 lg:pb-20">
       {/* Subtle radial gradient backdrop */}
@@ -30,15 +29,9 @@ export function PageHero({ title, subtitle, badge }: PageHeroProps) {
       {/* Horizontal rule at top — decorative teal line */}
       <div className="pointer-events-none absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-400/30 to-transparent" />
 
-      <div ref={ref} className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge */}
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {badge && (
-          <motion.div
-            className="flex justify-center mb-5"
-            initial={{ opacity: 0, y: -8 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-          >
+          <Reveal className="flex justify-center mb-5">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-400/8 border border-teal-400/20 text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-teal-400">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-60" />
@@ -46,40 +39,32 @@ export function PageHero({ title, subtitle, badge }: PageHeroProps) {
               </span>
               {badge}
             </span>
-          </motion.div>
+          </Reveal>
         )}
 
-        {/* Title */}
-        <motion.h1
-          className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight text-white mb-4"
+        <h1
+          className="reveal reveal-d1 text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight text-white mb-4"
           style={{ fontFamily: 'var(--font-display), sans-serif' }}
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.08 }}
         >
           {title}
-        </motion.h1>
+        </h1>
 
-        {/* Subtitle */}
-        <motion.p
+        <Reveal
+          as="p"
+          delay={2}
           className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 12 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.18 }}
         >
           {subtitle}
-        </motion.p>
+        </Reveal>
 
-        {/* Bottom decorative line */}
-        <motion.div
-          className="mt-10 mx-auto h-px max-w-xs"
-          style={{
-            background: 'linear-gradient(90deg, transparent, rgba(45,212,191,0.35), transparent)',
-          }}
-          initial={{ opacity: 0, scaleX: 0.4 }}
-          animate={inView ? { opacity: 1, scaleX: 1 } : {}}
-          transition={{ duration: 0.7, delay: 0.3 }}
-        />
+        <Reveal delay={3} className="mt-10">
+          <div
+            className="mx-auto h-px max-w-xs"
+            style={{
+              background: 'linear-gradient(90deg, transparent, rgba(45,212,191,0.35), transparent)',
+            }}
+          />
+        </Reveal>
       </div>
     </section>
   )

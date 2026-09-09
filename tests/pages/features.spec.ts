@@ -7,7 +7,7 @@ test.describe('Features page', () => {
   })
 
   test('loads with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/What OIOS Does/i)
+    await expect(page).toHaveTitle(/What Jarvis does/i)
   })
 
   test('returns 200 status', async ({ page }) => {
@@ -25,14 +25,13 @@ test.describe('Features page', () => {
   })
 
   test('three pillars section renders', async ({ page }) => {
-    // ThreePillars component should render content about AI capabilities
-    const content = page.getByText(/voice|scheduling|follow.?up|pillar/i).first()
+    const content = page.getByText(/scheduling|follow.?up|second brain/i).first()
     await content.scrollIntoViewIfNeeded()
     await expect(content).toBeVisible()
   })
 
   test('daily schedule section renders', async ({ page }) => {
-    const schedule = page.getByText(/schedule|day|morning|evening/i).first()
+    const schedule = page.getByText(/briefing|overnight|nightly|schedule/i).first()
     await schedule.scrollIntoViewIfNeeded()
     await expect(schedule).toBeVisible()
   })

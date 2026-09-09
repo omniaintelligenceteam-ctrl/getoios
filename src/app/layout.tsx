@@ -6,6 +6,7 @@ import { PointerGlow } from "@/components/ui/pointer-glow";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { ScrollRevealInit } from "@/components/ui/ScrollRevealInit";
+import { RevealInit } from "@/components/ui/RevealInit";
 import { MotionProvider } from "@/components/ui/MotionProvider";
 import "./globals.css";
 
@@ -31,14 +32,14 @@ export const metadata: Metadata = {
     apple: '/apple-touch-icon.png',
   },
   title: {
-    default: "OIOS — We install AI Operating Systems for small businesses | Omnia Intelligence AI",
+    default: "Jarvis handles the day. Big decisions stay yours. | OIOS",
     template: "%s | OIOS by Omnia Intelligence AI",
   },
-  description: "We build the software you need, run the operations you can't afford to hire for, and ship something new every 30 days. Calls answered, admin handled, pipeline visible — 24/7.",
-  keywords: "AI operations, AI for small businesses, AI receptionist, AI back office, business automation, OIOS, Omnia Intelligence AI, AI office manager, small business AI",
+  description: "OIOS installs Jarvis, an AI Operating System for small businesses. Briefed by 7 AM, the day handled, anything that can't be undone read back to you first.",
+  keywords: "AI operating system, AI COO for small business, AI for small businesses, AI back office, business automation, OIOS, Jarvis, Omnia Intelligence AI, small business AI",
   openGraph: {
-    title: "OIOS — We install AI Operating Systems for small businesses",
-    description: "We install your AI Operating System, ship your first build live by Day 7, then keep shipping every month. Calls answered, admin handled, pipeline visible — 24/7.",
+    title: "Jarvis handles the day. Big decisions stay yours.",
+    description: "OIOS installs Jarvis, an AI Operating System for small businesses. Briefed by 7 AM, the day handled, anything that can't be undone read back to you first.",
     type: "website",
     url: "https://getoios.com",
     siteName: "OIOS by Omnia Intelligence AI",
@@ -47,14 +48,14 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "OIOS — AI Operating Systems for small businesses, installed",
+        alt: "Jarvis — the AI Operating System OIOS installs for small businesses",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "OIOS — We install AI Operating Systems for small businesses",
-    description: "We install your AI Operating System, ship your first build live by Day 7, then keep shipping every month. Calls answered, admin handled, pipeline visible — 24/7.",
+    title: "Jarvis handles the day. Big decisions stay yours.",
+    description: "OIOS installs Jarvis, an AI Operating System for small businesses. Briefed by 7 AM, the day handled, anything that can't be undone read back to you first.",
     images: ["/opengraph-image"],
   },
   alternates: {
@@ -96,7 +97,7 @@ export default function RootLayout({
       "width": 512,
       "height": 512,
     },
-    "description": "OIOS is an AI-powered operations platform for small businesses. It answers calls 24/7, automates back office workflows, and provides real-time visibility into leads, jobs, and revenue.",
+    "description": "OIOS installs AI Operating Systems for small businesses. Ours is named Jarvis: he briefs the owner by 7 AM, keeps the schedule, drafts the follow-ups and past-due chases, and reads back anything that can't be undone before it fires.",
     "email": "team@getoios.com",
     "telephone": "+1-480-305-0357",
     "contactPoint": [{
@@ -125,18 +126,19 @@ export default function RootLayout({
     "@id": "https://getoios.com/#service",
     "name": "OIOS",
     "alternateName": "OIOS AI Operating System",
-    "description": "AI-first operations partner for small businesses on a monthly retainer. OIOS installs a custom AI Operating System, runs phones, scheduling, follow-ups, invoicing, and reporting 24/7, and ships a new custom build every month.",
+    "description": "AI-first operations partner for small businesses on a monthly retainer. OIOS installs Jarvis on the owner's rules, prices and tools, ships the first build live by Day 7, and keeps shipping every month. Anything irreversible is read back to the owner before it fires.",
     "url": "https://getoios.com",
     "provider": { "@id": "https://getoios.com/#organization" },
     "areaServed": { "@type": "Country", "name": "United States" },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "OIOS capabilities",
+      "name": "What Jarvis handles",
       "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "24/7 AI call answering and lead capture" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Appointment scheduling and reminders" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Follow-up and pipeline automation" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Invoicing and cash-flow reporting" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "A 7 AM briefing on the day ahead" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Scheduling, confirmations and reminders" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Quotes and follow-ups drafted" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Past-due invoice chases drafted for the owner to send" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Memory kept in plain files the owner owns" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Custom software builds shipped monthly" } },
       ],
     },
@@ -145,6 +147,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        {/*
+          Stamps `js` on <html> before first paint. Every reveal animation hangs
+          off `html.js`, so a browser that never runs this — or a crawler — gets
+          the fully visible page instead of a screen of opacity-0 sections.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -159,6 +171,7 @@ export default function RootLayout({
         <PointerGlow />
         <CustomCursor />
         <ScrollRevealInit />
+        <RevealInit />
         <SmoothScroll>
           <MotionProvider>
             {children}

@@ -1,37 +1,39 @@
 import type { Metadata } from 'next'
 import { Header } from '@/components/sections/Header'
 import { PageHero } from '@/components/sections/PageHero'
-import { HowItWorksNew } from '@/components/sections/HowItWorksNew'
+import { HowARequestMoves } from '@/components/sections/HowARequestMoves'
+import { AsksFirst } from '@/components/sections/AsksFirst'
+import { MonthOne } from '@/components/sections/MonthOne'
 import { TrustSignals } from '@/components/sections/TrustSignals'
-import { LiveProof } from '@/components/sections/LiveProof'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Footer } from '@/components/sections/Footer'
 import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
+const title = 'How a request moves'
+const description =
+  'Say it, he works, and if it can’t be undone he reads it back before it fires. The road every request takes through Jarvis, and the floor underneath it.'
+
 export const metadata: Metadata = {
-  title: 'How OIOS Works — Build, Run, Ship',
-  description:
-    'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running 24/7.',
+  title,
+  description,
   openGraph: {
-    title: 'How OIOS Works — Build, Run, Ship',
-    description:
-      'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running 24/7.',
+    title,
+    description,
     url: 'https://getoios.com/how-it-works',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'How OIOS Works — Audit, Build, Run — OIOS by Omnia Intelligence AI',
+        alt: 'How a request moves through Jarvis — OIOS by Omnia Intelligence AI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'How OIOS Works — Build, Run, Ship',
-    description:
-      'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running 24/7.',
+    title,
+    description,
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -45,16 +47,18 @@ export default function HowItWorksPage() {
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <PageHero
-          title="How It Works"
-          subtitle="Build. Run. Ship. One meeting a month, one big build, everything running 24/7."
-          badge="Process"
+          title="How a request moves"
+          subtitle="Say it. He works. You get the receipt. The only fork is whether it can be undone."
+          badge="How it works"
         />
         <SectionTransition />
-        <HowItWorksNew />
+        <HowARequestMoves />
+        <SectionTransition />
+        <AsksFirst />
+        <SectionTransition />
+        <MonthOne />
         <SectionTransition />
         <TrustSignals />
-        <SectionTransition />
-        <LiveProof />
         <SectionTransition />
         <FinalCTA />
         <SectionTransition />

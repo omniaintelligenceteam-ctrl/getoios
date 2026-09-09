@@ -7,7 +7,7 @@ test.describe('Pricing page', () => {
   })
 
   test('loads with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/Pricing|What to Expect/i)
+    await expect(page).toHaveTitle(/Month 1/i)
   })
 
   test('returns 200 status', async ({ page }) => {
@@ -26,13 +26,13 @@ test.describe('Pricing page', () => {
 
   test('what to expect section renders', async ({ page }) => {
     // WhatToExpect component
-    const content = page.getByText(/expect|custom|built/i).first()
+    const content = page.getByText(/install|scoped|quoted|Day 7/i).first()
     await content.scrollIntoViewIfNeeded()
     await expect(content).toBeVisible()
   })
 
   test('onboarding timeline renders', async ({ page }) => {
-    const timeline = page.getByText(/onboard|timeline|step|week/i).first()
+    const timeline = page.getByText(/Day 7|thirty days|month-to-month/i).first()
     await timeline.scrollIntoViewIfNeeded()
     await expect(timeline).toBeVisible()
   })
@@ -44,7 +44,7 @@ test.describe('Pricing page', () => {
   })
 
   test('CTA buttons are present', async ({ page }) => {
-    const ctas = page.locator('a[href="/form"], a[href="/demo"], a[href="/audit"]')
+    const ctas = page.locator('a[href="/form"]')
     const count = await ctas.count()
     expect(count).toBeGreaterThan(0)
   })

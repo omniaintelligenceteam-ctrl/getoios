@@ -7,7 +7,6 @@ test.describe('Performance: Page load times', () => {
     { path: '/pricing', name: 'Pricing' },
     { path: '/how-it-works', name: 'How It Works' },
     { path: '/solutions', name: 'Solutions' },
-    { path: '/demo', name: 'Demo' },
     { path: '/about', name: 'About' },
   ]
 
@@ -23,7 +22,7 @@ test.describe('Performance: Page load times', () => {
 })
 
 test.describe('Performance: No broken images', () => {
-  const pages = ['/', '/features', '/pricing', '/about', '/demo']
+  const pages = ['/', '/features', '/pricing', '/about', '/solutions']
 
   for (const path of pages) {
     test(`${path} has no broken images`, async ({ page }) => {
@@ -81,7 +80,7 @@ test.describe('Performance: No 404 resources', () => {
 })
 
 test.describe('Performance: Viewport and layout', () => {
-  const pages = ['/', '/features', '/pricing', '/demo']
+  const pages = ['/', '/features', '/pricing', '/solutions']
 
   for (const path of pages) {
     test(`${path} has no horizontal overflow`, async ({ page }) => {

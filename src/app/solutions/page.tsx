@@ -7,29 +7,30 @@ import { Footer } from '@/components/sections/Footer'
 import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
+const title = 'Thirteen things you can say to Jarvis'
+const description =
+  'Real sentences owners say, what happens when they do, and which ones stop for a yes first.'
+
 export const metadata: Metadata = {
-  title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
-  description:
-    'From missed calls to forgotten invoices, OIOS automates every repetitive task in your small business. 13 workflows. Zero manual work. 24/7 coverage.',
+  title,
+  description,
   openGraph: {
-    title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
-    description:
-      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your small business. 13 workflows. Zero manual work. 24/7 coverage.',
+    title,
+    description,
     url: 'https://getoios.com/solutions',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Solutions — 13 Workflows OIOS Automates for Your Business — OIOS by Omnia Intelligence AI',
+        alt: 'Thirteen things you can say to Jarvis — OIOS by Omnia Intelligence AI',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Solutions — 13 Workflows OIOS Automates for Your Business',
-    description:
-      'From missed calls to forgotten invoices, OIOS automates every repetitive task in your small business. 13 workflows. Zero manual work. 24/7 coverage.',
+    title,
+    description,
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -43,9 +44,9 @@ export default function SolutionsPage() {
       <div className="bg-bg-primary text-white min-h-screen">
         <Header />
         <PageHero
-          title="13 Workflows. Zero Manual Work."
-          subtitle="Every repetitive task in your small business — answered, automated, and monitored."
-          badge="Solutions"
+          title="Thirteen things you can say to Jarvis"
+          subtitle="One sentence each. What happens next, and which ones stop and wait for your yes."
+          badge="Say it to Jarvis"
         />
         <SectionTransition />
         <SolutionsContent />

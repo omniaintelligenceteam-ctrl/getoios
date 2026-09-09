@@ -15,6 +15,8 @@
   --accent-emerald: #34D399;
   --accent-cyan: #06B6D4;
   --accent-teal: #2DD4BF;
+  --jarvis-blue: #6FA5D2;
+  --jarvis-blue-deep: #2C5F8A;
   --text-muted: #94A3B8;
   --text-body: #CBD5E1;
   --glass-bg: rgba(15, 23, 42, 0.4);
@@ -35,6 +37,8 @@
   --color-accent-orange: #F97316;
   --color-accent-amber: #F59E0B;
   --color-accent-teal: #2DD4BF;
+  --color-jarvis-blue: #6FA5D2;
+  --color-jarvis-blue-deep: #2C5F8A;
   --color-accent-emerald: #34D399;
   --color-accent-cyan: #06B6D4;
   --color-border: rgba(148, 163, 184, 0.12);
@@ -643,6 +647,11 @@ details[open] > div {
    ============================================ */
 section {
   position: relative;
+  /* The animated ::before mesh below translates 30px and scales 1.05, which let
+     it escape any section that was not already overflow-hidden and pushed the
+     page 60px wider than the viewport. clip contains it without turning the
+     section into a scroll container. */
+  overflow-x: clip;
 }
 
 section::before {
@@ -776,4 +785,74 @@ section:nth-of-type(2)::before {
 }
 @media (prefers-reduced-motion: reduce) {
   .shooting-star { animation: none !important; display: none; }
+}
+
+/* ============================================
+   JARVIS REACTOR GLOW
+   ============================================ */
+.reactor-glow {
+  position: relative;
+}
+
+.reactor-glow::after {
+  content: '';
+  position: absolute;
+  inset: -18%;
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: -1;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(111, 165, 210, 0.28) 0%,
+    rgba(45, 212, 191, 0.14) 38%,
+    transparent 68%
+  );
+  filter: blur(28px);
+}
+
+@keyframes reactor-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.75; }
+  50%      { transform: scale(1.06); opacity: 1; }
+}
+
+.reactor-breathe {
+  animation: reactor-breathe 2.8s var(--ease-in-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reactor-breathe { animation: none; }
+}
+
+/* ============================================
+   PROGRESSIVE-ENHANCEMENT REVEAL
+
+   Content is VISIBLE by default. The hidden state only exists once the
+   inline boot script in layout.tsx has stamped `js` on <html>, which runs
+   before first paint. No JS (or a crawler, or a headless browser that never
+   fires the observer) means the page renders fully — which is the point:
+   tests/pages/sections-visible-without-js.spec.ts pins it.
+   ============================================ */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+}
+
+html.js .reveal-d1.is-visible { transition-delay: 80ms; }
+html.js .reveal-d2.is-visible { transition-delay: 160ms; }
+html.js .reveal-d3.is-visible { transition-delay: 240ms; }
+html.js .reveal-d4.is-visible { transition-delay: 320ms; }
+html.js .reveal-d5.is-visible { transition-delay: 400ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

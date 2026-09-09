@@ -1,21 +1,41 @@
 # OIOS by Omnia Intelligence AI
 
-> OIOS is an AI operations platform for service businesses (HVAC, plumbing, electrical, roofing, and more). It provides six AI departments — receptionist, sales, marketing, operations, finance, and client success — that run 24/7 for a fraction of hiring cost.
+> OIOS installs AI Operating Systems for small businesses. Ours is named Jarvis. He briefs the
+> owner by 7 AM, keeps the schedule, drafts the follow-ups and the past-due invoice chases, and
+> reads back anything that can't be undone before it fires. Month 1 is the install plus the first
+> build live by Day 7. Month-to-month, and the owner owns every tool, integration and note.
 
 ## Core Pages
-- [What OIOS Does](https://getoios.com/features): Three-pillar platform overview (AI Receptionist, AI Back Office, AI Command Center)
-- [How It Works](https://getoios.com/how-it-works): Three-step onboarding process (Audit, Build, Run)
-- [Pricing](https://getoios.com/pricing): Pricing plans and comparison
-- [About](https://getoios.com/about): Company story, mission, and security commitments
+- [What Jarvis does](https://getoios.com/features): The eight things owners hand him in the first month, each tagged "does it", "does it quietly" or "asks first"
+- [How a request moves](https://getoios.com/how-it-works): Say it, he works, the read-back, your yes, the receipt — plus the guardrails underneath
+- [Thirteen things you can say to Jarvis](https://getoios.com/solutions): Real sentences owners say and what happens when they do
+- [Month 1](https://getoios.com/pricing): What the first thirty days include and what the engagement is scoped against
+- [Why we built Jarvis](https://getoios.com/about): Wes Overstreet ran a landscape lighting company for ten years across seven cities and needed a COO he couldn't afford
 
-## Industry Solutions
-- [HVAC](https://getoios.com/hvac): AI operations for HVAC contractors
-- [Plumbing](https://getoios.com/plumbing): AI operations for plumbing businesses
-- [Electrical](https://getoios.com/electrical): AI operations for electrical contractors
-- [Pest Control](https://getoios.com/pest-control): AI operations for pest control services
-- [Locksmith](https://getoios.com/locksmith): AI operations for locksmith services
-- [Landscape Lighting](https://getoios.com/landscape-lighting): AI operations for landscape lighting
+## What Jarvis actually does
+- A briefing at 7 AM: what happened overnight, what's on today, what needs the owner
+- Keeps the schedule, writes the confirmations and reminders
+- Drafts quotes, follow-ups and review requests against the business's real prices
+- Drafts a chase for anyone 30 days past due and files it in the owner's drafts — he never sends it himself
+- Remembers what he's told, in plain text files the owner owns and can take with them
+- Files notes and runs a nightly sweep that flags what drifted and fixes nothing on its own
+- Reads the sites and tools the business already uses, fills forms, builds carts — and stops at the money
+- Builds software: a branch and a working preview, live once the owner approves it
 
-## Optional
-- [Book an Audit](https://getoios.com/audit): Free AI operations audit
-- [Live Demo](https://getoios.com/demo): Interactive product demonstration
+## The guardrail
+Anything irreversible — sending money, paying a bill, cancelling a job, deleting a record, placing
+an order — stops and is read back to the owner first: the item, the total, the destination, and the
+card by its last four only. That floor is enforced in code at the tool-call boundary, not by a
+prompt, and no setting lowers it. Full card numbers are never spoken or logged. "Turn off autonomy"
+switches off everything Jarvis does on his own; anything he did unasked reverses in one step.
+
+## What OIOS does not claim
+- Jarvis does not answer inbound customer phone calls. Phone answering is a separate OIOS install.
+- The schedule is Jarvis's own, not a sync with an external calendar.
+- Accounting data is read-only: he drafts invoice chases, the owner sends them.
+- Background builds stop at a branch or a pull request. A human merges.
+- There is no self-serve signup and no published pricing. Every engagement is scoped and quoted.
+
+## Contact
+- Email: team@getoios.com
+- Start Month 1: https://getoios.com/form

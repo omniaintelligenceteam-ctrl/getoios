@@ -1,16 +1,23 @@
-﻿'use client'
+'use client'
 
+/**
+ * Only claims the product actually backs. The old strip promised routed crews,
+ * weekly content and early cash-flow flags — none of which are live — so those
+ * lines are gone rather than softened.
+ */
 const tickerItems = [
-  'Every call answered',
-  'Jobs booked on the call',
-  'Leads chased in minutes',
-  'Reviews requested automatically',
-  'Your day briefed by 7 AM',
-  'Invoices chased for you',
-  'Pipeline you can see',
-  'Content that goes out weekly',
-  'Crews routed',
-  'Cash flow flagged early',
+  'Briefed by 7 AM',
+  'The schedule kept',
+  'Past-due chases drafted',
+  'Notes filed overnight',
+  'Nothing spent without a yes',
+  'Read back before it fires',
+  'Your card by its last four',
+  'Every request in the log',
+  'Memory in files you own',
+  'One sentence switches him off',
+  'Backed up at 3:30',
+  'Reversible in a step',
 ]
 
 export function DepartmentTicker() {
@@ -20,14 +27,14 @@ export function DepartmentTicker() {
     <div className="w-full overflow-hidden bg-slate-900/40">
       <div
         className="flex w-max whitespace-nowrap py-3"
-        style={{ animation: 'scroll 30s linear infinite' }}
+        style={{ animation: 'scroll 42s linear infinite' }}
       >
         {loopItems.map((item, index) => (
-          <div key={`${item}-${index}`} className="inline-flex items-center shrink-0">
-            <span className="mx-2 inline-flex items-center rounded-full border border-slate-700/50 bg-slate-800/50 px-3 py-1 text-slate-400 text-sm font-mono tracking-wide">
+          <div key={`${item}-${index}`} className="inline-flex shrink-0 items-center">
+            <span className="mx-2 inline-flex items-center rounded-full border border-slate-700/50 bg-slate-800/50 px-3 py-1 font-mono text-sm tracking-wide text-slate-400">
               {item}
             </span>
-            <span className="text-teal-400 text-sm font-mono tracking-wide">·</span>
+            <span className="font-mono text-sm tracking-wide text-teal-400">·</span>
           </div>
         ))}
       </div>
@@ -38,6 +45,11 @@ export function DepartmentTicker() {
           }
           100% {
             transform: translateX(-50%);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          div {
+            animation: none !important;
           }
         }
       `}</style>
