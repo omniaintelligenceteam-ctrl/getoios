@@ -35,13 +35,6 @@ export function Footer() {
             >
               team@getoios.com
             </a>
-            <br />
-            <a
-              href="tel:+14803050357"
-              className="text-slate-400 hover:text-white transition-colors duration-200 text-sm mt-2 inline-block"
-            >
-              Talk to us: (480) 305-0357
-            </a>
           </div>
 
           {/* Nav Links */}
