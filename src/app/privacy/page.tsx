@@ -76,7 +76,7 @@ export default function PrivacyPage() {
         <section className="py-24 lg:py-32 bg-bg-primary relative">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <p className="text-sm text-slate-500 font-mono mb-12">
-              Last updated: March 23, 2026
+              Last updated: October 28, 2026
             </p>
 
             <div className="space-y-16">
@@ -178,6 +178,34 @@ export default function PrivacyPage() {
                 </p>
                 <p className="text-white font-medium text-base">
                   We do not sell your data to third parties. Ever.
+                </p>
+              </div>
+
+              {/* Text Messaging (SMS) */}
+              <div className="glass-card p-8 border border-teal-400/20">
+                <h2
+                  className="text-2xl font-bold text-white mb-6"
+                  style={{ fontFamily: 'var(--font-display), sans-serif' }}
+                >
+                  Text Messaging (SMS)
+                </h2>
+                <p className="text-slate-400 text-base leading-relaxed mb-4">
+                  If you opt in to text messages from OIOS (for example by texting START to our
+                  number), we collect your mobile number and your consent to receive messages, and
+                  use them only to send the alerts and replies you signed up for.
+                </p>
+                <p className="text-white font-medium text-base mb-4">
+                  No mobile information will be shared with third parties or affiliates for
+                  marketing or promotional purposes. Text messaging originator opt-in data and
+                  consent will not be shared with any third parties, except aggregators and
+                  providers of the text message services.
+                </p>
+                <p className="text-slate-400 text-base leading-relaxed">
+                  Reply STOP at any time to opt out, or HELP for help. See our{' '}
+                  <a href="/terms#sms" className="text-teal-400 hover:text-teal-300 transition-colors">
+                    SMS Terms
+                  </a>
+                  .
                 </p>
               </div>
 

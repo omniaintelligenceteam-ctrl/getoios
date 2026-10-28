@@ -98,11 +98,9 @@ export default function RootLayout({
     },
     "description": "OIOS is an AI-powered operations platform for small businesses. It answers calls 24/7, automates back office workflows, and provides real-time visibility into leads, jobs, and revenue.",
     "email": "team@getoios.com",
-    "telephone": "+1-480-305-0357",
     "contactPoint": [{
       "@type": "ContactPoint",
-      "telephone": "+1-480-305-0357",
-      "email": "team@getoios.com",
+        "email": "team@getoios.com",
       "contactType": "sales",
       "availableLanguage": "English",
     }],
