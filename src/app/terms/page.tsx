@@ -77,7 +77,7 @@ export default function TermsPage() {
         <section className="py-24 lg:py-32 bg-bg-primary relative">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <p className="text-sm text-slate-500 font-mono mb-12">
-              Last updated: March 23, 2026
+              Last updated: October 28, 2026
             </p>
 
             <div className="space-y-16">
@@ -235,6 +235,51 @@ export default function TermsPage() {
                   You&apos;re responsible for reviewing and approving AI-generated communications
                   before they&apos;re sent to your customers.
                 </p>
+              </div>
+
+              {/* SMS Terms */}
+              <div id="sms" className="glass-card p-8 border border-teal-400/20 scroll-mt-28">
+                <h2
+                  className="text-2xl font-bold text-white mb-6"
+                  style={{ fontFamily: 'var(--font-display), sans-serif' }}
+                >
+                  SMS Terms
+                </h2>
+                <ul className="space-y-3 text-slate-400 text-base leading-relaxed">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-teal-400" />
+                    <span>
+                      <strong className="text-white">Program:</strong> OIOS Jarvis alerts &mdash;
+                      automated reminders, schedule and task updates, and system alerts sent to
+                      users who opt in. You opt in by texting START to our number.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-teal-400" />
+                    <span>Message frequency varies. Message and data rates may apply.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-teal-400" />
+                    <span>
+                      Reply STOP to cancel at any time; you&apos;ll get one confirmation and no
+                      further messages. Reply HELP for help, or email team@getoios.com.
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-teal-400" />
+                    <span>Carriers are not liable for delayed or undelivered messages.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-teal-400" />
+                    <span>
+                      Consent to receive texts is not a condition of any purchase. See our{' '}
+                      <a href="/privacy" className="text-teal-400 hover:text-teal-300 transition-colors">
+                        Privacy Policy
+                      </a>{' '}
+                      for how your mobile information is handled.
+                    </span>
+                  </li>
+                </ul>
               </div>
 
               {/* Availability */}
