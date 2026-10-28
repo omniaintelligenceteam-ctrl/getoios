@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
-import { Zap, Wrench, Shield, Lock, ServerCog, Eye, CheckCircle, Mail, Phone } from 'lucide-react'
+import { Zap, Wrench, Shield, Lock, ServerCog, Eye, CheckCircle, Mail } from 'lucide-react'
 import { MagneticButton } from '@/components/ui/MagneticButton'
 
 export function AboutContent() {
@@ -212,7 +212,7 @@ export function AboutContent() {
               Let&apos;s Talk
             </h2>
 
-            <div className="grid sm:grid-cols-2 gap-4 mb-10">
+            <div className="grid gap-4 mb-10 max-w-sm mx-auto">
               <a
                 href="mailto:team@getoios.com"
                 className="glass-card p-6 flex items-center gap-4 hover:border-teal-400/30 transition-colors group"
@@ -223,19 +223,6 @@ export function AboutContent() {
                 <div className="text-left">
                   <div className="text-xs text-slate-500 font-mono uppercase tracking-wider">Email</div>
                   <div className="text-sm text-white group-hover:text-teal-400 transition-colors">team@getoios.com</div>
-                </div>
-              </a>
-
-              <a
-                href="tel:+14803050357"
-                className="glass-card p-6 flex items-center gap-4 hover:border-teal-400/30 transition-colors group"
-              >
-                <div className="w-10 h-10 rounded-xl bg-teal-400/10 border border-teal-400/20 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-5 h-5 text-teal-400" />
-                </div>
-                <div className="text-left">
-                  <div className="text-xs text-slate-500 font-mono uppercase tracking-wider">Phone</div>
-                  <div className="text-sm text-white group-hover:text-teal-400 transition-colors">(480) 305-0357</div>
                 </div>
               </a>
             </div>
