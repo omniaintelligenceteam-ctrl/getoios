@@ -35,9 +35,9 @@ const PILLARS: PillarData[] = [
     time: '7:40 am',
     tagline: 'Your chief of staff, by voice.',
     description:
-      'Talk to him like a person, from the truck or the office. He knows what needs you before the day starts, reads your thought back sharper, and keeps one thing at a time.',
+      'Talk to him like a person, from the counter, the car or the office. He knows what needs you before the day starts, reads your thought back sharper, and keeps one thing at a time.',
     bullets: [
-      'Phone, web or iPhone, hands-free from the truck',
+      'Phone, web or iPhone, hands-free in the car',
       'Knows what needs you before the day starts',
       'Reads your thought back sharper, pushes back, keeps one thing at a time',
       'Remembers everything you have told him and every past conversation',
@@ -45,13 +45,13 @@ const PILLARS: PillarData[] = [
       'Calendar, reminders and your to-do board, by voice',
       'Research on competitors, prices and suppliers, with sources',
     ],
-    before: 'You are on a ladder, three things are due before nine, and the only list is in your head.',
+    before: 'You are opening up, three things are due before nine, and the only list is in your head.',
     after:
-      'You ask him from the truck. He names the three things, drafts the one that needs a reply, and keeps the rest on the board.',
+      'You ask him from the car. He names the three things, drafts the one that needs a reply, and keeps the rest on the board.',
     accent: 'text-teal-400',
     picture: {
       src: '/jarvis/assets/pillars/assistant-1200.jpg',
-      alt: 'The cab of a work pickup at dawn: a phone on the dash lit violet, hands on the wheel, coffee in the holder.',
+      alt: 'A café ten minutes before opening: the owner wipes down the espresso machine, a phone propped on the register, chairs still up on the tables.',
     },
     start: { href: '/?pillar=assistant#start', label: 'Start with the assistant' },
   },
@@ -65,20 +65,20 @@ const PILLARS: PillarData[] = [
       'From the first customer conversation to the job, the paperwork and the money. He drafts, you approve, and nothing is sent to a customer without your tap.',
     bullets: [
       'Sorts every incoming call, text and email: answer, draft, escalate or ignore',
-      'Walk the job talking and snapping photos; he turns that into a priced quote draft from your price book',
+      'Talk the job or the order through and snap a few photos; he turns that into a priced quote draft from your prices',
       'Names every line he could not price instead of guessing',
       'Converts an approved quote to an invoice with a pay-by-card link',
       'Drafts customer replies in your voice for you to approve',
-      'Puts jobs on the board against real crew availability, writes crew messages readable on a phone',
+      'Puts jobs and shifts on the board against who is actually free, writes team messages readable on a phone',
       'Agreements, onboarding packets and permit applications, prepared, never filed',
     ],
     before: 'You are doing the work and the paperwork. The quote waits until tonight, and tonight has its own list.',
     after:
-      'You walk the job talking. He drafts the quote from your price book, names what he could not price, and the invoice follows your approval.',
+      'You talk the job through. He drafts the quote from your prices, names what he could not price, and the invoice follows your approval.',
     accent: 'text-amber-400',
     picture: {
       src: '/jarvis/assets/pillars/back-office-1200.jpg',
-      alt: 'A backyard walkthrough in afternoon sun: a hand holds up a phone to photograph a cedar fence with two storm-damaged panels.',
+      alt: 'A dental clinic front desk in the afternoon: the receptionist on the phone, an invoice, the appointment book and a laptop on the desk.',
     },
     start: { href: '/?pillar=back-office#start', label: 'Start with the back office' },
     flip: true,
@@ -104,7 +104,7 @@ const PILLARS: PillarData[] = [
     accent: 'text-cyan-400',
     picture: {
       src: '/jarvis/assets/pillars/workflows-1200.jpg',
-      alt: 'A shop office at night, lights off: one screen lit violet over a job board, invoices in a tray, truck keys on a hook.',
+      alt: "A housewares shop at closing: the owner turns the sign on the door, the day's receipts stacked by the till, keys and a phone on the counter.",
     },
     start: { href: '/?pillar=workflows#start', label: 'Start with workflows' },
   },

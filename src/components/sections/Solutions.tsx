@@ -164,7 +164,7 @@ const solutions: SolutionCard[] = [
   {
     icon: '👥',
     title: 'Team & Hiring',
-    description: 'Applications screened. Interviews scheduled. Crew dispatched.',
+    description: 'Applications screened. Interviews booked. Team scheduled.',
     impact: 'Screening and scheduling handled',
     problem: "I hired whoever answered. No onboarding. Chaos.",
     bullets: [
@@ -176,7 +176,7 @@ const solutions: SolutionCard[] = [
     impactMetrics: [
       'Every applicant screened and ranked',
       'Consistent onboarding experience',
-      'Reliable daily crew communication',
+      'Reliable daily team communication',
     ],
   },
   {

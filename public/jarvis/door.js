@@ -221,14 +221,14 @@
     if (result) {
       result.hidden = false;
       result.textContent = kind === 'sent'
-        ? 'Sent, 2:11 pm. Logged to Sam\'s file. Reminder set for Sunday evening.'
+        ? 'Sent, 2:11 pm. Logged to Sam\'s file. Reminder set for Friday evening.'
         : 'Kept as a draft. Nothing went out. It stays on your board until you decide.';
       result.focus && result.setAttribute('tabindex', '-1');
       result.focus();
     }
     if (afterTurn && afterText) {
       afterText.textContent = kind === 'sent'
-        ? 'Sent. I will remind you Sunday evening to confirm with Sam.'
+        ? 'Sent. I will remind you Friday evening to confirm with Sam.'
         : 'Kept. Say the word and it goes, or tell me what to change.';
       afterTurn.classList.add('is-on');
     }

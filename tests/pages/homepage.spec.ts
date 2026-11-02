@@ -126,6 +126,23 @@ test.describe('Homepage', () => {
     await expect(page.locator('[data-jv-pick][data-jv-for="workflows"]').first()).toBeHidden()
   })
 
+  // ─── Audience ────────────────────────────────────────────────────────
+  // Wes, 2 Nov 2026: OIOS is for all small businesses, not just the trades.
+  // The sample day, the desks, the pillars and the form must not read as
+  // trades-only. The words below are the ones the first draft leaned on.
+  const TRADE_WORDS = /\b(truck|roof|crews?|price book|walkthrough|lumber|decks?|fence|hvac|contractors?)\b/i
+
+  test('the door speaks to every small business, not just the trades', async ({ page }) => {
+    await expect(page.locator('html')).toHaveClass(/sc-ready/, { timeout: 15_000 })
+    const text = await page.evaluate(() => document.body.innerText)
+    expect(text).not.toMatch(TRADE_WORDS)
+    const alts = await page.locator('img[alt]').evaluateAll((els) => els.map((el) => el.getAttribute('alt') || ''))
+    expect(alts.length).toBeGreaterThanOrEqual(3)
+    for (const alt of alts) expect(alt).not.toMatch(TRADE_WORDS)
+    const placeholder = await page.locator('textarea[name="firstHandoff"]').getAttribute('placeholder')
+    expect(placeholder).not.toMatch(TRADE_WORDS)
+  })
+
   // ─── Footer ──────────────────────────────────────────────────────────
   test('footer is visible with correct links', async ({ page }) => {
     const footer = page.locator('footer')
