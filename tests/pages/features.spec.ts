@@ -76,7 +76,6 @@ test.describe('Features page', () => {
     const realErrors = errors.filter(
       (e) =>
         !e.includes('favicon') &&
-        !e.includes('404') &&
         !e.includes('ERR_BLOCKED_BY_CLIENT')
     )
     expect(realErrors).toHaveLength(0)

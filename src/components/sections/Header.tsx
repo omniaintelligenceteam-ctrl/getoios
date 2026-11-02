@@ -41,7 +41,8 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 lg:space-x-4 group">
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- "/" is the static door (rewrite in next.config.ts); next/link would prefetch a payload it cannot have */}
+          <a href="/" className="flex items-center space-x-3 lg:space-x-4 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/omnia-mark-dark.svg"
@@ -58,7 +59,7 @@ export function Header() {
                 by Omnia AI Intelligence
               </span>
             </div>
-          </Link>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8 relative">
