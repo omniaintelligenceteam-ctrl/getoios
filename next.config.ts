@@ -4,6 +4,16 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // The front door is a self-contained static page (public/jarvis) built and
+  // verified with scroll-craft. Serving it at "/" is one rewrite, and rollback
+  // is deleting it: src/app/page.tsx (the previous homepage) stays in place.
+  async rewrites() {
+    return {
+      beforeFiles: [{ source: "/", destination: "/jarvis/index.html" }],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   images: {
     remotePatterns: [
       {
