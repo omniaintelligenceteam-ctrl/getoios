@@ -1,4 +1,4 @@
-# OIOS by Omnia Intelligence AI
+# OIOS by Omnia AI Intelligence
 
 > OIOS is an AI operations platform for service businesses (HVAC, plumbing, electrical, roofing, and more). It provides six AI departments — receptionist, sales, marketing, operations, finance, and client success — that run 24/7 for a fraction of hiring cost.
 

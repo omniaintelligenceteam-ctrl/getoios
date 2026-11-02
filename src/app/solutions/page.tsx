@@ -21,7 +21,7 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Solutions — 13 Workflows OIOS Automates for Your Business — OIOS by Omnia Intelligence AI',
+        alt: 'Solutions — 13 Workflows OIOS Automates for Your Business — OIOS by Omnia AI Intelligence',
       },
     ],
   },

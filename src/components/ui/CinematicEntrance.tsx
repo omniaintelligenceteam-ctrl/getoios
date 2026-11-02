@@ -806,7 +806,7 @@ export function CinematicEntrance({ children }: { children: React.ReactNode }) {
                 whiteSpace: 'nowrap',
               }}
             >
-              OMNIA INTELLIGENCE
+              OMNIA AI INTELLIGENCE
             </div>
           </div>
 

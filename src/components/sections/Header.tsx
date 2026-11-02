@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
@@ -43,20 +42,20 @@ export function Header() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 lg:space-x-4 group">
-            <Image
-              src="/LOGO OIOS.jpg"
-              alt="OIOS — Omnia Intelligence"
-              width={1024}
-              height={1024}
-              className="w-auto h-14 lg:h-[72px] object-contain"
-              priority
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/omnia-mark-dark.svg"
+              alt="Omnia AI Intelligence"
+              width={48}
+              height={48}
+              className="w-11 h-11 lg:w-12 lg:h-12"
             />
             <div className="flex flex-col">
               <span className="text-base lg:text-xl tracking-[0.25em] font-bold leading-none">
                 <span className="text-teal-400 group-hover:drop-shadow-[0_0_8px_rgba(45,212,191,0.4)] transition-all duration-300">OIOS</span>
               </span>
               <span className="text-[10px] tracking-[0.15em] text-slate-500 font-medium mt-0.5">
-                by Omnia Intelligence AI
+                by Omnia AI Intelligence
               </span>
             </div>
           </Link>

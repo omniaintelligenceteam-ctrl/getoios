@@ -129,7 +129,7 @@ export function VoiceDemo() {
                 >
                   <div>
                     <h3 className="text-2xl font-semibold text-white mb-2">OIOS — AI Voice Receptionist</h3>
-                    <p className="text-slate-400">by Omnia Intelligence AI</p>
+                    <p className="text-slate-400">by Omnia AI Intelligence</p>
                   </div>
 
                   <p className="text-slate-300">

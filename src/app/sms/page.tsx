@@ -5,7 +5,7 @@ import { PageEntrance } from '@/components/ui/PageEntrance'
 import { SectionTransition } from '@/components/ui/SectionTransition'
 
 export const metadata: Metadata = {
-  title: 'Jarvis Text Alerts — Opt In | OIOS by Omnia Intelligence AI',
+  title: 'Jarvis Text Alerts — Opt In | OIOS by Omnia AI Intelligence',
   description:
     'How to opt in to OIOS Jarvis text alerts: automated reminders, schedule and task updates, and system alerts. Text START to opt in, STOP to opt out.',
   alternates: {

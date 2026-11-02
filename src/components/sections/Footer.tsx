@@ -22,10 +22,12 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-10 lg:gap-12 mb-12">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            <Link href="/" className="inline-block mb-2">
+            <Link href="/" className="inline-flex items-center gap-3 mb-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/omnia-mark-dark.svg" alt="" width={32} height={32} className="w-8 h-8" />
               <span className="text-xl tracking-[0.1em] font-bold gradient-text-warm">OIOS</span>
             </Link>
-            <p className="text-slate-600 text-xs font-mono mb-5">by Omnia Intelligence AI</p>
+            <p className="text-slate-600 text-xs font-mono mb-5">by Omnia AI Intelligence</p>
             <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
               We install AI Operating Systems for small businesses. Calls answered, admin handled, pipeline visible — 24/7.
             </p>
@@ -76,7 +78,7 @@ export function Footer() {
         <div className="pt-8 border-t border-slate-800/30">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-600 text-xs">
-              &copy; 2026 Omnia Intelligence AI. All rights reserved.
+              &copy; 2026 Omnia AI Intelligence. All rights reserved.
             </p>
           </div>
         </div>

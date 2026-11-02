@@ -2,13 +2,13 @@ import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-export const alt = 'OIOS — AI Operations for Small Businesses | Omnia Intelligence AI'
+export const alt = 'OIOS — AI Operations for Small Businesses | Omnia AI Intelligence'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
 export default async function Image() {
-  const logoData = await readFile(join(process.cwd(), 'public', 'LOGO OIOS.jpg'))
-  const logoSrc = `data:image/jpeg;base64,${logoData.toString('base64')}`
+  const logoData = await readFile(join(process.cwd(), 'public', 'omnia-mark-dark.png'))
+  const logoSrc = `data:image/png;base64,${logoData.toString('base64')}`
 
   const interBold = await fetch(
     'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZhrib2Bg-4.ttf'

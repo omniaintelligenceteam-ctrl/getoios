@@ -105,7 +105,7 @@ export function PageEntrance({ children }: { children: React.ReactNode }) {
                 marginTop: 8,
               }}
             >
-              OMNIA INTELLIGENCE AI
+              OMNIA AI INTELLIGENCE
             </div>
           </div>
         </div>

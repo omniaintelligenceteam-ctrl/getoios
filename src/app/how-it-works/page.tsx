@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'How OIOS Works — Audit, Build, Run — OIOS by Omnia Intelligence AI',
+        alt: 'How OIOS Works — Audit, Build, Run — OIOS by Omnia AI Intelligence',
       },
     ],
   },

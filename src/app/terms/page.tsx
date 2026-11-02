@@ -7,18 +7,18 @@ import { SectionTransition } from '@/components/ui/SectionTransition'
 export const metadata: Metadata = {
   title: 'Terms of Service — OIOS | AI Operations for Small Businesses',
   description:
-    'Terms of Service for OIOS by Omnia Intelligence AI. No long-term contracts, no cancellation fees — just AI operations that work.',
+    'Terms of Service for OIOS by Omnia AI Intelligence. No long-term contracts, no cancellation fees — just AI operations that work.',
   openGraph: {
     title: 'Terms of Service — OIOS | AI Operations for Small Businesses',
     description:
-      'Terms of Service for OIOS by Omnia Intelligence AI. No long-term contracts, no cancellation fees — just AI operations that work.',
+      'Terms of Service for OIOS by Omnia AI Intelligence. No long-term contracts, no cancellation fees — just AI operations that work.',
     url: 'https://getoios.com/terms',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Terms of Service — OIOS by Omnia Intelligence AI',
+        alt: 'Terms of Service — OIOS by Omnia AI Intelligence',
       },
     ],
   },
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Terms of Service — OIOS | AI Operations for Small Businesses',
     description:
-      'Terms of Service for OIOS by Omnia Intelligence AI. No long-term contracts, no cancellation fees — just AI operations that work.',
+      'Terms of Service for OIOS by Omnia AI Intelligence. No long-term contracts, no cancellation fees — just AI operations that work.',
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -85,7 +85,7 @@ export default function TermsPage() {
               <div>
                 <p className="text-slate-400 text-lg leading-relaxed">
                   These Terms of Service (&quot;Terms&quot;) govern your use of the OIOS platform
-                  and services provided by Omnia Intelligence AI (&quot;Company&quot;,
+                  and services provided by Omnia AI Intelligence (&quot;Company&quot;,
                   &quot;we&quot;, &quot;us&quot;). By using OIOS, you agree to these Terms.
                 </p>
               </div>
@@ -362,7 +362,7 @@ export default function TermsPage() {
                   Indemnification
                 </h2>
                 <p className="text-slate-400 text-base leading-relaxed">
-                  You agree to indemnify and hold Omnia Intelligence AI harmless against any claims
+                  You agree to indemnify and hold Omnia AI Intelligence harmless against any claims
                   arising from your use of the platform or your customers&apos; interactions with
                   AI-generated content.
                 </p>
