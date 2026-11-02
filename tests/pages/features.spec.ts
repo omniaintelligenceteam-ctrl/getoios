@@ -31,6 +31,21 @@ test.describe('Features page', () => {
     await expect(content).toBeVisible()
   })
 
+  // Wes, 2 Nov 2026: OIOS is for all small businesses, not just the trades.
+  test('the pillars speak to every small business, not just the trades', async ({ page }) => {
+    const tradeWords = /\b(truck|roof|crews?|price book|walkthrough|lumber|decks?|fence|hvac|contractors?)\b/i
+    const pillars = page.locator('section#pillars')
+    await pillars.scrollIntoViewIfNeeded()
+    const text = await pillars.evaluate((el) => (el as HTMLElement).innerText)
+    expect(text).not.toMatch(tradeWords)
+    const alts = await pillars.locator('img[alt]').evaluateAll((els) => els.map((el) => el.getAttribute('alt') || ''))
+    expect(alts).toHaveLength(3)
+    for (const alt of alts) {
+      expect(alt.trim().length).toBeGreaterThan(0)
+      expect(alt).not.toMatch(tradeWords)
+    }
+  })
+
   test('daily schedule section renders', async ({ page }) => {
     const schedule = page.getByText(/schedule|day|morning|evening/i).first()
     await schedule.scrollIntoViewIfNeeded()

@@ -185,11 +185,11 @@ function TypingIndicator() {
 
 // ─── Step 3 Visual: Chat with typing indicator ──────────────────────────────
 const messages = [
-  { from: 'oios', text: '☀ Good morning. Here\'s your 6:30 briefing:\n• 3 new leads overnight\n• 1 proposal stalled (Johnson HVAC — 5 days)\n• 2 jobs confirmed for today', delay: 0 },
+  { from: 'oios', text: '☀ Good morning. Here\'s your 6:30 briefing:\n• 3 new leads overnight\n• 1 proposal stalled (Johnson Dental, five days)\n• 2 jobs confirmed for today', delay: 0 },
   { from: 'owner', text: 'Follow up on that Johnson proposal', delay: 1800 },
-  { from: 'oios', text: 'Done. Follow-up sent to Johnson HVAC. Want me to flag it again if no response by Friday?', delay: 3200 },
+  { from: 'oios', text: 'Done. Follow-up sent to Johnson Dental. Want me to flag it again if no response by Friday?', delay: 3200 },
   { from: 'owner', text: 'Yes. Also send me the week\'s numbers', delay: 4400 },
-  { from: 'oios', text: '📊 This week: $24,400 revenue · 8 jobs · 94% answer rate · 0 missed follow-ups', delay: 5800 },
+  { from: 'oios', text: '📊 This week is on your screen: revenue, jobs done, calls answered, follow-ups owed.', delay: 5800 },
 ]
 
 function ChatMock({ active }: { active: boolean }) {
