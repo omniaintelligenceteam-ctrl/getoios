@@ -7,7 +7,7 @@ import { useScroll, useTransform, motion, AnimatePresence } from 'motion/react'
 const auditItems = [
   'Workspace, integrations, and API keys set up',
   'AI trained on your rules, prices, and tone',
-  'Phones and calendar connected',
+  'Inbox, texts and calendar connected',
   'First custom build scoped with you',
   'Build live and working by Day 7',
 ]
@@ -95,7 +95,7 @@ function AuditChecklist({ active }: { active: boolean }) {
 
 // ─── Step 2 Visual: Config UI with slide-in stagger ──────────────────────────
 const workflows = [
-  { name: 'Call Answering', status: 'live', color: 'text-teal-400', dot: 'bg-teal-400' },
+  { name: 'Customer Replies', status: 'live', color: 'text-teal-400', dot: 'bg-teal-400' },
   { name: 'Lead Capture', status: 'live', color: 'text-teal-400', dot: 'bg-teal-400' },
   { name: 'Proposal Generator', status: 'live', color: 'text-teal-400', dot: 'bg-teal-400' },
   { name: 'Follow-Up Sequences', status: 'building', color: 'text-amber-400', dot: 'bg-amber-400' },
@@ -189,7 +189,7 @@ const messages = [
   { from: 'owner', text: 'Follow up on that Johnson proposal', delay: 1800 },
   { from: 'oios', text: 'Done. Follow-up sent to Johnson Dental. Want me to flag it again if no response by Friday?', delay: 3200 },
   { from: 'owner', text: 'Yes. Also send me the week\'s numbers', delay: 4400 },
-  { from: 'oios', text: '📊 This week is on your screen: revenue, jobs done, calls answered, follow-ups owed.', delay: 5800 },
+  { from: 'oios', text: '📊 This week is on your screen: revenue, jobs done, replies sent, follow-ups owed.', delay: 5800 },
 ]
 
 function ChatMock({ active }: { active: boolean }) {
@@ -271,8 +271,8 @@ const steps = [
   },
   {
     number: '02',
-    title: 'Run: OIOS Works 24/7. You Approve What Matters.',
-    description: 'Phones, scheduling, follow-ups, invoicing — running around the clock. Nothing goes out to a customer without your say-so. You text OIOS like you\'d text an assistant, and it keeps you briefed.',
+    title: 'Run: OIOS Works Every Day. You Approve What Matters.',
+    description: 'Customer replies, scheduling, follow-ups, invoicing — running every day. Nothing goes out to a customer without your say-so. You text OIOS like you\'d text an assistant, and it keeps you briefed.',
     visual: (active: boolean) => <ChatMock active={active} />,
     accent: 'text-amber-400',
     accentBg: 'bg-amber-400',

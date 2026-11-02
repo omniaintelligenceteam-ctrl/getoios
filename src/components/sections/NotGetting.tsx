@@ -16,7 +16,7 @@ const objections = [
     myth: 'Another CRM to maintain',
     truth: 'OIOS IS the back office. It keeps itself updated.',
     mythDetail: 'You already have three tools nobody keeps current. This would make four.',
-    truthDetail: 'Every call, job, and follow-up auto-logged. You never touch the CRM.',
+    truthDetail: 'Every message, job, and follow-up auto-logged. You never touch the CRM.',
     mythIcon: '🗃️',
     truthIcon: '🔄',
   },

@@ -31,12 +31,12 @@ const tiers = [
     glowColor: 'rgba(45,212,191,0.15)',
     hexColor: '#2DD4BF',
     description:
-      'The entry point. We install your AI Operating System, put an AI receptionist on your phones, and ship one custom build every month.',
+      'The entry point. We install your AI Operating System, put Jarvis on your customer messages, and ship one custom build every month.',
     includes: [
       'AIOS install — first build live by Day 7',
-      'AI call answering — 24/7, every ring',
+      'Customer replies drafted in your voice, sent on your tap',
       'One custom build per month',
-      '24/7 monitoring on everything we ship',
+      'Monitoring on everything we ship, every day',
       'Monthly business review with your partner',
     ],
     bestFor: 'Owners who want the phones and the admin handled first',
@@ -140,7 +140,7 @@ const steps = [
     num: '03',
     title: 'The Stack Compounds',
     description:
-      'Everything already built keeps running 24/7 while the next thing ships. By month six, six systems are working while the seventh goes live.',
+      'Everything already built keeps running every day while the next thing ships. By month six, six systems are working while the seventh goes live.',
     icon: Shield,
     accent: 'text-emerald-400',
     glow: 'rgba(52,211,153,0.12)',
@@ -436,7 +436,7 @@ function ROICalculator() {
             <span className="text-white">What&apos;s the leak </span>
             <span className="gradient-text">costing you?</span>
           </h2>
-          <p className="text-slate-400 text-lg max-w-lg mx-auto">Missed calls, unworked leads, and admin hours have a price. Put your numbers in.</p>
+          <p className="text-slate-400 text-lg max-w-lg mx-auto">Slow replies, unworked leads, and admin hours have a price. Put your numbers in.</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -521,7 +521,7 @@ function ROICalculator() {
 /* ─── Pricing FAQ ──────────────────────────────────────────────────────────── */
 
 const pricingFaqs = [
-  { q: "Why don't you list prices publicly?", a: "Every stack is custom — your rules, your tools, your workflows. We quote against what you'd spend hiring for the same work (a receptionist, a bookkeeper, a dev shop), not against a menu. Book a call and we'll scope it with you." },
+  { q: "Why don't you list prices publicly?", a: "Every stack is custom — your rules, your tools, your workflows. We quote against what you'd spend hiring for the same work (an office manager, a bookkeeper, a dev shop), not against a menu. Book a call and we'll scope it with you." },
   { q: 'Is there a contract?', a: 'No. Month-to-month, cancel anytime, no fees. And you own everything we build — if you leave, every tool, integration, and piece of data walks with you.' },
   { q: 'What happens in Month 1?', a: "The install. We set up your AI Operating System, connect your tools, and ship your first custom build live by Day 7. Then the monthly rhythm starts: one meeting, one big build, everything else keeps running." },
   { q: 'Can I change bands later?', a: 'Yes. The bands describe scope, not a cage. As your business grows, the build cadence and coverage grow with it — changes take effect the next month.' },

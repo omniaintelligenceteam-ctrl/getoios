@@ -34,7 +34,7 @@ const inputClass =
 
 const teamSizeOptions = ['Just me', '2-5', '6-15', '16+']
 const callsPerWeekOptions = ['Under 20', '20-50', '50-100', '100+']
-const callHandlerOptions = ['Me', 'Office person', 'Answering service', "It's chaos"]
+const callHandlerOptions = ['Me', 'Office person', 'Nobody, really', "It's chaos"]
 const bestTimeOptions = ['Morning', 'Afternoon', 'Evening', 'Whenever']
 
 // ─── Radio Group ────────────────────────────────────────────────────────────
@@ -282,17 +282,17 @@ export function DiscoveryForm() {
               onChange={(val) => handleChange('teamSize', val)}
             />
 
-            {/* Calls Per Week */}
+            {/* Messages Per Week */}
             <RadioGroup
-              label="About how many calls per week?"
+              label="About how many customer messages a week? Texts, emails, inquiries."
               options={callsPerWeekOptions}
               value={formData.callsPerWeek}
               onChange={(val) => handleChange('callsPerWeek', val)}
             />
 
-            {/* Call Handler */}
+            {/* Message Handler */}
             <RadioGroup
-              label="Who handles your calls right now?"
+              label="Who answers customer messages right now?"
               options={callHandlerOptions}
               value={formData.callHandler}
               onChange={(val) => handleChange('callHandler', val)}

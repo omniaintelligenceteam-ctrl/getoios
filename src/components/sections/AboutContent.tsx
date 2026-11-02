@@ -38,22 +38,22 @@ export function AboutContent() {
             <div className="space-y-6 text-slate-400 text-lg leading-relaxed">
               <p>
                 Wes Overstreet ran a small business across 8 cities for 10 years. He
-                lived every problem OIOS solves — missed calls that cost thousands, leads that
+                lived every problem OIOS solves — customer messages that went unanswered for days, leads that
                 slipped through the cracks, and endless admin work that pulled him away from the
                 work he actually loved. He built OIOS because he knew there had to be a better way.
               </p>
               <p>
                 His story isn&apos;t unique. Every day, thousands of small business owners lose revenue — not
-                because they do bad work, but because the business side falls apart. A missed call
+                because they do bad work, but because the business side falls apart. An unanswered message
                 becomes a lost customer. A forgotten follow-up means a competitor wins the deal.
                 Small business owners are incredible at what they do, but they&apos;re forced to
-                also be the receptionist, the sales manager, the marketing team, and the CFO. All
+                also be the front desk, the sales manager, the marketing team, and the CFO. All
                 at once. While running everything else.
               </p>
               <p className="text-white font-medium">
                 OIOS is the AI operations team they deserve but could never afford. Six AI
-                departments that handle calls, qualify leads, send follow-ups, manage the CRM,
-                track revenue, and deliver a morning briefing — every single day, 24/7, for a
+                departments that draft customer replies, qualify leads, send follow-ups, manage the CRM,
+                track revenue, and deliver a morning briefing — every single day, for a
                 fraction of one hire.
               </p>
             </div>

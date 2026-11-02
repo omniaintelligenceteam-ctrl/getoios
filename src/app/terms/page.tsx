@@ -104,7 +104,7 @@ export default function TermsPage() {
                 <ul className="space-y-3 text-slate-400 text-base leading-relaxed">
                   <li className="flex items-start gap-3">
                     <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-teal-400" />
-                    <span>AI receptionist &mdash; answers calls, qualifies leads, books jobs.</span>
+                    <span>Customer messaging &mdash; drafts replies, qualifies leads, books jobs, all sent on your approval.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-teal-400" />
@@ -345,7 +345,7 @@ export default function TermsPage() {
                 </h2>
                 <p className="text-slate-400 text-base leading-relaxed mb-4">
                   OIOS is provided &quot;as is.&quot; We are not liable for lost revenue, missed
-                  calls due to system outages, or decisions made based on AI-generated insights.
+                  messages due to system outages, or decisions made based on AI-generated insights.
                 </p>
                 <p className="text-slate-400 text-base leading-relaxed">
                   Our total liability is limited to the fees you paid in the 12 months preceding the

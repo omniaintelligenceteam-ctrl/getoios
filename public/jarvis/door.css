@@ -171,7 +171,7 @@ h1.jv-pane__title { font-size: 15px; }
 .jv-desk--lead { width: clamp(20rem, 40vw, 60rem); display: flex; flex-direction: column; justify-content: center; padding-right: clamp(8px, 2vw, 40px); }
 .jv-desk--tail { width: clamp(20rem, 30vw, 44rem); display: flex; align-items: center; padding-left: clamp(8px, 2vw, 32px); }
 .jv-desk__line { margin: 0 0 10px; font-size: 13px; color: var(--sc-ink-soft); }
-.jv-call { margin: 0; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 8px 10px; font-size: 15px; line-height: 1.45; }
+.jv-call { margin: 0; display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 8px 10px; font-size: 15px; line-height: 1.45; }
 .jv-call dt { color: var(--sc-ink-soft); font-size: 13px; padding-top: 2px; }
 .jv-call dd { margin: 0; }
 .jv-desk__out { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--sc-hairline); font-size: 14px; line-height: 1.5; color: var(--sc-ink); }

@@ -18,21 +18,21 @@ interface SolutionCard {
 // ─── Card Data ──────────────────────────────────────────────────────────────
 const solutions: SolutionCard[] = [
   {
-    icon: '📞',
-    title: 'Phones & First Contact',
-    description: 'Every call answered. Every lead captured.',
-    impact: 'Every call answered, 24/7',
-    problem: "Phone rings while you're with a customer. Lead's gone by noon.",
+    icon: '💬',
+    title: 'Messages & First Contact',
+    description: 'Every customer message answered in your voice.',
+    impact: 'Every message answered, in your voice',
+    problem: "A text lands while you're with a customer. By the time you look, they've moved on.",
     bullets: [
-      'AI answers every call in under 1 second',
-      'Qualifies leads with custom questions',
+      'Reads every text, email and web inquiry as it arrives',
+      'Drafts the reply in your voice with the answer in it',
+      'Sends on your tap and escalates what needs you',
       'Books appointments directly on your calendar',
-      'Sends instant text-back on missed calls',
     ],
     impactMetrics: [
-      'Missed calls turned into booked jobs',
-      'Zero missed calls, 24/7 coverage',
-      'Every caller logged, tagged, and followed up',
+      'Replies out in minutes, written the way you write',
+      'Leads kept warm while you work',
+      'Every conversation logged, tagged, and followed up',
     ],
   },
   {
@@ -362,7 +362,7 @@ const stats = [
   { value: '13', label: 'Workflows' },
   { value: 'Day 7', label: 'first build live' },
   { value: '1+', label: 'builds shipped monthly' },
-  { value: '24/7', label: 'coverage' },
+  { value: 'Every', label: 'message answered' },
 ]
 
 // ─── Main Export ────────────────────────────────────────────────────────────

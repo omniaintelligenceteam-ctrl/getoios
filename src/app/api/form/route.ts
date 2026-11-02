@@ -89,11 +89,11 @@ export async function POST(req: Request) {
             <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.teamSize}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
-            <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Calls/Week</td>
+            <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Messages/Week</td>
             <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.callsPerWeek}</td>
           </tr>
           <tr style="border-bottom: 1px solid #1e293b;">
-            <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Who Handles Calls</td>
+            <td style="padding: 12px 0; color: #94a3b8; font-size: 14px;">Who Answers Messages</td>
             <td style="padding: 12px 0; color: #fff; font-size: 14px;">${s.callHandler}</td>
           </tr>
           ${s.biggestPainPoint ? `
