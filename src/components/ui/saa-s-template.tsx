@@ -87,7 +87,6 @@ const Navigation = React.memo(() => {
       <nav className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- "/" is the static door (rewrite in next.config.ts); next/link would prefetch a payload it cannot have */}
           <a href="/" className="flex items-center group">
             <Image
               src="/omnia-mark-dark.svg"

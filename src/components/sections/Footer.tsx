@@ -22,7 +22,6 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-10 lg:gap-12 mb-12">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- "/" is the static door (rewrite in next.config.ts); next/link would prefetch a payload it cannot have */}
             <a href="/" className="inline-flex items-center gap-3 mb-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/omnia-mark-dark.svg" alt="" width={32} height={32} className="w-8 h-8" />

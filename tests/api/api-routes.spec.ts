@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 /**
  * API route integration tests.
  *
- * Note: Some routes depend on external services (Resend, Gemini, Retell).
+ * Note: Some routes depend on an external service (Resend).
  * When API keys aren't configured, valid requests return 500 instead of 200.
  * We test both validation (400) and accept 200 or 500 for happy-path scenarios.
  */
@@ -140,34 +140,23 @@ test.describe('POST /api/demo-request — Demo Request', () => {
   })
 })
 
-test.describe('POST /api/chat — Text Chat', () => {
-  test('valid message returns 200 or 500 (env-dependent)', async ({ request }) => {
-    const response = await request.post('/api/chat', {
-      data: {
-        message: 'Hi, I need to schedule a plumbing appointment',
-        history: [],
-      },
+test.describe('Removed routes: the receptionist demo is gone', () => {
+  // Wes, 2 Nov 2026: the voice service that answers a business's phone comes off the product.
+  // /api/chat (Gemini, "Sarah") and /api/retell (Retell web call) were deleted with the dead homepage.
+  for (const route of ['/api/chat', '/api/retell']) {
+    test(`GET ${route} is 404`, async ({ request }) => {
+      const response = await request.get(route)
+      expect(response.status()).toBe(404)
     })
-    // 200 with Gemini key, 500 without
-    expect([200, 500]).toContain(response.status())
-  })
-})
 
-test.describe('POST /api/retell — Voice Web Call', () => {
-  test('valid request returns 200 or 500 (env-dependent)', async ({ request }) => {
-    const response = await request.post('/api/retell', {
-      data: {},
+    test(`POST ${route} is 404`, async ({ request }) => {
+      const response = await request.post(route, {
+        data: { message: 'Hi, I need to schedule an appointment', history: [] },
+        headers: { 'x-forwarded-for': `10.7.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` },
+      })
+      expect(response.status()).toBe(404)
     })
-    // 200 with Retell key, 500 without
-    expect([200, 500]).toContain(response.status())
-  })
-
-  test('request with specific agent_id accepted', async ({ request }) => {
-    const response = await request.post('/api/retell', {
-      data: { agent_id: 'agent_b8f7dab7124e978dacac4a3b60' },
-    })
-    expect([200, 500]).toContain(response.status())
-  })
+  }
 })
 
 test.describe('POST /api/handoff — Front door handoff', () => {
@@ -251,8 +240,6 @@ test.describe('GET on POST-only routes', () => {
     '/api/form',
     '/api/audit',
     '/api/demo-request',
-    '/api/chat',
-    '/api/retell',
     '/api/handoff',
   ]
 
