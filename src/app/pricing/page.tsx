@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Pricing — OIOS | AI Operations for Small Businesses — OIOS by Omnia Intelligence AI',
+        alt: 'Pricing — OIOS | AI Operations for Small Businesses — OIOS by Omnia AI Intelligence',
       },
     ],
   },

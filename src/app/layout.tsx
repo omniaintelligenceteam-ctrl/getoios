@@ -27,21 +27,22 @@ export const metadata: Metadata = {
     google: 'opWpVmIdfuvdOo0-FtRN0Uad-wFNI7IKtx',
   },
   icons: {
-    icon: '/LOGO OIOS.jpg',
+    icon: [{ url: '/icon.png', type: 'image/png', sizes: '512x512' }],
+    shortcut: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
   title: {
-    default: "OIOS — We install AI Operating Systems for small businesses | Omnia Intelligence AI",
-    template: "%s | OIOS by Omnia Intelligence AI",
+    default: "OIOS — We install AI Operating Systems for small businesses | Omnia AI Intelligence",
+    template: "%s | OIOS by Omnia AI Intelligence",
   },
   description: "We build the software you need, run the operations you can't afford to hire for, and ship something new every 30 days. Calls answered, admin handled, pipeline visible — 24/7.",
-  keywords: "AI operations, AI for small businesses, AI receptionist, AI back office, business automation, OIOS, Omnia Intelligence AI, AI office manager, small business AI",
+  keywords: "AI operations, AI for small businesses, AI receptionist, AI back office, business automation, OIOS, Omnia AI Intelligence, AI office manager, small business AI",
   openGraph: {
     title: "OIOS — We install AI Operating Systems for small businesses",
     description: "We install your AI Operating System, ship your first build live by Day 7, then keep shipping every month. Calls answered, admin handled, pipeline visible — 24/7.",
     type: "website",
     url: "https://getoios.com",
-    siteName: "OIOS by Omnia Intelligence AI",
+    siteName: "OIOS by Omnia AI Intelligence",
     images: [
       {
         url: "/opengraph-image",
@@ -87,12 +88,12 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": "https://getoios.com/#organization",
-    "name": "Omnia Intelligence AI",
+    "name": "Omnia AI Intelligence",
     "alternateName": "OIOS",
     "url": "https://getoios.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://getoios.com/LOGO%20OIOS.jpg",
+      "url": "https://getoios.com/icon.png",
       "width": 512,
       "height": 512,
     },
@@ -112,7 +113,7 @@ export default function RootLayout({
     "@type": "WebSite",
     "@id": "https://getoios.com/#website",
     "name": "OIOS",
-    "alternateName": "OIOS by Omnia Intelligence AI",
+    "alternateName": "OIOS by Omnia AI Intelligence",
     "url": "https://getoios.com",
     "publisher": { "@id": "https://getoios.com/#organization" },
   };

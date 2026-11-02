@@ -7,18 +7,18 @@ import { SectionTransition } from '@/components/ui/SectionTransition'
 export const metadata: Metadata = {
   title: 'Privacy Policy — OIOS | AI Operations for Small Businesses',
   description:
-    'How OIOS by Omnia Intelligence AI collects, uses, and protects your data. Your business data stays yours — always.',
+    'How OIOS by Omnia AI Intelligence collects, uses, and protects your data. Your business data stays yours — always.',
   openGraph: {
     title: 'Privacy Policy — OIOS | AI Operations for Small Businesses',
     description:
-      'How OIOS by Omnia Intelligence AI collects, uses, and protects your data. Your business data stays yours — always.',
+      'How OIOS by Omnia AI Intelligence collects, uses, and protects your data. Your business data stays yours — always.',
     url: 'https://getoios.com/privacy',
     images: [
       {
         url: '/opengraph-image',
         width: 1200,
         height: 630,
-        alt: 'Privacy Policy — OIOS by Omnia Intelligence AI',
+        alt: 'Privacy Policy — OIOS by Omnia AI Intelligence',
       },
     ],
   },
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Privacy Policy — OIOS | AI Operations for Small Businesses',
     description:
-      'How OIOS by Omnia Intelligence AI collects, uses, and protects your data. Your business data stays yours — always.',
+      'How OIOS by Omnia AI Intelligence collects, uses, and protects your data. Your business data stays yours — always.',
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -83,7 +83,7 @@ export default function PrivacyPage() {
               {/* Intro */}
               <div>
                 <p className="text-slate-400 text-lg leading-relaxed">
-                  Omnia Intelligence AI (&quot;we&quot;, &quot;us&quot;, &quot;OIOS&quot;) operates
+                  Omnia AI Intelligence (&quot;we&quot;, &quot;us&quot;, &quot;OIOS&quot;) operates
                   the OIOS platform and the getoios.com website. This Privacy Policy explains what
                   data we collect, how we use it, and your rights regarding your information.
                 </p>

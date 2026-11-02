@@ -89,8 +89,8 @@ const Navigation = React.memo(() => {
           {/* Logo */}
           <Link href="/" className="flex items-center group">
             <Image
-              src="/LOGO OIOS.jpg"
-              alt="OIOS — Omnia Intelligence"
+              src="/omnia-mark-dark.svg"
+              alt="OIOS — Omnia AI Intelligence"
               width={1024}
               height={1024}
               className="w-auto h-12 lg:h-14 object-contain"

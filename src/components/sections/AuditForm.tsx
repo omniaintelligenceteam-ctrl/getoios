@@ -147,7 +147,7 @@ export function AuditForm() {
                 Your audit request is in. Wes will reach out within 24 hours.
               </p>
               <p className="text-amber-400 font-semibold">
-                — Wes, Omnia Intelligence AI
+                — Wes, Omnia AI Intelligence
               </p>
             </div>
           </motion.div>
