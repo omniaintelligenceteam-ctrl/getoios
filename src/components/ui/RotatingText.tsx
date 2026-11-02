@@ -23,15 +23,15 @@ export function RotatingText({ phrases, className, interval = 3000 }: RotatingTe
   }, [phrases.length, interval])
 
   return (
-    <span className="inline-block overflow-hidden align-bottom">
+    <span className="inline-block align-bottom">
       <AnimatePresence mode="wait">
         <motion.span
           key={index}
           className={`inline-block ${className ?? ''}`}
-          initial={{ y: 24, opacity: 0 }}
+          initial={{ y: 8, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -24, opacity: 0 }}
-          transition={{ duration: 0.4 }}
+          exit={{ y: -8, opacity: 0 }}
+          transition={{ duration: 0.35 }}
         >
           {phrases[index]}
         </motion.span>

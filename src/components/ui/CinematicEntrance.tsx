@@ -471,9 +471,14 @@ class CinematicRenderer {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
+// The star-field intro blocked the first paint for ~3.5 s on every new session.
+// Switched off on 2 Nov 2026 (~/Plans/2026-11-02-getoios-three-fixes-PLAN.md); flip to
+// true to bring it back.
+const ENTRANCE_ENABLED = false
+
 export function CinematicEntrance({ children }: { children: React.ReactNode }) {
-  const [show, setShow] = useState(false)
-  const [skipEntrance, setSkipEntrance] = useState(false)
+  const [show, setShow] = useState(!ENTRANCE_ENABLED)
+  const [skipEntrance, setSkipEntrance] = useState(!ENTRANCE_ENABLED)
 
   const overlayRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -492,6 +497,7 @@ export function CinematicEntrance({ children }: { children: React.ReactNode }) {
 
   // Check session/motion on mount
   useEffect(() => {
+    if (!ENTRANCE_ENABLED) return
     if (sessionStorage.getItem('oios-entered')) {
       setSkipEntrance(true)
       setShow(true)
