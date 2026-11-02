@@ -142,8 +142,9 @@ test.describe('POST /api/demo-request — Demo Request', () => {
 
 test.describe('Removed routes: the receptionist demo is gone', () => {
   // Wes, 2 Nov 2026: the voice service that answers a business's phone comes off the product.
-  // /api/chat (Gemini, "Sarah") and /api/retell (Retell web call) were deleted with the dead homepage.
-  for (const route of ['/api/chat', '/api/retell']) {
+  // /api/chat (Gemini, "Sarah"), /api/retell (Retell web call) and /api/elevenlabs ("Sarah's voice") were deleted
+  // with the dead homepage and /demo-saas.
+  for (const route of ['/api/chat', '/api/retell', '/api/elevenlabs']) {
     test(`GET ${route} is 404`, async ({ request }) => {
       const response = await request.get(route)
       expect(response.status()).toBe(404)
