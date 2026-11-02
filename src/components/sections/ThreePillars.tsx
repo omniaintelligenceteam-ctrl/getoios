@@ -64,7 +64,7 @@ const PILLARS: PillarData[] = [
     description:
       'From the first customer conversation to the job, the paperwork and the money. He drafts, you approve, and nothing is sent to a customer without your tap.',
     bullets: [
-      'Sorts every incoming call, text and email: answer, draft, escalate or ignore',
+      'Sorts every customer text, email and web inquiry: drafts the reply in your voice, escalates what needs you, ignores the rest, all sent on your tap',
       'Talk the job or the order through and snap a few photos; he turns that into a priced quote draft from your prices',
       'Names every line he could not price instead of guessing',
       'Converts an approved quote to an invoice with a pay-by-card link',
@@ -78,7 +78,7 @@ const PILLARS: PillarData[] = [
     accent: 'text-amber-400',
     picture: {
       src: '/jarvis/assets/pillars/back-office-1200.jpg',
-      alt: 'A dental clinic front desk in the afternoon: the receptionist on the phone, an invoice, the appointment book and a laptop on the desk.',
+      alt: 'A dental clinic front desk in the afternoon: the coordinator on the phone with a patient, an invoice, the appointment book and a laptop on the desk.',
     },
     start: { href: '/?pillar=back-office#start', label: 'Start with the back office' },
     flip: true,

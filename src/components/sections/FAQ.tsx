@@ -12,11 +12,11 @@ const faqs = [
   },
   {
     q: 'How long does setup take?',
-    a: 'Your first build is live by Day 7. Month 1 is the install: we set up your AI Operating System, connect your tools, and ship one custom build that works in your business — not a demo. After that, the rhythm is one meeting a month, one big build (or two small ones), and everything already built keeps running 24/7.',
+    a: 'Your first build is live by Day 7. Month 1 is the install: we set up your AI Operating System, connect your tools, and ship one custom build that works in your business — not a demo. After that, the rhythm is one meeting a month, one big build (or two small ones), and everything already built keeps running every day.',
   },
   {
     q: 'What if my team doesn\u2019t like it?',
-    a: 'OIOS handles the admin work your team already doesn\u2019t want to do \u2014 answering after-hours calls, updating the CRM, sending follow-ups. Your team focuses on the skilled work they were hired for.',
+    a: 'OIOS handles the admin work your team already doesn\u2019t want to do \u2014 drafting customer replies, updating the CRM, sending follow-ups. Your team focuses on the skilled work they were hired for.',
   },
   {
     q: 'Can I cancel anytime?',

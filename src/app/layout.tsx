@@ -35,11 +35,11 @@ export const metadata: Metadata = {
     default: "OIOS — We install AI Operating Systems for small businesses | Omnia AI Intelligence",
     template: "%s | OIOS by Omnia AI Intelligence",
   },
-  description: "We build the software you need, run the operations you can't afford to hire for, and ship something new every 30 days. Calls answered, admin handled, pipeline visible — 24/7.",
-  keywords: "AI operations, AI for small businesses, AI receptionist, AI back office, business automation, OIOS, Omnia AI Intelligence, AI office manager, small business AI",
+  description: "We build the software you need, run the operations you can't afford to hire for, and ship something new every 30 days. Replies drafted, admin handled, pipeline visible.",
+  keywords: "AI operations, AI for small businesses, AI chief of staff, AI back office, business automation, OIOS, Omnia AI Intelligence, AI office manager, small business AI",
   openGraph: {
     title: "OIOS — We install AI Operating Systems for small businesses",
-    description: "We install your AI Operating System, ship your first build live by Day 7, then keep shipping every month. Calls answered, admin handled, pipeline visible — 24/7.",
+    description: "We install your AI Operating System, ship your first build live by Day 7, then keep shipping every month. Replies drafted, admin handled, pipeline visible.",
     type: "website",
     url: "https://getoios.com",
     siteName: "OIOS by Omnia AI Intelligence",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "OIOS — We install AI Operating Systems for small businesses",
-    description: "We install your AI Operating System, ship your first build live by Day 7, then keep shipping every month. Calls answered, admin handled, pipeline visible — 24/7.",
+    description: "We install your AI Operating System, ship your first build live by Day 7, then keep shipping every month. Replies drafted, admin handled, pipeline visible.",
     images: ["/opengraph-image"],
   },
   alternates: {
@@ -97,7 +97,7 @@ export default function RootLayout({
       "width": 512,
       "height": 512,
     },
-    "description": "OIOS is an AI-powered operations platform for small businesses. It answers calls 24/7, automates back office workflows, and provides real-time visibility into leads, jobs, and revenue.",
+    "description": "OIOS is an AI-powered operations platform for small businesses. It drafts customer replies and quotes for the owner's approval, automates back office workflows, and provides real-time visibility into leads, jobs, and revenue.",
     "email": "team@getoios.com",
     "contactPoint": [{
       "@type": "ContactPoint",
@@ -124,7 +124,7 @@ export default function RootLayout({
     "@id": "https://getoios.com/#service",
     "name": "OIOS",
     "alternateName": "OIOS AI Operating System",
-    "description": "AI-first operations partner for small businesses on a monthly retainer. OIOS installs a custom AI Operating System, runs phones, scheduling, follow-ups, invoicing, and reporting 24/7, and ships a new custom build every month.",
+    "description": "AI-first operations partner for small businesses on a monthly retainer. OIOS installs a custom AI Operating System, runs customer replies, scheduling, follow-ups, invoicing, and reporting, and ships a new custom build every month.",
     "url": "https://getoios.com",
     "provider": { "@id": "https://getoios.com/#organization" },
     "areaServed": { "@type": "Country", "name": "United States" },
@@ -132,7 +132,7 @@ export default function RootLayout({
       "@type": "OfferCatalog",
       "name": "OIOS capabilities",
       "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "24/7 AI call answering and lead capture" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Customer replies and quotes drafted for approval" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Appointment scheduling and reminders" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Follow-up and pipeline automation" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Invoicing and cash-flow reporting" } },

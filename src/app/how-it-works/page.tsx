@@ -12,11 +12,11 @@ import { SectionTransition } from '@/components/ui/SectionTransition'
 export const metadata: Metadata = {
   title: 'How OIOS Works — Build, Run, Ship',
   description:
-    'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running 24/7.',
+    'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running every day.',
   openGraph: {
     title: 'How OIOS Works — Build, Run, Ship',
     description:
-      'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running 24/7.',
+      'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running every day.',
     url: 'https://getoios.com/how-it-works',
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'How OIOS Works — Build, Run, Ship',
     description:
-      'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running 24/7.',
+      'Month 1: we install your AI Operating System and ship your first build live by Day 7. Then one meeting a month, one big build, and everything running every day.',
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -46,7 +46,7 @@ export default function HowItWorksPage() {
         <Header />
         <PageHero
           title="How It Works"
-          subtitle="Build. Run. Ship. One meeting a month, one big build, everything running 24/7."
+          subtitle="Build. Run. Ship. One meeting a month, one big build, everything running every day."
           badge="Process"
         />
         <SectionTransition />

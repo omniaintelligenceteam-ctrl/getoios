@@ -7,8 +7,8 @@ const events = [
   {
     time: 'All Day',
     hour: 12,
-    name: 'Phones',
-    description: 'Every call answered in under 1 second. Caller details texted to you instantly. Returning callers remembered by name. You never miss a lead.',
+    name: 'Messages',
+    description: 'Every text, email and web inquiry read as it lands. The reply drafted in your voice, sent on your tap. Returning customers remembered by name. You never miss a lead.',
     accent: 'bg-teal-400',
     textAccent: 'text-teal-400',
     glowColor: '#2DD4BF',
@@ -19,7 +19,7 @@ const events = [
     time: '8:00 AM',
     hour: 8,
     name: 'Scheduling',
-    description: 'Appointments booked right on the call. Calendar synced. Confirmation texts sent. Reminder texts queued for tomorrow. No no-shows.',
+    description: 'Appointments booked from the thread. Calendar synced. Confirmation texts sent. Reminder texts queued for tomorrow. No no-shows.',
     accent: 'bg-amber-400',
     textAccent: 'text-amber-400',
     glowColor: '#F59E0B',
@@ -30,7 +30,7 @@ const events = [
     time: '9:00 AM',
     hour: 9,
     name: 'Sales',
-    description: 'Follow-ups sent to 4 open leads automatically. Stale deals flagged. Upsell suggestions ready for today\'s calls. Pipeline updated.',
+    description: 'Follow-ups sent to 4 open leads automatically. Stale deals flagged. Upsell suggestions ready for today\'s appointments. Pipeline updated.',
     accent: 'bg-emerald-400',
     textAccent: 'text-emerald-400',
     glowColor: '#34D399',
@@ -52,7 +52,7 @@ const events = [
     time: '6:30 AM',
     hour: 6.5,
     name: 'Operations',
-    description: 'Morning briefing delivered. Yesterday\'s calls, today\'s schedule, flagged items — all before your first coffee. CRM updated automatically.',
+    description: 'Morning briefing delivered. Yesterday\'s messages, today\'s schedule, flagged items — all before your first coffee. CRM updated automatically.',
     accent: 'bg-cyan-400',
     textAccent: 'text-cyan-400',
     glowColor: '#06B6D4',
@@ -123,7 +123,7 @@ function ClockFace({ activeIndex }: { activeIndex: number }) {
       {/* Inner ring */}
       <circle cx={cx} cy={cy} r={r - 15} stroke="#1E293B" strokeWidth="0.5" fill="none" opacity="0.5" />
 
-      {/* "All Day" arc segment for call handling */}
+      {/* "All Day" arc segment for messages */}
       <motion.circle
         cx={cx} cy={cy} r={r - 7}
         stroke="#34D399"
