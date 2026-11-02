@@ -8,7 +8,9 @@ test.describe('Accessibility: Homepage', () => {
 
   // ─── ARIA labels ─────────────────────────────────────────────────────
   test('interactive navigation links have accessible text', async ({ page }) => {
-    const navLinks = page.locator('header nav a')
+    // The front door's navigation is its tab rail (nav[aria-label="Sections"]),
+    // not a header nav like the Next pages carry.
+    const navLinks = page.locator('nav a')
     const count = await navLinks.count()
     expect(count).toBeGreaterThan(0)
 

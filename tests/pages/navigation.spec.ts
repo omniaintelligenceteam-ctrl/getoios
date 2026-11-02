@@ -23,26 +23,26 @@ test.describe('Navigation: All pages load', () => {
   }
 })
 
+// The front door at / is the static page in public/jarvis with its own chrome
+// (see homepage.spec.ts). The shared header with the site navigation lives on
+// the Next pages, so the header tests start from one of those.
 test.describe('Navigation: Header links work', () => {
   const headerLinks = [
-    { label: 'What It Does', href: '/features' },
-    { label: 'How It Works', href: '/how-it-works' },
-    { label: 'What to Expect', href: '/pricing' },
-    { label: 'About', href: '/about' },
+    { label: 'What It Does', href: '/features', from: '/pricing' },
+    { label: 'How It Works', href: '/how-it-works', from: '/pricing' },
+    { label: 'What to Expect', href: '/pricing', from: '/about' },
+    { label: 'About', href: '/about', from: '/pricing' },
   ]
-
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/')
-    await page.waitForLoadState('domcontentloaded')
-  })
 
   for (const link of headerLinks) {
     test(`clicking "${link.label}" navigates to ${link.href}`, async ({ page }) => {
+      await page.goto(link.from)
+      await page.waitForLoadState('domcontentloaded')
       // Use the desktop nav (hidden on mobile)
       const navLink = page.locator(`header nav a[href="${link.href}"]`)
       await navLink.click()
-      await page.waitForLoadState('domcontentloaded')
-      expect(page.url()).toContain(link.href)
+      // Next's Link navigates client-side; wait for the URL rather than a load event
+      await expect(page).toHaveURL(new RegExp(`${link.href}(?:[/?#]|$)`))
     })
   }
 
@@ -51,8 +51,9 @@ test.describe('Navigation: Header links work', () => {
     await page.waitForLoadState('domcontentloaded')
     const logo = page.locator('header a[href="/"]').first()
     await logo.click()
-    await page.waitForLoadState('domcontentloaded')
-    expect(page.url()).toMatch(/\/$/)
+    // / is a rewrite to the static front door, so the router falls back to a
+    // full navigation; wait for the URL rather than a load event
+    await expect(page).toHaveURL(/\/$/)
   })
 })
 
@@ -104,26 +105,28 @@ test.describe('Navigation: Mobile menu', () => {
   test.use({ viewport: { width: 375, height: 812 } })
 
   test('mobile menu toggle exists', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/features')
     await page.waitForLoadState('domcontentloaded')
 
-    // On mobile, the nav should be hidden and a hamburger button visible
-    const menuButton = page.locator('header button').first()
+    // On mobile, the nav and the desktop CTA are hidden; the hamburger is the
+    // only visible header button
+    const menuButton = page.locator('header button:visible').first()
     await expect(menuButton).toBeVisible()
   })
 
   test('mobile menu opens and shows nav links', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/features')
     await page.waitForLoadState('domcontentloaded')
 
-    const menuButton = page.locator('header button').first()
+    const menuButton = page.locator('header button:visible').first()
     await menuButton.click()
 
     // After clicking, nav links should become visible
     // Wait a moment for animation
     await page.waitForTimeout(500)
 
-    const mobileNavLink = page.locator('a[href="/features"]').first()
+    // the desktop nav keeps its own (hidden) copy of each link; take the visible one
+    const mobileNavLink = page.locator('header a[href="/features"]:visible').first()
     await expect(mobileNavLink).toBeVisible()
   })
 })

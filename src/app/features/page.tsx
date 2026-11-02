@@ -12,11 +12,11 @@ import { SectionTransition } from '@/components/ui/SectionTransition'
 export const metadata: Metadata = {
   title: 'What OIOS Does — AI Operations for Small Businesses',
   description:
-    'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your small business running around the clock.',
+    'The three pillars of Jarvis by OIOS: the assistant you talk to, the back office behind the work, and the workflows that keep going while you are away.',
   openGraph: {
     title: 'What OIOS Does — AI Operations for Small Businesses',
     description:
-      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your small business running around the clock.',
+      'The three pillars of Jarvis by OIOS: the assistant you talk to, the back office behind the work, and the workflows that keep going while you are away.',
     url: 'https://getoios.com/features',
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'What OIOS Does — AI Operations for Small Businesses',
     description:
-      'Discover the three pillars of OIOS: AI-powered voice, scheduling, and follow-up systems that keep your small business running around the clock.',
+      'The three pillars of Jarvis by OIOS: the assistant you talk to, the back office behind the work, and the workflows that keep going while you are away.',
     images: ['/opengraph-image'],
   },
   alternates: {
@@ -46,7 +46,7 @@ export default function FeaturesPage() {
         <Header />
         <PageHero
           title="What OIOS Does"
-          subtitle="Three systems. One partner. Zero missed calls."
+          subtitle="Three pillars. One Jarvis. Nothing reaches a customer without your tap."
           badge="Features"
         />
         <SectionTransition />

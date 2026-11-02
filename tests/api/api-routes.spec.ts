@@ -170,6 +170,82 @@ test.describe('POST /api/retell — Voice Web Call', () => {
   })
 })
 
+test.describe('POST /api/handoff — Front door handoff', () => {
+  const validPayload = {
+    pillar: 'back-office',
+    firstHandoff: 'The quote I owe since Tuesday.',
+    fullName: 'Test User',
+    phoneNumber: '(512) 555-0100',
+  }
+
+  // The route allows 5 posts per minute per client IP, and every request in
+  // this file leaves the same test client. Each call below carries its own
+  // TEST-NET-3 address so these tests exercise validation, not the limiter.
+  let nextHost = Math.floor(Math.random() * 200)
+  const freshIp = () => `203.0.113.${(nextHost++ % 250) + 1}`
+  const headers = () => ({ 'x-forwarded-for': freshIp() })
+
+  test('valid data returns 200 or 500 (env-dependent)', async ({ request }) => {
+    const response = await request.post('/api/handoff', { data: validPayload, headers: headers() })
+    expect([200, 500]).toContain(response.status())
+  })
+
+  test('each pillar value is accepted', async ({ request }) => {
+    for (const pillar of ['assistant', 'back-office', 'workflows']) {
+      const response = await request.post('/api/handoff', { data: { ...validPayload, pillar }, headers: headers() })
+      expect([200, 500]).toContain(response.status())
+    }
+  })
+
+  test('missing pillar returns 400', async ({ request }) => {
+    const { pillar, ...partial } = validPayload
+    const response = await request.post('/api/handoff', { data: partial, headers: headers() })
+    expect(response.status()).toBe(400)
+    const body = await response.json()
+    expect(body.error).toContain('pillar')
+  })
+
+  test('unknown pillar returns 400', async ({ request }) => {
+    const response = await request.post('/api/handoff', { data: { ...validPayload, pillar: 'everything' }, headers: headers() })
+    expect(response.status()).toBe(400)
+    const body = await response.json()
+    expect(body.error).toContain('pillar')
+  })
+
+  test('missing firstHandoff returns 400', async ({ request }) => {
+    const { firstHandoff, ...partial } = validPayload
+    const response = await request.post('/api/handoff', { data: partial, headers: headers() })
+    expect(response.status()).toBe(400)
+    const body = await response.json()
+    expect(body.error).toContain('firstHandoff')
+  })
+
+  test('form-encoded post without a pillar redirects back to the form', async ({ request }) => {
+    const response = await request.post('/api/handoff', {
+      form: { firstHandoff: 'The phone, when I am on a roof.', fullName: 'Test User', phoneNumber: '(512) 555-0100' },
+      headers: headers(),
+      maxRedirects: 0,
+    })
+    expect(response.status()).toBe(303)
+    expect(response.headers()['location']).toMatch(/\/#start$/)
+  })
+
+  test('honeypot filled pretends to succeed', async ({ request }) => {
+    const response = await request.post('/api/handoff', { data: { ...validPayload, company: 'Spam Co' }, headers: headers() })
+    expect(response.status()).toBe(200)
+  })
+
+  test('sixth post from one client within a minute is rate limited', async ({ request }) => {
+    const ip = freshIp()
+    for (let i = 0; i < 5; i++) {
+      const response = await request.post('/api/handoff', { data: { ...validPayload, pillar: 'nope' }, headers: { 'x-forwarded-for': ip } })
+      expect(response.status()).toBe(400)
+    }
+    const sixth = await request.post('/api/handoff', { data: validPayload, headers: { 'x-forwarded-for': ip } })
+    expect(sixth.status()).toBe(429)
+  })
+})
+
 test.describe('GET on POST-only routes', () => {
   const postOnlyRoutes = [
     '/api/form',
@@ -177,6 +253,7 @@ test.describe('GET on POST-only routes', () => {
     '/api/demo-request',
     '/api/chat',
     '/api/retell',
+    '/api/handoff',
   ]
 
   for (const route of postOnlyRoutes) {
