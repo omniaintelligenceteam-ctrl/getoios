@@ -1,317 +1,114 @@
 'use client'
 
+import Image from 'next/image'
 import { motion, useInView } from 'motion/react'
 import { useRef } from 'react'
 
-// ─── Types ──────────────────────────────────────────────────────────────────
-interface FlowNode {
-  icon: string
-  label: string
-  x: number
-  y: number
+// ─── The three pillars ───────────────────────────────────────────────────────
+// The same three the front door (public/jarvis) and meetjarvis.getoios.com
+// show: the assistant you talk to, the back office behind the work, and the
+// workflows that keep going while you are away. The pictures are the front
+// door's (public/jarvis/assets/pillars). No invented figures here: no
+// counters, no percentages, no seconds.
+
+interface PillarData {
+  number: string
+  subtitle: string
+  title: string
+  time: string
+  tagline: string
+  description: string
+  bullets: string[]
+  before: string
+  after: string
+  accent: string
+  picture: { src: string; alt: string }
+  start: { href: string; label: string }
+  flip?: boolean
 }
 
-interface FlowConnection {
-  from: number
-  to: number
-  d: string
-}
-
-interface FlowConfig {
-  nodes: FlowNode[]
-  connections: FlowConnection[]
-  color: string
-  glowColor: string
-  badge?: { text: string; nodeIndex: number }
-  statusBar?: { label: string; value: string }
-}
-
-// ─── Animated Flow Diagram ──────────────────────────────────────────────────
-function AnimatedFlow({ config }: { config: FlowConfig }) {
-  const ref = useRef<SVGSVGElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-40px' })
-
-  const { nodes, connections, color, glowColor, badge, statusBar } = config
-
-  return (
-    <div className="relative w-full" style={{ aspectRatio: '700/220' }}>
-      <svg
-        ref={ref}
-        viewBox="0 0 700 220"
-        fill="none"
-        className="w-full h-full"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <filter id={`flow-glow-${color}`} x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="8" result="blur" />
-            <feFlood floodColor={glowColor} floodOpacity="0.35" result="color" />
-            <feComposite in="color" in2="blur" operator="in" result="glow" />
-            <feMerge>
-              <feMergeNode in="glow" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id={`flow-line-glow-${color}`} x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feFlood floodColor={glowColor} floodOpacity="0.25" result="color" />
-            <feComposite in="color" in2="blur" operator="in" result="glow" />
-            <feMerge>
-              <feMergeNode in="glow" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          {/* Arrow marker */}
-          <marker
-            id={`arrow-${color}`}
-            viewBox="0 0 10 7"
-            refX="9"
-            refY="3.5"
-            markerWidth="8"
-            markerHeight="6"
-            orient="auto-start-reverse"
-          >
-            <path d="M 0 0 L 10 3.5 L 0 7 z" fill={glowColor} opacity="0.6" />
-          </marker>
-        </defs>
-
-        {/* Connection lines with arrows */}
-        {connections.map((conn, i) => (
-          <motion.path
-            key={`conn-${i}`}
-            d={conn.d}
-            stroke={glowColor}
-            strokeWidth="2"
-            strokeLinecap="round"
-            fill="none"
-            opacity={0.4}
-            filter={`url(#flow-line-glow-${color})`}
-            markerEnd={`url(#arrow-${color})`}
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={inView ? { pathLength: 1, opacity: 0.4 } : {}}
-            transition={{ duration: 1.2, delay: 0.4 + i * 0.2, ease: 'easeOut' }}
-          />
-        ))}
-
-        {/* Energy pulses traveling along paths */}
-        {inView && connections.map((conn, i) => (
-          <circle key={`pulse-${i}`} r="4" fill={glowColor} opacity="0">
-            <animateMotion
-              dur={`${3.5 + i * 0.3}s`}
-              repeatCount="indefinite"
-              begin={`${1.5 + i * 0.5}s`}
-              path={conn.d}
-            />
-            <animate
-              attributeName="opacity"
-              values="0;0.7;0.7;0"
-              dur={`${3.5 + i * 0.3}s`}
-              repeatCount="indefinite"
-              begin={`${1.5 + i * 0.5}s`}
-            />
-          </circle>
-        ))}
-
-        {/* Nodes */}
-        {nodes.map((node, i) => (
-          <motion.g
-            key={`node-${i}`}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{
-              duration: 0.5,
-              delay: 0.2 + i * 0.15,
-              type: 'spring',
-              stiffness: 300,
-              damping: 20,
-            }}
-            style={{ transformOrigin: `${node.x}px ${node.y}px` }}
-          >
-            {/* Node background */}
-            <circle
-              cx={node.x}
-              cy={node.y}
-              r="32"
-              fill="#0F172A"
-              stroke={glowColor}
-              strokeWidth="1.5"
-              filter={`url(#flow-glow-${color})`}
-            />
-            <circle
-              cx={node.x}
-              cy={node.y}
-              r="24"
-              fill={`${glowColor}10`}
-            />
-            {/* Icon */}
-            <text
-              x={node.x}
-              y={node.y + 6}
-              textAnchor="middle"
-              fontSize="18"
-            >
-              {node.icon}
-            </text>
-            {/* Label */}
-            <text
-              x={node.x}
-              y={node.y + 52}
-              textAnchor="middle"
-              fill={glowColor}
-              fontSize="9"
-              fontWeight="bold"
-              fontFamily="monospace"
-              letterSpacing="0.12em"
-              opacity="0.8"
-            >
-              {node.label}
-            </text>
-          </motion.g>
-        ))}
-
-        {/* Node pulse rings */}
-        {inView && nodes.map((node, i) => (
-          <circle
-            key={`npulse-${i}`}
-            cx={node.x}
-            cy={node.y}
-            r="32"
-            fill="none"
-            stroke={glowColor}
-            strokeWidth="0.5"
-            opacity="0"
-          >
-            <animate attributeName="r" values="32;50" dur="2.5s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.3;0" dur="2.5s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
-          </circle>
-        ))}
-
-        {/* Badge */}
-        {badge && (
-          <motion.g
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 1.2 }}
-          >
-            <rect
-              x={nodes[badge.nodeIndex].x - 28}
-              y={nodes[badge.nodeIndex].y - 58}
-              width="56"
-              height="20"
-              rx="10"
-              fill={glowColor}
-              opacity="0.15"
-            />
-            <rect
-              x={nodes[badge.nodeIndex].x - 28}
-              y={nodes[badge.nodeIndex].y - 58}
-              width="56"
-              height="20"
-              rx="10"
-              fill="none"
-              stroke={glowColor}
-              strokeWidth="1"
-              opacity="0.4"
-            />
-            <text
-              x={nodes[badge.nodeIndex].x}
-              y={nodes[badge.nodeIndex].y - 44}
-              textAnchor="middle"
-              fill={glowColor}
-              fontSize="9"
-              fontWeight="bold"
-              fontFamily="monospace"
-            >
-              {badge.text}
-            </text>
-          </motion.g>
-        )}
-
-        {/* Status bar */}
-        {statusBar && (
-          <motion.g
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 1.5 }}
-          >
-            <rect x="150" y="195" width="400" height="18" rx="9" fill="#0F172A" stroke={glowColor} strokeWidth="0.5" opacity="0.5" />
-            <motion.rect
-              x="151"
-              y="196"
-              height="16"
-              rx="8"
-              fill={glowColor}
-              opacity="0.15"
-              initial={{ width: 0 }}
-              animate={inView ? { width: 388 } : {}}
-              transition={{ duration: 2, delay: 1.8, ease: 'easeOut' }}
-            />
-            <text x="350" y="208" textAnchor="middle" fill={glowColor} fontSize="8" fontWeight="bold" fontFamily="monospace" letterSpacing="0.1em" opacity="0.7">
-              {statusBar.label}: {statusBar.value}
-            </text>
-          </motion.g>
-        )}
-      </svg>
-    </div>
-  )
-}
-
-// ─── Flow Configurations ────────────────────────────────────────────────────
-const receptionistFlow: FlowConfig = {
-  color: 'teal',
-  glowColor: '#2DD4BF',
-  nodes: [
-    { icon: '📞', label: 'INCOMING CALL', x: 70, y: 100 },
-    { icon: '⚡', label: 'AI ANSWERS', x: 220, y: 100 },
-    { icon: '✅', label: 'LEAD CAPTURED', x: 370, y: 100 },
-    { icon: '📅', label: 'BOOKED', x: 510, y: 100 },
-    { icon: '📱', label: 'TEXT SENT', x: 640, y: 100 },
-  ],
-  connections: [
-    { from: 0, to: 1, d: 'M 108 100 Q 164 80 185 100' },
-    { from: 1, to: 2, d: 'M 256 100 Q 313 80 335 100' },
-    { from: 2, to: 3, d: 'M 405 100 Q 458 80 475 100' },
-    { from: 3, to: 4, d: 'M 545 100 Q 592 80 605 100' },
-  ],
-  badge: { text: '< 1 SEC', nodeIndex: 1 },
-}
-
-const backOfficeFlow: FlowConfig = {
-  color: 'amber',
-  glowColor: '#F59E0B',
-  nodes: [
-    { icon: '📥', label: 'NEW JOB', x: 70, y: 100 },
-    { icon: '📄', label: 'PROPOSAL', x: 220, y: 100 },
-    { icon: '✅', label: 'APPROVED', x: 370, y: 100 },
-    { icon: '💰', label: 'INVOICE', x: 510, y: 100 },
-    { icon: '⭐', label: 'REVIEW', x: 640, y: 100 },
-  ],
-  connections: [
-    { from: 0, to: 1, d: 'M 108 100 Q 164 80 185 100' },
-    { from: 1, to: 2, d: 'M 256 100 Q 313 80 335 100' },
-    { from: 2, to: 3, d: 'M 405 100 Q 458 80 475 100' },
-    { from: 3, to: 4, d: 'M 545 100 Q 592 80 605 100' },
-  ],
-  badge: { text: '30 SEC', nodeIndex: 1 },
-  statusBar: { label: 'ACTIVE', value: 'EFFICIENCY 98%' },
-}
-
-const commandCenterFlow: FlowConfig = {
-  color: 'cyan',
-  glowColor: '#06B6D4',
-  nodes: [
-    { icon: '☀️', label: 'BRIEFING', x: 70, y: 100 },
-    { icon: '📊', label: 'DASHBOARD', x: 220, y: 100 },
-    { icon: '💬', label: 'ASK ANYTHING', x: 370, y: 100 },
-    { icon: '🎯', label: 'ACTION PLAN', x: 540, y: 100 },
-  ],
-  connections: [
-    { from: 0, to: 1, d: 'M 108 100 Q 164 80 185 100' },
-    { from: 1, to: 2, d: 'M 256 100 Q 313 80 335 100' },
-    { from: 2, to: 3, d: 'M 405 100 Q 472 80 505 100' },
-  ],
-  badge: { text: 'REAL-TIME', nodeIndex: 1 },
-}
+const PILLARS: PillarData[] = [
+  {
+    number: '01',
+    subtitle: 'Pillar One',
+    title: 'Assistant',
+    time: '7:40 am',
+    tagline: 'Your chief of staff, by voice.',
+    description:
+      'Talk to him like a person, from the truck or the office. He knows what needs you before the day starts, reads your thought back sharper, and keeps one thing at a time.',
+    bullets: [
+      'Phone, web or iPhone, hands-free from the truck',
+      'Knows what needs you before the day starts',
+      'Reads your thought back sharper, pushes back, keeps one thing at a time',
+      'Remembers everything you have told him and every past conversation',
+      'Promise ledger: what you owe, what you are owed, what is slipping',
+      'Calendar, reminders and your to-do board, by voice',
+      'Research on competitors, prices and suppliers, with sources',
+    ],
+    before: 'You are on a ladder, three things are due before nine, and the only list is in your head.',
+    after:
+      'You ask him from the truck. He names the three things, drafts the one that needs a reply, and keeps the rest on the board.',
+    accent: 'text-teal-400',
+    picture: {
+      src: '/jarvis/assets/pillars/assistant-1200.jpg',
+      alt: 'The cab of a work pickup at dawn: a phone on the dash lit violet, hands on the wheel, coffee in the holder.',
+    },
+    start: { href: '/?pillar=assistant#start', label: 'Start with the assistant' },
+  },
+  {
+    number: '02',
+    subtitle: 'Pillar Two',
+    title: 'Back Office',
+    time: '2:10 pm',
+    tagline: 'The operation behind the work.',
+    description:
+      'From the first customer conversation to the job, the paperwork and the money. He drafts, you approve, and nothing is sent to a customer without your tap.',
+    bullets: [
+      'Sorts every incoming call, text and email: answer, draft, escalate or ignore',
+      'Walk the job talking and snapping photos; he turns that into a priced quote draft from your price book',
+      'Names every line he could not price instead of guessing',
+      'Converts an approved quote to an invoice with a pay-by-card link',
+      'Drafts customer replies in your voice for you to approve',
+      'Puts jobs on the board against real crew availability, writes crew messages readable on a phone',
+      'Agreements, onboarding packets and permit applications, prepared, never filed',
+    ],
+    before: 'You are doing the work and the paperwork. The quote waits until tonight, and tonight has its own list.',
+    after:
+      'You walk the job talking. He drafts the quote from your price book, names what he could not price, and the invoice follows your approval.',
+    accent: 'text-amber-400',
+    picture: {
+      src: '/jarvis/assets/pillars/back-office-1200.jpg',
+      alt: 'A backyard walkthrough in afternoon sun: a hand holds up a phone to photograph a cedar fence with two storm-damaged panels.',
+    },
+    start: { href: '/?pillar=back-office#start', label: 'Start with the back office' },
+    flip: true,
+  },
+  {
+    number: '03',
+    subtitle: 'Pillar Three',
+    title: 'Workflows',
+    time: '9:00 pm',
+    tagline: 'The follow-through that keeps going.',
+    description:
+      'Recurring work, prepared replies and repeatable errands. You set the rhythm and keep the decisions that need your approval.',
+    bullets: [
+      'A morning brief to open the day, a closing sweep to end it',
+      'Holds the fort while you are away, and wakes you only for money, a broken promise or a fire',
+      'Chases quiet quotes and overdue invoices on a schedule you set; he drafts, you tap send',
+      'Web errands in a real browser: portals, forms, uploads, downloads',
+      'Coming: review requests after good jobs, email campaigns to past customers',
+    ],
+    before: 'Follow-ups happen when you remember them, which is after the customer went quiet.',
+    after:
+      'The morning brief opens the day, the closing sweep ends it, and quiet quotes get chased on the schedule you set. You tap send.',
+    accent: 'text-cyan-400',
+    picture: {
+      src: '/jarvis/assets/pillars/workflows-1200.jpg',
+      alt: 'A shop office at night, lights off: one screen lit violet over a job board, invoices in a tray, truck keys on a hook.',
+    },
+    start: { href: '/?pillar=workflows#start', label: 'Start with workflows' },
+  },
+]
 
 // ─── Before / After cards ────────────────────────────────────────────────────
 function BeforeAfter({ before, after }: { before: string; after: string }) {
@@ -336,21 +133,10 @@ function BeforeAfter({ before, after }: { before: string; after: string }) {
 }
 
 // ─── Single pillar block ─────────────────────────────────────────────────────
-function Pillar({
-  number, title, subtitle, description, bullets, flow, before, after, accent,
-}: {
-  number: string
-  title: string
-  subtitle: string
-  description: string
-  bullets: string[]
-  flow: FlowConfig
-  before: string
-  after: string
-  accent: string
-}) {
+function Pillar({ pillar }: { pillar: PillarData }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
+  const { number, subtitle, title, time, tagline, description, bullets, before, after, accent, picture, start, flip } = pillar
 
   return (
     <motion.div
@@ -360,8 +146,8 @@ function Pillar({
       transition={{ duration: 0.6 }}
       className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
     >
-      {/* Left — text */}
-      <div>
+      {/* Text */}
+      <div className={flip ? 'lg:order-2' : undefined}>
         <div className="flex items-baseline gap-3 mb-4">
           <span className={`text-5xl font-bold ${accent} opacity-30 font-mono`}>{number}</span>
           <div>
@@ -372,20 +158,36 @@ function Pillar({
         <p className="text-slate-400 text-sm leading-relaxed mb-5">{description}</p>
         <ul className="space-y-2">
           {bullets.map((b) => (
-            <li key={b} className="flex items-center gap-2 text-sm text-slate-300">
-              <span className={`w-1.5 h-1.5 rounded-full ${accent.replace('text-', 'bg-')} opacity-70 flex-shrink-0`} />
+            <li key={b} className="flex items-start gap-2 text-sm text-slate-300">
+              <span className={`mt-2 w-1.5 h-1.5 rounded-full ${accent.replace('text-', 'bg-')} opacity-70 flex-shrink-0`} />
               {b}
             </li>
           ))}
         </ul>
         <BeforeAfter before={before} after={after} />
+        <a
+          href={start.href}
+          className={`inline-flex items-center mt-6 min-h-11 text-sm font-semibold ${accent} hover:text-white transition-colors`}
+        >
+          {start.label}
+        </a>
       </div>
 
-      {/* Right — animated flow diagram */}
-      <div className="glass-card p-6 lg:p-8" data-glow>
-        <div className={`text-[10px] font-mono uppercase tracking-[0.15em] ${accent} mb-6 opacity-70`}>Workflow</div>
-        <AnimatedFlow config={flow} />
-      </div>
+      {/* Picture */}
+      <figure className={`glass-card p-3 lg:p-4 ${flip ? 'lg:order-1' : ''}`} data-glow>
+        <Image
+          src={picture.src}
+          alt={picture.alt}
+          width={1200}
+          height={800}
+          sizes="(min-width: 1024px) 560px, 100vw"
+          className="w-full h-auto rounded-xl"
+        />
+        <figcaption className="flex items-baseline justify-between gap-4 px-1 pt-3">
+          <span className={`text-[10px] font-mono uppercase tracking-[0.15em] ${accent} opacity-80`}>{time}</span>
+          <span className="text-xs text-slate-400 text-right">{tagline}</span>
+        </figcaption>
+      </figure>
     </motion.div>
   )
 }
@@ -408,77 +210,27 @@ export function ThreePillars() {
             <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-slate-400">What OIOS Does</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-            <span className="text-white">Three Systems.</span>{' '}
-            <span className="gradient-text">One Partner.</span>
+            <span className="text-white">Three pillars.</span>{' '}
+            <span className="gradient-text">One Jarvis.</span>
           </h2>
+          <p className="mt-5 text-slate-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+            The assistant you talk to. The back office behind the work. The workflows that keep going while you are away. Most owners hand him one first.
+          </p>
         </motion.div>
 
         {/* Pillars */}
         <div className="space-y-24 lg:space-y-32">
-          <Pillar
-            number="01"
-            subtitle="Pillar One"
-            title="AI Receptionist"
-            description="Every call answered in under a second. Leads captured, qualified, and booked — automatically. Your phone never goes to voicemail again."
-            bullets={[
-              '24/7 call answering — no hold music, no voicemail',
-              'Caller memory — recognizes returning customers by name',
-              'Lead capture, qualification, and scoring',
-              'Appointment booking with calendar sync + confirmation texts',
-              'Spam and robocall filtering — junk calls never reach you',
-              'Full English and Spanish support',
-              'Call transcripts, recordings, and sentiment analysis',
-            ]}
-            flow={receptionistFlow}
-            before="You're on a ladder and your phone rings. By the time you call back, they already booked your competitor."
-            after="Every call answered. Every lead captured. Calendar booked and confirmation text sent — automatically."
-            accent="text-teal-400"
-          />
-
-          <div className="section-divider" />
-
-          <Pillar
-            number="02"
-            subtitle="Pillar Two"
-            title="AI Back Office"
-            description="Proposals in 30 seconds. Follow-ups sent automatically. CRM always current. The paperwork handles itself — you just approve."
-            bullets={[
-              'Proposals and estimates generated in 30 seconds',
-              'Automated follow-up sequences after every quote',
-              'Invoicing + payment links texted to customers',
-              'Review requests auto-sent after job completion',
-              'CRM updates without anyone touching it',
-              'Customer status texts — "your tech is 20 minutes away"',
-              'Client onboarding sequences for new accounts',
-            ]}
-            flow={backOfficeFlow}
-            before="You're doing the actual work AND the paperwork. Something always slips."
-            after="Job finishes at 3pm. By 3:05 — invoice sent, review requested, CRM updated, next follow-up scheduled. You didn't touch anything."
-            accent="text-amber-400"
-          />
-
-          <div className="section-divider" />
-
-          <Pillar
-            number="03"
-            subtitle="Pillar Three"
-            title="AI Command Center"
-            description="Morning briefing at 6:30 AM. Real-time pipeline visibility. Ask OIOS anything about your business in plain English — it answers."
-            bullets={[
-              'Daily morning briefing via text — overnight calls, today\'s schedule, priorities',
-              'Revenue forecasting — "You\'re on pace for $47K this month"',
-              'Cash flow alerts — overdue invoices flagged before they become a crisis',
-              'Ask anything in plain English — "How\'s my pipeline this week?"',
-              'Proactive alerts on stalled deals and missed follow-ups',
-              'Team scorecards — who closes, who upsells, who gets the best reviews',
-              'Weekly performance report delivered every Friday',
-            ]}
-            flow={commandCenterFlow}
-            before="You find out you're behind on revenue when the bank account looks wrong."
-            after="You know your numbers before your morning coffee. OIOS tells you what to focus on today."
-            accent="text-cyan-400"
-          />
+          {PILLARS.map((pillar, i) => (
+            <div key={pillar.title}>
+              {i > 0 && <div className="section-divider mb-24 lg:mb-32" />}
+              <Pillar pillar={pillar} />
+            </div>
+          ))}
         </div>
+
+        <p className="mt-20 text-center text-sm text-slate-400">
+          Across all three, nothing is spent, sent or deleted without your tap.
+        </p>
 
       </div>
     </section>

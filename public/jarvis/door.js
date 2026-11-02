@@ -2,7 +2,7 @@
    Reads each act's --sc-p (written by the engine) and drives three things the
    kit does not: Jarvis's replies streaming at the speed of the wheel, the light
    that rises while he speaks, and the state word in the chrome. Plus the
-   approval control, the install ticks, the tab rail and the handoff form.
+   approval control, the pillar choice, the tab rail and the handoff form.
    The engine is untouched. */
 (function () {
   'use strict';
@@ -77,7 +77,7 @@
   var desks = document.getElementById('desks');
   var start = document.getElementById('start');
   var board = document.getElementById('board');
-  var install = document.getElementById('install');
+  var pillars = document.getElementById('pillars');
   var line = document.getElementById('line');
   var todayStage = today && today.querySelector('[data-sc-stage]');
   var approveStage = approve && approve.querySelector('[data-sc-stage]');
@@ -87,7 +87,7 @@
   if (reduce) gates.forEach(function (g) { if (g.act === today) g.at = -1; });
 
   var current = null;
-  var sections = [today, board, desks, line, approve, install, start].filter(Boolean);
+  var sections = [today, board, desks, line, approve, pillars, start].filter(Boolean);
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) { if (e.isIntersecting) current = e.target; });
@@ -97,7 +97,7 @@
 
   /* ---- tab rail: the current section -------------------------------- */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.jv-tab'));
-  var tabFor = { today: 'today', board: 'today', desks: 'desks', line: 'approve', approve: 'approve', install: 'install', start: 'start' };
+  var tabFor = { today: 'today', board: 'today', desks: 'desks', line: 'approve', approve: 'approve', pillars: 'pillars', start: 'start' };
   var curTab = '';
   function setTab(id) {
     if (id === curTab) return;
@@ -178,7 +178,7 @@
       else if (approveState.shown === 0) m = 'thinking';
       else if (!approveState.done) m = speakingNow ? 'speaking' : 'listening';
       else m = 'confirm';
-    } else if (current === install) { m = 'ready'; }
+    } else if (current === pillars) { m = 'ready'; }
     else if (current === start) { m = 'listening'; }
     setMood(m);
     setClock(clock);
@@ -272,12 +272,45 @@
     });
   }
 
-  /* ---- the start: quick picks and the handoff form --------------------- */
+  /* ---- the start: the pillar, the quick picks and the handoff form ------ */
   var form = document.querySelector('.jv-start');
   var area = form && form.querySelector('textarea[name="firstHandoff"]');
-  Array.prototype.forEach.call(document.querySelectorAll('[data-jv-pick]'), function (b) {
+  var pillarSet = form && form.querySelector('[data-jv-pillars]');
+  var radios = form ? Array.prototype.slice.call(form.querySelectorAll('input[name="pillar"]')) : [];
+  var picks = Array.prototype.slice.call(document.querySelectorAll('[data-jv-pick]'));
+  function pillarChosen() {
+    for (var i = 0; i < radios.length; i++) if (radios[i].checked) return radios[i].value;
+    return '';
+  }
+  /* The quick picks narrow to the chosen pillar. With none chosen, all show. */
+  function filterPicks() {
+    var v = pillarChosen();
+    if (pillarSet && v) pillarSet.classList.remove('is-missing');
+    picks.forEach(function (b) {
+      var f = b.getAttribute('data-jv-for');
+      b.hidden = !!(v && f && f !== v);
+    });
+  }
+  function choosePillar(v) {
+    radios.forEach(function (r) { r.checked = r.value === v; });
+    filterPicks();
+  }
+  radios.forEach(function (r) { r.addEventListener('change', filterPicks); });
+  /* Other pages link here with ?pillar=<value>#start, the pillar already chosen. */
+  try {
+    var fromUrl = new URLSearchParams(location.search).get('pillar');
+    if (fromUrl && radios.some(function (r) { return r.value === fromUrl; })) choosePillar(fromUrl);
+  } catch (e) {}
+  filterPicks();
+  /* A pillar card's link lands on the form with that pillar already set. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-jv-choose]'), function (a) {
+    a.addEventListener('click', function () { choosePillar(a.getAttribute('data-jv-choose')); });
+  });
+  picks.forEach(function (b) {
     b.addEventListener('click', function () {
       if (!area) return;
+      var f = b.getAttribute('data-jv-for');
+      if (f && !pillarChosen()) choosePillar(f);
       var t = b.textContent.trim();
       area.value = area.value.trim() ? area.value.trim() + '. ' + t : t;
       area.focus();
@@ -293,11 +326,16 @@
       var missing = [];
       Array.prototype.forEach.call(form.elements, function (el) {
         if (!el.name) return;
+        if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; return; }
         data[el.name] = el.value.trim();
         if (el.required && !el.value.trim()) missing.push(el);
       });
+      if (radios.length && !pillarChosen()) {
+        if (pillarSet) pillarSet.classList.add('is-missing');
+        missing.unshift(radios[0]);
+      }
       if (missing.length) {
-        if (err) { err.textContent = 'Fill in the handoff, your name and a phone number we can call.'; err.hidden = false; }
+        if (err) { err.textContent = 'Pick a pillar, then fill in the handoff, your name and a phone number we can call.'; err.hidden = false; }
         missing[0].focus();
         return;
       }

@@ -229,22 +229,50 @@ h1.jv-pane__title { font-size: 15px; }
 .jv-btn--ghost:hover { background: color-mix(in oklab, var(--sc-ink) 7%, transparent); }
 .jv-btn--lg { min-height: 50px; padding: 0 24px; font-size: 16px; }
 
-/* ---------------------------------------------------------------- install */
-.jv-check { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--sc-hairline); }
-.jv-check li { display: grid; grid-template-columns: 64px 24px minmax(0, 1fr); gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--sc-hairline); align-items: start; }
-.jv-check__d { font-size: 14px; color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; padding-top: 2px; }
-.jv-check__t { font-size: 16px; line-height: 1.5; }
-.jv-tick { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--sc-hairline-strong); margin-top: 1px; transition: background 260ms var(--sc-ease-out), border-color 260ms var(--sc-ease-out); }
-.jv-tick::after { content: ""; position: absolute; left: 6px; top: 7px; width: 8px; height: 4px; border-left: 2px solid var(--sc-canvas); border-bottom: 2px solid var(--sc-canvas); transform: rotate(-45deg); opacity: 0; }
-.jv-check li.is-on .jv-tick { background: var(--jv-green); border-color: transparent; }
-.jv-check li.is-on .jv-tick::after { opacity: 1; }
-.jv-terms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: clamp(28px, 4vw, 44px) 0 0; }
-.jv-terms dt { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-.jv-terms dd { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--sc-ink-soft); }
+/* ---------------------------------------------------------------- pillars */
+.jv-wrap--wide { max-width: 1160px; }
+.jv-pillars { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
+.jv-pillar {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--jv-pane-bg); border: 1px solid var(--sc-hairline); border-radius: var(--sc-r-lg);
+  box-shadow: var(--jv-edge), var(--sc-e2);
+}
+.jv-pillar__fig { margin: 0; aspect-ratio: 3 / 2; background: var(--sc-surface); }
+.jv-pillar__fig img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.jv-pillar__body { display: flex; flex-direction: column; flex: 1 1 auto; padding: 16px 18px 18px; }
+.jv-pillar__k { margin: 0 0 4px; font-size: 12.5px; color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; }
+.jv-pillar__t { margin: 0; font-family: var(--sc-font-display); font-weight: 400; font-size: clamp(1.7rem, 1.3rem + 1vw, 2.1rem); line-height: 1.08; letter-spacing: -0.01em; }
+.jv-pillar__d { margin: 4px 0 12px; font-size: 15px; line-height: 1.45; color: var(--sc-ink-soft); }
+.jv-pillar__rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--sc-hairline); }
+.jv-pillar__rows li { padding: 9px 0; border-bottom: 1px solid var(--sc-hairline); font-size: 14.5px; line-height: 1.45; text-wrap: pretty; }
+.jv-pillar__go { align-self: flex-start; margin-top: 16px; text-decoration: none; display: inline-flex; align-items: center; }
+.jv-pillars:has(.jv-pillar__go) .jv-pillar__go { margin-top: auto; padding-top: 0; }
+.jv-pillar__rows + .jv-pillar__go { margin-top: 16px; }
+.jv-pillar__body > .jv-pillar__rows { margin-bottom: auto; }
+
+/* the pillar question in the handoff form: three radio cards */
+.jv-pp-set { border: 0; margin: 0; padding: 0; min-width: 0; }
+.jv-pp-set legend { padding: 0; margin: 0 0 8px; font-size: 13px; color: var(--sc-ink-soft); }
+.jv-pp-set__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.jv-pp {
+  position: relative; display: flex; flex-direction: column; gap: 2px; min-height: 56px; padding: 9px 12px;
+  border: 1px solid var(--sc-hairline-strong); border-radius: var(--sc-r-md); cursor: pointer;
+  background: color-mix(in oklab, var(--sc-canvas) 72%, transparent);
+  transition: background 140ms var(--sc-ease-out), border-color 140ms var(--sc-ease-out);
+}
+/* the radio covers its whole card, so the card is the tap target and the focus ring follows it */
+.jv-pp input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: pointer; }
+.jv-pp:hover { background: color-mix(in oklab, var(--sc-ink) 7%, transparent); }
+.jv-pp:has(input:checked) { border-color: var(--sc-accent); background: color-mix(in oklab, var(--sc-accent) 20%, transparent); }
+.jv-pp:has(input:focus-visible) { outline: 2px solid var(--sc-accent); outline-offset: 1px; }
+.jv-pp-set.is-missing .jv-pp { border-color: var(--jv-amber); }
+.jv-pp__t { font-size: 14.5px; font-weight: 600; color: var(--sc-ink); }
+.jv-pp__d { font-size: 12.5px; line-height: 1.35; color: var(--sc-ink-soft); }
+.jv-pick[hidden] { display: none; }
 
 /* ------------------------------------------------------------------ start */
 .jv-start { display: flex; flex-direction: column; gap: 14px; }
-.jv-start.is-sent .jv-picks, .jv-start.is-sent .jv-field, .jv-start.is-sent .jv-field-row, .jv-start.is-sent .jv-start__act, .jv-start.is-sent .jv-err { display: none; }
+.jv-start.is-sent .jv-pp-set, .jv-start.is-sent .jv-picks, .jv-start.is-sent .jv-field, .jv-start.is-sent .jv-field-row, .jv-start.is-sent .jv-start__act, .jv-start.is-sent .jv-err { display: none; }
 .jv-picks { display: flex; flex-wrap: wrap; gap: 8px; }
 .jv-pick { appearance: none; cursor: pointer; font: inherit; font-size: 13.5px; min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--sc-hairline-strong); background: transparent; color: var(--sc-ink); transition: background 140ms var(--sc-ease-out); }
 .jv-pick:hover { background: color-mix(in oklab, var(--sc-ink) 7%, transparent); }
@@ -305,8 +333,10 @@ h1.jv-pane__title { font-size: 15px; }
   .jv-approval { position: absolute; left: 12px; right: 12px; bottom: calc(var(--jv-tabs) + 12px); align-self: auto; box-shadow: var(--jv-edge), var(--sc-e3); }
   .jv-approval__dl { grid-template-columns: 78px minmax(0, 1fr); font-size: 14px; }
   .jv-stage--approve .jv-convo { margin-bottom: 0; }
-  .jv-terms { grid-template-columns: minmax(0, 1fr); gap: 14px; }
-  .jv-check li { grid-template-columns: 52px 22px minmax(0, 1fr); gap: 10px; }
+  .jv-pillars { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .jv-pillar__body { padding: 14px 14px 16px; }
+  .jv-pp-set__row { grid-template-columns: minmax(0, 1fr); }
+  .jv-pp { flex-direction: row; align-items: baseline; gap: 8px; min-height: 48px; padding: 12px 12px; }
   .jv-stage--start .jv-stage__in { align-content: start; }
   .jv-pick { min-height: 44px; }
   .jv-help { padding-bottom: 8px; }

@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test'
 
+/**
+ * The front door. `/` is the static scroll-craft page in public/jarvis, served
+ * by the rewrite in next.config.ts. It carries its own chrome: a status bar
+ * (header), a tab rail (nav) and the handoff form that posts to /api/handoff.
+ * The engine marks <html class="sc-ready"> once the page has booted.
+ */
 test.describe('Homepage', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
@@ -8,7 +14,7 @@ test.describe('Homepage', () => {
 
   // ─── Page load ───────────────────────────────────────────────────────
   test('loads with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/OIOS/)
+    await expect(page).toHaveTitle(/Jarvis.*OIOS/)
   })
 
   test('returns 200 status', async ({ page }) => {
@@ -16,74 +22,108 @@ test.describe('Homepage', () => {
     expect(response!.status()).toBe(200)
   })
 
-  // ─── Hero section ────────────────────────────────────────────────────
-  test('hero section is visible', async ({ page }) => {
-    // The Hero section is typically the first major content area
-    const hero = page.locator('section').first()
-    await expect(hero).toBeVisible({ timeout: 15_000 })
+  test('the scroll engine boots', async ({ page }) => {
+    await expect(page.locator('html')).toHaveClass(/sc-ready/, { timeout: 15_000 })
   })
 
-  test('hero contains a heading', async ({ page }) => {
-    const h1 = page.locator('h1').first()
+  // ─── Hero / status bar ───────────────────────────────────────────────
+  test('hero carries the one h1', async ({ page }) => {
+    const h1 = page.locator('h1#site-title')
     await expect(h1).toBeVisible({ timeout: 15_000 })
-    const text = await h1.textContent()
-    expect(text!.length).toBeGreaterThan(0)
+    expect((await h1.textContent())!.trim().length).toBeGreaterThan(0)
+    await expect(page.locator('h1')).toHaveCount(1)
   })
 
-  // ─── Header / Navigation ─────────────────────────────────────────────
-  test('header is visible', async ({ page }) => {
-    const header = page.locator('header')
-    await expect(header).toBeVisible()
+  test('status bar shows the brand link and a state word', async ({ page }) => {
+    await expect(page.locator('header.jv-bar')).toBeVisible()
+    await expect(page.locator('header a[href="/"]')).toBeVisible()
+    await expect(page.locator('[data-jv-state]')).not.toBeEmpty()
   })
 
-  test('OIOS logo is present', async ({ page }) => {
-    const logo = page.locator('header a[href="/"]')
-    await expect(logo).toBeVisible()
-  })
-
-  test('navigation links are present', async ({ page }) => {
-    const nav = page.locator('header nav')
-    await expect(nav).toBeVisible()
-
-    const expectedLinks = [
-      { label: 'What It Does', href: '/features' },
-      { label: 'How It Works', href: '/how-it-works' },
-      { label: 'What to Expect', href: '/pricing' },
-      { label: 'Live Demo', href: '/demo' },
-      { label: 'About', href: '/about' },
-    ]
-
-    for (const link of expectedLinks) {
-      const el = nav.locator(`a[href="${link.href}"]`)
-      await expect(el).toBeVisible()
+  test('tab rail links to every act', async ({ page }) => {
+    const rail = page.locator('nav[aria-label="Sections"]')
+    await expect(rail).toBeVisible()
+    for (const id of ['today', 'desks', 'approve', 'pillars']) {
+      await expect(rail.locator(`a[href="#${id}"]`)).toBeVisible()
+      await expect(page.locator(`section#${id}`)).toHaveCount(1)
     }
   })
 
-  // ─── CTA buttons ─────────────────────────────────────────────────────
-  test('CTA buttons are present and clickable', async ({ page }) => {
-    // Look for primary CTA links that go to /form, /demo, or /audit
-    const ctas = page.locator('a[href="/form"], a[href="/demo"], a[href="/audit"]')
-    const count = await ctas.count()
-    expect(count).toBeGreaterThan(0)
-
-    // Verify first CTA is clickable (enabled, visible)
-    const firstCta = ctas.first()
-    await expect(firstCta).toBeVisible()
-    await expect(firstCta).toBeEnabled()
+  // ─── Pillars act ─────────────────────────────────────────────────────
+  test('pillars act shows the three pillars with a picture each', async ({ page }) => {
+    await expect(page.locator('#pillars h3.jv-pillar__t')).toHaveText(['Assistant', 'Back Office', 'Workflows'])
+    const pictures = page.locator('#pillars .jv-pillar img')
+    await expect(pictures).toHaveCount(3)
+    for (let i = 0; i < 3; i++) {
+      const img = pictures.nth(i)
+      await img.scrollIntoViewIfNeeded()
+      expect((await img.getAttribute('alt'))!.trim().length).toBeGreaterThan(0)
+      await expect
+        .poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth), { timeout: 10_000 })
+        .toBeGreaterThan(0)
+    }
   })
 
-  // ─── Key sections render ─────────────────────────────────────────────
-  test('WhoItsFor section renders', async ({ page }) => {
-    // Scroll down to find the section — look for trade-related keywords
-    const section = page.getByText(/who.*for|small business|trade/i).first()
-    await section.scrollIntoViewIfNeeded()
-    await expect(section).toBeVisible()
+  test('each pillar card links to the form with its pillar chosen', async ({ page }) => {
+    await expect(page.locator('#pillars a[data-jv-choose]')).toHaveCount(3)
+    await page.locator('[data-jv-choose="back-office"]').click()
+    await expect(page).toHaveURL(/#start$/)
+    await expect(page.locator('input[name="pillar"][value="back-office"]')).toBeChecked()
+    // quick picks that belong to another pillar step aside
+    await expect(page.locator('[data-jv-pick][data-jv-for="workflows"]').first()).toBeHidden()
+    await expect(page.locator('[data-jv-pick][data-jv-for="back-office"]').first()).toBeVisible()
   })
 
-  test('FAQ section renders', async ({ page }) => {
-    const faq = page.getByText(/frequently asked|FAQ/i).first()
-    await faq.scrollIntoViewIfNeeded()
-    await expect(faq).toBeVisible()
+  // ─── Handoff form ────────────────────────────────────────────────────
+  test('handoff form asks which pillar first', async ({ page }) => {
+    const form = page.locator('form.jv-start')
+    await expect(form).toHaveAttribute('action', '/api/handoff')
+    await expect(form.locator('[data-jv-pillars] legend')).toHaveText(/Which pillar are you most interested in/)
+    const radios = form.locator('input[name="pillar"]')
+    await expect(radios).toHaveCount(3)
+    expect(await radios.evaluateAll((els) => els.map((el) => (el as HTMLInputElement).value))).toEqual([
+      'assistant',
+      'back-office',
+      'workflows',
+    ])
+    for (const name of ['firstHandoff', 'fullName', 'phoneNumber']) {
+      await expect(form.locator(`[name="${name}"]`)).toHaveCount(1)
+    }
+    await expect(form.locator('[type="submit"]')).toBeEnabled()
+  })
+
+  test('submitting without a pillar marks the question and says so', async ({ page }) => {
+    await page.goto('/?fresh=1#start')
+    await expect(page.locator('html')).toHaveClass(/sc-ready/, { timeout: 15_000 })
+    await page.locator('form.jv-start [type="submit"]').click()
+    await expect(page.locator('[data-jv-pillars]')).toHaveClass(/is-missing/)
+    await expect(page.locator('[data-jv-err]')).toHaveText(/Pick a pillar/)
+    expect(await page.evaluate(() => (document.activeElement as HTMLInputElement | null)?.name)).toBe('pillar')
+  })
+
+  test('a filled form posts the pillar to /api/handoff and shows the sent state', async ({ page }) => {
+    let posted: Record<string, string> | null = null
+    await page.route('**/api/handoff', async (route) => {
+      posted = route.request().postDataJSON()
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' })
+    })
+    await page.goto('/?fresh=1#start')
+    await expect(page.locator('html')).toHaveClass(/sc-ready/, { timeout: 15_000 })
+    await page.locator('input[name="pillar"][value="workflows"]').check()
+    await page.locator('[data-jv-pick][data-jv-for="workflows"]').first().click()
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="phoneNumber"]', '(512) 555-0100')
+    await page.locator('form.jv-start [type="submit"]').click()
+    await expect(page.locator('form.jv-start')).toHaveClass(/is-sent/)
+    expect(posted).toMatchObject({ pillar: 'workflows', fullName: 'Test User', phoneNumber: '(512) 555-0100' })
+    expect(posted!.firstHandoff.trim().length).toBeGreaterThan(0)
+  })
+
+  test('a ?pillar= link from another page preselects the pillar', async ({ page }) => {
+    await page.goto('/?pillar=assistant#start')
+    await expect(page.locator('html')).toHaveClass(/sc-ready/, { timeout: 15_000 })
+    await expect(page.locator('input[name="pillar"][value="assistant"]')).toBeChecked()
+    await expect(page.locator('[data-jv-pick][data-jv-for="workflows"]').first()).toBeHidden()
   })
 
   // ─── Footer ──────────────────────────────────────────────────────────
