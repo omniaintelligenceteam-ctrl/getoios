@@ -22,11 +22,12 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-10 lg:gap-12 mb-12">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-3 mb-2">
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- "/" is the static door (rewrite in next.config.ts); next/link would prefetch a payload it cannot have */}
+            <a href="/" className="inline-flex items-center gap-3 mb-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/omnia-mark-dark.svg" alt="" width={32} height={32} className="w-8 h-8" />
               <span className="text-xl tracking-[0.1em] font-bold gradient-text-warm">OIOS</span>
-            </Link>
+            </a>
             <p className="text-slate-600 text-xs font-mono mb-5">by Omnia AI Intelligence</p>
             <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
               We install AI Operating Systems for small businesses. Calls answered, admin handled, pipeline visible — 24/7.

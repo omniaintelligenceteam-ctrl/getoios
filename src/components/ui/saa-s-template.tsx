@@ -87,7 +87,8 @@ const Navigation = React.memo(() => {
       <nav className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center group">
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- "/" is the static door (rewrite in next.config.ts); next/link would prefetch a payload it cannot have */}
+          <a href="/" className="flex items-center group">
             <Image
               src="/omnia-mark-dark.svg"
               alt="OIOS — Omnia AI Intelligence"
@@ -99,7 +100,7 @@ const Navigation = React.memo(() => {
             <span className="text-base lg:text-lg tracking-[0.15em] font-semibold whitespace-nowrap ml-3">
               <span className="gradient-text-warm font-bold">OIOS</span>
             </span>
-          </Link>
+          </a>
 
           {/* Desktop Nav — centered */}
           <div className="hidden md:flex items-center justify-center gap-8 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

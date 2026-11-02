@@ -179,7 +179,6 @@ test.describe('Homepage', () => {
     const realErrors = errors.filter(
       (e) =>
         !e.includes('favicon') &&
-        !e.includes('404') &&
         !e.includes('ERR_BLOCKED_BY_CLIENT') &&
         !e.includes('third-party')
     )
