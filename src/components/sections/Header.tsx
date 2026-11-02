@@ -41,7 +41,6 @@ export function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
 
           {/* Logo */}
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- "/" is the static door (rewrite in next.config.ts); next/link would prefetch a payload it cannot have */}
           <a href="/" className="flex items-center space-x-3 lg:space-x-4 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
