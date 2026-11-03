@@ -323,8 +323,12 @@ function start(section) {
       var from = camera.position.clone(), dvec = q.p.clone().sub(from), dist = dvec.length();
       var up = v(0, 1, 0), side = dvec.clone().normalize().cross(up);
       if (side.lengthSq() < 1e-6) side.set(1, 0, 0); else side.normalize();
-      var bulge = n > state.stop ? 1 : -1;
-      var mid = from.clone().add(q.p).multiplyScalar(0.5).add(side.multiplyScalar(dist * 0.18 * bulge)).add(up.multiplyScalar(dist * 0.07));
+      // A crane move that swings round the room's centre (the counter), never across it: of the two
+      // sideways bulges, take the one whose midpoint is farther from the origin, and lift the middle.
+      var centre = from.clone().add(q.p).multiplyScalar(0.5);
+      var plus = centre.clone().addScaledVector(side, dist * 0.2), minus = centre.clone().addScaledVector(side, -dist * 0.2);
+      var bulge = (plus.x * plus.x + plus.z * plus.z) >= (minus.x * minus.x + minus.z * minus.z) ? 1 : -1;
+      var mid = centre.addScaledVector(side, dist * 0.2 * bulge).addScaledVector(up, dist * 0.14);
       move = { curve: new T.CatmullRomCurve3([from, mid, q.p], false, 'centripetal'), fromT: target.clone(), toT: q.t, t0: performance.now(), n: n, swapped: false };
       state.moving = true; state.stop = n; publish();
       stops.forEach(function (el) { el.classList.remove('is-on'); });
