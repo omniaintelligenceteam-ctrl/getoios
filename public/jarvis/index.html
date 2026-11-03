@@ -27,6 +27,7 @@
 <link rel="preload" href="/jarvis/assets/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/jarvis/scrollcraft.css">
 <link rel="stylesheet" href="/jarvis/door.css">
+<link rel="stylesheet" href="/jarvis/core3d.css">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://getoios.com/#org","name":"Omnia AI Intelligence","alternateName":"OIOS","url":"https://getoios.com","logo":"https://getoios.com/icon.png"},
@@ -60,13 +61,46 @@
 
 <main id="main">
 
+<!-- 0 · CORE · the room · owner, Jarvis and three desks; one gesture, one camera move -->
+<section id="core" class="c3" aria-labelledby="site-title" data-core-state="loading" data-core-stop="1" data-core-moving="false" data-core-locked="false" data-core-models="0">
+  <div class="c3-copy">
+    <div class="c3-stop is-on" data-stop="1">
+      <h1 id="site-title" class="c3-h1">Jarvis, installed in your business by OIOS</h1>
+    </div>
+    <div class="c3-stop" data-stop="2" style="--c3-tint:#ffb840">
+      <p class="c3-k">Front Desk · Sunny</p>
+      <p class="c3-l">Drafts your customer replies.</p>
+    </div>
+    <div class="c3-stop" data-stop="3" style="--c3-tint:#5fe6a0">
+      <p class="c3-k">Billing Desk · Penny</p>
+      <p class="c3-l">Chases what you are owed.</p>
+    </div>
+    <div class="c3-stop" data-stop="4" style="--c3-tint:#7fc0ff">
+      <p class="c3-k">Team Desk · Dash</p>
+      <p class="c3-l">Runs the board.</p>
+    </div>
+    <div class="c3-stop" data-stop="5">
+      <p class="c3-l">Every desk reports to you.</p>
+      <p class="c3-s">Nothing reaches a customer without your tap.</p>
+    </div>
+  </div>
+  <ol class="c3-dots" aria-label="Five views of the room">
+    <li><button type="button" data-go="1" aria-current="step">Owner and Jarvis</button></li>
+    <li><button type="button" data-go="2">Front Desk</button></li>
+    <li><button type="button" data-go="3">Billing Desk</button></li>
+    <li><button type="button" data-go="4">Team Desk</button></li>
+    <li><button type="button" data-go="5">Every desk</button></li>
+  </ol>
+  <a class="c3-skip" href="#today">Skip to the sample day</a>
+</section>
+
 <!-- 1 · TODAY · recognition · pinned surface, his reply streams with the wheel -->
-<section id="today" data-sc-act="pin" data-sc-span="2.6" data-sc-drift="#090909" aria-labelledby="site-title">
+<section id="today" data-sc-act="pin" data-sc-span="2.6" data-sc-drift="#090909" aria-labelledby="today-title">
   <div data-sc-stage class="jv-stage jv-stage--today" data-sc-verify-state="w0">
     <div class="jv-stage__in">
       <div class="jv-pane jv-convo">
         <div class="jv-pane__head">
-          <h1 id="site-title" class="jv-pane__title">Jarvis, installed in your business by OIOS</h1>
+          <p id="today-title" class="jv-pane__title">Jarvis, installed in your business by OIOS</p>
           <span class="jv-pane__meta">Fig Street Café &amp; Catering, sample</span>
         </div>
         <div class="jv-turn jv-turn--you">
@@ -381,5 +415,6 @@
 
 <script src="/jarvis/scrollcraft.js"></script>
 <script src="/jarvis/door.js"></script>
+<script type="module" src="/jarvis/core3d.js"></script>
 </body>
 </html>
