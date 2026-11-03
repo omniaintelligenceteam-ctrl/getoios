@@ -66,6 +66,7 @@ function start(section) {
       dash:   { file: 'dash',   scale: 1.92, clip: 'typing', seat: 0.01, tint: [0.35, 0.72, 1.0], desk: [4.4, 0, -2.8] }
     };
     var AGENTS = ['sunny', 'penny', 'dash'];
+    var ROOM = v(0, 1.1, -0.8);          // the look-at point bends through here mid-move, so a glide never stares at empty floor
     var COUNTER = v(0.1, 0.87, 0.72);   // where the threads land: on the owner's counter top
     function modelUrl(file) { return '/jarvis/core3d/models/' + file + '/' + file + '.gltf'; }
     function variant(file) { return phone ? file + '-m' : file; }
@@ -341,7 +342,8 @@ function start(section) {
       if (!move) return;
       var k = Math.min(1, (now - move.t0) / MOVE_MS), e = ease(k);
       camera.position.copy(move.curve.getPoint(e));
-      target.copy(move.fromT).lerp(move.toT, e);
+      var ie = 1 - e;   // quadratic bend of the look-at point through the room's centre
+      target.set(0, 0, 0).addScaledVector(move.fromT, ie * ie).addScaledVector(ROOM, 2 * ie * e).addScaledVector(move.toT, e * e);
       camera.lookAt(target);
       if (!move.swapped && k >= 0.55) { move.swapped = true; showCopy(move.n); }
       if (k >= 1) {
