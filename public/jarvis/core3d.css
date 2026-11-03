@@ -65,7 +65,7 @@
 /* reduced motion or no WebGL: a poster and the five lines as text */
 #core.is-static { height: auto; min-height: 0; padding: calc(var(--jv-bar) + 24px) var(--jv-pad) 40px calc(var(--jv-rail) + var(--jv-pad)); }
 #core.is-static .c3-poster { display: block; margin: 0 0 28px; border-radius: var(--sc-r-lg); overflow: hidden; box-shadow: var(--jv-edge); }
-#core.is-static .c3-poster img { display: block; width: 100%; height: auto; }
+#core.is-static .c3-poster img { display: block; width: 100%; height: auto; max-height: 58svh; object-fit: cover; }   /* the h1 stays on the first screen */
 #core.is-static .c3-copy { position: static; max-width: 60ch; pointer-events: auto; }
 #core.is-static .c3-stop { position: static; width: auto; opacity: 1; transform: none; visibility: visible; transition: none; margin: 0 0 22px; }
 #core.is-static .c3-stop:first-child { margin-bottom: 30px; }

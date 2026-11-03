@@ -10,15 +10,19 @@ dash         582432 bytes
 dash-m       514847 bytes
 desk         195100 bytes
 jarvis      1736072 bytes
-jarvis-m    1139552 bytes
+jarvis-m    1139480 bytes
 keyboard      18279 bytes
 monitor      159034 bytes
-owner       1059888 bytes
-owner-m      721011 bytes
+owner       1123504 bytes
+owner-m      744171 bytes
 penny        590796 bytes
 penny-m      510171 bytes
 sunny        660264 bytes
 sunny-m      594779 bytes
 
-desktop total 5563768 bytes
-phone total   4282708 bytes
+desktop total 5627384 bytes
+phone total   4305796 bytes
+
+Owner shirt (3 Nov 2026): baseColor_1.webp in owner/ and owner-m/ is the Tripo atlas with the shirt recoloured to chambray
+blue (the tan read as skin under the wide light). Mask = the shirt band of the bind-pose mesh rasterised in UV space, colour-gated
+at the collar, hem and cuffs; recipe and the mesh profile it was tuned on: ~/Plans/getoios-3d-stills/shirt-recolour.mjs, mesh-profile.mjs.

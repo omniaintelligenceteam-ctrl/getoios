@@ -59,14 +59,14 @@ function start(section) {
 
     /* ---- the cast: files, real heights (README scales), seats, tints ------- */
     var CAST = {
-      owner:  { file: 'owner',  scale: 1.87, clip: 'idle',           pos: [0, 0, 0],         rot: 0 },
-      jarvis: { file: 'jarvis', scale: 2.0,  clip: 'standing_relax', pos: [-0.95, 0, -0.42], rot: 0.52 },
+      owner:  { file: 'owner',  scale: 1.87, clip: 'idle',           pos: [0, 0, 0.18],      rot: 0.1 },
+      jarvis: { file: 'jarvis', scale: 1.966, clip: 'standing_relax', pos: [-0.8, 0, -0.22], rot: 0.55 },
       sunny:  { file: 'sunny',  scale: 1.82, clip: 'typing', seat: 0.01, tint: [1.0, 0.72, 0.25], desk: [-4.2, 0, -3.0] },
       penny:  { file: 'penny',  scale: 1.72, clip: 'typing', seat: 0,    tint: [0.2, 1.0, 0.55],  desk: [0.6, 0, -5.2] },
       dash:   { file: 'dash',   scale: 1.92, clip: 'typing', seat: 0.01, tint: [0.35, 0.72, 1.0], desk: [4.4, 0, -2.8] }
     };
     var AGENTS = ['sunny', 'penny', 'dash'];
-    var COUNTER = v(0.15, 0.88, 1.0);   // where the threads land on the owner's counter
+    var COUNTER = v(0.1, 0.87, 0.72);   // where the threads land: on the owner's counter top
     function modelUrl(file) { return '/jarvis/core3d/models/' + file + '/' + file + '.gltf'; }
     function variant(file) { return phone ? file + '-m' : file; }
 
@@ -105,7 +105,7 @@ function start(section) {
 
     /* ---- light: a dawn key on the people, a cool rim, a low sky ------------ */
     var key = new T.DirectionalLight(0xffd3a6, 2.6);
-    key.position.set(4.5, 2.6, 4.2);
+    key.position.set(-3.2, 2.7, 4.6);
     key.castShadow = true;
     key.shadow.mapSize.set(1024, 1024);
     key.shadow.camera.near = 0.5; key.shadow.camera.far = 18;
@@ -176,8 +176,8 @@ function start(section) {
     /* ---- light threads from each desk to the counter --------------------- */
     var threads = AGENTS.map(function (k, i) {
       var g = deskGroups[k], c = CAST[k];
-      var a = g.localToWorld(v(0, 1.27, 0.98));
-      var mid = a.clone().lerp(COUNTER, 0.5); mid.y += 0.85;
+      var a = g.localToWorld(v(0, 0.98, 1.0));           // from behind the monitor
+      var mid = a.clone().lerp(COUNTER, 0.5); mid.y = 0.5;   // a gentle sag, never above head height
       var curve = new T.CatmullRomCurve3([a, mid, COUNTER.clone()], false, 'centripetal');
       var N = 96, pts = curve.getPoints(N - 1), pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
       for (var j = 0; j < N; j++) { pos[j * 3] = pts[j].x; pos[j * 3 + 1] = pts[j].y; pos[j * 3 + 2] = pts[j].z; }
@@ -194,7 +194,7 @@ function start(section) {
     function tickThreads(dt, time) {
       threads.forEach(function (t) {
         t.lit += (t.want - t.lit) * Math.min(1, dt * 2.2);
-        var base = 0.05 + t.lit * 0.22, head = (time * 0.42 + t.phase) % 1;
+        var base = t.lit * 0.26, head = (time * 0.42 + t.phase) % 1;   // unlit threads stay dark
         for (var j = 0; j < t.n; j++) {
           var s = j / (t.n - 1), dist = s - head; dist -= Math.round(dist);
           var pulse = Math.max(0, 1 - Math.abs(dist) * 9);
@@ -211,7 +211,16 @@ function start(section) {
     var figures = {}, mixers = [], holoBodies = [], pieces = {};
     function loadPiece(name) {
       return loader.loadAsync(modelUrl(name === 'chair' ? variant(name) : name)).then(function (gltf) {
-        gltf.scene.traverse(function (o) { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+        var meshes = [];
+        gltf.scene.traverse(function (o) { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; meshes.push(o); } });
+        if (name === 'desk') meshes.forEach(function (o) {
+          // a flat black box reads as nothing: a little sheen and a faint line round the top edge give it a shape
+          if (o.material) { o.material.roughness = 0.45; o.material.metalness = 0.3; o.material.envMapIntensity = 1.1; }
+          o.geometry.computeBoundingBox();
+          var b = o.geometry.boundingBox, y = b.max.y + (b.max.y - b.min.y) * 0.003;
+          var rim = new T.BufferGeometry().setFromPoints([v(b.min.x, y, b.min.z), v(b.max.x, y, b.min.z), v(b.max.x, y, b.max.z), v(b.min.x, y, b.max.z)]);
+          o.add(new T.LineLoop(rim, new T.LineBasicMaterial({ color: 0x9aa0b8, transparent: true, opacity: 0.45, depthWrite: false })));
+        });
         pieces[name] = gltf.scene;
         return gltf.scene;
       });
@@ -287,7 +296,7 @@ function start(section) {
     /* ---- the five stops and the rail between them -------------------------- */
     function pose(n) {
       var p, t;
-      if (n === 1) { if (portrait) return { p: v(-2.4, 1.7, 4.4), t: v(-0.5, 0.95, 0.0) }; p = v(-2.95, 1.52, 3.25); t = v(-0.95, 1.2, 0.0); }
+      if (n === 1) { if (portrait) return { p: v(2.4, 1.75, 4.6), t: v(-0.45, 0.75, 0.1) }; p = v(2.6, 1.6, 4.0); t = v(-1.3, 1.15, 0.0); }
       else if (n === 5) { p = v(0.9, 2.8, 8.6); t = v(0, 1.0, -2.0); }
       else {
         var g = deskGroups[AGENTS[n - 2]], side = n === 3 ? 1 : -1;
