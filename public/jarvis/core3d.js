@@ -45,7 +45,7 @@ function start(section) {
     state.locked = false; publish(); put('state', 'static');
   }
   function hasWebGL() {
-    try { var c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (e) { return false; }
+    try { var c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); } catch (_) { return false; }
   }
   if (reduce || !hasWebGL()) { goStatic(); return; }
 
