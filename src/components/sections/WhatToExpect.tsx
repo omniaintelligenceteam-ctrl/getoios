@@ -518,78 +518,6 @@ function ROICalculator() {
   )
 }
 
-/* ─── Pricing FAQ ──────────────────────────────────────────────────────────── */
-
-const pricingFaqs = [
-  { q: "Why don't you list prices publicly?", a: "Every stack is custom — your rules, your tools, your workflows. We quote against what you'd spend hiring for the same work (an office manager, a bookkeeper, a dev shop), not against a menu. Book a call and we'll scope it with you." },
-  { q: 'Is there a contract?', a: 'No. Month-to-month, cancel anytime, no fees. And you own everything we build — if you leave, every tool, integration, and piece of data walks with you.' },
-  { q: 'What happens in Month 1?', a: "The install. We set up your AI Operating System, connect your tools, and ship your first custom build live by Day 7. Then the monthly rhythm starts: one meeting, one big build, everything else keeps running." },
-  { q: 'Can I change bands later?', a: 'Yes. The bands describe scope, not a cage. As your business grows, the build cadence and coverage grow with it — changes take effect the next month.' },
-]
-
-function PricingFAQ() {
-  const [open, setOpen] = useState<number | null>(null)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
-
-  return (
-    <section className="py-24 lg:py-32 bg-bg-primary relative">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          ref={ref}
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white" style={{ fontFamily: 'var(--font-display), sans-serif' }}>
-            Pricing Questions
-          </h2>
-        </motion.div>
-
-        <div className="space-y-3">
-          {pricingFaqs.map((faq, i) => (
-            <motion.div
-              key={i}
-              className="glass-card overflow-hidden"
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-            >
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between p-5 text-left"
-              >
-                <span className="text-sm font-semibold text-white pr-4">{faq.q}</span>
-                <motion.span
-                  animate={{ rotate: open === i ? 45 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="text-teal-400 flex-shrink-0 text-lg"
-                >
-                  +
-                </motion.span>
-              </button>
-              <AnimatePresence>
-                {open === i && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <p className="px-5 pb-5 text-sm text-slate-400 leading-relaxed">{faq.a}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 /* ─── Process Step Card ──────────────────────────────────────────────────────── */
 
 function StepCard({ step, index }: { step: (typeof steps)[0]; index: number }) {
@@ -884,8 +812,6 @@ export function WhatToExpect() {
         </div>
       </section>
 
-      {/* ═══ Pricing FAQ ═══ */}
-      <PricingFAQ />
     </>
   )
 }
