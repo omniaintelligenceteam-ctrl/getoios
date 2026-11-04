@@ -1,0 +1,32 @@
+{
+  "status": "LOCAL REVIEW ONLY; not approved for publication",
+  "chosen_take": "Current AVA3188 front-start cut; default pending any owner selection correction",
+  "duration_seconds": 26.58,
+  "video": {
+    "width": 854,
+    "height": 480,
+    "fps": 24,
+    "video_codec": "h264",
+    "audio_codec": "aac"
+  },
+  "source_original_seconds": 30.08,
+  "sources_preserved": true,
+  "live_connection": false,
+  "paid_generation": false,
+  "files": [
+    {
+      "path": "public/jarvis/visor/intro.mp4",
+      "source": "/home/jarvis333/Plans/visor-jarvis-stills/astra/local-website-preview/jarvis/preview-media/intro-front-start.mp4",
+      "bytes": 1775379,
+      "sha256": "8fd6fc3d0c9c395e19bd98575125176674835a2224856ebe725c2f19602cbfd5",
+      "exact_source_match": true
+    },
+    {
+      "path": "public/jarvis/visor/poster.png",
+      "source": "/home/jarvis333/Plans/visor-jarvis-stills/astra/local-website-preview/jarvis/preview-media/front-start.png",
+      "bytes": 161820,
+      "sha256": "e5dc00223df52af34d90bc03f7368c793591a7ad8aa3a355bd38cfeea13f4a9a",
+      "exact_source_match": true
+    }
+  ]
+}
