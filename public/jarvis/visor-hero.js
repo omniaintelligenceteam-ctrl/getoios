@@ -1,4 +1,4 @@
-/* A prerecorded review. Playback never starts a live session. */
+/* A prerecorded introduction. Playback never starts a live session. */
 (function () {
   'use strict';
   var hero = document.getElementById('core');
@@ -12,7 +12,7 @@
     loading: 'Loading the recording. Your microphone stays off.',
     playing: 'Playing the prerecorded intro. Your microphone stays off.',
     paused: 'Recording paused. Resume or continue to the sample day.',
-    ended: 'Preview finished. Replay or continue to the sample day. Live conversation is not connected.',
+    ended: 'Intro finished. Replay or continue to the sample day.',
     error: 'The recording could not play. Try again or continue to the sample day.'
   };
   function state(value) {
@@ -44,13 +44,5 @@
   document.getElementById('hero-continue').addEventListener('click', function () {
     video.pause();
     document.getElementById('today-title').focus({ preventScroll: true });
-  });
-  var notice = document.getElementById('preview-notice');
-  document.querySelectorAll('[data-preview-link]').forEach(function (link) {
-    link.addEventListener('click', function (event) {
-      event.preventDefault();
-      notice.hidden = false;
-      notice.textContent = 'Local preview only. This link does not open an external page.';
-    });
   });
 })();

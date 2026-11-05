@@ -1,8 +1,7 @@
-/* Local review only. The surrounding page keeps its existing layout. */
+/* Prerecorded hero. The surrounding page keeps its existing layout. */
 .visor-hero { position: relative; padding: calc(var(--jv-bar) + 32px) var(--jv-pad) 40px calc(var(--jv-rail) + var(--jv-pad)); min-height: 100svh; box-sizing: border-box; }
 .visor-hero__inner { max-width: 1060px; margin-inline: auto; }
-.visor-hero__label, .visor-hero__status { color: #bcbcc5; font-size: 13px; line-height: 1.5; }
-.visor-hero__label { margin: 0 0 16px; }
+.visor-hero__status { color: #bcbcc5; font-size: 13px; line-height: 1.5; }
 .visor-hero h1 { font-family: var(--sc-font-display); font-size: clamp(32px, 4vw, 58px); line-height: 1.08; font-weight: 400; letter-spacing: -.02em; margin: 0 0 24px; }
 .visor-hero__stage { background: #111; border: 1px solid #303036; border-radius: 12px; overflow: hidden; }
 .visor-hero video { width: 100%; aspect-ratio: 854 / 480; max-height: clamp(240px, calc(100svh - 450px), 62svh); object-fit: contain; display: block; }
@@ -10,10 +9,9 @@
 .visor-hero__actions button, .visor-hero__actions a { min-height: 44px; }
 .visor-hero__status { margin: 12px 0 0; min-height: 20px; }
 .visor-hero [hidden] { display: none; }
-.visor-hero :focus-visible, [data-preview-link]:focus-visible { outline: 2px solid #b4e8ff; outline-offset: 4px; }
+.visor-hero :focus-visible { outline: 2px solid #b4e8ff; outline-offset: 4px; }
 .visor-hero[data-hero-state="error"] .visor-hero__status { color: #ffcaaf; }
-[data-local-preview] .jv-dot { background: #aaa; box-shadow: none; animation: none; }
-.preview-notice { position: fixed; bottom: calc(var(--jv-tabs) + 12px); left: 50%; transform: translateX(-50%); width: min(90vw, 520px); padding: 14px 18px; border: 1px solid #555; background: #17171c; color: #eee; border-radius: 8px; z-index: 60; }
+.jv-dot { background: #aaa; box-shadow: none; animation: none; }
 @media (max-width: 860px) {
   .visor-hero { padding-top: calc(var(--jv-bar) + 28px); min-height: auto; padding-bottom: 56px; }
   .visor-hero h1 { font-size: 34px; }

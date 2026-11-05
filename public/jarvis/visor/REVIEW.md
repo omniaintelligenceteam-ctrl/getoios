@@ -1,40 +1,47 @@
-# Visor hero — local review only
+# Visor hero and public front door
 
-Current branch preview: http://127.0.0.1:3189/jarvis/
+Wes selected `keeper-final-owner-approved-v2.mp4` by exact filename after rejecting the front-start and composite-v3 versions. The hero uses the 30.08-second keeper byte-for-byte, including its existing ending-audio patch. Jarvis pulls the original glass screens forward and moves them. The poster is its first decoded frame; `manifest.json` records both hashes. The public-front-door repair does not change either media file.
 
-Wes selected `keeper-final-owner-approved-v2.mp4` by exact filename after rejecting the old front-start and composite-v3 versions. This hero uses the30.08-second keeper byte-for-byte from `/home/jarvis333/Videos/jarvis-keeper-repair/`, including its existing ending-audio patch. It contains Jarvis pulling the original glass screens forward and moving them. The poster is its first decoded frame. `manifest.json` records the exact source/hash. No video/audio re-encode, new generation, compositing or scene alteration occurred. Older media remain intact as superseded references.
+Tap to talk plays the recording with sound. It does not request a microphone or open a live session. At the natural end, the final decoded frame stays visible with Replay and Continue. Continue pauses playback. Load/play failures offer Retry. The sample-day approval remains a demonstration that sends nothing. Request a call is the separate, real contact form.
 
-The existing page chrome and sample day remain. The obsolete core3d initializer is disconnected; its sources and models are retained. The three display labels are Right Hand, Back Office and Follow-through. Tap to talk plays the recording with sound; it does not request a microphone or open a live session. At the real end, the final frame stays visible with Replay and Continue. Continue pauses playback. Errors offer Retry and Continue. The sample approval and contact form show preview-only feedback; outgoing links are inactive. CSP blocks connections and form submissions. **Do not publish this review build.**
+## Baseline restored after PR #12
 
-## Evidence
+PR #12 merged as `11435136d3ce266f190ec2109bb1bdaabe5bd76a`. Its first parent, `e7a93cbbf74f90cf0823f59d9fbd3a49e107a0a4`, is the pre-merge main used for this repair.
 
-Run the loopback static server from the existing work directory:
+That main had:
+
+- No `noindex` robots meta and no page-level CSP. `public/robots.txt` allowed crawling. Removing the review-added CSP restores that baseline; the existing platform security headers remain unchanged.
+- A `POST /api/handoff` form with required pillar, first handoff, name and phone fields. Its original JavaScript validates, sends JSON, displays server errors with retry, and focuses the success message. Without JavaScript, it submits URL-encoded fields; the API redirects to `/#sent` on success or `/#start` on validation failure.
+- An existing API that validates and rate-limits requests, checks the company honeypot, and uses Resend to email the team inbox. The API is unchanged. Actual delivery requires the deployment's existing `RESEND_API_KEY` and a successful Resend response. No credentials were inspected and no real lead was sent during this repair; live inbox delivery is not verified by these tests.
+- Real `/features`, `/how-it-works`, `/pricing`, `/about`, `/privacy`, `/terms`, `/sms`, `https://meetjarvis.getoios.com` and `mailto:team@getoios.com` destinations. The three information links and home link are also restored from that parent.
+
+The review label, notice/interception handlers, inactive form, indexing block and manifest publication restriction are removed. The recording remains identified truthfully and the header still says Not listening. This repair is a PR for Wes to merge; it does not implement live conversation, new product features or the future webpage-controlled panels.
+
+## Reproduce the checks
+
+Use a real Next production server: the old static review server deliberately blocks connections and form submissions, so it cannot verify the restored path. From this checkout:
 
 ```sh
-python /home/jarvis333/Plans/visor-jarvis-stills/astra/work/serve_hero_branch.py --root /home/jarvis333/Projects/getoios/public --port 3189
+node scripts/checks/public-front-door.mjs
+npx --no-install tsc --noEmit
+npm run build
+RESEND_API_KEY='' npm run start -- --hostname 127.0.0.1 --port 3190
 ```
 
-Do not restart it if already running, or disturb AVA's3188/earlier3187 previews.
-
-Browser regression uses the installed Playwright CLI, with open/run/close in one shell session:
+With that test server running, run the following in a second shell. Keep open/run/close together; use an unused session name. Browser success/error submissions are intercepted at `/api/handoff`, with synthetic visitor details, so they never email anyone.
 
 ```sh
+mkdir -p test-results/visor-hero
 export PLAYWRIGHT_MCP_EXECUTABLE_PATH=/usr/bin/chromium
-playwright-cli -s=visor-review open http://127.0.0.1:3189/jarvis/
-playwright-cli -s=visor-review --raw run-code --filename=scripts/checks/visor-hero.js
-playwright-cli -s=visor-review close
+playwright-cli -s=visor-public open http://127.0.0.1:3190/
+playwright-cli -s=visor-public --raw run-code --filename=scripts/checks/visor-hero.js
+playwright-cli -s=visor-public close
 ```
 
-Saved proof: `/home/jarvis333/Plans/visor-jarvis-stills/astra/proof/branch-hero-keeper-v2/`.
+The browser suite checks the served index and CSP, exact keeper source, keyboard start, full playback/end, replay, Continue, four viewport layouts, load failure/retry, reduced motion and blocked playback. It also exercises empty-form validation, error/retry, JSON submission and confirmation, original link destinations and actual local navigation, and native form submission with JavaScript disabled. It checks that the recording makes no mic or live-connection attempt. Screenshots go to `test-results/visor-hero/` relative to the CLI working directory.
 
-- `baseline-red.log`: actual browser failed because the current hero did not use the exact keeper v2 selected by Wes.
-- `browser-proof.json`:Keeper-specific source/duration check plus playback checks; natural end at30.08s; replay, error/retry, rejected play promise, reduced-motion poster, keyboard start, no mic/socket attempts or nonlocal/static requests.
-- `poster-{390,1440,1920,3440}.png`: four viewport layouts, start visible and no horizontal overflow.
-- `desktop-playing.png`, `phone-playing.png`, `desktop-ended.png`, `phone-ended.png`, `load-error.png`.
-- `media-proof.json`: exact source hashes.
+The static guard rejects `noindex`, `data-local-preview`, `Local preview`, disabled connection/form CSP and preview link/request guards. It also accepts a saved HTTP response file path, to check what the server actually returns. It was run against the broken index before making the repair.
 
-The player preloads metadata but stays paused at zero until activation. An early media error is read during initialization as well as via the error listener, so a missing file immediately exposes Retry. Earlier controller diagnostics remain under `proof/branch-hero/`; they were run with superseded media and are not evidence of keeper acceptance. No buffering state is treated as a live connection.
+Repair verification: 30/30 browser checks, typecheck and production build passed. The five-part public guard failed on the original index and passed on both the repaired file and the served `/` response. An empty JSON request to the real local API returned 400 with the expected missing-pillar error. Evidence and screenshots are saved under `~/Plans/visor-jarvis-stills/astra/proof/public-front-door-restore/`.
 
-Scope limits: Chromium browser verification, not a physical iPhone/Safari run. Audio stream and unmuted playback verified; dialogue accuracy, sound quality and sync require AVA/Wes listening review. Generated screen text remains part of this existing review video, not approved readable product UI. This does not implement the future six webpage panels or gated live handoff. Ambition copy is not independently proven public capability. Older core3d checks are preserved as a reference because that opener was superseded; full production/API tests were not run against this static review server.
-
-No paid generation, backend operation, push, merge, deployment or publication. Approved C, corrected Blender staging and historical motion candidates remain untouched.
+Scope of proof: Chromium at desktop and 390px phone width, not a physical iPhone/Safari run. Tests verify playback and decoded frames, not dialogue or sound quality. Intercepted browser submissions prove the frontend contract, not Resend delivery. The backend and deployment/header configuration are byte-identical to pre-merge main.
