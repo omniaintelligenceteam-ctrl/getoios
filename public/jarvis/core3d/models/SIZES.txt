@@ -1,0 +1,28 @@
+Model payload, bytes on disk (2026-11-02). Built from ~/Projects/agent-room/public/agents-3d by the recipe in the PR:
+strip clips (JSON) > gltf-transform prune > resample > [resize 512] > [simplify] > meshopt medium (last, since copy decodes it).
+
+Desktop set: owner jarvis sunny penny dash desk monitor keyboard chair
+Phone set (innerWidth < 860): owner-m jarvis-m sunny-m penny-m dash-m desk monitor keyboard chair-m
+
+chair        561903 bytes
+chair-m      429935 bytes
+dash         582432 bytes
+dash-m       514847 bytes
+desk         195100 bytes
+jarvis      1736072 bytes
+jarvis-m    1139480 bytes
+keyboard      18279 bytes
+monitor      159034 bytes
+owner       1123504 bytes
+owner-m      744171 bytes
+penny        590796 bytes
+penny-m      510171 bytes
+sunny        660264 bytes
+sunny-m      594779 bytes
+
+desktop total 5627384 bytes
+phone total   4305796 bytes
+
+Owner shirt (3 Nov 2026): baseColor_1.webp in owner/ and owner-m/ is the Tripo atlas with the shirt recoloured to chambray
+blue (the tan read as skin under the wide light). Mask = the shirt band of the bind-pose mesh rasterised in UV space, colour-gated
+at the collar, hem and cuffs; recipe and the mesh profile it was tuned on: ~/Plans/getoios-3d-stills/shirt-recolour.mjs, mesh-profile.mjs.
