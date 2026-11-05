@@ -1,13 +1,11 @@
 <!doctype html>
-<html lang="en" data-local-preview>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jarvis, installed in your business by OIOS | Omnia AI Intelligence</title>
 <meta name="description" content="OIOS installs Jarvis, an AI assistant for your business in three pillars: the assistant you talk to, the back office behind the work, and the workflows that keep going while you are away. Nothing reaches a customer without your tap.">
 <link rel="canonical" href="https://getoios.com/">
-<meta name="robots" content="noindex, nofollow">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; form-action 'none'; base-uri 'self'">
 <meta name="theme-color" content="#090909">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OIOS by Omnia AI Intelligence">
@@ -44,7 +42,7 @@
 <div class="sc-grain" aria-hidden="true"></div>
 
 <header class="jv-bar">
-  <a class="jv-brand" href="#core" aria-label="Jarvis by Omnia AI Intelligence, home">
+  <a class="jv-brand" href="/" aria-label="Jarvis by Omnia AI Intelligence, home">
     <img src="/jarvis/assets/omnia-mark-dark.svg" alt="" width="28" height="28">
     <span class="jv-brand__name">Jarvis</span>
     <span class="jv-brand__by">by Omnia AI Intelligence</span>
@@ -63,10 +61,9 @@
 
 <main id="main">
 
-<!-- 0 · VISOR · local review of the owner-generated performance -->
+<!-- 0 · VISOR · owner-approved prerecorded introduction -->
 <section id="core" class="visor-hero" aria-labelledby="site-title" data-hero-state="idle">
   <div class="visor-hero__inner">
-    <p class="visor-hero__label">Local preview · prerecorded intro · live conversation not connected</p>
     <h1 id="site-title">Your right hand.<br>Your back office.<br>Your follow-through.</h1>
     <div class="visor-hero__stage">
       <video id="hero-video" controls playsinline preload="metadata" poster="/jarvis/visor/keeper-v2-poster.png" src="/jarvis/visor/keeper-final-owner-approved-v2.mp4" aria-label="Jarvis prerecorded introduction" aria-describedby="hero-status">
@@ -166,7 +163,7 @@
         <span class="jv-ledger__s">Luis and Tomas confirmed.</span>
       </li>
     </ul>
-    <p class="jv-note" data-sc-in>Jarvis is the assistant OIOS installs. He talks with you by voice, from the counter, the car or the office, and he writes in your words. <a href="#preview-notice" data-preview-link>Meet Jarvis, the long version.</a></p>
+    <p class="jv-note" data-sc-in>Jarvis is the assistant OIOS installs. He talks with you by voice, from the counter, the car or the office, and he writes in your words. <a href="https://meetjarvis.getoios.com">Meet Jarvis, the long version.</a></p>
   </div>
 </section>
 
@@ -210,7 +207,7 @@
         <p class="jv-desk__out">Orders and shifts go on the board against who is actually free.</p>
       </article>
       <div class="jv-desk jv-desk--tail">
-        <p class="jv-sub">Messages, quotes, invoices, replies, the calendar and the board. One assistant, three desks, your rules. <a href="#preview-notice" data-preview-link>How it works, step by step.</a></p>
+        <p class="jv-sub">Messages, quotes, invoices, replies, the calendar and the board. One assistant, three desks, your rules. <a href="/how-it-works">How it works, step by step.</a></p>
       </div>
     </div>
   </div>
@@ -336,7 +333,7 @@
         </div>
       </li>
     </ol>
-    <p class="jv-note" data-sc-in>Across all three, nothing is spent, sent or deleted without your tap. <a href="#preview-notice" data-preview-link>What it does, the full list.</a></p>
+    <p class="jv-note" data-sc-in>Across all three, nothing is spent, sent or deleted without your tap. <a href="/features">What it does, the full list.</a></p>
   </div>
 </section>
 
@@ -344,7 +341,7 @@
 <section id="start" data-sc-act="pin" data-sc-span="1.2" data-sc-drift="#090909" aria-labelledby="start-h">
   <div data-sc-stage class="jv-stage jv-stage--start">
     <div class="jv-stage__in jv-stage__in--start">
-      <form class="jv-pane jv-start" novalidate>
+      <form class="jv-pane jv-start" method="post" action="/api/handoff" novalidate>
         <div class="jv-pane__head"><h2 id="start-h" class="jv-pane__title">What would you hand him first?</h2><span class="jv-pane__meta">One thing is enough</span></div>
         <fieldset class="jv-pp-set" data-jv-pillars>
           <legend>Which pillar are you most interested in for your business?</legend>
@@ -371,11 +368,11 @@
         </div>
         <label class="jv-hp" aria-hidden="true"><span>Company</span><input name="company" type="text" tabindex="-1" autocomplete="off"></label>
         <div class="jv-start__act">
-          <button type="button" data-preview-request class="jv-btn jv-btn--lg">Request a call</button>
-          <p class="jv-fine">Local preview. No request is sent and nothing you enter is saved.</p>
+          <button type="submit" class="jv-btn jv-btn--lg">Request a call</button>
+          <p class="jv-fine">OIOS calls you back to talk through your first handoff. No account, no card.</p>
         </div>
         <p class="jv-err" data-jv-err hidden></p>
-        <p class="jv-sent" id="sent" tabindex="-1">Local preview only. No request was sent.</p>
+        <p class="jv-sent" id="sent" tabindex="-1">Got it. We will call you about your first handoff.</p>
       </form>
       <footer class="jv-help" aria-label="More">
         <div class="jv-help__brand">
@@ -383,15 +380,15 @@
           <span>OIOS by Omnia AI Intelligence</span>
         </div>
         <ul class="jv-help__links">
-          <li><a href="#preview-notice" data-preview-link>What it does</a></li>
-          <li><a href="#preview-notice" data-preview-link>How it works</a></li>
-          <li><a href="#preview-notice" data-preview-link>What to expect</a></li>
-          <li><a href="#preview-notice" data-preview-link>About</a></li>
-          <li><a href="#preview-notice" data-preview-link>Meet Jarvis</a></li>
-          <li><a href="#preview-notice" data-preview-link>Privacy</a></li>
-          <li><a href="#preview-notice" data-preview-link>Terms</a></li>
-          <li><a href="#preview-notice" data-preview-link>Texting</a></li>
-          <li><a href="#preview-notice" data-preview-link>team@getoios.com</a></li>
+          <li><a href="/features">What it does</a></li>
+          <li><a href="/how-it-works">How it works</a></li>
+          <li><a href="/pricing">What to expect</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="https://meetjarvis.getoios.com">Meet Jarvis</a></li>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+          <li><a href="/sms">Texting</a></li>
+          <li><a href="mailto:team@getoios.com">team@getoios.com</a></li>
         </ul>
       </footer>
     </div>
@@ -399,7 +396,6 @@
 </section>
 
 </main>
-<p id="preview-notice" class="preview-notice" role="status" hidden></p>
 
 <script src="/jarvis/scrollcraft.js"></script>
 <script src="/jarvis/door.js"></script>

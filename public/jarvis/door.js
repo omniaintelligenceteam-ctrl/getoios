@@ -220,8 +220,8 @@
     if (result) {
       result.hidden = false;
       result.textContent = kind === 'sent'
-        ? 'Preview approval selected. No text was sent and no reminder was created.'
-        : 'Preview declined. Nothing was sent or saved.';
+        ? 'Sample approval selected. No text was sent and no reminder was created.'
+        : 'Sample declined. Nothing was sent or saved.';
       result.focus && result.setAttribute('tabindex', '-1');
       result.focus();
     }
@@ -317,15 +317,46 @@
   });
   if (form) {
     var err = form.querySelector('[data-jv-err]');
-    function previewRequest(e) {
+    var submit = form.querySelector('[type="submit"]');
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (err) {
-        err.hidden = false;
-        err.textContent = 'Local preview only. No request was sent and your details were not saved.';
-        err.setAttribute('role', 'status');
+      if (err) { err.hidden = true; err.textContent = ''; }
+      var data = {};
+      var missing = [];
+      Array.prototype.forEach.call(form.elements, function (el) {
+        if (!el.name) return;
+        if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; return; }
+        data[el.name] = el.value.trim();
+        if (el.required && !el.value.trim()) missing.push(el);
+      });
+      if (radios.length && !pillarChosen()) {
+        if (pillarSet) pillarSet.classList.add('is-missing');
+        missing.unshift(radios[0]);
       }
-    }
-    form.addEventListener('submit', previewRequest);
-    form.querySelector('[data-preview-request]').addEventListener('click', previewRequest);
+      if (missing.length) {
+        if (err) { err.textContent = 'Pick a pillar, then fill in the handoff, your name and a phone number we can call.'; err.hidden = false; }
+        missing[0].focus();
+        return;
+      }
+      submit.disabled = true;
+      var label = submit.textContent;
+      submit.textContent = 'Sending';
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, body: j }; });
+      }).then(function (res) {
+        if (!res.ok) throw new Error((res.body && res.body.error) || 'Could not send');
+        form.classList.add('is-sent');
+        var sent = form.querySelector('.jv-sent');
+        if (sent) sent.focus();
+      }).catch(function (ex) {
+        if (err) { err.textContent = ex.message + '. Try again, or use the full form at getoios.com/form.'; err.hidden = false; }
+        submit.disabled = false;
+        submit.textContent = label;
+      });
+    });
   }
 })();
