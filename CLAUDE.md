@@ -1,9 +1,9 @@
 # getoios — OIOS marketing site (getoios.com)
 
-The OIOS marketing website. Next.js 16 (App Router) · React 19 · TypeScript 5.9 · Tailwind v4. Animations via `motion` + GSAP. Integrations: Resend (email), ElevenLabs (TTS), Cal.com (scheduling). See `README.md` for the full stack, env vars, and API-route table.
+The OIOS marketing website. Next.js 16 (App Router) · React 19 · TypeScript 5.9 · Tailwind v4. Animations via `motion` + GSAP. Integrations: Resend (email), Cal.com (scheduling). See `README.md` for the full stack, env vars, and API-route table.
 
 ## Layout
-- `src/app/` — App Router pages (`about/`, `pricing/`, `features/`, `solutions/`, etc.; `/` is the static front door in `public/jarvis/`, served by a `beforeFiles` rewrite, so there is no root `page.tsx`) and `api/` (6 routes: audit, calcom, demo-request, elevenlabs, form, handoff).
+- `src/app/` — App Router pages (`about/`, `pricing/`, `features/`, `solutions/`, etc.; `/` is the static front door in `public/jarvis/`, served by a `beforeFiles` rewrite, so there is no root `page.tsx`) and `api/` (5 routes: audit, calcom, demo-request, form, handoff).
 - `src/components/` — React components. `src/lib/` — utilities (rate-limit, sanitize). `src/hooks/` — hooks.
 - `public/` — static assets.
 
