@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions -- CLI evaluates this function expression. */
 async page => {
   const base = 'http://127.0.0.1:3189/jarvis/';
-  const proof = '/home/jarvis333/Plans/visor-jarvis-stills/astra/proof/branch-hero/';
+  const proof = '/home/jarvis333/Plans/visor-jarvis-stills/astra/proof/branch-hero-keeper-v2/';
   const results = [];
   const requests = [];
   const errors = [];
@@ -24,6 +24,7 @@ async page => {
   });
   await page.goto(base);
   check(await page.locator('#hero-video').count() === 1, 'Visor video replaces obsolete hero');
+  check(await page.locator('#hero-video').getAttribute('src') === '/jarvis/visor/keeper-final-owner-approved-v2.mp4', 'Exact owner-selected keeper v2 is the hero source');
   check(await page.locator('script[src*="core3d"], link[href*="core3d"]').count() === 0, 'Old core3d initialization absent');
   await page.waitForFunction(() => document.querySelector('video').readyState >= 2);
   const initial = await page.locator('video').evaluate(v => ({paused:v.paused,time:v.currentTime,autoplay:v.autoplay,controls:v.controls,preload:v.preload,fit:getComputedStyle(v).objectFit}));
@@ -44,16 +45,18 @@ async page => {
   await page.keyboard.press('Enter');
   await page.waitForFunction(() => document.querySelector('video').currentTime > 1);
   const playback = await page.locator('video').evaluate(v => ({time:v.currentTime,duration:v.duration,muted:v.muted,width:v.videoWidth,height:v.videoHeight,frames:v.getVideoPlaybackQuality().totalVideoFrames,rate:v.playbackRate}));
-  check(playback.frames > 0 && playback.width === 854 && playback.height === 480 && playback.duration > 26 && playback.duration < 27 && !playback.muted && playback.rate === 1, 'Keyboard activation decodes actual video with audio enabled', playback);
+  check(playback.frames > 0 && playback.width === 854 && playback.height === 480 && Math.abs(playback.duration - 30.08) < .01 && !playback.muted && playback.rate === 1, 'Keyboard activation decodes actual keeper v2 with audio enabled', playback);
+  await page.waitForFunction(() => document.querySelector('video').currentTime >= 10);
   await page.locator('#core').ariaSnapshot();
   await page.screenshot({path:proof+'desktop-playing.png'});
   await page.setViewportSize({width:390,height:844});
+  await page.waitForFunction(() => document.querySelector('video').currentTime >= 26);
   await page.locator('#core').ariaSnapshot();
   await page.screenshot({path:proof+'phone-playing.png'});
   await page.waitForFunction(() => document.querySelector('video').ended, {timeout:40000});
   await page.getByRole('button', {name:'Replay intro',exact:true}).waitFor();
   const end = await page.locator('video').evaluate(v => ({time:v.currentTime,duration:v.duration,frames:v.getVideoPlaybackQuality().totalVideoFrames,ready:v.readyState,ended:v.ended}));
-  check(end.ended && end.time === end.duration && end.frames > 600 && end.ready >= 2, 'Natural end retains final decoded frame', end);
+  check(end.ended && end.time === end.duration && end.frames > 700 && end.ready >= 2, 'Natural end retains final decoded frame', end);
   await page.locator('#core').ariaSnapshot();
   await page.screenshot({path:proof+'phone-ended.png'});
   await page.setViewportSize({width:1440,height:900});
@@ -73,13 +76,13 @@ async page => {
   check(noConnection.mic === 0 && noConnection.socket === 0,'No microphone or live connection attempts',noConnection);
   check(requests.every(r=>r.url.startsWith('http://127.0.0.1:3189/') && ['GET','HEAD'].includes(r.method) && !r.url.includes('/api/')),'Only local static GET/HEAD requests',requests);
   check(errors.length === 0,'No runtime page errors',errors);
-  await page.route('**/visor/intro.mp4', route => route.fulfill({status:404,body:'Missing review media'}));
+  await page.route('**/visor/keeper-final-owner-approved-v2.mp4', route => route.fulfill({status:404,body:'Missing review media'}));
   await page.goto(base);
   await page.getByRole('button',{name:'Retry intro',exact:true}).waitFor();
   check((await page.locator('#hero-status').textContent()).includes('could not play'),'Load failure exposes recovery');
   await page.locator('#core').ariaSnapshot();
   await page.screenshot({path:proof+'load-error.png'});
-  await page.unroute('**/visor/intro.mp4');
+  await page.unroute('**/visor/keeper-final-owner-approved-v2.mp4');
   await page.getByRole('button',{name:'Retry intro',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('video').currentTime > .2);
   check(true,'Retry recovers when media is restored');
