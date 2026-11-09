@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Pricing page', () => {
+// /pricing redirects to /#install since the sample-day front door (Nov 2026); its page source is parked in src/app until Wes decides on its removal.
+test.describe.skip('Pricing page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/pricing')
     await page.waitForLoadState('domcontentloaded')

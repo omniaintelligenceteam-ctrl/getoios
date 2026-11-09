@@ -7,9 +7,11 @@ import { test, expect } from '@playwright/test'
  * prefetch when the link scrolls into view, again on click before the router
  * falls back to a full navigation. Links to the door must be plain anchors.
  * This spec watches the network and the console on every Next page, then
- * follows the header logo home.
+ * follows the header logo home. /features, /how-it-works, /pricing and /about
+ * redirect to sections of the door, so the shared header and footer reach them
+ * with plain `/#…` anchors too.
  */
-const NEXT_ROUTES = ['/features', '/how-it-works', '/solutions', '/pricing', '/about', '/privacy', '/terms']
+const NEXT_ROUTES = ['/solutions', '/privacy', '/terms', '/sms']
 
 const KNOWN_NOISE = (message: string) => message.includes('favicon') || message.includes('ERR_BLOCKED_BY_CLIENT')
 
@@ -36,13 +38,27 @@ test.describe('Links to the front door', () => {
       expect(rscRequests).toEqual([])
       expect(consoleErrors.filter((message) => !KNOWN_NOISE(message))).toEqual([])
       await expect(page.locator('header a[href="/"]').first()).toBeVisible()
+      // every link to the door or to one of its sections is a plain anchor to /#…
+      const doorLinks = await page.locator('a[href^="/#"]').evaluateAll((els) => els.map((el) => el.getAttribute('href')))
+      expect(doorLinks).toEqual(expect.arrayContaining(['/#work', '/#install']))
+      for (const old of ['/features', '/how-it-works', '/pricing', '/about']) {
+        await expect(page.locator(`a[href="${old}"]`)).toHaveCount(0)
+      }
     })
   }
 
   test('the header logo opens the door as a full document', async ({ page }) => {
-    await page.goto('/features')
+    await page.goto('/privacy')
     await page.locator('header a[href="/"]').first().click()
     await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
     expect(new URL(page.url()).pathname).toBe('/')
+  })
+
+  test('a header section link opens that section of the door', async ({ page }) => {
+    await page.goto('/privacy')
+    await page.locator('header nav a[href="/#work"]').click()
+    await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
+    expect(new URL(page.url()).hash).toBe('#work')
+    await expect(page.locator('section#work')).toBeInViewport()
   })
 })

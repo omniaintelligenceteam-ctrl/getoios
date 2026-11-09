@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Features page', () => {
+// /features redirects to /#work since the sample-day front door (Nov 2026); its page source is parked in src/app until Wes decides on its removal.
+test.describe.skip('Features page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/features')
     await page.waitForLoadState('domcontentloaded')
