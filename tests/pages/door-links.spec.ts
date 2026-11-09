@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * `/` is the static scroll-craft door, served by a beforeFiles rewrite in
+ * `/` is the static sample-day door, served by a beforeFiles rewrite in
  * next.config.ts. It has no React Server Components payload, so a `next/link`
  * pointing at it makes the router ask for `/?_rsc=…` and log a 404: once on
  * prefetch when the link scrolls into view, again on click before the router
@@ -42,7 +42,7 @@ test.describe('Links to the front door', () => {
   test('the header logo opens the door as a full document', async ({ page }) => {
     await page.goto('/features')
     await page.locator('header a[href="/"]').first().click()
-    await expect(page.locator('html')).toHaveClass(/sc-ready/, { timeout: 15_000 })
+    await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
     expect(new URL(page.url()).pathname).toBe('/')
   })
 })
