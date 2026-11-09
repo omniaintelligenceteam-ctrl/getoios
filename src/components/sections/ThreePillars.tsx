@@ -1,8 +1,9 @@
 'use client'
 
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { motion, useInView } from 'motion/react'
-import { useRef } from 'react'
+import { useRef, type ComponentType } from 'react'
 
 // ─── The three pillars ───────────────────────────────────────────────────────
 // The same three the front door (public/jarvis) and meetjarvis.getoios.com
@@ -10,6 +11,20 @@ import { useRef } from 'react'
 // workflows that keep going while you are away. The pictures are the front
 // door's (public/jarvis/assets/pillars). No invented figures here: no
 // counters, no percentages, no seconds.
+//
+// Under each picture, a sample screen plays that pillar's After line
+// (src/components/stageshow/tiles). They draw in the browser only, with a
+// placeholder the tile's size until they load, and pause offscreen.
+
+function TileHold() {
+  return <div className="oios-tile-hold" aria-hidden="true" />
+}
+
+const tile = (load: () => Promise<{ default: ComponentType }>) => dynamic(load, { ssr: false, loading: TileHold })
+
+const AssistantTile = tile(() => import('@/components/stageshow/tiles/assistant'))
+const BackOfficeTile = tile(() => import('@/components/stageshow/tiles/back-office'))
+const WorkflowsTile = tile(() => import('@/components/stageshow/tiles/workflows'))
 
 interface PillarData {
   number: string
@@ -23,6 +38,8 @@ interface PillarData {
   after: string
   accent: string
   picture: { src: string; alt: string }
+  /** The sample screen that plays the After line, and what it shows, for screen readers. */
+  tile: { Screen: ComponentType; label: string }
   start: { href: string; label: string }
   flip?: boolean
 }
@@ -53,6 +70,10 @@ const PILLARS: PillarData[] = [
       src: '/jarvis/assets/pillars/assistant-1200.jpg',
       alt: 'A café ten minutes before opening: the owner wipes down the espresso machine, a phone propped on the register, chairs still up on the tables.',
     },
+    tile: {
+      Screen: AssistantTile,
+      label: 'Sample screen: Jarvis lists what needs you before nine. You open the reply he drafted to Sam Ortiz, approve it, and it is sent.',
+    },
     start: { href: '/?pillar=assistant#start', label: 'Start with the assistant' },
   },
   {
@@ -80,6 +101,10 @@ const PILLARS: PillarData[] = [
       src: '/jarvis/assets/pillars/back-office-1200.jpg',
       alt: 'A dental clinic front desk in the afternoon: the coordinator on the phone with a patient, an invoice, the appointment book and a laptop on the desk.',
     },
+    tile: {
+      Screen: BackOfficeTile,
+      label: 'Sample screen: an estimate drafted from the clinic prices, with the one line he could not price named. You add its price, approve, and the estimate becomes an invoice.',
+    },
     start: { href: '/?pillar=back-office#start', label: 'Start with the back office' },
     flip: true,
   },
@@ -105,6 +130,10 @@ const PILLARS: PillarData[] = [
     picture: {
       src: '/jarvis/assets/pillars/workflows-1200.jpg',
       alt: "A housewares shop at closing: the owner turns the sign on the door, the day's receipts stacked by the till, keys and a phone on the counter.",
+    },
+    tile: {
+      Screen: WorkflowsTile,
+      label: 'Sample screen: the closing sweep holds two follow-ups he drafted, a quiet quote and an overdue invoice. One tap sends both.',
     },
     start: { href: '/?pillar=workflows#start', label: 'Start with workflows' },
   },
@@ -136,7 +165,7 @@ function BeforeAfter({ before, after }: { before: string; after: string }) {
 function Pillar({ pillar }: { pillar: PillarData }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
-  const { number, subtitle, title, time, tagline, description, bullets, before, after, accent, picture, start, flip } = pillar
+  const { number, subtitle, title, time, tagline, description, bullets, before, after, accent, picture, tile: sample, start, flip } = pillar
 
   return (
     <motion.div
@@ -173,21 +202,29 @@ function Pillar({ pillar }: { pillar: PillarData }) {
         </a>
       </div>
 
-      {/* Picture */}
-      <figure className={`glass-card p-3 lg:p-4 ${flip ? 'lg:order-1' : ''}`} data-glow>
-        <Image
-          src={picture.src}
-          alt={picture.alt}
-          width={1200}
-          height={800}
-          sizes="(min-width: 1024px) 560px, 100vw"
-          className="w-full h-auto rounded-xl"
-        />
-        <figcaption className="flex items-baseline justify-between gap-4 px-1 pt-3">
-          <span className={`text-[10px] font-mono uppercase tracking-[0.15em] ${accent} opacity-80`}>{time}</span>
-          <span className="text-xs text-slate-400 text-right">{tagline}</span>
-        </figcaption>
-      </figure>
+      {/* Picture, and under it the After as a sample screen */}
+      <div className={`space-y-8 ${flip ? 'lg:order-1' : ''}`}>
+        <figure className="glass-card p-3 lg:p-4" data-glow>
+          <Image
+            src={picture.src}
+            alt={picture.alt}
+            width={1200}
+            height={800}
+            sizes="(min-width: 1024px) 560px, 100vw"
+            className="w-full h-auto rounded-xl"
+          />
+          <figcaption className="flex items-baseline justify-between gap-4 px-1 pt-3">
+            <span className={`text-[10px] font-mono uppercase tracking-[0.15em] ${accent} opacity-80`}>{time}</span>
+            <span className="text-xs text-slate-400 text-right">{tagline}</span>
+          </figcaption>
+        </figure>
+        <div>
+          <div className={`mb-3 px-1 text-[10px] font-mono uppercase tracking-[0.15em] ${accent} opacity-80`}>After, a sample screen</div>
+          <div role="img" aria-label={sample.label} className="oios-tile-slot">
+            <sample.Screen />
+          </div>
+        </div>
+      </div>
     </motion.div>
   )
 }

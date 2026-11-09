@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored as-is from the stageshow skill (MIT, see its LICENSE); our
+    // tiles in src/components/stageshow/tiles are linted as usual.
+    "src/components/stageshow/kit/**",
   ]),
 ]);
 

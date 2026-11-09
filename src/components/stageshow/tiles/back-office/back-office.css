@@ -1,0 +1,114 @@
+/* The next estimate comes in over the last: the body leaves upward, the
+   new one rises in, the window's chrome stays */
+.ob .ob-page {
+  /* Its own layer for good, so the words don't hop as the swap lands */
+  will-change: transform;
+  transition: opacity 0.26s ease, transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.ob .ob-page[data-phase='out'] {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.ob .ob-page[data-phase='in'] {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.ob .ob-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.ob .ob-title {
+  color: var(--ss-text-strong);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ob .ob-kind {
+  will-change: transform;
+}
+
+.ob .ob-lines {
+  border-top: 1px solid var(--ss-line-faint);
+}
+
+.ob .ob-line,
+.ob .ob-total {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 36px;
+  border-bottom: 1px solid var(--ss-line-faint);
+  white-space: nowrap;
+}
+
+.ob .ob-line:has(.ob-field) {
+  min-height: 50px;
+}
+
+.ob .ob-lines__name {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ob .ob-name {
+  color: var(--ss-text-strong);
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.ob .ob-price,
+.ob .ob-sum {
+  justify-self: end;
+  color: var(--ss-text-strong);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* What he could not price is named, in the needs-you color, until the
+   owner prices it */
+.ob .ob-flag {
+  color: var(--ss-warning-text);
+  font-size: 12px;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+.ob .ob-flag[data-priced] {
+  color: var(--ss-text);
+}
+
+.ob .ob-field {
+  justify-self: end;
+  width: 92px;
+}
+
+.ob .ob-dollar {
+  color: var(--ss-text);
+  font-size: 13px;
+}
+
+.ob .ob-total {
+  border-bottom: 0;
+  color: var(--ss-text);
+  font-size: 13px;
+}
+
+.ob .ob-sum {
+  font-weight: 600;
+}
+
+.ob .ob-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
