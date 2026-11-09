@@ -14,7 +14,11 @@ import { test, expect, type Page } from '@playwright/test'
 export const CALL_CLAIMS =
   /\b(incoming calls?|answers? (?:the|your|our) (?:phones?|calls?)|answer(?:ing)? (?:the|your|our) (?:phones?|calls?)|answers? calls|handl(?:e|es|ing) (?:your |inbound |all )?calls|runs? (?:your )?phones|call answering|calls? answered|phones answered|callers?|missed calls?|ai receptionist|voice receptionist|receptionist|answering service|after[- ]hours|voicemail|24\/7|every call|every ring|never miss a call|text-back)\b/i
 
-const ROUTES = ['/', '/features', '/how-it-works', '/solutions', '/pricing', '/about', '/form', '/privacy', '/terms']
+// /features, /how-it-works, /pricing and /about redirect to sections of / (next.config.ts).
+const ROUTES = ['/', '/solutions', '/form', '/privacy', '/terms']
+
+/** The business switch on / rewrites the whole sample day, so each day is read. */
+const SAMPLE_DAYS = ['cafe', 'dental', 'shop', 'plumbing']
 
 type Surface = { surface: string; text: string }
 
@@ -49,10 +53,10 @@ test.describe('No call-answering claims', () => {
     test(`${route} sells a chief of staff, not a receptionist`, async ({ page }) => {
       await page.goto(route)
       await page.waitForLoadState('networkidle')
-      if (route === '/') await expect(page.locator('html')).toHaveClass(/sc-ready/, { timeout: 15_000 })
+      if (route === '/') await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
       // client-rendered scenes start when scrolled into view and type their lines over a few seconds
       await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
-      await page.waitForTimeout(route === '/how-it-works' ? 8_000 : 1_000)
+      await page.waitForTimeout(1_000)
       await page.evaluate(() => window.scrollTo(0, 0))
 
       const found = (await readSurfaces(page)).flatMap(({ surface, text }) => {
@@ -62,4 +66,29 @@ test.describe('No call-answering claims', () => {
       expect(found).toEqual([])
     })
   }
+
+  for (const day of SAMPLE_DAYS) {
+    test(`/ sample day "${day}", approved or declined, makes no call-answering claim`, async ({ page }) => {
+      await page.goto('/')
+      await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
+      await page.locator(`input[name="biz"][value="${day}"]`).check()
+      await page.waitForTimeout(400)
+      const found: string[] = []
+      for (const tap of ['data-approve', 'data-decline']) {
+        for (const scene of ['s1', 's2', 's3']) await page.locator(`[data-scene="${scene}"] [${tap}]`).click()
+        for (const { surface, text } of await readSurfaces(page)) {
+          for (const hit of text.match(new RegExp(CALL_CLAIMS.source, 'gi')) || []) found.push(`${tap} ${surface}: "${hit}"`)
+        }
+        for (const scene of ['s1', 's2', 's3']) await page.locator(`[data-scene="${scene}"] [data-undo]`).click()
+      }
+      expect(found).toEqual([])
+    })
+  }
+
+  test('/llms.txt, the summary for AI crawlers, makes no call-answering claim', async ({ request }) => {
+    const response = await request.get('/llms.txt')
+    expect(response.status()).toBe(200)
+    const hits = (await response.text()).match(new RegExp(CALL_CLAIMS.source, 'gi')) || []
+    expect(hits).toEqual([])
+  })
 })

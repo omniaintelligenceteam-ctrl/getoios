@@ -1,13 +1,9 @@
 import { test, expect } from '@playwright/test'
 
 const routes = [
-  { path: '/', titlePattern: /OIOS/ },
-  { path: '/features', titlePattern: /What OIOS Does|Features/i },
-  { path: '/how-it-works', titlePattern: /How.*Works/i },
-  { path: '/pricing', titlePattern: /Pricing|What to Expect/i },
+  { path: '/', titlePattern: /Jarvis, a chief of staff/ },
   { path: '/solutions', titlePattern: /Solutions/i },
   { path: '/form', titlePattern: /OIOS|Form|See What/i },
-  { path: '/about', titlePattern: /About/i },
   { path: '/privacy', titlePattern: /Privacy/i },
   { path: '/terms', titlePattern: /Terms/i },
 ]
@@ -23,31 +19,59 @@ test.describe('Navigation: All pages load', () => {
   }
 })
 
+// The sample-day front door covers what these four pages said. Each address
+// answers with a temporary redirect to the matching section (next.config.ts).
+test.describe('Navigation: old page addresses open the front door', () => {
+  const moved = [
+    { from: '/features', hash: '#work' },
+    { from: '/how-it-works', hash: '#install' },
+    { from: '/pricing', hash: '#install' },
+    { from: '/about', hash: '#behind' },
+  ]
+
+  for (const { from, hash } of moved) {
+    test(`${from} redirects to /${hash}`, async ({ page, request }) => {
+      const answer = await request.get(from, { maxRedirects: 0 })
+      expect(answer.status()).toBe(307)
+      expect(answer.headers()['location']).toBe(`/${hash}`)
+      await page.goto(from)
+      await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
+      expect(new URL(page.url()).pathname).toBe('/')
+      expect(new URL(page.url()).hash).toBe(hash)
+      await expect(page.locator(`section${hash}`)).toBeInViewport()
+    })
+  }
+
+  test('a redirect keeps the query string of the old address', async ({ request }) => {
+    const answer = await request.get('/pricing?utm_source=test', { maxRedirects: 0 })
+    expect(answer.headers()['location']).toBe('/?utm_source=test#install')
+  })
+})
+
 // The front door at / is the static page in public/jarvis with its own chrome
 // (see homepage.spec.ts). The shared header with the site navigation lives on
 // the Next pages, so the header tests start from one of those.
 test.describe('Navigation: Header links work', () => {
   const headerLinks = [
-    { label: 'What It Does', href: '/features', from: '/pricing' },
-    { label: 'How It Works', href: '/how-it-works', from: '/pricing' },
-    { label: 'What to Expect', href: '/pricing', from: '/about' },
-    { label: 'About', href: '/about', from: '/pricing' },
+    { label: 'What It Does', href: '/#work' },
+    { label: 'How It Works', href: '/#install' },
+    { label: 'About', href: '/#behind' },
   ]
 
   for (const link of headerLinks) {
-    test(`clicking "${link.label}" navigates to ${link.href}`, async ({ page }) => {
-      await page.goto(link.from)
+    test(`clicking "${link.label}" opens ${link.href}`, async ({ page }) => {
+      await page.goto('/privacy')
       await page.waitForLoadState('domcontentloaded')
       // Use the desktop nav (hidden on mobile)
       const navLink = page.locator(`header nav a[href="${link.href}"]`)
+      await expect(navLink).toHaveText(link.label)
       await navLink.click()
-      // Next's Link navigates client-side; wait for the URL rather than a load event
-      await expect(page).toHaveURL(new RegExp(`${link.href}(?:[/?#]|$)`))
+      await expect(page).toHaveURL(new RegExp(`/${link.href.slice(1)}$`))
     })
   }
 
   test('logo navigates to homepage', async ({ page }) => {
-    await page.goto('/features')
+    await page.goto('/privacy')
     await page.waitForLoadState('domcontentloaded')
     const logo = page.locator('header a[href="/"]').first()
     await logo.click()
@@ -62,9 +86,9 @@ test.describe('Navigation: Browser history', () => {
     await page.goto('/')
     await page.waitForLoadState('domcontentloaded')
 
-    await page.goto('/features')
+    await page.goto('/privacy')
     await page.waitForLoadState('domcontentloaded')
-    expect(page.url()).toContain('/features')
+    expect(page.url()).toContain('/privacy')
 
     await page.goBack()
     await page.waitForLoadState('domcontentloaded')
@@ -73,7 +97,7 @@ test.describe('Navigation: Browser history', () => {
 
   test('forward button works after going back', async ({ page }) => {
     await page.goto('/')
-    await page.goto('/pricing')
+    await page.goto('/terms')
     await page.waitForLoadState('domcontentloaded')
 
     await page.goBack()
@@ -81,7 +105,7 @@ test.describe('Navigation: Browser history', () => {
 
     await page.goForward()
     await page.waitForLoadState('domcontentloaded')
-    expect(page.url()).toContain('/pricing')
+    expect(page.url()).toContain('/terms')
   })
 })
 
@@ -105,7 +129,7 @@ test.describe('Navigation: Mobile menu', () => {
   test.use({ viewport: { width: 375, height: 812 } })
 
   test('mobile menu toggle exists', async ({ page }) => {
-    await page.goto('/features')
+    await page.goto('/privacy')
     await page.waitForLoadState('domcontentloaded')
 
     // On mobile, the nav and the desktop CTA are hidden; the hamburger is the
@@ -115,7 +139,7 @@ test.describe('Navigation: Mobile menu', () => {
   })
 
   test('mobile menu opens and shows nav links', async ({ page }) => {
-    await page.goto('/features')
+    await page.goto('/privacy')
     await page.waitForLoadState('domcontentloaded')
 
     const menuButton = page.locator('header button:visible').first()
@@ -126,7 +150,7 @@ test.describe('Navigation: Mobile menu', () => {
     await page.waitForTimeout(500)
 
     // the desktop nav keeps its own (hidden) copy of each link; take the visible one
-    const mobileNavLink = page.locator('header a[href="/features"]:visible').first()
+    const mobileNavLink = page.locator('header a[href="/#work"]:visible').first()
     await expect(mobileNavLink).toBeVisible()
   })
 })

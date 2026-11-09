@@ -3,12 +3,8 @@ import { test, expect } from '@playwright/test'
 test.describe('Performance: Page load times', () => {
   const pages = [
     { path: '/', name: 'Homepage' },
-    { path: '/features', name: 'Features' },
-    { path: '/pricing', name: 'Pricing' },
-    { path: '/how-it-works', name: 'How It Works' },
     { path: '/solutions', name: 'Solutions' },
     { path: '/demo', name: 'Demo' },
-    { path: '/about', name: 'About' },
   ]
 
   for (const { path, name } of pages) {
@@ -23,7 +19,7 @@ test.describe('Performance: Page load times', () => {
 })
 
 test.describe('Performance: No broken images', () => {
-  const pages = ['/', '/features', '/pricing', '/about', '/demo']
+  const pages = ['/', '/solutions', '/demo']
 
   for (const path of pages) {
     test(`${path} has no broken images`, async ({ page }) => {
@@ -81,7 +77,7 @@ test.describe('Performance: No 404 resources', () => {
 })
 
 test.describe('Performance: Viewport and layout', () => {
-  const pages = ['/', '/features', '/pricing', '/demo']
+  const pages = ['/', '/solutions', '/demo']
 
   for (const path of pages) {
     test(`${path} has no horizontal overflow`, async ({ page }) => {

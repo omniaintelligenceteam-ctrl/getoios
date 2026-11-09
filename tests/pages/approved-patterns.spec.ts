@@ -5,6 +5,9 @@ test.use({
   launchOptions: process.env.PLAYWRIGHT_MCP_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_MCP_EXECUTABLE_PATH } : {},
 })
 
+// /features, /how-it-works and /pricing redirect to sections of / since the sample-day front door (Nov 2026); their page source is parked in src/app until Wes decides on its removal.
+test.skip(true, 'the pages these checks read are behind redirects')
+
 // These checks catch broken disclosure, sample-step selection, and dialog lifecycle.
 // Network isolation prevents booking embeds, media hosts, and live form/API writes.
 test.beforeEach(async ({ page }) => {
