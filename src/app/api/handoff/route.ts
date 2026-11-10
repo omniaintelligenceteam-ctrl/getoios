@@ -8,8 +8,7 @@ import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
  * Accepts JSON (day.js) and form-encoded posts (the no-JS path). The visitor
  * names the pillar they are most interested in (assistant, back-office or
  * workflows), the first thing they would hand off, their name and a phone
- * number. Sends one email to the team inbox through Resend, the same way
- * /api/form does, then answers JSON or redirects back to /#sent so the page
+ * number. Sends one email to the team inbox through Resend, then answers JSON or redirects back to /#sent so the page
  * can show its own confirmation without script.
  */
 

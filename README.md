@@ -54,9 +54,7 @@ All routes are under `src/app/api/`. Every route includes rate limiting and inpu
 
 | Route | Method | Purpose |
 |-------|--------|---------|
-| `/api/form` | POST | Contact form submissions, sends notification via Resend |
-| `/api/audit` | POST | Audit request form, sends email via Resend |
-| `/api/demo-request` | POST | Demo request form, sends email via Resend |
+| `/api/handoff` | POST | The front door's handoff form, sends one email via Resend |
 | `/api/elevenlabs` | POST | Text-to-speech conversion for site voice demo |
 | `/api/calcom` | POST | Webhook receiver for Cal.com scheduling events |
 
@@ -96,7 +94,7 @@ npm run build
 ```
 src/
   app/
-    api/           # 6 API routes (audit, calcom, demo-request, elevenlabs, form, handoff)
+    api/           # 3 API routes (calcom, elevenlabs, handoff)
     page.tsx       # Main landing page
     layout.tsx     # Root layout
   components/      # React components
