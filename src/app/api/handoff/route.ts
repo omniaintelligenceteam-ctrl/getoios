@@ -5,7 +5,7 @@ import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 /**
  * The front door's "first handoff" form (public/jarvis/index.html).
  *
- * Accepts JSON (door.js) and form-encoded posts (the no-JS path). The visitor
+ * Accepts JSON (day.js) and form-encoded posts (the no-JS path). The visitor
  * names the pillar they are most interested in (assistant, back-office or
  * workflows), the first thing they would hand off, their name and a phone
  * number. Sends one email to the team inbox through Resend, the same way

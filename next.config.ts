@@ -13,15 +13,18 @@ const nextConfig: NextConfig = {
       fallback: [],
     };
   },
-  // The sample-day page covers what these four pages said, so each one sends
-  // its visitors to the matching section. Temporary on purpose: removing a line
-  // brings its page back, because the page source is still in src/app.
+  // The sample-day page replaced the old site. Each old address sends its
+  // visitors to the matching section of the page.
   async redirects() {
     return [
       { source: "/features", destination: "/#work", permanent: false },
       { source: "/how-it-works", destination: "/#install", permanent: false },
       { source: "/pricing", destination: "/#install", permanent: false },
       { source: "/about", destination: "/#behind", permanent: false },
+      { source: "/solutions", destination: "/#work", permanent: false },
+      { source: "/form", destination: "/#start", permanent: false },
+      { source: "/audit", destination: "/#start", permanent: false },
+      { source: "/demo", destination: "/#start", permanent: false },
     ];
   },
   images: {

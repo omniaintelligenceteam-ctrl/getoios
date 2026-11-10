@@ -2,8 +2,7 @@ import { test, expect } from '@playwright/test'
 
 const routes = [
   { path: '/', titlePattern: /Jarvis, a chief of staff/ },
-  { path: '/solutions', titlePattern: /Solutions/i },
-  { path: '/form', titlePattern: /OIOS|Form|See What/i },
+  { path: '/sms', titlePattern: /Text Alerts/i },
   { path: '/privacy', titlePattern: /Privacy/i },
   { path: '/terms', titlePattern: /Terms/i },
 ]
@@ -19,7 +18,7 @@ test.describe('Navigation: All pages load', () => {
   }
 })
 
-// The sample-day front door covers what these four pages said. Each address
+// The sample-day front door replaced the old site. Each old address
 // answers with a temporary redirect to the matching section (next.config.ts).
 test.describe('Navigation: old page addresses open the front door', () => {
   const moved = [
@@ -27,6 +26,10 @@ test.describe('Navigation: old page addresses open the front door', () => {
     { from: '/how-it-works', hash: '#install' },
     { from: '/pricing', hash: '#install' },
     { from: '/about', hash: '#behind' },
+    { from: '/solutions', hash: '#work' },
+    { from: '/form', hash: '#start' },
+    { from: '/audit', hash: '#start' },
+    { from: '/demo', hash: '#start' },
   ]
 
   for (const { from, hash } of moved) {
@@ -106,22 +109,6 @@ test.describe('Navigation: Browser history', () => {
     await page.goForward()
     await page.waitForLoadState('domcontentloaded')
     expect(page.url()).toContain('/terms')
-  })
-})
-
-test.describe('Navigation: /audit redirects to /form', () => {
-  test('visiting /audit redirects to /form', async ({ page }) => {
-    await page.goto('/audit')
-    await page.waitForLoadState('domcontentloaded')
-    expect(page.url()).toContain('/form')
-  })
-})
-
-test.describe('Navigation: /demo redirects to /form', () => {
-  test('visiting /demo redirects to /form (live demo offline)', async ({ page }) => {
-    await page.goto('/demo')
-    await page.waitForLoadState('domcontentloaded')
-    expect(page.url()).toContain('/form')
   })
 })
 

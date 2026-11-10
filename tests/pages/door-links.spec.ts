@@ -11,7 +11,7 @@ import { test, expect } from '@playwright/test'
  * redirect to sections of the door, so the shared header and footer reach them
  * with plain `/#…` anchors too.
  */
-const NEXT_ROUTES = ['/solutions', '/privacy', '/terms', '/sms']
+const NEXT_ROUTES = ['/privacy', '/terms', '/sms']
 
 const KNOWN_NOISE = (message: string) => message.includes('favicon') || message.includes('ERR_BLOCKED_BY_CLIENT')
 
@@ -40,8 +40,8 @@ test.describe('Links to the front door', () => {
       await expect(page.locator('header a[href="/"]').first()).toBeVisible()
       // every link to the door or to one of its sections is a plain anchor to /#…
       const doorLinks = await page.locator('a[href^="/#"]').evaluateAll((els) => els.map((el) => el.getAttribute('href')))
-      expect(doorLinks).toEqual(expect.arrayContaining(['/#work', '/#install']))
-      for (const old of ['/features', '/how-it-works', '/pricing', '/about']) {
+      expect(doorLinks).toEqual(expect.arrayContaining(['/#work', '/#install', '/#start']))
+      for (const old of ['/features', '/how-it-works', '/pricing', '/about', '/solutions', '/form']) {
         await expect(page.locator(`a[href="${old}"]`)).toHaveCount(0)
       }
     })

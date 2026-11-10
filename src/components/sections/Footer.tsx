@@ -7,8 +7,7 @@ export function Footer() {
   const navLinks = [
     { name: 'What It Does', href: '/#work' },
     { name: 'How It Works', href: '/#install' },
-    { name: 'Solutions', href: '/solutions' },
-    { name: 'Start Month 1', href: '/form' },
+    { name: 'Request a call', href: '/#start' },
   ]
 
   const legalLinks = [

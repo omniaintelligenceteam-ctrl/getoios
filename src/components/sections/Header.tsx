@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
@@ -101,14 +100,14 @@ export function Header() {
               </button>
             </MagneticButton>
             <MagneticButton>
-              <Link
-                href="/form"
+              <a
+                href="/#start"
                 data-glow
                 data-cursor="cta"
                 className="bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-2 rounded-lg text-sm font-medium btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 whitespace-nowrap shrink-0"
               >
-                Start Month 1 →
-              </Link>
+                Request a call
+              </a>
             </MagneticButton>
           </div>
 
@@ -177,15 +176,15 @@ export function Header() {
                   >
                     Book a Call
                   </button>
-                  <Link
-                    href="/form"
+                  <a
+                    href="/#start"
                     data-glow
                     data-cursor="cta"
                     className="block bg-gradient-to-r from-amber-500 to-amber-400 text-white px-4 py-3.5 rounded-lg text-sm font-bold btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Start Month 1 →
-                  </Link>
+                    Request a call
+                  </a>
                 </motion.div>
               </nav>
             </motion.div>
@@ -205,14 +204,14 @@ export function Header() {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
           >
             <div className="px-4 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
-              <Link
-                href="/form"
+              <a
+                href="/#start"
                 data-glow
                 data-cursor="cta"
                 className="block w-full bg-gradient-to-r from-amber-500 to-amber-400 text-white px-5 py-3.5 rounded-lg text-sm font-bold btn-glow hover:from-amber-600 hover:to-amber-500 transition-all duration-200 text-center"
               >
-                Start Month 1 →
-              </Link>
+                Request a call
+              </a>
             </div>
           </motion.div>
         )}
