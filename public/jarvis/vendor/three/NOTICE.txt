@@ -1,9 +1,0 @@
-three.js 0.183.2 (MIT, LICENSE alongside), bundled for the getoios front door on 2026-11-02.
-Contents: the three core classes the opener uses, GLTFLoader, MeshoptDecoder (meshoptimizer, MIT) and RoomEnvironment,
-all from the three@0.183.2 npm package. No CDN; pinned by this file.
-
-Rebuild (esbuild 0.27.2) from an entry that re-exports those names:
-  esbuild entry.js --bundle --format=esm --minify --target=es2020 --legal-comments=none \
-    --banner:js='/* eslint-disable */' \
-    --alias:three=node_modules/three/build/three.module.js --outfile=three.module.js
-The banner keeps the repo's ESLint (which walks public/) off this generated file.

@@ -14,8 +14,8 @@ import { test, expect, type Page } from '@playwright/test'
 export const CALL_CLAIMS =
   /\b(incoming calls?|answers? (?:the|your|our) (?:phones?|calls?)|answer(?:ing)? (?:the|your|our) (?:phones?|calls?)|answers? calls|handl(?:e|es|ing) (?:your |inbound |all )?calls|runs? (?:your )?phones|call answering|calls? answered|phones answered|callers?|missed calls?|ai receptionist|voice receptionist|receptionist|answering service|after[- ]hours|voicemail|24\/7|every call|every ring|never miss a call|text-back)\b/i
 
-// /features, /how-it-works, /pricing and /about redirect to sections of / (next.config.ts).
-const ROUTES = ['/', '/solutions', '/form', '/privacy', '/terms']
+// Every old page address redirects to a section of / (next.config.ts).
+const ROUTES = ['/', '/privacy', '/terms', '/sms']
 
 /** The business switch on / rewrites the whole sample day, so each day is read. */
 const SAMPLE_DAYS = ['cafe', 'dental', 'shop', 'plumbing']
