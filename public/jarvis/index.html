@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/jarvis/assets/fonts/besley-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/jarvis/assets/fonts/hanken-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/jarvis/day.css?v=2">
+<link rel="stylesheet" href="/jarvis/day.css?v=3">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://getoios.com/#org","name":"Omnia AI Intelligence","alternateName":"OIOS","url":"https://getoios.com","logo":"https://getoios.com/icon.png"},
@@ -312,6 +312,31 @@ Mike, Fig Street Caf&eacute;</p>
         <p>Every tool, connection and piece of data is yours. If you leave, it goes with you.</p>
       </div>
     </div>
+    <!-- The voice. One morning brief, two of the voices an owner can choose. -->
+    <div class="voice" data-voice-sample>
+      <div class="voice__text">
+        <h3>Choose the voice you work with</h3>
+        <p>Here is one morning brief in two of the voices you can choose. Both voices are synthetic.</p>
+      </div>
+      <div class="voice__card">
+        <p class="voice__label" data-voice-label>Ava’s voice · 16 seconds</p>
+        <div class="voice__pick" role="group" aria-label="Choose a voice" data-voice-pick hidden>
+          <button type="button" data-src="/jarvis/assets/voice/ava-brief.mp3" data-label="Ava’s voice · 16 seconds" aria-pressed="true">Ava</button>
+          <button type="button" data-src="/jarvis/assets/voice/jarvis-brief.mp3" data-label="Jarvis’s voice · 16 seconds" aria-pressed="false">Jarvis</button>
+        </div>
+        <audio controls preload="metadata" aria-label="Play the recorded voice sample"><source src="/jarvis/assets/voice/ava-brief.mp3" type="audio/mpeg"><a href="/jarvis/assets/voice/ava-brief.mp3">Download the voice sample</a></audio>
+        <p class="voice__alt" data-voice-alt><a href="/jarvis/assets/voice/jarvis-brief.mp3">Hear the same brief in Jarvis’s voice</a></p>
+        <p class="voice__error" data-voice-error role="status" hidden>The audio did not load. You can read every word below.</p>
+        <details class="voice__words">
+          <summary>Read the transcript</summary>
+          <p>Good morning. Three things need you today.</p>
+          <p>First, the catering order for Friday needs one price before the quote can go.</p>
+          <p>Second, Sam asked to move the pickup time, and a reply is ready for you to approve.</p>
+          <p>Third, one invoice is nine days late, and a reminder is drafted.</p>
+          <p>Everything else is handled. Where do you want to start?</p>
+        </details>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -404,6 +429,6 @@ Mike, Fig Street Caf&eacute;</p>
 </aside>
 <p class="vh" role="status" aria-live="polite" data-live></p>
 
-<script src="/jarvis/day.js?v=2" defer></script>
+<script src="/jarvis/day.js?v=3" defer></script>
 </body>
 </html>
