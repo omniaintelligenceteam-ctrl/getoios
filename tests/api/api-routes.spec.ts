@@ -159,13 +159,15 @@ test.describe('Removed routes: the receptionist demo is gone', () => {
   }
 })
 
-test.describe('POST /api/handoff — Front door handoff', () => {
+test.describe('POST /api/handoff — Call request', () => {
+  // Wes, 10 Nov 2026: a name, an industry, an email and a cell.
   const validPayload = {
-    pillar: 'back-office',
-    firstHandoff: 'The quote I owe since Tuesday.',
     fullName: 'Test User',
+    industry: 'Bakery',
+    email: 'test@example.com',
     phoneNumber: '(512) 555-0100',
   }
+  const MEETJARVIS = 'https://meetjarvis.getoios.com'
 
   // The route allows 5 posts per minute per client IP, and every request in
   // this file leaves the same test client. Each call below carries its own
@@ -179,44 +181,82 @@ test.describe('POST /api/handoff — Front door handoff', () => {
     expect([200, 500]).toContain(response.status())
   })
 
-  test('each pillar value is accepted', async ({ request }) => {
-    for (const pillar of ['assistant', 'back-office', 'workflows']) {
-      const response = await request.post('/api/handoff', { data: { ...validPayload, pillar }, headers: headers() })
-      expect([200, 500]).toContain(response.status())
-    }
+  test('the old pillar and first-handoff answers are not needed', async ({ request }) => {
+    const response = await request.post('/api/handoff', { data: { ...validPayload, interest: 'Back office' }, headers: headers() })
+    expect([200, 500]).toContain(response.status())
   })
 
-  test('missing pillar returns 400', async ({ request }) => {
-    const { pillar, ...partial } = validPayload
-    const response = await request.post('/api/handoff', { data: partial, headers: headers() })
+  for (const field of ['fullName', 'industry', 'email', 'phoneNumber'] as const) {
+    test(`missing ${field} returns 400`, async ({ request }) => {
+      const { [field]: _omitted, ...partial } = validPayload
+      const response = await request.post('/api/handoff', { data: partial, headers: headers() })
+      expect(response.status()).toBe(400)
+      const body = await response.json()
+      expect(body.error).toContain(field)
+    })
+  }
+
+  test('an email address without its @ returns 400', async ({ request }) => {
+    const response = await request.post('/api/handoff', { data: { ...validPayload, email: 'test.example.com' }, headers: headers() })
     expect(response.status()).toBe(400)
     const body = await response.json()
-    expect(body.error).toContain('pillar')
+    expect(body.error).toContain('email')
   })
 
-  test('unknown pillar returns 400', async ({ request }) => {
-    const response = await request.post('/api/handoff', { data: { ...validPayload, pillar: 'everything' }, headers: headers() })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('pillar')
-  })
-
-  test('missing firstHandoff returns 400', async ({ request }) => {
-    const { firstHandoff, ...partial } = validPayload
-    const response = await request.post('/api/handoff', { data: partial, headers: headers() })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('firstHandoff')
-  })
-
-  test('form-encoded post without a pillar redirects back to the form', async ({ request }) => {
+  test('form-encoded post without an email redirects back to the form', async ({ request }) => {
     const response = await request.post('/api/handoff', {
-      form: { firstHandoff: 'The phone, when I am on a roof.', fullName: 'Test User', phoneNumber: '(512) 555-0100' },
+      form: { fullName: 'Test User', industry: 'Bakery', phoneNumber: '(512) 555-0100' },
       headers: headers(),
       maxRedirects: 0,
     })
     expect(response.status()).toBe(303)
     expect(response.headers()['location']).toMatch(/\/#start$/)
+    expect(response.headers()['location']).not.toContain('meetjarvis')
+  })
+
+  // meetjarvis.getoios.com is a static site, so its form posts here from another origin.
+  test('a refused no-script post from meetjarvis goes back to the meetjarvis form', async ({ request }) => {
+    const response = await request.post('/api/handoff', {
+      form: { source: 'meetjarvis', fullName: 'Test User', industry: 'Bakery', phoneNumber: '(512) 555-0100' },
+      headers: headers(),
+      maxRedirects: 0,
+    })
+    expect(response.status()).toBe(303)
+    expect(response.headers()['location']).toBe(`${MEETJARVIS}/#conversation`)
+  })
+
+  test('a no-script post never redirects to an address taken from the post', async ({ request }) => {
+    const response = await request.post('/api/handoff', {
+      form: { source: 'https://evil.example', company: 'Spam Co' },
+      headers: headers(),
+      maxRedirects: 0,
+    })
+    expect(response.status()).toBe(303)
+    expect(response.headers()['location']).not.toContain('evil.example')
+    expect(response.headers()['location']).toMatch(/\/#sent$/)
+  })
+
+  test('the preflight answers meetjarvis and no other origin', async ({ request }) => {
+    const preflight = (origin: string) =>
+      request.fetch('/api/handoff', {
+        method: 'OPTIONS',
+        headers: { origin, 'access-control-request-method': 'POST', 'access-control-request-headers': 'content-type' },
+      })
+    const allowed = await preflight(MEETJARVIS)
+    expect(allowed.status()).toBe(204)
+    expect(allowed.headers()['access-control-allow-origin']).toBe(MEETJARVIS)
+    expect(allowed.headers()['access-control-allow-headers']).toMatch(/content-type/i)
+    const other = await preflight('https://evil.example')
+    expect(other.headers()['access-control-allow-origin']).toBeUndefined()
+  })
+
+  test('a post from meetjarvis can read its answer, a post from elsewhere cannot', async ({ request }) => {
+    const { email, ...partial } = validPayload
+    const fromSite = await request.post('/api/handoff', { data: partial, headers: { ...headers(), origin: MEETJARVIS } })
+    expect(fromSite.status()).toBe(400)
+    expect(fromSite.headers()['access-control-allow-origin']).toBe(MEETJARVIS)
+    const fromElsewhere = await request.post('/api/handoff', { data: partial, headers: { ...headers(), origin: 'https://evil.example' } })
+    expect(fromElsewhere.headers()['access-control-allow-origin']).toBeUndefined()
   })
 
   test('honeypot filled pretends to succeed', async ({ request }) => {
@@ -227,7 +267,7 @@ test.describe('POST /api/handoff — Front door handoff', () => {
   test('sixth post from one client within a minute is rate limited', async ({ request }) => {
     const ip = freshIp()
     for (let i = 0; i < 5; i++) {
-      const response = await request.post('/api/handoff', { data: { ...validPayload, pillar: 'nope' }, headers: { 'x-forwarded-for': ip } })
+      const response = await request.post('/api/handoff', { data: { ...validPayload, email: 'nope' }, headers: { 'x-forwarded-for': ip } })
       expect(response.status()).toBe(400)
     }
     const sixth = await request.post('/api/handoff', { data: validPayload, headers: { 'x-forwarded-for': ip } })

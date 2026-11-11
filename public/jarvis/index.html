@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/jarvis/assets/fonts/besley-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/jarvis/assets/fonts/hanken-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/jarvis/day.css">
+<link rel="stylesheet" href="/jarvis/day.css?v=2">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://getoios.com/#org","name":"Omnia AI Intelligence","alternateName":"OIOS","url":"https://getoios.com","logo":"https://getoios.com/icon.png"},
@@ -338,53 +338,40 @@ Mike, Fig Street Caf&eacute;</p>
 <section class="start" id="start" aria-labelledby="start-title">
   <div class="wrap start__grid">
     <div class="start__ask">
-      <h2 class="h2" id="start-title">What would you hand him first?</h2>
-      <p class="lede">One thing is enough. Omnia calls you back to talk it through, and you don&rsquo;t need an account or a card.</p>
+      <h2 class="h2" id="start-title">Request a call.</h2>
+      <p class="lede">Four details are enough. Omnia calls you back, and you don&rsquo;t need an account or a card.</p>
     </div>
 
     <form class="form" id="handoff" action="/api/handoff" method="post">
-      <fieldset class="form__group" data-field="pillar">
-        <legend>Which kind of work matters most to you?</legend>
-        <div class="tiles">
-          <label class="tile"><input type="radio" name="pillar" value="assistant" required><span><b>Right hand</b><i>Your chief of staff, by voice</i></span></label>
-          <label class="tile"><input type="radio" name="pillar" value="back-office" required><span><b>Back office</b><i>Quotes, replies, invoices, staff</i></span></label>
-          <label class="tile"><input type="radio" name="pillar" value="workflows" required><span><b>Follow-through</b><i>The work that keeps going</i></span></label>
-        </div>
-        <p class="err" data-err hidden>Pick the one you are most interested in.</p>
-      </fieldset>
-
-      <div class="form__group" data-field="firstHandoff">
-        <label for="f-handoff">Your first handoff</label>
-        <div class="chips" data-chips aria-label="Common first handoffs">
-          <button type="button" data-for="assistant">My morning plan</button>
-          <button type="button" data-for="assistant">A decision I keep circling</button>
-          <button type="button" data-for="back-office">That quote I owe</button>
-          <button type="button" data-for="back-office">A customer reply</button>
-          <button type="button" data-for="back-office">An overdue invoice</button>
-          <button type="button" data-for="back-office">Shifts on the board</button>
-          <button type="button" data-for="workflows">Chase my quiet quotes</button>
-          <button type="button" data-for="workflows">Hold the fort while I&rsquo;m away</button>
-        </div>
-        <textarea id="f-handoff" name="firstHandoff" rows="3" maxlength="500" required placeholder="The quote I have owed since Tuesday. Or the texts I can&rsquo;t get to when I&rsquo;m with a customer."></textarea>
-        <p class="err" data-err hidden>Tell us the one thing you would hand him first.</p>
-      </div>
-
       <div class="form__pair">
         <div class="form__group" data-field="fullName">
           <label for="f-name">Your name</label>
           <input id="f-name" name="fullName" type="text" maxlength="120" autocomplete="name" required>
           <p class="err" data-err hidden>Add your name.</p>
         </div>
-        <div class="form__group" data-field="phoneNumber">
-          <label for="f-phone">Phone</label>
-          <input id="f-phone" name="phoneNumber" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" required>
-          <p class="err" data-err hidden>Add a phone number so Omnia can call you back.</p>
+        <div class="form__group" data-field="industry">
+          <label for="f-industry">Industry</label>
+          <input id="f-industry" name="industry" type="text" maxlength="120" required placeholder="Caf&eacute;, dental office, retail shop">
+          <p class="err" data-err hidden>Add your industry.</p>
         </div>
       </div>
+      <div class="form__pair">
+        <div class="form__group" data-field="email">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" maxlength="200" autocomplete="email" inputmode="email" required>
+          <p class="err" data-err hidden>Add an email address, like name@business.com.</p>
+        </div>
+        <div class="form__group" data-field="phoneNumber">
+          <label for="f-phone">Cell</label>
+          <input id="f-phone" name="phoneNumber" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" required>
+          <p class="err" data-err hidden>Add a cell number so Omnia can call you back.</p>
+        </div>
+      </div>
+      <input type="hidden" name="interest" value="">
       <p class="hp" aria-hidden="true"><label>Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
       <button type="submit" class="btn btn--tap btn--wide" data-submit>Request a call</button>
       <p class="err err--form" data-form-err role="alert" tabindex="-1" hidden>Your request did not send. Try again in a minute, or email <a href="mailto:team@getoios.com">team@getoios.com</a>.</p>
-      <p class="form__sent" id="sent" data-sent tabindex="-1">Got it. Omnia will call you about your first handoff.</p>
+      <p class="form__sent" id="sent" data-sent tabindex="-1">Got it. Omnia will call you.</p>
     </form>
   </div>
 </section>
@@ -417,6 +404,6 @@ Mike, Fig Street Caf&eacute;</p>
 </aside>
 <p class="vh" role="status" aria-live="polite" data-live></p>
 
-<script src="/jarvis/day.js" defer></script>
+<script src="/jarvis/day.js?v=2" defer></script>
 </body>
 </html>
