@@ -150,8 +150,9 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         from: 'OIOS <form@getoios.com>',
-        // Wes, 10 Nov 2026: call requests go to the team address the pages show.
-        to: ['team@getoios.com'],
+        // Wes, 10 Nov 2026: call requests go to the team address the pages show. That address
+        // is a forward, so the Gmail inbox gets its own copy: one broken forward loses no lead.
+        to: ['team@getoios.com', 'omniaintelligenceteam@gmail.com'],
         reply_to: (data.email || '').trim().slice(0, MAX.email),
         subject: `Call request: ${fields.fullName} (${fields.industry})`,
         html: emailHtml,
