@@ -266,6 +266,38 @@ test.describe('Homepage', () => {
   }
 
   // ─── Footer ──────────────────────────────────────────────────────────
+  // Wes, 10 Nov 2026: the same voice sample as meetjarvis. One morning brief, two voices to choose.
+  test('the voice sample plays one morning brief in two voices', async ({ page }) => {
+    await ready(page)
+    const voice = page.locator('[data-voice-sample]')
+    const audio = voice.locator('audio')
+    await voice.scrollIntoViewIfNeeded()
+    await expect(voice.getByRole('button', { name: 'Ava' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(voice.locator('[data-voice-label]')).toHaveText(/Ava’s voice · 16 seconds/)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentSrc)).toMatch(/\/jarvis\/assets\/voice\/ava-brief\.mp3$/)
+    await audio.evaluate(async (a: HTMLAudioElement) => { a.muted = true; await a.play() })
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentTime > 0 && a.duration > 16 && a.duration < 18)).toBe(true)
+
+    await voice.getByRole('button', { name: 'Jarvis' }).click()
+    await expect(voice.getByRole('button', { name: 'Jarvis' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(voice.getByRole('button', { name: 'Ava' })).toHaveAttribute('aria-pressed', 'false')
+    await expect(voice.locator('[data-voice-label]')).toHaveText(/Jarvis’s voice · 16 seconds/)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentSrc)).toMatch(/jarvis-brief\.mp3$/)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.paused)).toBe(true)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.duration > 16 && a.duration < 18)).toBe(true)
+
+    await voice.locator('summary').click()
+    await expect(voice.locator('details')).toContainText('Good morning. Three things need you today.')
+    await expect(voice.locator('[data-voice-alt]')).toBeHidden()
+  })
+
+  test('a voice clip that cannot load says so', async ({ page }) => {
+    await page.route('**/ava-brief.mp3', (route) => route.abort())
+    await page.goto('/')
+    await ready(page)
+    await expect(page.locator('[data-voice-error]')).toBeVisible()
+  })
+
   test('footer is visible with correct links', async ({ page }) => {
     const footer = page.locator('footer')
     await footer.scrollIntoViewIfNeeded()
@@ -312,6 +344,14 @@ test.describe('Homepage', () => {
 // ─── Without script ────────────────────────────────────────────────────
 test.describe('Homepage without script', () => {
   test.use({ javaScriptEnabled: false })
+
+  test('the voice sample keeps one clip and a link to the other voice', async ({ page }) => {
+    await page.goto('/')
+    const voice = page.locator('[data-voice-sample]')
+    await expect(voice.locator('audio')).toHaveCount(1)
+    await expect(voice.locator('[data-voice-pick]')).toBeHidden()
+    await expect(voice.locator('[data-voice-alt] a')).toHaveAttribute('href', '/jarvis/assets/voice/jarvis-brief.mp3')
+  })
 
   test('the form posts its four fields form-encoded to /api/handoff', async ({ page }) => {
     let contentType = ''

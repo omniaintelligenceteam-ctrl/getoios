@@ -457,6 +457,32 @@
   window.addEventListener('resize', placeTally);
   placeTally();
 
+  // ---- The voice sample: one brief, two voices. With no script the page keeps Ava's clip and a plain link ----
+  const voice = $('[data-voice-sample]');
+  if (voice) {
+    const audio = $('audio', voice);
+    const source = $('source', audio);
+    const pick = $('[data-voice-pick]', voice);
+    const voiceErr = $('[data-voice-error]', voice);
+    const showVoiceErr = () => { voiceErr.hidden = false; };
+    audio.addEventListener('error', showVoiceErr);
+    source.addEventListener('error', showVoiceErr);
+    // The load can fail before this script runs, and the error event does not fire again.
+    if (audio.error || audio.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showVoiceErr();
+    pick.hidden = false;
+    $('[data-voice-alt]', voice).hidden = true;
+    pick.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-src]');
+      if (!button || button.getAttribute('aria-pressed') === 'true') return;
+      pick.querySelectorAll('button').forEach((other) => other.setAttribute('aria-pressed', String(other === button)));
+      voiceErr.hidden = true;
+      audio.pause();
+      source.src = button.dataset.src;
+      audio.load();
+      $('[data-voice-label]', voice).textContent = button.dataset.label;
+    });
+  }
+
   render();
   // Checks wait for this mark before they act on the page.
   document.documentElement.setAttribute('data-ready', '');

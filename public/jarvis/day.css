@@ -253,6 +253,21 @@ mark {
 .notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2.5rem, 5vw, 4.5rem); max-width: 62rem; }
 .notes h3 { font-family: var(--serif); font-weight: 800; font-size: 1.5rem; line-height: 1.1; letter-spacing: -.015em; text-wrap: balance; }
 .notes p { margin-top: .5rem; }
+.voice { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; margin-top: clamp(2.5rem, 5vw, 4.5rem); max-width: 62rem; }
+.voice h3 { font-family: var(--serif); font-weight: 800; font-size: 1.5rem; line-height: 1.1; letter-spacing: -.015em; text-wrap: balance; }
+.voice__text p { margin-top: .5rem; }
+.voice__card { background: var(--paper); border-radius: 1.5rem; padding: clamp(1.25rem, 2.2vw, 1.85rem); min-width: 0; }
+.voice__label { font-size: .875rem; font-weight: 600; color: var(--soft); }
+.voice__pick { display: flex; gap: .5rem; margin-top: .75rem; }
+.voice__pick[hidden], .voice__alt[hidden], .voice__error[hidden] { display: none; }
+.voice__pick button { min-height: 2.75rem; padding: 0 1.25rem; border-radius: 999px; border: 2px solid var(--ink); background: transparent; color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+.voice__pick button[aria-pressed="true"] { background: var(--purple); border-color: var(--purple); color: var(--paper); }
+.voice__card audio { display: block; width: 100%; min-height: 3.375rem; margin-top: 1rem; }
+.voice__alt a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 600; }
+.voice__error { margin-top: .75rem; font-weight: 600; }
+.voice__words { margin-top: .5rem; border-top: 1px solid var(--hair); }
+.voice__words summary { display: flex; align-items: center; min-height: 2.75rem; font-weight: 700; cursor: pointer; }
+.voice__words p { margin-top: .5rem; color: var(--soft); }
 
 /* ---------- Who's behind it ---------- */
 .behind { background: var(--night); color: var(--paper); padding-block: clamp(4rem, 9vw, 8rem); --focus: var(--lemon); }
@@ -373,7 +388,7 @@ main > section { scroll-margin-top: 3.4rem; }
   .brand { margin-right: auto; }
   .top__by { order: 5; flex-basis: 100%; margin: 0; padding: 0; border: 0; font-size: .875rem; white-space: normal; }
   .intro h1 { font-size: 1.0625rem; }
-  .rule__facts, .notes, .form__pair { grid-template-columns: minmax(0, 1fr); }
+  .rule__facts, .notes, .voice, .form__pair { grid-template-columns: minmax(0, 1fr); }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .needs li, .needs--wide li { grid-template-columns: 3.9rem minmax(0, 1fr); column-gap: .75rem; }
   .needs--wide li { grid-template-columns: 5.25rem minmax(0, 1fr); }
