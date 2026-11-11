@@ -1,4 +1,4 @@
-/* getoios.com front door: the sample day. Plain script. Its one request is the handoff form's POST to /api/handoff. */
+/* getoios.com front door: the sample day. Plain script. Its one request is the call form's POST to /api/handoff. */
 (() => {
   'use strict';
 
@@ -365,56 +365,40 @@
     });
   }
 
-  // ---- The handoff form. It posts to /api/handoff, which emails the team inbox. ----
+  // ---- The call form. It posts to /api/handoff, which emails the team inbox. ----
   const form = $('#handoff');
-  const chips = $$('[data-chips] button');
-  const textarea = $('#f-handoff');
+  const interest = $('[name="interest"]', form);
+  const INTERESTS = { assistant: 'Right hand', 'back-office': 'Back office', workflows: 'Follow-through' };
 
-  function setPillar(value) {
-    const radio = $(`input[name="pillar"][value="${value}"]`);
-    if (!radio) return;
-    radio.checked = true;
-    filterChips();
-    clearError('pillar');
-  }
-  function filterChips() {
-    const picked = $('input[name="pillar"]:checked');
-    chips.forEach((chip) => { chip.hidden = !!picked && chip.dataset.for !== picked.value; });
+  // The pillar a visitor came from goes along unseen, so the call starts in the right place.
+  function setInterest(value) {
+    if (Object.hasOwn(INTERESTS, value)) interest.value = INTERESTS[value];
   }
   function clearError(field) {
     const group = $(`[data-field="${field}"]`);
     $('[data-err]', group).hidden = true;
-    $$('input, textarea', group).forEach((n) => n.removeAttribute('aria-invalid'));
+    $$('input', group).forEach((n) => n.removeAttribute('aria-invalid'));
   }
   function showError(field) {
     const group = $(`[data-field="${field}"]`);
     $('[data-err]', group).hidden = false;
-    $$('input, textarea', group).forEach((n) => n.setAttribute('aria-invalid', 'true'));
-    return $('input, textarea', group);
+    $$('input', group).forEach((n) => n.setAttribute('aria-invalid', 'true'));
+    return $('input', group);
   }
-
-  $$('input[name="pillar"]').forEach((r) => r.addEventListener('change', () => { filterChips(); clearError('pillar'); }));
-  chips.forEach((chip) => chip.addEventListener('click', () => {
-    const text = chip.textContent.trim();
-    textarea.value = textarea.value.trim() ? `${textarea.value.trim()}. ${text}` : text;
-    clearError('firstHandoff');
-    textarea.focus();
-  }));
-  ['firstHandoff', 'fullName', 'phoneNumber'].forEach((f) => $(`[name="${f}"]`, form).addEventListener('input', () => clearError(f)));
-  $$('[data-pillar]').forEach((link) => link.addEventListener('click', () => setPillar(link.dataset.pillar)));
-  const asked = new URLSearchParams(location.search).get('pillar');
-  if (asked) setPillar(asked);
 
   // Without script the browser checks the required fields and posts the form itself; the route
   // then redirects to /#sent. With script the page checks, posts JSON and stays where it is.
   form.noValidate = true;
-  const FIELDS = ['pillar', 'firstHandoff', 'fullName', 'phoneNumber'];
+  const FIELDS = ['fullName', 'industry', 'email', 'phoneNumber'];
+  FIELDS.forEach((f) => $(`[name="${f}"]`, form).addEventListener('input', () => clearError(f)));
+  $$('[data-pillar]').forEach((link) => link.addEventListener('click', () => setInterest(link.dataset.pillar)));
+  setInterest(new URLSearchParams(location.search).get('pillar') || '');
   const submit = $('[data-submit]', form);
   const formErr = $('[data-form-err]', form);
   const sent = $('[data-sent]', form);
 
   function showSent(firstName) {
-    if (firstName) sent.textContent = `Got it, ${firstName}. Omnia will call you about your first handoff.`;
+    if (firstName) sent.textContent = `Got it, ${firstName}. Omnia will call you.`;
     form.classList.add('is-sent');
     submit.disabled = true;
     submit.textContent = 'Call requested';
@@ -428,9 +412,9 @@
     const data = new FormData(form);
     const value = (key) => String(data.get(key) || '').trim();
     const missing = [];
-    if (!value('pillar')) missing.push('pillar');
-    if (!value('firstHandoff')) missing.push('firstHandoff');
     if (!value('fullName')) missing.push('fullName');
+    if (!value('industry')) missing.push('industry');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value('email'))) missing.push('email');
     if (value('phoneNumber').replace(/\D/g, '').length < 7) missing.push('phoneNumber');
     FIELDS.forEach((f) => (missing.includes(f) ? null : clearError(f)));
     formErr.hidden = true;
@@ -439,7 +423,7 @@
       if (first) first.focus();
       return;
     }
-    const body = { company: value('company') };
+    const body = { company: value('company'), interest: value('interest') };
     FIELDS.forEach((f) => { body[f] = value(f); });
     submit.disabled = true;
     submit.textContent = 'Sending';
