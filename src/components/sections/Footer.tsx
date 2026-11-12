@@ -3,12 +3,11 @@
 import Link from 'next/link'
 
 export function Footer() {
+  // A `/#…` link opens a section of the static front door: plain anchor, never next/link.
   const navLinks = [
-    { name: 'What It Does', href: '/features' },
-    { name: 'How It Works', href: '/how-it-works' },
-    { name: 'Solutions', href: '/solutions' },
-    { name: 'What to Expect', href: '/pricing' },
-    { name: 'Start Month 1', href: '/form' },
+    { name: 'What It Does', href: '/#work' },
+    { name: 'How It Works', href: '/#install' },
+    { name: 'Request a call', href: '/#start' },
   ]
 
   const legalLinks = [
@@ -43,16 +42,22 @@ export function Footer() {
           <div>
             <h3 className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.15em] mb-5">Navigate</h3>
             <ul className="space-y-3">
-              {navLinks.map((link) => (
-                <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="relative text-slate-400 hover:text-white transition-colors duration-200 text-sm link-animate"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
+              {navLinks.map((link) => {
+                const className = 'relative text-slate-400 hover:text-white transition-colors duration-200 text-sm link-animate'
+                return (
+                  <li key={link.name}>
+                    {link.href.startsWith('/#') ? (
+                      <a href={link.href} className={className}>
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link href={link.href} className={className}>
+                        {link.name}
+                      </Link>
+                    )}
+                  </li>
+                )
+              })}
             </ul>
           </div>
 

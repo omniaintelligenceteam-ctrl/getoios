@@ -756,3 +756,25 @@ section:nth-of-type(2)::before {
 @media (prefers-reduced-motion: reduce) {
   .shooting-star { animation: none !important; display: none; }
 }
+
+/* /features sample screens (src/components/stageshow/tiles): a tile is 560
+   wide, or its 358-wide phone design in a column under 560 (a viewport under
+   608 with this page's padding). The hold is the tile's size and ground until
+   it loads, so nothing moves when it arrives. */
+.oios-tile-slot {
+  max-width: 560px;
+}
+
+.oios-tile-hold {
+  aspect-ratio: 560 / 340;
+  border-radius: 20px;
+  background: #0f172a;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
+}
+
+@media (max-width: 607px) {
+  .oios-tile-hold {
+    max-width: 358px;
+    aspect-ratio: 358 / 346;
+  }
+}

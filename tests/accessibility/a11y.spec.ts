@@ -122,64 +122,8 @@ test.describe('Accessibility: Homepage', () => {
   })
 })
 
-test.describe('Accessibility: Form page', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/form')
-    await page.waitForLoadState('domcontentloaded')
-  })
-
-  test('form inputs have associated labels', async ({ page }) => {
-    const inputs = page.locator('form input:visible')
-    const count = await inputs.count()
-
-    for (let i = 0; i < count; i++) {
-      const input = inputs.nth(i)
-      const id = await input.getAttribute('id')
-      const ariaLabel = await input.getAttribute('aria-label')
-      const placeholder = await input.getAttribute('placeholder')
-
-      // Input should have id+label, aria-label, or at minimum placeholder
-      const hasAccessibleName = id || ariaLabel || placeholder
-      expect(hasAccessibleName).toBeTruthy()
-    }
-  })
-
-  test('form can be navigated with keyboard', async ({ page }) => {
-    // Tab through form elements
-    const form = page.locator('form')
-    await expect(form).toBeVisible({ timeout: 10_000 })
-
-    // Press Tab multiple times to move through form
-    for (let i = 0; i < 5; i++) {
-      await page.keyboard.press('Tab')
-    }
-
-    // Verify focus is within the form area
-    const focusedInForm = await page.evaluate(() => {
-      const form = document.querySelector('form')
-      const active = document.activeElement
-      return form?.contains(active) || false
-    })
-
-    // Focus should be somewhere on the page (may or may not be in form
-    // depending on number of header elements)
-    expect(focusedInForm).toBeDefined()
-  })
-
-  test('submit button is keyboard accessible', async ({ page }) => {
-    const submit = page.locator('button[type="submit"]')
-    await submit.focus()
-
-    const isFocused = await page.evaluate(() => {
-      return document.activeElement?.getAttribute('type') === 'submit'
-    })
-
-    expect(isFocused).toBe(true)
-  })
-})
-
 test.describe('Accessibility: All pages have lang attribute', () => {
-  const pages = ['/', '/features', '/pricing', '/demo', '/about']
+  const pages = ['/', '/privacy', '/terms', '/sms']
 
   for (const path of pages) {
     test(`${path} has html lang attribute`, async ({ page }) => {

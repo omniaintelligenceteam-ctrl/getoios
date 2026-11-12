@@ -1,21 +1,23 @@
-# OIOS by Omnia AI Intelligence
+# Jarvis, installed by Omnia AI Intelligence (OIOS)
 
-> OIOS is an AI operations platform for service businesses (HVAC, plumbing, electrical, roofing, and more). It provides six AI departments — receptionist, sales, marketing, operations, finance, and client success — that run 24/7 for a fraction of hiring cost.
+> Jarvis is a chief of staff for small-business owners. The owner talks to him like a person. He drafts the replies, quotes and invoices and keeps the follow-through moving. Nothing is spent, sent or deleted without the owner's approval.
 
-## Core Pages
-- [What OIOS Does](https://getoios.com/features): Three-pillar platform overview (AI Receptionist, AI Back Office, AI Command Center)
-- [How It Works](https://getoios.com/how-it-works): Three-step onboarding process (Audit, Build, Run)
-- [Pricing](https://getoios.com/pricing): Pricing plans and comparison
-- [About](https://getoios.com/about): Company story, mission, and security commitments
+## The site
+- [Jarvis](https://getoios.com/): a sample day with Jarvis, the three kinds of work he does, how Omnia installs him, and the form to request a call.
+- [Meet Jarvis](https://meetjarvis.getoios.com): the long version.
 
-## Industry Solutions
-- [HVAC](https://getoios.com/hvac): AI operations for HVAC contractors
-- [Plumbing](https://getoios.com/plumbing): AI operations for plumbing businesses
-- [Electrical](https://getoios.com/electrical): AI operations for electrical contractors
-- [Pest Control](https://getoios.com/pest-control): AI operations for pest control services
-- [Locksmith](https://getoios.com/locksmith): AI operations for locksmith services
-- [Landscape Lighting](https://getoios.com/landscape-lighting): AI operations for landscape lighting
+## What he does
+- Right hand: the owner's chief of staff, by voice.
+- Back office: quotes from the owner's prices, customer replies in the owner's voice, invoices with a pay link, and staff schedules.
+- Follow-through: a morning brief, a closing sweep, and reminders on quiet quotes and overdue invoices on the schedule the owner sets.
 
-## Optional
-- [Book an Audit](https://getoios.com/audit): Free AI operations audit
-- [Live Demo](https://getoios.com/demo): Interactive product demonstration
+## Getting set up
+An Omnia partner does the install with the owner in the first month, then meets the owner once a month to build the next thing. The owner owns everything that is built.
+
+## Legal
+- [Privacy](https://getoios.com/privacy)
+- [Terms](https://getoios.com/terms)
+- [Texting](https://getoios.com/sms)
+
+## Contact
+team@getoios.com
