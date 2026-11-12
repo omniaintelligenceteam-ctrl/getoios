@@ -21,14 +21,18 @@ const forbidden = [
 
 const form = (html.match(/<form\b[^>]*>[\s\S]*?<\/form>/i) || [''])[0];
 const formTag = (form.match(/<form\b[^>]*>/i) || [''])[0];
-const pillars = [...form.matchAll(/<input\b[^>]*name="pillar"[^>]*value="([^"]+)"/gi)].map((m) => m[1]);
+// Wes, 10 Nov 2026: the form asks for a name, an industry, an email and a cell. Nothing else shows.
+const visible = [...form.matchAll(/<(?:input|textarea|select)\b[^>]*>/gi)]
+  .map((m) => m[0])
+  .filter((tag) => !/type="hidden"/.test(tag) && !/name="company"/.test(tag))
+  .map((tag) => (tag.match(/name="([^"]+)"/) || [])[1]);
 const required = [
   [/<link rel="canonical" href="https:\/\/getoios\.com\/">/.test(html), 'The canonical address is https://getoios.com/'],
   [/action="\/api\/handoff"/.test(formTag) && /method="post"/i.test(formTag), 'The form posts to /api/handoff'],
-  [pillars.join(',') === 'assistant,back-office,workflows', `The pillar radios carry assistant, back-office, workflows (found: ${pillars.join(',') || 'none'})`],
-  ...['firstHandoff', 'fullName', 'phoneNumber', 'company'].map((name) => [
-    new RegExp(`<(?:input|textarea)\\b[^>]*name="${name}"`).test(form),
-    `The form has the ${name} field`,
+  [visible.join(',') === 'fullName,industry,email,phoneNumber', `The form shows fullName, industry, email, phoneNumber and nothing else (found: ${visible.join(',') || 'none'})`],
+  ...['interest', 'company'].map((name) => [
+    new RegExp(`<input\\b[^>]*name="${name}"`).test(form),
+    `The form has the unseen ${name} field`,
   ]),
   [/id="sent"/.test(form), 'The form has the #sent confirmation that the no-script path lands on'],
 ];

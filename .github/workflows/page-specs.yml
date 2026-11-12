@@ -1,0 +1,53 @@
+# Runs the page specs on every pull request and on main, against a production
+# build served inside the runner. The claim spec (tests/pages/call-answering.spec.ts)
+# is in this set: a page with call-answering or trades-only copy fails the PR.
+# Only tests/pages runs here. tests/api and tests/forms post to the API and stay
+# off CI on purpose.
+name: Page specs
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: page-specs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pages:
+    # Playwright 1.59 has no Chromium for Ubuntu 26.04 (ubuntu-latest). Move this
+    # with the Playwright version.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Serve the build
+        run: |
+          npx next start -p 3017 > next-start.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -s -o /dev/null http://127.0.0.1:3017/ && exit 0
+            sleep 1
+          done
+          cat next-start.log
+          exit 1
+      - name: Page specs
+        run: npx playwright test tests/pages
+        env:
+          OIOS_TEST_URL: http://127.0.0.1:3017
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

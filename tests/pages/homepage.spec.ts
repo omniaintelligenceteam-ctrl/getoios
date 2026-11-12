@@ -3,7 +3,7 @@ import { test, expect, type Page } from '@playwright/test'
 /**
  * The front door. `/` is the static sample-day page in public/jarvis, served by
  * the rewrite in next.config.ts. The visitor plays the owner: three approval
- * taps, a receipt of what they decided, then the handoff form that posts to
+ * taps, a receipt of what they decided, then the call form that posts to
  * /api/handoff. day.js marks <html data-ready> once the page has booted.
  *
  * No test here lets a form post reach the server: each one answers
@@ -126,15 +126,12 @@ test.describe('Homepage', () => {
     }
   })
 
-  test('each pillar links to the form with its pillar chosen', async ({ page }) => {
+  test('each pillar links to the form and its name goes along unseen', async ({ page }) => {
     await ready(page)
     await expect(page.locator('#work a[data-pillar]')).toHaveCount(3)
     await page.locator('#work a[data-pillar="back-office"]').click()
     await expect(page).toHaveURL(/#start$/)
-    await expect(page.locator('input[name="pillar"][value="back-office"]')).toBeChecked()
-    // quick picks that belong to another pillar step aside
-    await expect(page.locator('[data-chips] button[data-for="workflows"]').first()).toBeHidden()
-    await expect(page.locator('[data-chips] button[data-for="back-office"]').first()).toBeVisible()
+    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Back office')
   })
 
   // ─── Handoff form ────────────────────────────────────────────────────
@@ -142,16 +139,15 @@ test.describe('Homepage', () => {
     const form = page.locator('form#handoff')
     await expect(form).toHaveAttribute('action', '/api/handoff')
     await expect(form).toHaveAttribute('method', 'post')
-    const radios = form.locator('input[name="pillar"]')
-    await expect(radios).toHaveCount(3)
-    expect(await radios.evaluateAll((els) => els.map((el) => (el as HTMLInputElement).value))).toEqual([
-      'assistant',
-      'back-office',
-      'workflows',
-    ])
-    for (const name of ['firstHandoff', 'fullName', 'phoneNumber', 'company']) {
+    // Wes, 10 Nov 2026: a name, an industry, an email and a cell. Nothing else shows.
+    const shown = await form
+      .locator('input, textarea, select')
+      .evaluateAll((els) => els.filter((el) => (el as HTMLElement).offsetParent && (el as HTMLInputElement).name !== 'company').map((el) => (el as HTMLInputElement).name))
+    expect(shown).toEqual(['fullName', 'industry', 'email', 'phoneNumber'])
+    for (const name of ['interest', 'company']) {
       await expect(form.locator(`[name="${name}"]`)).toHaveCount(1)
     }
+    await expect(form.locator('input[name="interest"]')).toHaveAttribute('type', 'hidden')
     await expect(form.locator('[type="submit"]')).toBeEnabled()
     await expect(form.locator('#sent')).toBeHidden()
   })
@@ -165,13 +161,32 @@ test.describe('Homepage', () => {
     await page.goto('/?fresh=1#start')
     await ready(page)
     await page.locator('form#handoff [type="submit"]').click()
-    await expect(page.locator('[data-field="pillar"] [data-err]')).toHaveText(/Pick the one/)
-    await expect(page.locator('[data-field="phoneNumber"] [data-err]')).toBeVisible()
-    expect(await page.evaluate(() => (document.activeElement as HTMLInputElement | null)?.name)).toBe('pillar')
+    for (const field of ['fullName', 'industry', 'email', 'phoneNumber']) {
+      await expect(page.locator(`[data-field="${field}"] [data-err]`)).toBeVisible()
+    }
+    expect(await page.evaluate(() => (document.activeElement as HTMLInputElement | null)?.name)).toBe('fullName')
     expect(posts).toBe(0)
   })
 
-  test('a filled form posts the pillar to /api/handoff and shows the sent state', async ({ page }) => {
+  test('an email address without its @ is named and posts nothing', async ({ page }) => {
+    let posts = 0
+    await page.route('**/api/handoff', async (route) => {
+      posts++
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' })
+    })
+    await page.goto('/?fresh=1#start')
+    await ready(page)
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test.example.com')
+    await page.fill('input[name="phoneNumber"]', '(512) 555-0100')
+    await page.locator('form#handoff [type="submit"]').click()
+    await expect(page.locator('[data-field="email"] [data-err]')).toBeVisible()
+    await expect(page.locator('[data-field="fullName"] [data-err]')).toBeHidden()
+    expect(posts).toBe(0)
+  })
+
+  test('a filled form posts its four answers to /api/handoff and shows the sent state', async ({ page }) => {
     let posted: Record<string, string> | null = null
     await page.route('**/api/handoff', async (route) => {
       posted = route.request().postDataJSON()
@@ -179,16 +194,22 @@ test.describe('Homepage', () => {
     })
     await page.goto('/?fresh=1#start')
     await ready(page)
-    await page.locator('input[name="pillar"][value="workflows"]').check()
-    await page.locator('[data-chips] button[data-for="workflows"]').first().click()
     await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
     await page.fill('input[name="phoneNumber"]', '(512) 555-0100')
     await page.locator('form#handoff [type="submit"]').click()
     await expect(page.locator('form#handoff')).toHaveClass(/is-sent/)
-    await expect(page.locator('#sent')).toHaveText('Got it, Test. Omnia will call you about your first handoff.')
+    await expect(page.locator('#sent')).toHaveText('Got it, Test. Omnia will call you.')
     await expect(page.locator('form#handoff [type="submit"]')).toBeDisabled()
-    expect(posted).toMatchObject({ pillar: 'workflows', fullName: 'Test User', phoneNumber: '(512) 555-0100', company: '' })
-    expect(posted!.firstHandoff.trim().length).toBeGreaterThan(0)
+    expect(posted).toEqual({
+      fullName: 'Test User',
+      industry: 'Bakery',
+      email: 'test@example.com',
+      phoneNumber: '(512) 555-0100',
+      interest: '',
+      company: '',
+    })
   })
 
   test('a refused post says so and lets the visitor try again', async ({ page }) => {
@@ -197,8 +218,9 @@ test.describe('Homepage', () => {
     )
     await page.goto('/?pillar=assistant#start')
     await ready(page)
-    await page.fill('textarea[name="firstHandoff"]', 'My morning plan')
     await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
     await page.fill('input[name="phoneNumber"]', '512 555 0100')
     await page.locator('form#handoff [type="submit"]').click()
     await expect(page.locator('[data-form-err]')).toContainText('Your request did not send')
@@ -207,17 +229,19 @@ test.describe('Homepage', () => {
     await expect(page.locator('form#handoff')).not.toHaveClass(/is-sent/)
   })
 
-  test('a ?pillar= link from another page preselects the pillar', async ({ page }) => {
+  test('a ?pillar= link from another page sends its pillar along unseen', async ({ page }) => {
     await page.goto('/?pillar=assistant#start')
     await ready(page)
-    await expect(page.locator('input[name="pillar"][value="assistant"]')).toBeChecked()
-    await expect(page.locator('[data-chips] button[data-for="workflows"]').first()).toBeHidden()
+    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Right hand')
+    await page.goto('/?pillar=everything#start')
+    await ready(page)
+    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('')
   })
 
   test('/#sent, where the no-script post lands, shows the confirmation', async ({ page }) => {
     await page.goto('/?fresh=1#sent')
     await expect(page.locator('#sent')).toBeVisible()
-    await expect(page.locator('#sent')).toHaveText('Got it. Omnia will call you about your first handoff.')
+    await expect(page.locator('#sent')).toHaveText('Got it. Omnia will call you.')
   })
 
   // ─── Audience ────────────────────────────────────────────────────────
@@ -236,12 +260,44 @@ test.describe('Homepage', () => {
       const alts = await page.locator('img[alt]').evaluateAll((els) => els.map((el) => el.getAttribute('alt') || ''))
       expect(alts.length).toBeGreaterThanOrEqual(3)
       for (const alt of alts) expect(alt).not.toMatch(TRADE_WORDS)
-      const placeholder = await page.locator('textarea[name="firstHandoff"]').getAttribute('placeholder')
+      const placeholder = await page.locator('input[name="industry"]').getAttribute('placeholder')
       expect(placeholder).not.toMatch(TRADE_WORDS)
     })
   }
 
   // ─── Footer ──────────────────────────────────────────────────────────
+  // Wes, 10 Nov 2026: the same voice sample as meetjarvis. One morning brief, two voices to choose.
+  test('the voice sample plays one morning brief in two voices', async ({ page }) => {
+    await ready(page)
+    const voice = page.locator('[data-voice-sample]')
+    const audio = voice.locator('audio')
+    await voice.scrollIntoViewIfNeeded()
+    await expect(voice.getByRole('button', { name: 'Ava' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(voice.locator('[data-voice-label]')).toHaveText(/Ava’s voice · 20 seconds/)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentSrc)).toMatch(/\/jarvis\/assets\/voice\/ava-heart\.mp3$/)
+    await audio.evaluate(async (a: HTMLAudioElement) => { a.muted = true; await a.play() })
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentTime > 0 && a.duration > 19.5 && a.duration < 21)).toBe(true)
+
+    await voice.getByRole('button', { name: 'Jarvis' }).click()
+    await expect(voice.getByRole('button', { name: 'Jarvis' })).toHaveAttribute('aria-pressed', 'true')
+    await expect(voice.getByRole('button', { name: 'Ava' })).toHaveAttribute('aria-pressed', 'false')
+    await expect(voice.locator('[data-voice-label]')).toHaveText(/Jarvis’s voice · 16 seconds/)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentSrc)).toMatch(/jarvis-liam\.mp3$/)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.paused)).toBe(true)
+    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.duration > 16 && a.duration < 18)).toBe(true)
+
+    await voice.locator('summary').click()
+    await expect(voice.locator('details')).toContainText('Good morning. Three things need you today.')
+    await expect(voice.locator('[data-voice-alt]')).toBeHidden()
+  })
+
+  test('a voice clip that cannot load says so', async ({ page }) => {
+    await page.route('**/ava-heart.mp3', (route) => route.abort())
+    await page.goto('/')
+    await ready(page)
+    await expect(page.locator('[data-voice-error]')).toBeVisible()
+  })
+
   test('footer is visible with correct links', async ({ page }) => {
     const footer = page.locator('footer')
     await footer.scrollIntoViewIfNeeded()
@@ -289,6 +345,14 @@ test.describe('Homepage', () => {
 test.describe('Homepage without script', () => {
   test.use({ javaScriptEnabled: false })
 
+  test('the voice sample keeps one clip and a link to the other voice', async ({ page }) => {
+    await page.goto('/')
+    const voice = page.locator('[data-voice-sample]')
+    await expect(voice.locator('audio')).toHaveCount(1)
+    await expect(voice.locator('[data-voice-pick]')).toBeHidden()
+    await expect(voice.locator('[data-voice-alt] a')).toHaveAttribute('href', '/jarvis/assets/voice/jarvis-liam.mp3')
+  })
+
   test('the form posts its four fields form-encoded to /api/handoff', async ({ page }) => {
     let contentType = ''
     let body = ''
@@ -298,12 +362,10 @@ test.describe('Homepage without script', () => {
       await route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>answered</title>' })
     })
     await page.goto('/')
-    await page.locator('input[name="pillar"][value="back-office"]').check()
-    await page.fill('textarea[name="firstHandoff"]', 'That quote I owe')
     await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
     await page.fill('input[name="phoneNumber"]', '512 555 0100')
-    // the quick picks need script, so they stay out of the way without it
-    await expect(page.locator('[data-chips]')).toBeHidden()
     // Enter in a field submits through the button. A click waits on animation
     // frames, and a page without script gives Playwright none.
     await page.locator('input[name="phoneNumber"]').press('Enter')
@@ -311,10 +373,11 @@ test.describe('Homepage without script', () => {
     expect(contentType).toContain('application/x-www-form-urlencoded')
     const sent = new URLSearchParams(body)
     expect(Object.fromEntries(sent)).toEqual({
-      pillar: 'back-office',
-      firstHandoff: 'That quote I owe',
       fullName: 'Test User',
+      industry: 'Bakery',
+      email: 'test@example.com',
       phoneNumber: '512 555 0100',
+      interest: '',
       company: '',
     })
   })

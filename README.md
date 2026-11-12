@@ -12,7 +12,6 @@ AI receptionist and business automation platform for service businesses. Live at
 - **Tailwind CSS v4**
 - **Framer Motion** (via `motion` package) + **GSAP** for animations
 - **Resend** for transactional email
-- **ElevenLabs** for text-to-speech
 - **Cal.com** embed for scheduling
 
 ## Setup
@@ -42,7 +41,6 @@ Create `.env.local` in the project root. Required variables (values in `referenc
 
 ```
 RESEND_API_KEY
-ELEVENLABS_API_KEY
 NEXT_PUBLIC_CALCOM_LINK
 CALCOM_WEBHOOK_SECRET
 DISCORD_WEBHOOK_ALERTS
@@ -54,8 +52,7 @@ All routes are under `src/app/api/`. Every route includes rate limiting and inpu
 
 | Route | Method | Purpose |
 |-------|--------|---------|
-| `/api/handoff` | POST | The front door's handoff form, sends one email via Resend |
-| `/api/elevenlabs` | POST | Text-to-speech conversion for site voice demo |
+| `/api/handoff` | POST | The call-request form of getoios.com and meetjarvis, sends one email via Resend |
 | `/api/calcom` | POST | Webhook receiver for Cal.com scheduling events |
 
 ## Tests
@@ -94,7 +91,7 @@ npm run build
 ```
 src/
   app/
-    api/           # 3 API routes (calcom, elevenlabs, handoff)
+    api/           # 2 API routes (calcom, handoff)
     page.tsx       # Main landing page
     layout.tsx     # Root layout
   components/      # React components

@@ -253,6 +253,21 @@ mark {
 .notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2.5rem, 5vw, 4.5rem); max-width: 62rem; }
 .notes h3 { font-family: var(--serif); font-weight: 800; font-size: 1.5rem; line-height: 1.1; letter-spacing: -.015em; text-wrap: balance; }
 .notes p { margin-top: .5rem; }
+.voice { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: start; margin-top: clamp(2.5rem, 5vw, 4.5rem); max-width: 62rem; }
+.voice h3 { font-family: var(--serif); font-weight: 800; font-size: 1.5rem; line-height: 1.1; letter-spacing: -.015em; text-wrap: balance; }
+.voice__text p { margin-top: .5rem; }
+.voice__card { background: var(--paper); border-radius: 1.5rem; padding: clamp(1.25rem, 2.2vw, 1.85rem); min-width: 0; }
+.voice__label { font-size: .875rem; font-weight: 600; color: var(--soft); }
+.voice__pick { display: flex; gap: .5rem; margin-top: .75rem; }
+.voice__pick[hidden], .voice__alt[hidden], .voice__error[hidden] { display: none; }
+.voice__pick button { min-height: 2.75rem; padding: 0 1.25rem; border-radius: 999px; border: 2px solid var(--ink); background: transparent; color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+.voice__pick button[aria-pressed="true"] { background: var(--purple); border-color: var(--purple); color: var(--paper); }
+.voice__card audio { display: block; width: 100%; min-height: 3.375rem; margin-top: 1rem; }
+.voice__alt a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 600; }
+.voice__error { margin-top: .75rem; font-weight: 600; }
+.voice__words { margin-top: .5rem; border-top: 1px solid var(--hair); }
+.voice__words summary { display: flex; align-items: center; min-height: 2.75rem; font-weight: 700; cursor: pointer; }
+.voice__words p { margin-top: .5rem; color: var(--soft); }
 
 /* ---------- Who's behind it ---------- */
 .behind { background: var(--night); color: var(--paper); padding-block: clamp(4rem, 9vw, 8rem); --focus: var(--lemon); }
@@ -275,31 +290,13 @@ mark {
 .start .h2 { max-width: 11ch; }
 .form { background: var(--paper); color: var(--ink); border-radius: 1.5rem; padding: clamp(1.25rem, 2.5vw, 2.25rem); display: grid; gap: 1.5rem; --focus: var(--purple); box-shadow: 0 2.2rem 4rem -1.6rem rgba(24, 0, 80, .7); }
 .form legend, .form label[for] { font-weight: 700; display: block; margin-bottom: .6rem; padding: 0; }
-.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
-.tile { position: relative; cursor: pointer; }
-.tile input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.tile span { display: flex; flex-direction: column; gap: .15rem; height: 100%; padding: .85rem 1rem; border: 2px solid var(--hair); border-radius: 1rem; transition: border-color .12s, background-color .12s; }
-.tile b { font-family: var(--serif); font-weight: 800; font-size: 1.0625rem; letter-spacing: -.015em; white-space: nowrap; }
-.tile i { font-style: normal; font-size: .9375rem; color: var(--soft); }
-.tile:hover span { border-color: var(--ink); }
-.tile input:checked + span { background: var(--lemon); border-color: var(--ink); }
-.tile input:checked + span i { color: var(--ink); }
-.tile input:focus-visible + span { outline: 3px solid var(--purple); outline-offset: 3px; }
-.chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .75rem; }
-.chips button { min-height: 2.75rem; padding: 0 .95rem; border-radius: 999px; border: 1.5px solid var(--hair); background: var(--paper); font-weight: 600; font-size: .9375rem; cursor: pointer; }
-.chips button:hover { border-color: var(--ink); }
-.form textarea, .form input[type="text"], .form input[type="tel"] { width: 100%; border: 2px solid var(--ink); border-radius: .85rem; padding: .85rem 1rem; background: var(--paper); font-size: 1.0625rem; }
-.form input[type="text"], .form input[type="tel"] { min-height: 3.5rem; padding-block: 0; }
-.form textarea { resize: vertical; min-height: 6.5rem; }
+.form input[type="text"], .form input[type="email"], .form input[type="tel"] { width: 100%; min-height: 3.5rem; border: 2px solid var(--ink); border-radius: .85rem; padding: 0 1rem; background: var(--paper); font-size: 1.0625rem; }
 .form ::placeholder { color: #6B6679; opacity: 1; }
 .form__pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .err { margin-top: .5rem; font-weight: 600; color: #A8071A; }
 .err::before { content: "!"; display: inline-grid; place-items: center; width: 1.25rem; height: 1.25rem; margin-right: .4rem; border-radius: 50%; background: #A8071A; color: #fff; font-size: .8125rem; font-weight: 800; }
 .form__sent { display: none; background: var(--lilac); border-radius: 1rem; padding: 1rem 1.1rem; font-weight: 500; scroll-margin-top: 6rem; }
 .form__sent:target, .form.is-sent .form__sent { display: block; }
-.form.is-sent .chips { display: none; }
-/* The quick picks fill the box by script, so they show once the script has booted. */
-html:not([data-ready]) .chips { display: none; }
 .err--form a { color: inherit; font-weight: 700; }
 /* The honeypot. A person never sees or reaches this field. */
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
@@ -391,7 +388,7 @@ main > section { scroll-margin-top: 3.4rem; }
   .brand { margin-right: auto; }
   .top__by { order: 5; flex-basis: 100%; margin: 0; padding: 0; border: 0; font-size: .875rem; white-space: normal; }
   .intro h1 { font-size: 1.0625rem; }
-  .rule__facts, .notes, .form__pair, .tiles { grid-template-columns: minmax(0, 1fr); }
+  .rule__facts, .notes, .voice, .form__pair { grid-template-columns: minmax(0, 1fr); }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .needs li, .needs--wide li { grid-template-columns: 3.9rem minmax(0, 1fr); column-gap: .75rem; }
   .needs--wide li { grid-template-columns: 5.25rem minmax(0, 1fr); }
