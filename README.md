@@ -12,7 +12,6 @@ AI receptionist and business automation platform for service businesses. Live at
 - **Tailwind CSS v4**
 - **Framer Motion** (via `motion` package) + **GSAP** for animations
 - **Resend** for transactional email
-- **ElevenLabs** for text-to-speech
 - **Cal.com** embed for scheduling
 
 ## Setup
@@ -42,7 +41,6 @@ Create `.env.local` in the project root. Required variables (values in `referenc
 
 ```
 RESEND_API_KEY
-ELEVENLABS_API_KEY
 NEXT_PUBLIC_CALCOM_LINK
 CALCOM_WEBHOOK_SECRET
 DISCORD_WEBHOOK_ALERTS
@@ -57,7 +55,6 @@ All routes are under `src/app/api/`. Every route includes rate limiting and inpu
 | `/api/form` | POST | Contact form submissions, sends notification via Resend |
 | `/api/audit` | POST | Audit request form, sends email via Resend |
 | `/api/demo-request` | POST | Demo request form, sends email via Resend |
-| `/api/elevenlabs` | POST | Text-to-speech conversion for site voice demo |
 | `/api/calcom` | POST | Webhook receiver for Cal.com scheduling events |
 
 ## Tests
@@ -96,7 +93,7 @@ npm run build
 ```
 src/
   app/
-    api/           # 6 API routes (audit, calcom, demo-request, elevenlabs, form, handoff)
+    api/           # 5 API routes (audit, calcom, demo-request, form, handoff)
     page.tsx       # Main landing page
     layout.tsx     # Root layout
   components/      # React components
