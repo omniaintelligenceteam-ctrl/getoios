@@ -1,4 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
+import { readdirSync } from 'node:fs'
+import { join } from 'node:path'
 
 /**
  * Wes, 2 Nov 2026: Jarvis is sold as the owner's chief of staff. Jarvis
@@ -14,8 +16,36 @@ import { test, expect, type Page } from '@playwright/test'
 export const CALL_CLAIMS =
   /\b(incoming calls?|answers? (?:the|your|our) (?:phones?|calls?)|answer(?:ing)? (?:the|your|our) (?:phones?|calls?)|answers? calls|handl(?:e|es|ing) (?:your |inbound |all )?calls|runs? (?:your )?phones|call answering|calls? answered|phones answered|callers?|missed calls?|ai receptionist|voice receptionist|receptionist|answering service|after[- ]hours|voicemail|24\/7|every call|every ring|never miss a call|text-back)\b/i
 
-// Every old page address redirects to a section of / (next.config.ts).
-const ROUTES = ['/', '/privacy', '/terms', '/sms']
+/**
+ * Wes: OIOS is for every small business, never for the trades only. A page
+ * that addresses contractors or the trades as the whole audience fails. One
+ * trade as one sample among others (the plumbing day) is allowed.
+ */
+export const AUDIENCE_CLAIMS =
+  /\b(every contractor|for contractors|contractors like you|built for (?:the )?trades|for the trades|trades? businesses only|home[- ]service (?:business(?:es)?|pros?|companies))\b/i
+
+const RULES = [CALL_CLAIMS, AUDIENCE_CLAIMS]
+
+/** Every banned phrase in a text, under either rule. */
+function claims(text: string): string[] {
+  return RULES.flatMap((rule) => text.match(new RegExp(rule.source, 'gi')) || [])
+}
+
+/**
+ * Every page under src/app, read off disk, so a new or forgotten page cannot
+ * stay outside this spec (/demo-saas did, 2 to 12 Nov 2026). `/` is the static
+ * front door (next.config.ts rewrite); every old page address redirects to it.
+ */
+function pageRoutes(dir = join(process.cwd(), 'src', 'app'), route = ''): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    if (entry.isFile()) return /^page\.(tsx|ts|jsx|js)$/.test(entry.name) ? [route || '/'] : []
+    if (!entry.isDirectory() || entry.name === 'api' || /^[_\[@]/.test(entry.name)) return []
+    const group = /^\(.*\)$/.test(entry.name)
+    return pageRoutes(join(dir, entry.name), group ? route : `${route}/${entry.name}`)
+  })
+}
+
+const ROUTES = [...new Set(['/', ...pageRoutes()])].sort()
 
 /** The business switch on / rewrites the whole sample day, so each day is read. */
 const SAMPLE_DAYS = ['cafe', 'dental', 'shop', 'plumbing']
@@ -60,8 +90,7 @@ test.describe('No call-answering claims', () => {
       await page.evaluate(() => window.scrollTo(0, 0))
 
       const found = (await readSurfaces(page)).flatMap(({ surface, text }) => {
-        const hits = text.match(new RegExp(CALL_CLAIMS.source, 'gi')) || []
-        return hits.map((hit) => `${surface}: "${hit}"`)
+        return claims(text).map((hit) => `${surface}: "${hit}"`)
       })
       expect(found).toEqual([])
     })
@@ -77,7 +106,7 @@ test.describe('No call-answering claims', () => {
       for (const tap of ['data-approve', 'data-decline']) {
         for (const scene of ['s1', 's2', 's3']) await page.locator(`[data-scene="${scene}"] [${tap}]`).click()
         for (const { surface, text } of await readSurfaces(page)) {
-          for (const hit of text.match(new RegExp(CALL_CLAIMS.source, 'gi')) || []) found.push(`${tap} ${surface}: "${hit}"`)
+          for (const hit of claims(text)) found.push(`${tap} ${surface}: "${hit}"`)
         }
         for (const scene of ['s1', 's2', 's3']) await page.locator(`[data-scene="${scene}"] [data-undo]`).click()
       }
@@ -88,7 +117,16 @@ test.describe('No call-answering claims', () => {
   test('/llms.txt, the summary for AI crawlers, makes no call-answering claim', async ({ request }) => {
     const response = await request.get('/llms.txt')
     expect(response.status()).toBe(200)
-    const hits = (await response.text()).match(new RegExp(CALL_CLAIMS.source, 'gi')) || []
-    expect(hits).toEqual([])
+    expect(claims(await response.text())).toEqual([])
+  })
+
+  test('the route list covers every page in src/app', () => {
+    for (const route of ['/', '/privacy', '/terms', '/sms']) expect(ROUTES).toContain(route)
+    expect(ROUTES).toEqual([...new Set(['/', ...pageRoutes()])].sort())
+    expect(ROUTES.length).toBeGreaterThanOrEqual(5)
+  })
+
+  test('the rules catch the sentence the deleted /demo-saas page carried', () => {
+    expect(claims('Every contractor has the same leaks: missed calls, slow follow-ups')).toEqual(['missed calls', 'Every contractor'])
   })
 })
