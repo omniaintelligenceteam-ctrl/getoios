@@ -19,7 +19,9 @@ concurrency:
 
 jobs:
   pages:
-    runs-on: ubuntu-latest
+    # Playwright 1.59 has no Chromium for Ubuntu 26.04 (ubuntu-latest). Move this
+    # with the Playwright version.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
