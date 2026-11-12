@@ -52,9 +52,7 @@ All routes are under `src/app/api/`. Every route includes rate limiting and inpu
 
 | Route | Method | Purpose |
 |-------|--------|---------|
-| `/api/form` | POST | Contact form submissions, sends notification via Resend |
-| `/api/audit` | POST | Audit request form, sends email via Resend |
-| `/api/demo-request` | POST | Demo request form, sends email via Resend |
+| `/api/handoff` | POST | The call-request form of getoios.com and meetjarvis, sends one email via Resend |
 | `/api/calcom` | POST | Webhook receiver for Cal.com scheduling events |
 
 ## Tests
@@ -93,7 +91,7 @@ npm run build
 ```
 src/
   app/
-    api/           # 5 API routes (audit, calcom, demo-request, form, handoff)
+    api/           # 2 API routes (calcom, handoff)
     page.tsx       # Main landing page
     layout.tsx     # Root layout
   components/      # React components

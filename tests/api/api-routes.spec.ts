@@ -8,138 +8,6 @@ import { test, expect } from '@playwright/test'
  * We test both validation (400) and accept 200 or 500 for happy-path scenarios.
  */
 
-test.describe('POST /api/form — Discovery Form', () => {
-  const validPayload = {
-    fullName: 'Test User',
-    businessName: 'Test Business LLC',
-    businessDescription: 'We do plumbing things',
-    teamSize: 'Just me',
-    callsPerWeek: 'Under 20',
-    callHandler: 'Me',
-    phoneNumber: '(480) 555-0001',
-    bestTime: 'Morning',
-    biggestPainPoint: 'Missing calls',
-    currentSoftware: 'None',
-  }
-
-  test('valid data returns 200 or 500 (env-dependent)', async ({ request }) => {
-    const response = await request.post('/api/form', { data: validPayload })
-    expect([200, 500]).toContain(response.status())
-  })
-
-  test('missing fullName returns 400', async ({ request }) => {
-    const { fullName, ...partial } = validPayload
-    const response = await request.post('/api/form', { data: partial })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('fullName')
-  })
-
-  test('missing businessName returns 400', async ({ request }) => {
-    const { businessName, ...partial } = validPayload
-    const response = await request.post('/api/form', { data: partial })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('businessName')
-  })
-
-  test('missing phoneNumber returns 400', async ({ request }) => {
-    const { phoneNumber, ...partial } = validPayload
-    const response = await request.post('/api/form', { data: partial })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('phoneNumber')
-  })
-
-  test('empty object returns 400', async ({ request }) => {
-    const response = await request.post('/api/form', { data: {} })
-    expect(response.status()).toBe(400)
-  })
-})
-
-test.describe('POST /api/audit — Audit Request', () => {
-  const validPayload = {
-    fullName: 'Mike Johnson',
-    businessName: 'Johnson HVAC',
-    businessWebsite: 'https://johnsonhvac.com',
-    phoneNumber: '(602) 555-1234',
-    trade: 'HVAC',
-    teamSize: '6-15',
-    missedCalls: '5-10 per day',
-    phoneHandler: 'Office manager',
-    currentSoftware: 'ServiceTitan',
-    extraHours: 'Follow-ups and marketing',
-    biggestFrustration: 'Losing leads after hours',
-  }
-
-  test('valid data returns 200 or 500 (env-dependent)', async ({ request }) => {
-    const response = await request.post('/api/audit', { data: validPayload })
-    expect([200, 500]).toContain(response.status())
-  })
-
-  test('missing trade returns 400', async ({ request }) => {
-    const { trade, ...partial } = validPayload
-    const response = await request.post('/api/audit', { data: partial })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('trade')
-  })
-
-  test('missing phoneNumber returns 400', async ({ request }) => {
-    const { phoneNumber, ...partial } = validPayload
-    const response = await request.post('/api/audit', { data: partial })
-    expect(response.status()).toBe(400)
-    const body = await response.json()
-    expect(body.error).toContain('phoneNumber')
-  })
-
-  test('empty object returns 400', async ({ request }) => {
-    const response = await request.post('/api/audit', { data: {} })
-    expect(response.status()).toBe(400)
-  })
-})
-
-test.describe('POST /api/demo-request — Demo Request', () => {
-  const validPayload = {
-    name: 'Sarah Connor',
-    company: 'Skynet Plumbing',
-    phone: '(480) 555-9999',
-  }
-
-  test('valid data returns 200 or 500 (env-dependent)', async ({ request }) => {
-    const response = await request.post('/api/demo-request', { data: validPayload })
-    expect([200, 500]).toContain(response.status())
-  })
-
-  test('missing name returns 400', async ({ request }) => {
-    const response = await request.post('/api/demo-request', {
-      data: { company: 'Test', phone: '1234567890' },
-    })
-    expect(response.status()).toBe(400)
-  })
-
-  test('missing company returns 400', async ({ request }) => {
-    const response = await request.post('/api/demo-request', {
-      data: { name: 'Test', phone: '1234567890' },
-    })
-    expect(response.status()).toBe(400)
-  })
-
-  test('missing phone returns 400', async ({ request }) => {
-    const response = await request.post('/api/demo-request', {
-      data: { name: 'Test', company: 'Test Co' },
-    })
-    expect(response.status()).toBe(400)
-  })
-
-  test('empty string values return 400', async ({ request }) => {
-    const response = await request.post('/api/demo-request', {
-      data: { name: '', company: '', phone: '' },
-    })
-    expect(response.status()).toBe(400)
-  })
-})
-
 test.describe('Removed routes: the receptionist demo is gone', () => {
   // Wes, 2 Nov 2026: the voice service that answers a business's phone comes off the product.
   // /api/chat (Gemini, "Sarah"), /api/retell (Retell web call) and /api/elevenlabs ("Sarah's voice") were deleted
@@ -154,6 +22,25 @@ test.describe('Removed routes: the receptionist demo is gone', () => {
       const response = await request.post(route, {
         data: { message: 'Hi, I need to schedule an appointment', history: [] },
         headers: { 'x-forwarded-for': `10.7.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` },
+      })
+      expect(response.status()).toBe(404)
+    })
+  }
+})
+
+test.describe('Removed routes: the old site forms are gone', () => {
+  // 10 Nov 2026: the pages that posted to these routes were deleted (PR #16).
+  // A route with no page is only a door for spam, so the routes went too.
+  for (const route of ['/api/form', '/api/audit', '/api/demo-request']) {
+    test(`GET ${route} is 404`, async ({ request }) => {
+      const response = await request.get(route)
+      expect(response.status()).toBe(404)
+    })
+
+    test(`POST ${route} is 404`, async ({ request }) => {
+      const response = await request.post(route, {
+        data: {},
+        headers: { 'x-forwarded-for': `10.8.${Math.floor(Math.random() * 250)}.${Math.floor(Math.random() * 250)}` },
       })
       expect(response.status()).toBe(404)
     })
@@ -278,9 +165,6 @@ test.describe('POST /api/handoff — Call request', () => {
 
 test.describe('GET on POST-only routes', () => {
   const postOnlyRoutes = [
-    '/api/form',
-    '/api/audit',
-    '/api/demo-request',
     '/api/handoff',
   ]
 
