@@ -57,15 +57,106 @@ test.describe('Homepage', () => {
   test('the first screen shows the three hires and nothing of the next section', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await ready(page)
-    const sets = page.locator('.hero .ly-collage__set')
-    await expect(sets).toHaveCount(3)
-    await expect(page.locator('.hero .pc-hire strong')).toHaveText(['Assistant', 'Chief of staff', 'Management team'])
+    await expect(page.locator('.hero .h3d__label')).toHaveText(['Assistant', 'Chief of staff', 'Management team'])
     const next = await page.locator('#today').boundingBox()
     expect(next!.y).toBeGreaterThanOrEqual(899)
-    // every picture in the first set has drawn
-    for (const img of await sets.first().locator('img').all()) {
-      await expect.poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth), { timeout: 10_000 }).toBeGreaterThan(0)
+    // the model's still has drawn, and each room's name stands inside the stage
+    const still = page.locator('.hero .h3d__still')
+    await expect.poll(() => still.evaluate((el) => (el as HTMLImageElement).naturalWidth), { timeout: 10_000 }).toBeGreaterThan(0)
+    const stage = (await page.locator('.hero .h3d').boundingBox())!
+    for (const label of await page.locator('.hero .h3d__label').all()) {
+      const box = (await label.boundingBox())!
+      expect(box.x).toBeGreaterThanOrEqual(stage.x)
+      expect(box.x + box.width).toBeLessThanOrEqual(stage.x + stage.width)
+      expect(box.y).toBeGreaterThanOrEqual(stage.y)
+      expect(box.y + box.height).toBeLessThanOrEqual(stage.y + stage.height)
     }
+  })
+
+  // ─── The hero's model ────────────────────────────────────────────────
+  // The card and the business switch are plain page script: they work on the still, with no WebGL.
+  test('the model: an Approve tap in the hero sends the sample item and brings the next hire', async ({ page }) => {
+    test.setTimeout(60_000)
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await ready(page)
+    const tap = page.locator('.hero [data-h3d-tap]')
+    await expect(tap.locator('[data-h3d-hire]')).toHaveText('Assistant')
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Sam Ortiz?')
+    await expect(tap).toContainText('A sample. Nothing really goes out.')
+    await tap.locator('[data-h3d-yes]').click()
+    await expect(tap).toHaveAttribute('data-state', 'sent')
+    await expect(tap.locator('[data-h3d-flag]')).toHaveText('Sent')
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('It went from your business number and it is in Sam’s file.')
+    await expect(page.locator('.hero .h3d')).toHaveAttribute('data-last', 's1:sent')
+    // the next hire's item follows by itself
+    await expect(tap.locator('[data-h3d-hire]')).toHaveText('Chief of staff', { timeout: 8_000 })
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Ridge Farms?')
+    await tap.locator('[data-h3d-no]').click()
+    await expect(tap).toHaveAttribute('data-state', 'held')
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Nothing went to Ridge Farms. Jarvis keeps the draft until you say.')
+    await expect(tap.locator('[data-h3d-hire]')).toHaveText('Management team', { timeout: 8_000 })
+    await tap.locator('[data-h3d-yes]').click()
+    await expect(tap).toHaveAttribute('data-state', 'done', { timeout: 8_000 })
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('2 went out on your tap. Jarvis holds the rest.')
+    await tap.locator('[data-h3d-yes]').click()
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Sam Ortiz?')
+  })
+
+  test('the model: its business switch and the product’s switch are one choice', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await ready(page)
+    const tap = page.locator('.hero [data-h3d-tap]')
+    await page.locator('.hero .h3d__biz label', { hasText: 'Dental office' }).click()
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Carla Reyes?')
+    await expect(page.locator('#today input[name="biz"][value="dental"]')).toBeChecked()
+    await expect(page.locator('#today [data-k="name"]')).toHaveText('Larkin Family Dental')
+    await page.locator('#today .app__biz label', { hasText: 'Plumber' }).click()
+    await expect(page.locator('.hero input[name="hbiz"][value="plumbing"]')).toBeChecked()
+  })
+
+  test('the model: reduced motion keeps the still and loads no 3D engine', async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } })
+    const page = await context.newPage()
+    const engine: string[] = []
+    page.on('request', (request) => { if (/\/hero3d\/(hero3d\.js|shop\.bin|atlas-)/.test(request.url())) engine.push(request.url()) })
+    await page.goto('/')
+    await ready(page)
+    await page.waitForLoadState('load')
+    await expect(page.locator('html')).toHaveAttribute('data-hero3d', 'still')
+    await expect(page.locator('.hero .h3d')).toHaveAttribute('data-why', 'reduced motion')
+    await page.waitForTimeout(2_000)
+    await expect(page.locator('.hero .h3d canvas')).toHaveCount(0)
+    expect(engine).toEqual([])
+    await expect(page.locator('.hero .h3d__still')).toBeVisible()
+    await context.close()
+  })
+
+  // A browser with WebGL 2 runs the live scene; one with none keeps the still. CI's browser may be either.
+  test('the model: the live scene draws, and a tap reaches it', async ({ page }) => {
+    test.setTimeout(90_000)
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/?h3d=force')
+    await ready(page)
+    const html = page.locator('html')
+    await expect(html).toHaveAttribute('data-hero3d', /live|still/, { timeout: 25_000 })
+    const state = await html.getAttribute('data-hero3d')
+    const stage = page.locator('.hero .h3d')
+    if (state === 'still') {
+      await expect(stage).toHaveAttribute('data-why', /no WebGL|failed/)
+      await expect(page.locator('.hero .h3d__still')).toBeVisible()
+      return
+    }
+    await expect(stage.locator('canvas.h3d__canvas')).toHaveCount(1)
+    await expect(page.locator('.hero [data-h3d-play]')).toBeVisible()
+    await expect.poll(() => page.evaluate(() => (window as any).__hero3d.state().frames), { timeout: 20_000 }).toBeGreaterThan(10)
+    expect(await page.evaluate(() => (window as any).__hero3d.state().need)).toBe(3)
+    await page.locator('.hero [data-h3d-yes]').click()
+    await expect.poll(() => page.evaluate(() => (window as any).__hero3d.state().done.s1), { timeout: 45_000 }).toBe('sent')
+    expect(await page.evaluate(() => (window as any).__hero3d.state().need)).toBe(2)
+    // pause stops the frames
+    await page.locator('.hero [data-h3d-play]').click()
+    await expect(page.locator('.hero [data-h3d-play]')).toHaveAttribute('aria-pressed', 'true')
+    expect(await page.evaluate(() => (window as any).__hero3d.state().running)).toBe(false)
   })
 
   test('the bar names Jarvis and carries the one action', async ({ page }) => {

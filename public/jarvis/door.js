@@ -419,8 +419,136 @@
     read();
   }
 
+  // ---- The hero's model. The card and the business switch work on the still alone. The live scene
+  // (hero3d/hero3d.js, three.js) loads after the page, never under reduced motion, and gives way to the
+  // still when WebGL is missing or the frames are slow.
+  function hero3d() {
+    const host = $('[data-h3d]');
+    if (!host) return;
+    const hero = host.closest('section');
+    const card = $('[data-h3d-tap]', hero);
+    const el = (name) => $(`[data-h3d-${name}]`, hero);
+    const hire = el('hire'), flag = el('flag'), title = el('title'), yes = el('yes'), no = el('no'), play = el('play');
+    const ORDER = ['s1', 's2', 's3'];
+    let biz = 'cafe', at = 0, state = {}, timer = 0, scene = null, paused = false, seen = true;
+
+    const draw = () => {
+      clearTimeout(timer);
+      const id = ORDER[at];
+      if (!id) {
+        const sent = ORDER.filter((k) => state[k] === 'sent').length;
+        card.dataset.state = 'done';
+        hire.textContent = DAYS[biz].name;
+        flag.textContent = 'Nothing waits';
+        title.textContent = sent === 3 ? 'All three went out on your tap.' : sent ? `${sent} went out on your tap. Jarvis holds the rest.` : 'Nothing went out. Jarvis holds all three.';
+        yes.textContent = 'Start again'; yes.hidden = false; no.hidden = true;
+        return;
+      }
+      const item = DAYS[biz][id], st = state[id] || 'wait';
+      card.dataset.state = st;
+      hire.textContent = HIRES[id];
+      flag.textContent = st === 'sent' ? 'Sent' : st === 'held' ? 'Held' : 'Needs your tap';
+      title.textContent = st === 'sent' ? item.sent : st === 'held' ? item.held : item.title;
+      yes.textContent = 'Approve'; yes.hidden = st !== 'wait'; no.hidden = st !== 'wait';
+    };
+    const decide = (approve) => {
+      const id = ORDER[at];
+      if (!id) { state = {}; at = 0; if (scene) scene.reset(); draw(); return; }
+      if (state[id]) return;
+      state[id] = approve ? 'sent' : 'held';
+      host.dataset.last = `${id}:${state[id]}`;
+      if (scene) (approve ? scene.approve(id) : scene.decline(id));
+      draw();
+      timer = setTimeout(() => { at += 1; draw(); }, 3200);
+    };
+    yes.addEventListener('click', () => decide(true));
+    no.addEventListener('click', () => decide(false));
+
+    // the business: the model's switch and the product's switch are one choice
+    const setBiz = (key, from) => {
+      if (!DAYS[key] || key === biz) return;
+      biz = key; state = {}; at = 0;
+      $$('input[name="hbiz"]', host).forEach((input) => { input.checked = input.value === key; });
+      if (scene) scene.setBiz({ key, name: DAYS[key].name });
+      draw();
+      if (from !== 'today') {
+        const other = $(`[data-today] input[name="biz"][value="${key}"]`);
+        if (other && !other.checked) { other.checked = true; other.dispatchEvent(new Event('change', { bubbles: true })); }
+      }
+    };
+    $$('input[name="hbiz"]', host).forEach((input) => input.addEventListener('change', () => { if (input.checked) setBiz(input.value, 'hero'); }));
+    $$('[data-today] input[name="biz"]').forEach((input) => input.addEventListener('change', () => { if (input.checked) setBiz(input.value, 'today'); }));
+    draw();
+
+    // ---- the live scene
+    const still = (why) => { host.dataset.state = 'still'; host.dataset.why = why; document.documentElement.dataset.hero3d = 'still'; if (play) play.hidden = true; };
+    const query = new URLSearchParams(location.search);
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { still('reduced motion'); return; }
+    if ((navigator.connection && navigator.connection.saveData) || query.get('h3d') === 'off') { still('data saver'); return; }
+    const sync = () => {
+      if (!scene) return;
+      const want = seen && !paused && !document.hidden;
+      if (want && !scene.running) scene.play();
+      if (!want && scene.running) scene.pause();
+    };
+    // WebGL 2 on a real graphics chip, or the still: a software renderer draws a few frames a second
+    const chip = () => {
+      try {
+        const gl = document.createElement('canvas').getContext('webgl2');
+        if (!gl) return 'no WebGL';
+        const info = gl.getExtension('WEBGL_debug_renderer_info');
+        const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
+        const lose = gl.getExtension('WEBGL_lose_context');
+        if (lose) lose.loseContext();
+        return /swiftshader|llvmpipe|software|basic render/i.test(name) ? 'software renderer' : '';
+      } catch (err) { return 'no WebGL'; }
+    };
+    const start = async () => {
+      try {
+        const forced = query.get('h3d') === 'force';
+        const why = chip();
+        if (why === 'no WebGL' || (why && !forced)) { still(why); return; }
+        const lib = await import('/jarvis/hero3d/hero3d.js?v=1');
+        const labels = {};
+        $$('.h3d__label', host).forEach((label) => { labels[label.dataset.room] = label; });
+        const small = matchMedia('(max-width: 639px), (pointer: coarse)').matches;
+        scene = await lib.mount(host, {
+          base: '/jarvis/hero3d/', small, dpr: small ? 1.25 : 1.5, labels, zoom: () => { const shape = host.clientWidth / host.clientHeight; return matchMedia('(max-width: 639px)').matches || shape <= 0.8 ? 1.24 : 1; }, force: query.get('h3d') === 'force',
+          biz: { key: biz, name: DAYS[biz].name }, need: ORDER.filter((k) => !state[k]).length,
+          onSlow: () => {
+            if (scene) { scene.destroy(); scene = null; }
+            $$('.h3d__label', host).forEach((label) => { label.style.transform = ''; label.classList.remove('is-on'); });
+            still('slow frames');
+          },
+        });
+        window.__hero3d = scene;
+        host.dataset.state = 'live';
+        document.documentElement.dataset.hero3d = 'live';
+        if (play) {
+          play.hidden = false;
+          play.addEventListener('click', () => {
+            paused = !paused;
+            play.setAttribute('aria-pressed', String(paused));
+            play.setAttribute('aria-label', paused ? 'Play the model' : 'Pause the model');
+            sync();
+          });
+        }
+        // the scene rests when the hero is off the screen or the tab is hidden
+        let queued = false;
+        const read = () => { queued = false; const box = host.getBoundingClientRect(); seen = box.bottom > 0 && box.top < innerHeight; sync(); };
+        const queue = () => { if (!queued) { queued = true; requestAnimationFrame(read); } };
+        addEventListener('scroll', queue, { passive: true });
+        addEventListener('resize', queue);
+        document.addEventListener('visibilitychange', sync);
+        read();
+      } catch (err) { console.error(err); still('failed'); }
+    };
+    const later = () => (window.requestIdleCallback ? requestIdleCallback(start, { timeout: 1500 }) : setTimeout(start, 300));
+    if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+  }
+
   const boot = () => {
-    [today, film, voices, interest, reply, sent, moved, spy].forEach((part) => { try { part(); } catch (err) { console.error(err); } });
+    [today, hero3d, film, voices, interest, reply, sent, moved, spy].forEach((part) => { try { part(); } catch (err) { console.error(err); } });
     document.documentElement.setAttribute('data-ready', '');
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

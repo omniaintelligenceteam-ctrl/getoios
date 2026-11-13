@@ -64,7 +64,7 @@
 <link rel="modulepreload" href="/jarvis/assets/moments/lib.js">
 <link rel="modulepreload" href="/jarvis/assets/moments/letters-assemble/moment.js">
 <link rel="modulepreload" href="/jarvis/assets/moments/line-carries-colour/moment.js">
-<link rel="stylesheet" href="/jarvis/door.css?v=1">
+<link rel="stylesheet" href="/jarvis/door.css?v=2">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://getoios.com/#org","name":"Omnia AI Intelligence","alternateName":"OIOS","url":"https://getoios.com","logo":"https://getoios.com/icon.png"},
@@ -128,53 +128,38 @@
 <main id="main">
 
   <!-- 1. HERO: triptych. Three sets, one per hire. -->
-  <section class="hero hero--triptych" id="top" data-enter aria-labelledby="hero-h">
+  <section class="hero hero--split" id="top" data-enter aria-labelledby="hero-h">
     <div class="wrap"><div class="hero-text grid hero__grid">
-      <div class="span-3">
+      <div class="hero__text span-5">
         <h1 id="hero-h">Jarvis is three hires in one</h1>
         <p class="hero__lead">He is your assistant for your business and your life, your chief of staff and your full management team. Omnia AI Intelligence installs him for small-business owners in 4 steps.</p>
-      </div>
-      <div class="ly-collage span-6 start-4" role="img" aria-label="Three views of Jarvis at work: the assistant's day list beside a family kitchen, the chief of staff's morning brief in a café, and the management team's quote and paid invoice at a front desk">
-        <div class="ly-collage__set is-on">
-          <div class="ly-piece k11"><img src="/jarvis/assets/hires/home-morning-1200.webp" srcset="/jarvis/assets/hires/home-morning-720.webp 720w, /jarvis/assets/hires/home-morning-1200.webp 1200w" sizes="(max-width: 1023px) 62vw, 416px" alt="" width="1200" height="797" fetchpriority="high" style="object-position: 30% 60%"></div>
-          <div class="ly-piece k12"><img src="/jarvis/assets/pillars/workflows-720.webp" alt="" width="720" height="480" style="object-position: 40% 50%"></div>
-          <div class="ly-piece pc-day k13">
-            <b>Today, Thursday</b>
-            <div class="ln"><em>7:30</em><span>School drop-off</span></div>
-            <div class="ln"><em>9:00</em><span>Delgado tasting</span></div>
-            <div class="ln is-new"><em>12:15</em><span>Dentist, moved from 9:00</span></div>
-            <div class="ln"><em>5:30</em><span>Soccer pickup</span></div>
+        <div class="btn-row"><a class="btn btn--primary" href="#start">Request a call or email</a></div>
+        <!-- one sample item that waits for the owner: a tap here is answered in the model -->
+        <div class="h3d-tap" data-h3d-tap data-state="wait">
+          <div class="h3d-tap__row"><span data-h3d-hire>Assistant</span><span class="h3d__flag" data-h3d-flag>Needs your tap</span></div>
+          <p class="h3d-tap__title" data-h3d-title aria-live="polite">Send this text to Sam Ortiz?</p>
+          <div class="h3d__acts" data-h3d-acts>
+            <button type="button" class="h3d__btn h3d__btn--yes" data-h3d-yes>Approve</button>
+            <button type="button" class="h3d__btn" data-h3d-no>Decline</button>
           </div>
-          <div class="ly-piece pc-hire k14"><small>Hire 1 of 3</small><strong>Assistant</strong><span>For your business and your life</span></div>
-        </div>
-        <div class="ly-collage__set" aria-hidden="true">
-          <div class="ly-piece k21"><img src="/jarvis/assets/pillars/assistant-1200.webp" srcset="/jarvis/assets/pillars/assistant-720.webp 720w, /jarvis/assets/pillars/assistant-1200.webp 1200w" sizes="(max-width: 1023px) 52vw, 340px" alt="" width="1200" height="800" style="object-position: 62% 50%"></div>
-          <div class="ly-piece pc-brief k22">
-            <small>Morning brief, 7:40</small>
-            <strong>3 need you</strong>
-            <div class="ln is-new"><span>Ridge Farms has not confirmed Thursday</span></div>
-            <div class="ln"><span>Invoice 2041 is 9 days late</span></div>
-            <div class="ln"><span>Sam Ortiz wants a yes on Saturday</span></div>
-            <p>14 handled since yesterday</p>
-          </div>
-          <div class="ly-piece pc-hire k23"><small>Hire 2 of 3</small><strong>Chief of staff</strong></div>
-        </div>
-        <div class="ly-collage__set" aria-hidden="true">
-          <div class="ly-piece k31"><img src="/jarvis/assets/pillars/back-office-1200.webp" srcset="/jarvis/assets/pillars/back-office-720.webp 720w, /jarvis/assets/pillars/back-office-1200.webp 1200w" sizes="(max-width: 1023px) 60vw, 390px" alt="" width="1200" height="800" style="object-position: 50% 60%"></div>
-          <div class="ly-piece pc-hire k32"><small>Hire 3 of 3</small><strong>Management team</strong></div>
-          <div class="ly-piece pc-paid k33"><b>Invoice 2041 paid</b><span>$640 by card, 9:12 am</span></div>
-          <div class="ly-piece pc-quote k34">
-            <small>Quote 119</small>
-            <b>Delgado anniversary dinner</b>
-            <div class="ln"><span>Short rib dinner, 40 plates</span><em>$1,520</em></div>
-            <div class="ln"><span>Servers, 2 for 4 hours</span><em>$320</em></div>
-            <div class="ln"><span>Delivery and setup</span><em>$85</em></div>
-            <div class="ln is-sum"><span>Total</span><em>$1,925</em></div>
-            <p>Waiting for your tap</p>
-          </div>
+          <p class="h3d__note">A sample. Nothing really goes out.</p>
         </div>
       </div>
-      <div class="span-3 start-10 hero__cta"><a class="btn btn--primary" href="#start">Request a call or email</a></div>
+      <!-- The model: a small business cut open, at dusk. The still shows first; door.js loads the live scene after the page (hero3d/hero3d.js). -->
+      <div class="hero__media h3d span-6 start-7" data-h3d>
+        <img class="h3d__still" src="/jarvis/hero3d/still-1470.webp" srcset="/jarvis/hero3d/still-735.webp 735w, /jarvis/hero3d/still-1470.webp 1470w" sizes="(max-width: 1023px) 92vw, 680px" width="1470" height="1336" fetchpriority="high" alt="A model of a small business at dusk, cut open, with nobody inside. Three rooms are lit: a home for the assistant, an office with the whole picture on its wall for the chief of staff, and a back office for the management team.">
+        <span class="h3d__label" data-room="2" style="--x: 0.2796; --y: 0.2650" aria-hidden="true">Assistant</span>
+        <span class="h3d__label" data-room="3" style="--x: 0.5467; --y: 0.2892" aria-hidden="true">Chief of staff</span>
+        <span class="h3d__label" data-room="4" style="--x: 0.5459; --y: 0.5271" aria-hidden="true">Management team</span>
+        <fieldset class="h3d__biz">
+          <legend class="sr-only">Sample business in the model</legend>
+          <label><input type="radio" name="hbiz" value="cafe" checked><span>Café</span></label>
+          <label><input type="radio" name="hbiz" value="dental"><span>Dental office</span></label>
+          <label><input type="radio" name="hbiz" value="shop"><span>Shop</span></label>
+          <label><input type="radio" name="hbiz" value="plumbing"><span>Plumber</span></label>
+        </fieldset>
+        <button type="button" class="h3d__play" data-h3d-play aria-pressed="false" aria-label="Pause the model" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path class="h3d__pause" d="M5 3.5v9M11 3.5v9"/><path class="h3d__go" d="M5.5 3.5v9l7-4.5z"/></svg></button>
+      </div>
     </div></div>
   </section>
 
@@ -678,6 +663,6 @@ Mike, Fig Street Café</blockquote>
 <script type="module" src="/jarvis/assets/motion/motion.js"></script>
 <script type="module" src="/jarvis/assets/layout/layout.js"></script>
 <script type="module" src="/jarvis/assets/diagrams/mount.js"></script>
-<script src="/jarvis/door.js?v=1" defer></script>
+<script src="/jarvis/door.js?v=2" defer></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* getoios.com front door: page CSS. The kit (assets/system.css and its families) builds the page.
-   This file holds only what sits inside a visual and the kit lacks: the hero collage's pieces,
+   This file holds only what sits inside a visual and the kit lacks: the hero's model,
    the live app window, the film frame, the voice player, two photograph frames and one --p-h per card group. */
 
 /* ------------------------------------------------------------------ card groups: one panel height each */
@@ -41,50 +41,70 @@
 /* a tablet: the colour moment's frame stands 20px in from the section's edge (the kit's gutter runs under 12px here) */
 @media (min-width: 640px) and (max-width: 999px) { #team { --mo-gap: 20px; } }
 
-/* ------------------------------------------------------------------ 1. the hero collage's pieces
-   Sized in % of the collage, their text in container units, so a phone shows the same picture smaller. */
-.ly-collage { container-type: inline-size; }
-.ly-collage .ly-piece { box-shadow: 0 1px 2px rgb(0 0 0 / .1), 0 22px 48px -22px rgb(0 0 0 / .4); }
-.ly-collage :is(.pc-hire, .pc-day, .pc-brief, .pc-paid, .pc-quote) { display: grid; align-content: start; font: 400 max(13px, 2.1cqw)/1.35 var(--font-text); color: #161616; background: #fff; }
-.ly-collage :is(.pc-hire, .pc-day, .pc-brief, .pc-paid, .pc-quote) :is(small, p) { margin: 0; font-size: max(13px, 1.9cqw); color: #6b6b6b; }
-
-.pc-hire { padding: 2.6cqw 3cqw; gap: .5cqw; }
-.pc-hire strong { font: 500 max(17px, 3.5cqw)/1.1 var(--font-display); letter-spacing: -0.03em; }
-.pc-hire span { color: #3a3a3a; }
-
-.pc-day { padding: 3cqw; gap: 1.4cqw; }
-.pc-day b, .pc-paid b, .pc-quote b { font-weight: 600; font-size: max(13px, 2.3cqw); }
-.pc-day .ln { display: grid; grid-template-columns: 6.6cqw 1fr; gap: 2cqw; align-items: baseline; padding-top: 1.4cqw; border-top: 1px solid #ececea; }
-.pc-day .ln em { font: 500 max(13px, 1.9cqw)/1.35 var(--font-mono); font-style: normal; color: #6b6b6b; }
-.pc-day .ln.is-new span { justify-self: start; padding: 0 .8cqw; border-radius: .6cqw; background: color-mix(in oklab, var(--p-accent) 14%, #fff); color: color-mix(in oklab, var(--p-accent) 78%, #000); }
-
-.ly-collage .pc-brief { padding: 3.2cqw; gap: 1.4cqw; background: #0f0f10; color: #f4f4f2; }
-.ly-collage .pc-brief :is(small, p) { color: #a3a3a0; }
-.pc-brief strong { font: 500 max(26px, 6.2cqw)/1 var(--font-display); letter-spacing: -0.035em; margin-bottom: .6cqw; }
-.pc-brief .ln { display: flex; gap: 1.6cqw; align-items: baseline; padding-top: 1.4cqw; border-top: 1px solid rgb(255 255 255 / .14); }
-.pc-brief .ln::before { content: ""; flex: none; width: 1cqw; height: 1cqw; min-width: 6px; min-height: 6px; border-radius: 50%; background: #6f6f6c; transform: translateY(-.2cqw); }
-.pc-brief .ln.is-new::before { background: var(--p-accent); box-shadow: 0 0 0 .5cqw color-mix(in oklab, var(--p-accent) 36%, transparent); }
-.pc-brief p { padding-top: 1.4cqw; border-top: 1px solid rgb(255 255 255 / .14); }
-
-.pc-paid { padding: 2.6cqw 3cqw; gap: .4cqw; }
-.pc-paid b { display: flex; align-items: center; gap: 1.4cqw; }
-.pc-paid b::before { content: ""; flex: none; width: 3cqw; height: 3cqw; min-width: 16px; min-height: 16px; border-radius: 50%; background: #111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-5' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; }
-.pc-paid span { color: #6b6b6b; font-size: max(13px, 1.9cqw); }
-
-.pc-quote { padding: 3cqw; gap: 1cqw; }
-.pc-quote b { margin-bottom: .6cqw; }
-.pc-quote .ln { display: flex; justify-content: space-between; gap: 2cqw; padding-top: 1.2cqw; border-top: 1px solid #ececea; }
-.pc-quote .ln em { font: 500 max(13px, 1.9cqw)/1.35 var(--font-mono); font-style: normal; }
-.pc-quote .ln.is-sum { font-weight: 600; border-top-color: #cfcfcc; }
-.ly-collage .pc-quote p { justify-self: start; margin-top: 1.2cqw; padding: .5cqw 1.4cqw; border-radius: 99px; background: color-mix(in oklab, var(--p-accent) 14%, #fff); color: color-mix(in oklab, var(--p-accent) 78%, #000); font-weight: 500; }
-
-/* a phone: each card keeps its head and two rows, so no card runs past the collage */
+/* ------------------------------------------------------------------ 1. the hero's model: a small business cut open, at dusk.
+   The stage is the split hero's picture box. The still shows first; the live scene's canvas lies over it (door.js, hero3d/hero3d.js).
+   The picture is 1.1 wide to 1 high and is held whole in the stage: --pic is its width. */
+.h3d { position: relative; container-type: size; overflow: hidden; isolation: isolate; border-radius: var(--r-lg); --pic: min(100cqw, 110cqh);
+  background: radial-gradient(120% 90% at 62% 36%, #1f1946 0%, #0f0c1e 56%, #08070f 100%); }
+.hero--split .hero__media.h3d > .h3d__still, .h3d__canvas { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.hero--split .hero__media.h3d > .h3d__still { object-fit: contain; scale: var(--zoom, 1); transition: opacity 500ms linear 120ms; }
+/* a tall narrow stage (a small laptop), and a phone: the model stands closer (door.js gives the live scene the same zoom) */
+@container (max-aspect-ratio: 8 / 10) { .h3d__still, .h3d__label { --zoom: 1.24; } }
+.h3d__canvas { display: block; opacity: 0; transition: opacity 500ms linear; }
+.h3d[data-state="live"] .h3d__canvas { opacity: 1; }
+.h3d[data-state="live"] > .h3d__still { opacity: 0; }
+/* a room's name, on the front edge of its floor */
+.h3d__label { position: absolute; z-index: 1; left: calc(50% + (var(--x) - 0.5) * var(--pic) * var(--zoom, 1)); top: calc(50% + (var(--y) - 0.5) * var(--pic) * var(--zoom, 1) / 1.1); transform: translateY(-50%);
+  padding: 3px 10px; border-radius: 99px; border: 1px solid rgb(255 255 255 / .18); background: #17132b; color: #fff; font: 500 12px/18px var(--font-text); white-space: nowrap; pointer-events: none;
+  transition: background-color 240ms var(--ease), border-color 240ms var(--ease); }
+.h3d[data-state="live"] .h3d__label { left: 0; top: 0; }
+.h3d__label.is-on { background: var(--p-accent); border-color: var(--p-accent); }
+/* the sample business */
+.h3d__biz { position: absolute; z-index: 2; left: var(--s-5); top: var(--s-5); display: flex; gap: 2px; margin: 0; padding: 3px; border: 1px solid rgb(255 255 255 / .16); border-radius: 12px; background: #17132b; }
+.h3d__biz label { position: relative; display: block; cursor: pointer; }
+/* the radio is the chip's ground, under its word: it takes the focus ring, and the word stays the top layer */
+.h3d__biz input { appearance: none; -webkit-appearance: none; position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; border-radius: 9px; background: transparent; cursor: pointer; transition: background-color 160ms var(--ease); }
+.h3d__biz input:checked { background: #fff; }
+.h3d__biz input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.h3d__biz span { position: relative; z-index: 1; display: grid; place-items: center; height: 34px; padding: 0 12px; font: 500 13px/1 var(--font-text); color: #c9c4dd; white-space: nowrap; transition: color 160ms var(--ease); }
+.h3d__biz label:hover span { color: #fff; }
+.h3d__biz input:checked + span { color: #111; }
+/* the tap: one item that waits for the owner, docked at the foot of the words */
+.hero--split .hero__text:has(.h3d-tap) { align-self: stretch; display: flex; flex-direction: column; }
+.h3d-tap { margin-top: auto; width: min(360px, 100%); display: grid; gap: var(--s-2); padding: var(--s-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--bg); color: var(--ink); }
+.h3d-tap__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); font-size: var(--t-small); color: var(--muted); }
+.h3d-tap__title { margin: 0; min-height: 2.9em; font-weight: 500; font-size: var(--t-body); line-height: 1.45; }
+.h3d__flag { flex: none; padding: 1px 8px; border-radius: 99px; background: #fff0d2; color: #6b4300; font-size: 12px; line-height: 18px; font-weight: 500; }
+[data-h3d-tap][data-state="sent"] .h3d__flag { background: #dff5e7; color: #0d5c2e; }
+[data-h3d-tap][data-state="held"] .h3d__flag, [data-h3d-tap][data-state="done"] .h3d__flag { background: var(--p-surface); color: var(--p-muted); }
+.h3d__acts { display: flex; gap: 8px; }
+.h3d__btn { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px; border-radius: 10px; font: 500 14px/1 var(--font-text); white-space: nowrap; cursor: pointer;
+  background: var(--p-bg); color: var(--p-ink); box-shadow: inset 0 0 0 1px #cfcfcf; transition: transform 160ms var(--ease), background-color 160ms var(--ease); }
+.h3d__btn:hover { background: var(--p-surface); }
+.h3d__btn:active { transform: scale(.98); }
+.h3d__btn:focus-visible { outline: 2px solid var(--p-accent); outline-offset: 2px; }
+.h3d__btn--yes { flex: 1 1 auto; background: var(--p-accent); color: #fff; box-shadow: none; }
+.h3d__btn--yes:hover { background: color-mix(in oklab, var(--p-accent) 88%, #000); }
+.h3d__btn[hidden] { display: none; }
+.h3d__note { margin: 0; font-size: 12px; line-height: 18px; color: var(--p-muted); }
+/* pause and play */
+.h3d__play { all: unset; box-sizing: border-box; position: absolute; z-index: 2; right: var(--s-4); bottom: var(--s-4); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgb(255 255 255 / .2); background: #17132b; color: #fff; cursor: pointer; transition: transform 160ms var(--ease), background-color 160ms var(--ease); }
+.h3d__play[hidden] { display: none; }
+.h3d__play:hover { background: #241d44; }
+.h3d__play:active { transform: scale(.96); }
+.h3d__play:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.h3d__play svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.h3d__play .h3d__go { display: none; fill: currentColor; stroke: none; }
+.h3d__play[aria-pressed="true"] .h3d__go { display: block; }
+.h3d__play[aria-pressed="true"] .h3d__pause { display: none; }
+/* a phone: the model alone, with its room names */
+@media (max-width: 1023px) { .h3d-tap { margin-top: var(--s-6); } }
+/* a phone: the model alone, and closer */
 @media (max-width: 639px) {
-  .pc-day .ln:nth-of-type(n+3), .pc-brief .ln:nth-of-type(n+3), .pc-brief p, .pc-quote .ln:not(.is-sum):nth-of-type(n+2), .pc-quote small, .pc-hire span, .ly-collage .pc-paid { display: none; }
-  .pc-day, .pc-quote, .ly-collage .pc-brief { padding: 12px; gap: 6px; }
-  .pc-hire { padding: 10px 12px; }
-  .pc-day .ln { grid-template-columns: 40px 1fr; }
+  .h3d-tap, .h3d__biz, .h3d__label { display: none; }
+  .h3d__still { --zoom: 1.24; }
 }
+@media (prefers-reduced-motion: reduce) { .h3d__canvas, .hero--split .hero__media.h3d > .h3d__still { transition: none; } }
 
 /* ------------------------------------------------------------------ 2. the app window (sections-library.md, app-frame)
    One window across the wrap: the app's bar, the list beside the open item. It is live: a visitor
@@ -271,32 +291,6 @@
   .start__mark { margin-bottom: var(--s-2); }
 }
 
-/* ------------------------------------------------------------------ the collage: where each piece sits (% of the collage).
-   One piece of every set ends at 96% x 96% with a quiet corner: the pause disc sits there. */
-.ly-collage .k11 { left: 4%; top: 6%; width: 66%; height: 50%; }
-.ly-collage .k12 { left: 48%; top: 60%; width: 48%; height: 36%; }
-.ly-collage .k13 { left: 4%; top: 49%; width: 52%; }
-.ly-collage .k14 { left: 56%; top: 14%; width: 40%; }
-.ly-collage .k21 { left: 42%; top: 36%; width: 54%; height: 60%; }
-.ly-collage .k22 { left: 4%; top: 6%; width: 56%; }
-.ly-collage .k23 { left: 64%; top: 10%; width: 32%; }
-.ly-collage .k31 { left: 4%; top: 6%; width: 62%; height: 46%; }
-.ly-collage .k32 { left: 62%; top: 12%; width: 34%; }
-.ly-collage .k33 { left: 4%; top: 58%; width: 38%; }
-.ly-collage .k34 { left: 44%; bottom: 4%; width: 52%; }
-/* under 1024 the collage is as wide as the page's column: no piece is over half of it */
-@media (max-width: 1023px) {
-  .ly-collage .k11 { left: 0; top: 0; width: 50%; height: 60%; }
-  .ly-collage .k12 { left: 48%; top: 40%; width: 50%; height: 56%; }
-  .ly-collage .k13 { left: 4%; top: 54%; width: 46%; }
-  .ly-collage .k14 { left: 54%; top: 6%; width: 44%; }
-  .ly-collage .k21 { left: 46%; top: 28%; width: 50%; height: 68%; }
-  .ly-collage .k22 { left: 0; top: 0; width: 50%; }
-  .ly-collage .k23 { left: 56%; top: 4%; width: 40%; }
-  .ly-collage .k31 { left: 0; top: 0; width: 50%; height: 50%; }
-  .ly-collage .k32 { left: 52%; top: 8%; width: 46%; }
-  .ly-collage .k34 { left: 46%; bottom: 4%; width: 50%; }
-}
 
 /* ------------------------------------------------------------------ a 320px phone: the least each screen can hold */
 @media (max-width: 359px) {
@@ -341,11 +335,6 @@
 /* a tablet: the close's button runs the column's width; the hero's keeps the size of the page's other two */
 @media (min-width: 640px) and (max-width: 1023px) {
   #contact .section-head--split > .btn--xl { width: 100%; }
-  .hero--triptych .hero__cta { justify-content: flex-start; }
-  .hero--triptych .hero__cta .btn { width: auto; min-width: 280px; }
-}
-@media (min-width: 640px) and (max-width: 1279px) {
-  .hero--triptych .hero__cta .btn { height: 64px; font: var(--display-weight) clamp(20px, 0.6vw + 16px, 26px)/1 var(--font-display); letter-spacing: var(--display-tracking); }
 }
 /* a short wide screen (a tablet on its side): the answers and the name take less height */
 @media (min-width: 1024px) and (max-height: 820px) {
