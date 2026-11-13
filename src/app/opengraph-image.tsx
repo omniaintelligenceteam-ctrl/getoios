@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-export const alt = 'OIOS — AI Operations for Small Businesses | Omnia AI Intelligence'
+export const alt = 'Jarvis: three hires in one for small-business owners'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -29,16 +29,12 @@ export default async function Image() {
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} width={320} height={320} alt="" />
-        <span
-          style={{
-            fontSize: 32,
-            fontWeight: 700,
-            color: '#2DD4BF',
-            letterSpacing: '0.05em',
-          }}
-        >
-          Your AI-Powered Back Office
+        <img src={logoSrc} width={200} height={200} alt="" />
+        <span style={{ fontSize: 72, fontWeight: 700, color: '#ffffff', letterSpacing: '-0.03em' }}>
+          Jarvis is three hires in one
+        </span>
+        <span style={{ fontSize: 30, fontWeight: 700, color: '#b494ff' }}>
+          Your assistant, your chief of staff and your management team
         </span>
       </div>
     ),
