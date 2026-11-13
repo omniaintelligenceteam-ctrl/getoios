@@ -1,38 +1,44 @@
 'use client'
 
 import Link from 'next/link'
+import { hostGrotesk } from '@/lib/fonts'
 
 export function Footer() {
   // A `/#…` link opens a section of the static front door: plain anchor, never next/link.
+  // The words are the front door's own (public/jarvis/index.html).
   const navLinks = [
-    { name: 'What It Does', href: '/#work' },
-    { name: 'How It Works', href: '/#install' },
+    { name: 'Product', href: '/#today' },
+    { name: 'Setup', href: '/#setup' },
     { name: 'Request a call', href: '/#start' },
   ]
 
   const legalLinks = [
     { name: 'Privacy Policy', href: '/privacy' },
     { name: 'Terms of Service', href: '/terms' },
+    { name: 'Texting', href: '/sms' },
   ]
 
+  // On a phone the sticky "Request a call" bar (Header.tsx) lies over the page's foot: pb-32 keeps the last line clear of it.
+  const linkClass = 'text-sm text-[#b9b9b9] hover:text-white transition-colors duration-150'
+  const headClass = 'text-sm text-[#969696] mb-4'
+
   return (
-    <footer className="bg-bg-secondary border-t border-slate-800/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+    <footer className={`${hostGrotesk.className} bg-[#090909] border-t border-white/10`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-32 md:pb-16 lg:py-20">
         <div className="grid md:grid-cols-4 gap-10 lg:gap-12 mb-12">
-          {/* Logo & Description */}
+          {/* The name and what it is */}
           <div className="md:col-span-2">
-            <a href="/" className="inline-flex items-center gap-3 mb-2">
+            <a href="/" className="inline-flex items-center gap-2.5 mb-5 text-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/omnia-mark-dark.svg" alt="" width={32} height={32} className="w-8 h-8" />
-              <span className="text-xl tracking-[0.1em] font-bold gradient-text-warm">OIOS</span>
+              <img src="/jarvis/assets/brand/mark-purple-white.svg" alt="" width={24} height={24} className="w-6 h-6" />
+              <span className="text-lg font-medium tracking-[-0.01em] leading-none">Jarvis</span>
             </a>
-            <p className="text-slate-600 text-xs font-mono mb-5">by Omnia AI Intelligence</p>
-            <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
-              We install AI Operating Systems for small businesses. Replies drafted, admin handled, pipeline visible.
+            <p className="text-white text-lg leading-snug mb-6 max-w-xs">
+              Three hires in one, installed by Omnia AI Intelligence.
             </p>
             <a
               href="mailto:team@getoios.com"
-              className="text-amber-400 hover:text-amber-300 transition-colors duration-200 text-sm font-medium"
+              className="text-sm font-medium text-white underline decoration-white/30 underline-offset-4 hover:decoration-white transition-colors duration-150"
             >
               team@getoios.com
             </a>
@@ -40,37 +46,25 @@ export function Footer() {
 
           {/* Nav Links */}
           <div>
-            <h3 className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.15em] mb-5">Navigate</h3>
+            <h3 className={headClass}>Jarvis</h3>
             <ul className="space-y-3">
-              {navLinks.map((link) => {
-                const className = 'relative text-slate-400 hover:text-white transition-colors duration-200 text-sm link-animate'
-                return (
-                  <li key={link.name}>
-                    {link.href.startsWith('/#') ? (
-                      <a href={link.href} className={className}>
-                        {link.name}
-                      </a>
-                    ) : (
-                      <Link href={link.href} className={className}>
-                        {link.name}
-                      </Link>
-                    )}
-                  </li>
-                )
-              })}
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <a href={link.href} className={linkClass}>
+                    {link.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Legal */}
           <div>
-            <h3 className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.15em] mb-5">Legal</h3>
+            <h3 className={headClass}>Legal</h3>
             <ul className="space-y-3">
               {legalLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="relative text-slate-400 hover:text-white transition-colors duration-200 text-sm link-animate"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.name}
                   </Link>
                 </li>
@@ -80,11 +74,12 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-slate-800/30">
+        <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-600 text-xs">
+            <p className="text-[#969696] text-xs">
               &copy; 2026 Omnia AI Intelligence. All rights reserved.
             </p>
+            <p className="text-[#969696] text-xs">OIOS by Omnia AI Intelligence</p>
           </div>
         </div>
       </div>

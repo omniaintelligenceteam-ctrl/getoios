@@ -12,6 +12,8 @@ import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
  * task the visitor was reading) and `source` (which site sent the post).
  * Sends one email to the team inbox through Resend, then answers JSON or
  * redirects back to the sending page's #sent so it can confirm without script.
+ * A script that sends the form's own fields asks for JSON in `Accept` and gets
+ * JSON: fetch follows a redirect to the page, which answers 200 for a refusal.
  */
 
 const MAX = { fullName: 120, industry: 120, email: 200, phoneNumber: 40 } as const
@@ -66,6 +68,12 @@ async function readBody(req: Request): Promise<{ data: Record<string, string>; i
   return { data, isForm: true }
 }
 
+/** A script asks for JSON; a browser that sends the form itself asks for a page. */
+function wantsJson(req: Request) {
+  const accept = req.headers.get('accept') || ''
+  return accept.includes('application/json') && !accept.includes('text/html')
+}
+
 /** Where a no-script post goes back to: the sending site's form, or its confirmation. */
 function back(req: Request, source: string, sent: boolean) {
   const site = SITES[source]
@@ -89,7 +97,7 @@ export async function POST(req: Request) {
     }
 
     const body = await readBody(req)
-    isForm = body.isForm
+    isForm = body.isForm && !wantsJson(req)
     const data = body.data
     source = Object.hasOwn(SITES, data.source || '') ? data.source : ''
 

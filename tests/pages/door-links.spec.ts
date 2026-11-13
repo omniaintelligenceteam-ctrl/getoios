@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * `/` is the static sample-day door, served by a beforeFiles rewrite in
+ * `/` is the static front door, served by a beforeFiles rewrite in
  * next.config.ts. It has no React Server Components payload, so a `next/link`
  * pointing at it makes the router ask for `/?_rsc=…` and log a 404: once on
  * prefetch when the link scrolls into view, again on click before the router
@@ -40,7 +40,7 @@ test.describe('Links to the front door', () => {
       await expect(page.locator('header a[href="/"]').first()).toBeVisible()
       // every link to the door or to one of its sections is a plain anchor to /#…
       const doorLinks = await page.locator('a[href^="/#"]').evaluateAll((els) => els.map((el) => el.getAttribute('href')))
-      expect(doorLinks).toEqual(expect.arrayContaining(['/#work', '/#install', '/#start']))
+      expect(doorLinks).toEqual(expect.arrayContaining(['/#today', '/#setup', '/#start']))
       for (const old of ['/features', '/how-it-works', '/pricing', '/about', '/solutions', '/form']) {
         await expect(page.locator(`a[href="${old}"]`)).toHaveCount(0)
       }
@@ -56,9 +56,9 @@ test.describe('Links to the front door', () => {
 
   test('a header section link opens that section of the door', async ({ page }) => {
     await page.goto('/privacy')
-    await page.locator('header nav a[href="/#work"]').click()
+    await page.locator('header nav a[href="/#today"]').click()
     await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
-    expect(new URL(page.url()).hash).toBe('#work')
-    await expect(page.locator('section#work')).toBeInViewport()
+    expect(new URL(page.url()).hash).toBe('#today')
+    await expect(page.locator('section#today')).toBeInViewport()
   })
 })

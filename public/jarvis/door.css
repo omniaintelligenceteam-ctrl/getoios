@@ -1,0 +1,360 @@
+/* getoios.com front door: page CSS. The kit (assets/system.css and its families) builds the page.
+   This file holds only what sits inside a visual and the kit lacks: the hero collage's pieces,
+   the live app window, the film frame, the voice player, two photograph frames and one --p-h per card group. */
+
+/* ------------------------------------------------------------------ card groups: one panel height each */
+#chief .panel { --p-h: 300px; }
+/* the management team's four cards stretch to each screen's foot (the kit does it): this is their least */
+#team .panel { --p-h: 160px; }
+/* three chief of staff cards in a row run toward the screen's foot */
+@media (min-width: 1280px) { #chief .panel { --p-h: clamp(220px, calc(100svh - 496px), 600px); } }
+/* under 1280 the kit sets them two and one, under 1024 one a row: two screens, the rows share them */
+@media (min-width: 640px) and (max-width: 1279px) {
+  #chief { --h: 2; }
+  #chief > .wrap > .grid { flex: 1 1 auto; grid-auto-rows: 1fr; }
+}
+/* a tablet holds the management team's four cards on one screen, two and two */
+@media (min-width: 720px) and (max-width: 1023px) {
+  #team { --h: 1; }
+  #team > .wrap { display: flex; flex-direction: column; row-gap: var(--card-gap); }
+  #team > .wrap > .group { display: contents; }
+  #team > .wrap .grid { flex: 1 1 auto; }
+  #team .panel { --p-h: 100px; }
+}
+@media (max-width: 639px) {
+  #chief .panel { --p-h: 290px; }
+  /* a phone: each management card is its title over its picture, two cards a screen */
+  #team .card > p { display: none; }
+  #team .panel { --p-h: 168px; }
+  #team .section-head { margin-bottom: var(--s-5); }
+  /* a line a phone's screen has no room for */
+  .desk-only { display: none; }
+  #team .ui-chat__day, #chief .ui-search__group { display: none; }
+  #chief .stage, #team .stage { --fade-h: 40px; }
+  /* the second pair has no heading over it: its pictures take that room */
+  #customers .panel, #paperwork .panel { --p-h: 250px; }
+  /* the second question, its answer and the input row lie under the strip's foot, never seen: they hold no place over the card below */
+  #customers :is(.ui-chat__body > :is([data-chat-q], [data-chat-a]), .ui-chat__input) { visibility: hidden; }
+}
+/* under 1024 the quote's strip is short: its last paragraph lies under the strip's foot, never seen */
+@media (max-width: 1023px) { #sales .ui-doc__text:nth-of-type(n+5) { visibility: hidden; } }
+/* a tablet: the colour moment's frame stands 20px in from the section's edge (the kit's gutter runs under 12px here) */
+@media (min-width: 640px) and (max-width: 999px) { #team { --mo-gap: 20px; } }
+
+/* ------------------------------------------------------------------ 1. the hero collage's pieces
+   Sized in % of the collage, their text in container units, so a phone shows the same picture smaller. */
+.ly-collage { container-type: inline-size; }
+.ly-collage .ly-piece { box-shadow: 0 1px 2px rgb(0 0 0 / .1), 0 22px 48px -22px rgb(0 0 0 / .4); }
+.ly-collage :is(.pc-hire, .pc-day, .pc-brief, .pc-paid, .pc-quote) { display: grid; align-content: start; font: 400 max(13px, 2.1cqw)/1.35 var(--font-text); color: #161616; background: #fff; }
+.ly-collage :is(.pc-hire, .pc-day, .pc-brief, .pc-paid, .pc-quote) :is(small, p) { margin: 0; font-size: max(13px, 1.9cqw); color: #6b6b6b; }
+
+.pc-hire { padding: 2.6cqw 3cqw; gap: .5cqw; }
+.pc-hire strong { font: 500 max(17px, 3.5cqw)/1.1 var(--font-display); letter-spacing: -0.03em; }
+.pc-hire span { color: #3a3a3a; }
+
+.pc-day { padding: 3cqw; gap: 1.4cqw; }
+.pc-day b, .pc-paid b, .pc-quote b { font-weight: 600; font-size: max(13px, 2.3cqw); }
+.pc-day .ln { display: grid; grid-template-columns: 6.6cqw 1fr; gap: 2cqw; align-items: baseline; padding-top: 1.4cqw; border-top: 1px solid #ececea; }
+.pc-day .ln em { font: 500 max(13px, 1.9cqw)/1.35 var(--font-mono); font-style: normal; color: #6b6b6b; }
+.pc-day .ln.is-new span { justify-self: start; padding: 0 .8cqw; border-radius: .6cqw; background: color-mix(in oklab, var(--p-accent) 14%, #fff); color: color-mix(in oklab, var(--p-accent) 78%, #000); }
+
+.ly-collage .pc-brief { padding: 3.2cqw; gap: 1.4cqw; background: #0f0f10; color: #f4f4f2; }
+.ly-collage .pc-brief :is(small, p) { color: #a3a3a0; }
+.pc-brief strong { font: 500 max(26px, 6.2cqw)/1 var(--font-display); letter-spacing: -0.035em; margin-bottom: .6cqw; }
+.pc-brief .ln { display: flex; gap: 1.6cqw; align-items: baseline; padding-top: 1.4cqw; border-top: 1px solid rgb(255 255 255 / .14); }
+.pc-brief .ln::before { content: ""; flex: none; width: 1cqw; height: 1cqw; min-width: 6px; min-height: 6px; border-radius: 50%; background: #6f6f6c; transform: translateY(-.2cqw); }
+.pc-brief .ln.is-new::before { background: var(--p-accent); box-shadow: 0 0 0 .5cqw color-mix(in oklab, var(--p-accent) 36%, transparent); }
+.pc-brief p { padding-top: 1.4cqw; border-top: 1px solid rgb(255 255 255 / .14); }
+
+.pc-paid { padding: 2.6cqw 3cqw; gap: .4cqw; }
+.pc-paid b { display: flex; align-items: center; gap: 1.4cqw; }
+.pc-paid b::before { content: ""; flex: none; width: 3cqw; height: 3cqw; min-width: 16px; min-height: 16px; border-radius: 50%; background: #111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m4.5 8.2 2.3 2.3 4.7-5' fill='none' stroke='%23fff' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat; }
+.pc-paid span { color: #6b6b6b; font-size: max(13px, 1.9cqw); }
+
+.pc-quote { padding: 3cqw; gap: 1cqw; }
+.pc-quote b { margin-bottom: .6cqw; }
+.pc-quote .ln { display: flex; justify-content: space-between; gap: 2cqw; padding-top: 1.2cqw; border-top: 1px solid #ececea; }
+.pc-quote .ln em { font: 500 max(13px, 1.9cqw)/1.35 var(--font-mono); font-style: normal; }
+.pc-quote .ln.is-sum { font-weight: 600; border-top-color: #cfcfcc; }
+.ly-collage .pc-quote p { justify-self: start; margin-top: 1.2cqw; padding: .5cqw 1.4cqw; border-radius: 99px; background: color-mix(in oklab, var(--p-accent) 14%, #fff); color: color-mix(in oklab, var(--p-accent) 78%, #000); font-weight: 500; }
+
+/* a phone: each card keeps its head and two rows, so no card runs past the collage */
+@media (max-width: 639px) {
+  .pc-day .ln:nth-of-type(n+3), .pc-brief .ln:nth-of-type(n+3), .pc-brief p, .pc-quote .ln:not(.is-sum):nth-of-type(n+2), .pc-quote small, .pc-hire span, .ly-collage .pc-paid { display: none; }
+  .pc-day, .pc-quote, .ly-collage .pc-brief { padding: 12px; gap: 6px; }
+  .pc-hire { padding: 10px 12px; }
+  .pc-day .ln { grid-template-columns: 40px 1fr; }
+}
+
+/* ------------------------------------------------------------------ 2. the app window (sections-library.md, app-frame)
+   One window across the wrap: the app's bar, the list beside the open item. It is live: a visitor
+   opens an item and approves or declines it. */
+.app.ui, .ui.ui-voices {
+  --fx-bg: #ffffff; --fx-surface: var(--p-surface); --fx-ink: var(--p-ink); --fx-muted: var(--p-muted);
+  --fx-accent: var(--p-accent); --fx-accent-ink: var(--p-accent-ink); --ui-font: var(--font-text); --ui-mono: var(--font-mono);
+}
+.app.ui {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto minmax(0, 1fr);
+  margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); overflow: hidden;
+}
+.app > .app__bar { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 4px 8px 4px 14px; border-bottom: 1px solid var(--u-line); background: var(--u-fill); min-width: 0; }
+.app__mark { width: 14px; height: 14px; flex: none; }
+.app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+.app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+.app > .app__pane > .ui-panel { width: 100%; border: 0; border-radius: 0; box-shadow: none; }
+.app > .app__pane--list::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+.app .ui-win__body { min-height: 0; grid-template-columns: 148px minmax(0, 1fr); }
+.app .ui-win__nav { white-space: nowrap; }
+
+/* the sample business: four choices in the window's bar */
+.app__biz { display: flex; gap: 2px; margin: 0; padding: 3px; border: 0; border-radius: 10px; background: var(--u-fill-2); min-width: 0; }
+.app__biz label { position: relative; display: block; }
+.app__biz input { appearance: none; -webkit-appearance: none; position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; border-radius: 8px; background: transparent; cursor: pointer; transition: background-color 160ms var(--u-ease), box-shadow 160ms var(--u-ease); }
+.app__biz span { position: relative; pointer-events: none; display: grid; place-items: center; height: 38px; padding: 0 12px; font-size: 13px; font-weight: 500; line-height: 1; color: var(--u-muted); white-space: nowrap; transition: color 160ms var(--u-ease); }
+.app__biz input:hover + span, .app__biz input:checked + span { color: var(--u-ink); }
+.app__biz input:checked { background: var(--u-bg); box-shadow: 0 1px 2px rgb(0 0 0 / .12), inset 0 0 0 1px var(--u-line); }
+.app__biz input:focus-visible { outline: 2px solid var(--u-accent); outline-offset: 2px; }
+
+/* the list: a row that needs you is a button over the whole row */
+.app .ui-win__row { position: relative; }
+.app .ui-win__row.is-sel { background: color-mix(in oklab, var(--u-accent) 7%, var(--u-bg)); box-shadow: inset 2px 0 0 var(--u-accent), inset 0 1px 0 var(--u-line); }
+.today__pick { all: unset; font: inherit; font-weight: 500; color: inherit; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.today__pick::after { content: ""; position: absolute; inset: 0; }
+.today__pick:focus-visible::after { outline: 2px solid var(--u-accent); outline-offset: -2px; }
+.app .ui-win__row:has(.today__pick):hover { background: color-mix(in oklab, var(--u-ink) 4%, var(--u-bg)); }
+.app .ui-win__row.is-sel:has(.today__pick):hover { background: color-mix(in oklab, var(--u-accent) 10%, var(--u-bg)); }
+.app .ui-win__st.is-sent { color: var(--u-ink); background: var(--u-fill-2); box-shadow: inset 0 0 0 1px var(--u-line-2); }
+.app .ui-win__st.is-sent::before { background: var(--u-ink); opacity: 1; }
+
+/* the open item */
+.app > .app__pane--open { display: flex; flex-direction: column; background: var(--u-bg); }
+.today__tabs { display: none; }
+.today__open { flex: 1 1 0; min-height: 0; padding: 20px 24px 0; overflow: hidden; }
+.today__count { flex: none; margin: 0; padding: 10px 24px 12px; font-size: 13px; line-height: 20px; color: var(--u-muted); border-top: 1px solid var(--u-line); }
+.tap { display: grid; align-content: start; gap: 12px; max-width: 620px; }
+.tap[hidden] { display: none; }
+.tap__head { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 13px; line-height: 20px; color: var(--u-muted); }
+.tap__hire { font-weight: 500; color: var(--u-ink); white-space: nowrap; }
+.tap__kind { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tap__kind::before { content: "\00b7"; margin-right: 8px; color: var(--u-soft); }
+.tap__flag.ui-win__st { margin-left: auto; flex: none; }
+.tap .tap__title { margin: 0; font: 500 20px/1.3 var(--font-display); letter-spacing: -0.02em; color: var(--u-ink); }
+.tap__why { margin: 0; font-size: 14px; line-height: 22px; color: var(--u-text-2); max-width: 60ch; }
+.tap__draft { margin: 0; padding: 14px 16px; border-radius: 14px 14px 14px 4px; background: var(--u-fill); box-shadow: inset 0 0 0 1px var(--u-line); font-size: 15px; line-height: 23px; color: var(--u-ink); white-space: pre-line; max-width: 56ch; }
+.tap__does { margin: 0; font-size: 13px; line-height: 20px; color: var(--u-muted); }
+.tap__acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding-top: 4px; }
+.tap__btn { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 18px; border-radius: 10px; font: 500 14px/1 var(--ui-font); white-space: nowrap; cursor: pointer; background: var(--u-bg); color: var(--u-ink); box-shadow: inset 0 0 0 1px var(--u-line-2), 0 1px 2px rgb(0 0 0 / .06); transition: transform 160ms var(--u-ease), background-color 160ms var(--u-ease); }
+.tap__btn:hover { background: var(--u-fill); }
+.tap__btn:active { transform: scale(.98); }
+.tap__btn:focus-visible { outline: 2px solid var(--u-accent); outline-offset: 2px; }
+.tap__btn--yes { background: var(--u-accent); color: var(--u-accent-ink); box-shadow: 0 1px 2px rgb(0 0 0 / .18); }
+.tap__btn--yes:hover { background: color-mix(in oklab, var(--u-accent) 88%, #000); }
+.tap__btn[hidden], .tap__stamp[hidden] { display: none; }
+.tap__stamp { flex: 1 1 260px; margin: 0; font-size: 14px; line-height: 22px; color: var(--u-ink); }
+.tap__stamp b { font-weight: 500; }
+.tap[data-state="sent"] .tap__draft, .tap[data-state="held"] .tap__draft { background: var(--u-bg); }
+.tap[data-state="held"] .tap__draft, .tap[data-state="held"] .tap__doc { color: var(--u-muted); }
+
+/* the quote the management team drafts: lines from the price list, one price left blank */
+.tap__doc { display: grid; gap: 0; padding: 4px 16px; border-radius: 12px; background: var(--u-fill); box-shadow: inset 0 0 0 1px var(--u-line); font-size: 14px; line-height: 22px; max-width: 560px; }
+.tap__line { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; }
+.tap__line + .tap__line { border-top: 1px solid var(--u-line); }
+.tap__line small { margin-left: 8px; font-size: 13px; color: var(--u-muted); }
+.tap__line > :last-child { flex: none; font: 500 13px/20px var(--ui-mono); }
+.tap__line--gap label { font-weight: 500; }
+.tap__gap { display: inline-flex; align-items: center; gap: 6px; }
+.tap__gap input { box-sizing: border-box; width: 92px; height: 36px; padding: 0 10px; border: 0; border-radius: 8px; background: var(--u-bg); box-shadow: inset 0 0 0 1px var(--u-accent); font: 500 16px/1 var(--ui-mono); color: var(--u-ink); text-align: right; }
+.tap__gap input:focus-visible { outline: 2px solid var(--u-accent); outline-offset: 2px; }
+.tap__gap input:disabled { box-shadow: inset 0 0 0 1px var(--u-line-2); color: var(--u-muted); }
+.tap__line--sum { font-weight: 600; }
+.tap__line--sum > :last-child { font-size: 15px; font-weight: 600; }
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+}
+@media (max-width: 1023px) {
+  .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); }
+  .app > .app__pane--list { max-height: 208px; }
+  .app > .app__pane--list::after { display: none; }
+  .app .ui-win__side { display: none; }
+  .app .ui-win__body { grid-template-columns: minmax(0, 1fr); }
+  .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+  .today__count { display: none; }
+  .today__open { padding-bottom: 12px; }
+}
+@media (max-width: 639px) {
+  .app.ui { grid-template-rows: auto minmax(0, 1fr); margin-top: var(--s-5); }
+  .app > .app__pane--list { display: none; }
+  .app > .app__pane + .app__pane { border-top: 0; }
+  .app > .app__bar { flex-wrap: wrap; gap: 6px; padding: 6px; }
+  .app > .app__bar > :is(.ui-dots, .ui-win__crumb, .ui-spacer) { display: none; }
+  .app__biz { width: 100%; }
+  .app__biz label { flex: 1 1 0; min-width: 0; }
+  .app__biz span { height: 44px; padding: 0 4px; }
+  .today__tabs { display: flex; gap: 2px; padding: 6px; border-bottom: 1px solid var(--u-line); }
+  .today__tabs button { all: unset; box-sizing: border-box; flex: 1 1 0; min-width: 0; display: grid; place-items: center; height: 44px; border-radius: 8px; font: 500 13px/1 var(--ui-font); color: var(--u-muted); white-space: nowrap; cursor: pointer; }
+  .today__tabs button[aria-selected="true"] { background: var(--u-fill-2); color: var(--u-ink); }
+  .today__tabs button:focus-visible { outline: 2px solid var(--u-accent); outline-offset: -2px; }
+  .today__open { padding: 14px 14px 12px; overflow-y: auto; }
+  .today__count, .tap__does { display: none; }
+  .tap__line { min-height: 36px; }
+  .tap { gap: 10px; }
+  .tap .tap__title { font-size: 18px; }
+  .tap__why { display: none; }
+  .tap__draft { font-size: 14px; line-height: 21px; padding: 12px 14px; }
+  .tap__btn { flex: 1 1 0; padding: 0 10px; }
+  .tap__line small { display: none; }
+}
+
+/* ------------------------------------------------------------------ 6. the tools map: one frame across the wrap, as tall as the screen leaves */
+.tools__map { --ratio: 0px; margin-top: var(--s-7); }
+
+/* ------------------------------------------------------------------ 8. setup: the photograph beside the four steps */
+.setup__photo > .frame__img { object-position: 46% 40%; }
+.setup__steps h3 { font: 500 var(--t-card)/1.3 var(--font-text); letter-spacing: 0; }
+@media (max-width: 639px) { .setup__steps p { display: none; } }
+
+/* ------------------------------------------------------------------ 9. the film: its frame across the wrap, the 16:9 poster whole on a dark ground, the control in its centre */
+.film { --ratio: 0px; min-height: 240px; margin-top: var(--s-7); background: #0b0f16; }
+.film > .frame__img { object-fit: contain; background: #0b0f16; }
+/* The kit's own .ly-play is a hero part (layout.js hides it outside a hero), so the control here has its own rules. */
+.film__play { position: absolute; z-index: 2; inset: 0; margin: auto; width: 64px; height: 64px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
+.film__disc { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; color: #111; transition: transform var(--dur) var(--ease); }
+.film__disc svg { width: 18px; height: 18px; margin-left: 3px; }
+.film__play:hover .film__disc, .film__play:focus-visible .film__disc { transform: scale(1.06); }
+.film__play:active .film__disc { transform: scale(0.97); }
+.film__play:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+@media (max-width: 1023px) { .film { --ratio: 56.25%; min-height: 0; margin-top: var(--s-6); } }
+
+/* ------------------------------------------------------------------ 10. the voice player: one morning brief, two voices */
+.ui.ui-voices { width: 100%; max-width: 460px; display: grid; overflow: hidden; }
+.voices__row { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 8px 16px; border-top: 1px solid var(--u-line); color: var(--u-ink); text-decoration: none; font: 500 14px/20px var(--ui-font); transition: background-color 160ms var(--u-ease); }
+.voices__row:hover { background: var(--u-fill); }
+.voices__row:focus-visible { outline: 2px solid var(--u-accent); outline-offset: -2px; }
+.voices__disc { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--u-ink); color: var(--u-bg); transition: transform 160ms var(--u-ease), background-color 160ms var(--u-ease); }
+.voices__row:active .voices__disc { transform: scale(.94); }
+.voices__disc svg { width: 12px; height: 12px; }
+.voices__go { margin-left: 2px; }
+.voices__halt, .voices__row[aria-pressed="true"] .voices__go { display: none; }
+.voices__row[aria-pressed="true"] .voices__halt { display: block; }
+.voices__row[aria-pressed="true"] .voices__disc { background: var(--u-accent); color: var(--u-accent-ink); }
+.voices__name { flex: none; white-space: nowrap; }
+.voices__wave { flex: 1 1 0; min-width: 0; height: 24px; fill: var(--u-ink); opacity: .22; transition: opacity 160ms var(--u-ease); }
+.voices__row[aria-pressed="true"] .voices__wave { fill: var(--u-accent); opacity: 1; }
+.voices__len { flex: none; font: 500 13px/20px var(--ui-mono); color: var(--u-muted); }
+.voices__note, .voices__status { margin: 0; padding: 10px 16px 12px; border-top: 1px solid var(--u-line); font-size: 13px; line-height: 20px; color: var(--u-muted); }
+.voices__status { color: var(--u-ink); }
+.voices__status:empty { display: none; }
+@media (max-width: 359px) { .voices__wave { display: none; } .voices__name { flex: 1 1 0; } }
+
+/* ------------------------------------------------------------------ 11. the form's panel on the alternate ground, a photograph under the words */
+.start__panel { display: flex; flex-direction: column; justify-content: center; padding: var(--s-7); border-radius: var(--r-lg); background: var(--g-alt, var(--surface)); }
+.start__panel .hp { display: none; }
+.start__photo { --ratio: 0px; flex: 1 1 0; min-height: 160px; }
+.start__photo > .frame__img { object-position: 50% 40%; }
+.form__sent { display: none; margin: 0; font-weight: 500; }
+.form__sent:target { display: block; }
+/* 1024 to 1279: the panel's padding steps down, so the button keeps its width */
+@media (max-width: 1279px) { .start__panel { padding: var(--s-5); } }
+/* a tablet keeps the two columns: the words and the photograph, then the form */
+@media (min-width: 720px) and (max-width: 1023px) {
+  #start .grid.fill { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--gutter); flex: 1 1 auto; }
+  #start .grid.fill > * { grid-column: auto; }
+  #start .split-col { height: 100%; }
+  .start__panel { padding: var(--s-5); }
+}
+@media (max-width: 719px) {
+  /* stacked, the form cannot shrink to what the screen leaves: the section grows with it */
+  #start .grid.fill { flex: 0 0 auto; }
+  .start__panel { padding: var(--s-4) var(--s-5); }
+  .start__photo { display: none; }
+  .start__mark { margin-bottom: var(--s-2); }
+}
+
+/* ------------------------------------------------------------------ the collage: where each piece sits (% of the collage).
+   One piece of every set ends at 96% x 96% with a quiet corner: the pause disc sits there. */
+.ly-collage .k11 { left: 4%; top: 6%; width: 66%; height: 50%; }
+.ly-collage .k12 { left: 48%; top: 60%; width: 48%; height: 36%; }
+.ly-collage .k13 { left: 4%; top: 49%; width: 52%; }
+.ly-collage .k14 { left: 56%; top: 14%; width: 40%; }
+.ly-collage .k21 { left: 42%; top: 36%; width: 54%; height: 60%; }
+.ly-collage .k22 { left: 4%; top: 6%; width: 56%; }
+.ly-collage .k23 { left: 64%; top: 10%; width: 32%; }
+.ly-collage .k31 { left: 4%; top: 6%; width: 62%; height: 46%; }
+.ly-collage .k32 { left: 62%; top: 12%; width: 34%; }
+.ly-collage .k33 { left: 4%; top: 58%; width: 38%; }
+.ly-collage .k34 { left: 44%; bottom: 4%; width: 52%; }
+/* under 1024 the collage is as wide as the page's column: no piece is over half of it */
+@media (max-width: 1023px) {
+  .ly-collage .k11 { left: 0; top: 0; width: 50%; height: 60%; }
+  .ly-collage .k12 { left: 48%; top: 40%; width: 50%; height: 56%; }
+  .ly-collage .k13 { left: 4%; top: 54%; width: 46%; }
+  .ly-collage .k14 { left: 54%; top: 6%; width: 44%; }
+  .ly-collage .k21 { left: 46%; top: 28%; width: 50%; height: 68%; }
+  .ly-collage .k22 { left: 0; top: 0; width: 50%; }
+  .ly-collage .k23 { left: 56%; top: 4%; width: 40%; }
+  .ly-collage .k31 { left: 0; top: 0; width: 50%; height: 50%; }
+  .ly-collage .k32 { left: 52%; top: 8%; width: 46%; }
+  .ly-collage .k34 { left: 46%; bottom: 4%; width: 50%; }
+}
+
+/* ------------------------------------------------------------------ a 320px phone: the least each screen can hold */
+@media (max-width: 359px) {
+  .tap__kind { display: none; }
+  #assistant .stack-2 { display: none; }
+  #assistant .frame--split { --ratio: 56%; }
+  /* the four business names share the row by their own lengths, so the long one does not meet the next */
+  .app__biz label { flex: 1 1 auto; }
+  /* the list keeps a height a thumb can work in, and its section grows by it */
+  #today .app.fill { flex: 1 0 auto; min-height: 440px; }
+  /* the window keeps its height and the section grows by it */
+  #assistant .grid.fill { flex: 0 0 auto; }
+}
+
+/* ------------------------------------------------------------------ the form's own head, the closing word, the answers */
+.start__mark { display: flex; align-items: center; gap: var(--s-3); margin: 0 0 var(--s-5); font: 500 var(--t-small)/1.3 var(--font-text); color: var(--ink); }
+.start__mark img { flex: none; width: 28px; height: 28px; }
+/* the name is six letters: it never runs past the wrap, so its line needs no clip */
+#contact .close__word { overflow: visible; }
+/* a phone: the line is as tall as its letters, so the name ends on the screen's foot line */
+@media (max-width: 639px) { #contact .close__word { line-height: 1.35; } }
+/* the answers reach the section's foot */
+@media (min-width: 640px) {
+  #questions > .wrap.grid { align-content: stretch; }
+  #questions .faq { display: flex; flex-direction: column; justify-content: space-between; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  #questions > .wrap.grid { grid-template-rows: auto minmax(0, 1fr); }
+  #questions .faq > .faq__item { padding-block: var(--s-4); }
+  #questions .faq > .faq__item:first-child { padding-top: 0; }
+  #questions .stack-5 { gap: var(--s-4); }
+}
+@media (min-width: 1024px) {
+  /* the close's button starts on the page's split line, as every right column does */
+  #contact .section-head--split > .btn--xl { width: calc(50% - var(--gutter) / 2); }
+}
+/* a tablet: the close's button runs the column's width; the hero's keeps the size of the page's other two */
+@media (min-width: 640px) and (max-width: 1023px) {
+  #contact .section-head--split > .btn--xl { width: 100%; }
+  .hero--triptych .hero__cta { justify-content: flex-start; }
+  .hero--triptych .hero__cta .btn { width: auto; min-width: 280px; }
+}
+@media (min-width: 640px) and (max-width: 1279px) {
+  .hero--triptych .hero__cta .btn { height: 64px; font: var(--display-weight) clamp(20px, 0.6vw + 16px, 26px)/1 var(--font-display); letter-spacing: var(--display-tracking); }
+}
+/* a short wide screen (a tablet on its side): the answers and the name take less height */
+@media (min-width: 1024px) and (max-height: 820px) {
+  #questions .faq > .faq__item { padding-block: 10px; gap: var(--s-1); }
+  #questions .faq > .faq__item:first-child { padding-top: 0; }
+  #contact .close__word { font-size: min(14.5vw, 14svh); }
+}
+
+
+/* the bar's mark on the section on screen (the kit draws the same line for the current page) */
+.nav__link[aria-current="location"]::after { content: ""; position: absolute; left: var(--s-3); right: var(--s-3); bottom: -2px; height: 2px; border-radius: 2px; background: currentColor; }
+@media (max-width: 1023px) { .nav__link[aria-current="location"]::after { display: none; } }
+/* a desktop: the form's rows run from the panel's top to its foot, as the photograph beside it does */
+@media (min-width: 1024px) {
+  .start__panel { justify-content: flex-start; }
+  .start__panel > .form { flex: 1 1 auto; align-content: space-between; }
+}

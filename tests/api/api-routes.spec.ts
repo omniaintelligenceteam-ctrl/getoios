@@ -102,6 +102,19 @@ test.describe('POST /api/handoff — Call request', () => {
     expect(response.headers()['location']).not.toContain('meetjarvis')
   })
 
+  // The page script sends the form's own fields and asks for JSON. A redirect here is followed by fetch to
+  // the page itself, which answers 200, so the page would say "sent" for a request the route refused.
+  test('a script post of form fields that asks for JSON gets the refusal as JSON, not a redirect', async ({ request }) => {
+    const response = await request.post('/api/handoff', {
+      multipart: { fullName: 'Test User', industry: 'Bakery', phoneNumber: '(512) 555-0100' },
+      headers: { ...headers(), accept: 'application/json' },
+      maxRedirects: 0,
+    })
+    expect(response.status()).toBe(400)
+    const body = await response.json()
+    expect(body.error).toContain('email')
+  })
+
   // meetjarvis.getoios.com is a static site, so its form posts here from another origin.
   test('a refused no-script post from meetjarvis goes back to the meetjarvis form', async ({ request }) => {
     const response = await request.post('/api/handoff', {
