@@ -7,7 +7,10 @@ import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
  * meetjarvis.getoios.com (a static site with no server of its own).
  *
  * Accepts JSON (the page script) and form-encoded posts (the no-script path).
- * The visitor gives a name, an industry, an email address and a cell number.
+ * The visitor gives a name, an industry and an email address, and picks the
+ * answer: a call or an email (`reply`). A call needs a cell number; an email
+ * does not. A post with no `reply` asks for a call, as every post did before
+ * the choice (meetjarvis sends none).
  * Two fields are optional and never shown: `interest` (the pillar or sample
  * task the visitor was reading) and `source` (which site sent the post).
  * Sends one email to the team inbox through Resend, then answers JSON or
@@ -106,9 +109,13 @@ export async function POST(req: Request) {
       return isForm ? back(req, source, true) : json(req, { success: true })
     }
 
+    // The visitor's choice. Anything but "email" is a call.
+    const wantsEmail = (data.reply || '').trim().toLowerCase() === 'email'
     const fields = {} as Record<Field, string>
     for (const key of Object.keys(MAX) as Field[]) {
       const value = (data[key] || '').trim()
+      // a cell number is needed only for a call; one that comes with an email request is kept
+      if (!value && key === 'phoneNumber' && wantsEmail) { fields[key] = ''; continue }
       if (!value) return fail(400, `Missing required field: ${key}`)
       if (key === 'email' && !EMAIL_SHAPE.test(value)) return fail(400, 'Invalid email address')
       fields[key] = sanitizeHtml(value.slice(0, MAX[key]))
@@ -129,10 +136,11 @@ export async function POST(req: Request) {
     })
 
     const link: Partial<Record<Field, string>> = { phoneNumber: 'tel', email: 'mailto' }
-    const shown: [string, string][] = (Object.keys(MAX) as Field[]).map((key) => [
+    const shown: [string, string][] = (Object.keys(MAX) as Field[]).filter((key) => fields[key]).map((key) => [
       LABEL[key],
       link[key] ? `<a href="${link[key]}:${fields[key]}" style="color: #b494ff;">${fields[key]}</a>` : fields[key],
     ])
+    shown.unshift(['Wants', wantsEmail ? 'An email' : 'A call'])
     if (interest) shown.push(['Was reading', interest])
     shown.push(['Sent from', fromSite])
     const rows = shown.map(([label, value]) => `
@@ -143,8 +151,8 @@ export async function POST(req: Request) {
 
     const emailHtml = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 600px; margin: 0 auto; background: #111116; color: #fff; padding: 32px; border-radius: 12px;">
-        <h1 style="color: #b494ff; margin-bottom: 8px; font-size: 22px;">Call request</h1>
-        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 32px;">Submitted ${timestamp} (Central) on ${fromSite}. The visitor asked for a call.</p>
+        <h1 style="color: #b494ff; margin-bottom: 8px; font-size: 22px;">${wantsEmail ? 'Email request' : 'Call request'}</h1>
+        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 32px;">Submitted ${timestamp} (Central) on ${fromSite}. The visitor asked for ${wantsEmail ? 'an email' : 'a call'}.</p>
         <table style="width: 100%; border-collapse: collapse;">${rows}
         </table>
       </div>
@@ -162,7 +170,7 @@ export async function POST(req: Request) {
         // is a forward, so the Gmail inbox gets its own copy: one broken forward loses no lead.
         to: ['team@getoios.com', 'omniaintelligenceteam@gmail.com'],
         reply_to: (data.email || '').trim().slice(0, MAX.email),
-        subject: `Call request: ${fields.fullName} (${fields.industry})`,
+        subject: `${wantsEmail ? 'Email request' : 'Call request'}: ${fields.fullName} (${fields.industry})`,
         html: emailHtml,
       }),
     })

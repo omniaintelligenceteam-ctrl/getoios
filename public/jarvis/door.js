@@ -355,6 +355,24 @@
     Object.keys(LABEL).forEach((id) => { const el = document.getElementById(id); if (el) seen.observe(el); });
   }
 
+  // ---- The form's choice: a call or an email. A call needs the cell number; an email does not. ----
+  // The kit's sender (system.js) reads `required` when the form is sent, then resets the form and
+  // reads data-sent in the same step: so the sent line is set at the choice, and the reset is read a step later.
+  function reply() {
+    const form = $('form#handoff');
+    const cell = form && form.elements.phoneNumber;
+    if (!form || !cell || !form.elements.reply) return;
+    const sync = () => {
+      const email = form.elements.reply.value === 'email';
+      cell.required = !email;
+      if (email) { cell.value = ''; cell.removeAttribute('aria-invalid'); const err = document.getElementById('f-phone-err'); if (err) err.hidden = true; }
+      form.dataset.sent = (email ? form.dataset.sentEmail : form.dataset.sentCall) || form.dataset.sent;
+    };
+    form.addEventListener('change', (e) => { if (e.target.name === 'reply') sync(); });
+    form.addEventListener('reset', () => setTimeout(sync, 0));
+    sync();
+  }
+
   // ---- The form's sent line: where the no-script post lands (/#sent) ----
   function sent() {
     if (location.hash !== '#sent') return;
@@ -402,7 +420,7 @@
   }
 
   const boot = () => {
-    [today, film, voices, interest, sent, moved, spy].forEach((part) => { try { part(); } catch (err) { console.error(err); } });
+    [today, film, voices, interest, reply, sent, moved, spy].forEach((part) => { try { part(); } catch (err) { console.error(err); } });
     document.documentElement.setAttribute('data-ready', '');
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

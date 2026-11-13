@@ -84,6 +84,28 @@ test.describe('POST /api/handoff — Call request', () => {
     })
   }
 
+  // Wes, 13 Nov 2026: the visitor picks a call or an email. A cell number is needed only for a call.
+  test('a request for an email needs no cell number', async ({ request }) => {
+    const { phoneNumber: _omitted, ...noCell } = validPayload
+    const response = await request.post('/api/handoff', { data: { ...noCell, reply: 'email' }, headers: headers() })
+    // 200 with a mail key, 500 "Email service not configured" without one: never a 400 for the cell
+    expect([200, 500]).toContain(response.status())
+    if (response.status() === 500) expect((await response.json()).error).not.toContain('phoneNumber')
+  })
+
+  test('a request for a call with no cell number returns 400', async ({ request }) => {
+    const { phoneNumber: _omitted, ...noCell } = validPayload
+    const response = await request.post('/api/handoff', { data: { ...noCell, reply: 'call' }, headers: headers() })
+    expect(response.status()).toBe(400)
+    expect((await response.json()).error).toContain('phoneNumber')
+  })
+
+  test('a request for an email still needs an email address', async ({ request }) => {
+    const response = await request.post('/api/handoff', { data: { fullName: 'Test User', industry: 'Bakery', reply: 'email' }, headers: headers() })
+    expect(response.status()).toBe(400)
+    expect((await response.json()).error).toContain('email')
+  })
+
   test('an email address without its @ returns 400', async ({ request }) => {
     const response = await request.post('/api/handoff', { data: { ...validPayload, email: 'test.example.com' }, headers: headers() })
     expect(response.status()).toBe(400)

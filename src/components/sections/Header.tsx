@@ -69,7 +69,7 @@ export function Header() {
               Book a call
             </button>
             <a href="/#start" data-cursor="cta" className={`${primary} px-5 py-2 text-sm whitespace-nowrap shrink-0`}>
-              Request a call
+              Request a call or email
             </a>
           </div>
 
@@ -142,7 +142,7 @@ export function Header() {
                     className={`${primary} block px-4 py-3.5 text-sm`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Request a call
+                    Request a call or email
                   </a>
                 </motion.div>
               </nav>
@@ -164,7 +164,7 @@ export function Header() {
           >
             <div className="px-4 pt-3 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
               <a href="/#start" data-cursor="cta" className={`${primary} block w-full px-5 py-3.5 text-sm`}>
-                Request a call
+                Request a call or email
               </a>
             </div>
           </motion.div>

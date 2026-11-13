@@ -9,7 +9,7 @@ export function Footer() {
   const navLinks = [
     { name: 'Product', href: '/#today' },
     { name: 'Setup', href: '/#setup' },
-    { name: 'Request a call', href: '/#start' },
+    { name: 'Request a call or email', href: '/#start' },
   ]
 
   const legalLinks = [
@@ -18,7 +18,7 @@ export function Footer() {
     { name: 'Texting', href: '/sms' },
   ]
 
-  // On a phone the sticky "Request a call" bar (Header.tsx) lies over the page's foot: pb-32 keeps the last line clear of it.
+  // On a phone the sticky "Request a call or email" bar (Header.tsx) lies over the page's foot: pb-32 keeps the last line clear of it.
   const linkClass = 'text-sm text-[#b9b9b9] hover:text-white transition-colors duration-150'
   const headClass = 'text-sm text-[#969696] mb-4'
 

@@ -117,7 +117,7 @@
       <div class="nav__item"><a class="nav__link" href="#questions">Questions</a></div>
     </nav>
     <div class="nav__actions">
-      <a class="btn btn--primary" href="#start">Request a call</a>
+      <a class="btn btn--primary" href="#start">Request a call or email</a>
     </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -174,7 +174,7 @@
           </div>
         </div>
       </div>
-      <div class="span-3 start-10 hero__cta"><a class="btn btn--primary" href="#start">Request a call</a></div>
+      <div class="span-3 start-10 hero__cta"><a class="btn btn--primary" href="#start">Request a call or email</a></div>
     </div></div>
   </section>
 
@@ -597,13 +597,13 @@ Mike, Fig Street Café</blockquote>
     </div>
   </section>
 
-  <!-- 11. START: the call request. Four fields. -->
+  <!-- 11. START: the request. A name, an industry, an email, the choice of a call or an email, and a cell for a call. -->
   <section class="section section--contact" id="start" aria-labelledby="start-h">
     <div class="wrap">
       <div class="grid fill">
         <div class="span-5 split-col">
-          <h2 id="start-h">Request a call for your business</h2>
-          <p class="t-lead">Four details are enough. Omnia calls you back, and you don&rsquo;t need an account or a card.</p>
+          <h2 id="start-h">Request a call or email for your business</h2>
+          <p class="t-lead">Omnia calls or emails you back. <span class="desk-only">A few details are enough, and you don&rsquo;t need an account or a card.</span></p>
           <p class="desk-only">On the call, you and an Omnia partner pick the first job for Jarvis.</p>
           <figure class="frame frame--photo start__photo">
             <img class="frame__img" src="/jarvis/assets/pillars/back-office-1200.webp" srcset="/jarvis/assets/pillars/back-office-720.webp 720w, /jarvis/assets/pillars/back-office-1200.webp 1200w" sizes="(max-width: 1023px) 1100px, 520px" alt="A front-desk manager talks on the phone with an appointment book open on the desk" width="1200" height="800" loading="lazy">
@@ -611,7 +611,7 @@ Mike, Fig Street Café</blockquote>
         </div>
         <div class="span-6 start-7 start__panel">
           <p class="start__mark"><img src="/jarvis/assets/brand/mark-purple-black.svg" alt="" width="28" height="28" loading="lazy">Jarvis, installed by Omnia AI Intelligence</p>
-          <form class="form" id="handoff" action="/api/handoff" method="post" data-endpoint="/api/handoff" data-sent="Your call request is in. Omnia will call you." data-failed="Your request did not send. Try again in a minute, or email team@getoios.com." novalidate>
+          <form class="form" id="handoff" action="/api/handoff" method="post" data-endpoint="/api/handoff" data-sent="Your request is in. Omnia will call you." data-sent-call="Your request is in. Omnia will call you." data-sent-email="Your request is in. Omnia will email you." data-failed="Your request did not send. Try again in a minute, or email team@getoios.com." novalidate>
             <div class="field field--full"><label for="f-name">Your name</label>
               <input id="f-name" name="fullName" type="text" maxlength="120" autocomplete="name" required aria-describedby="f-name-err">
               <p class="field__error" id="f-name-err" hidden>Write your name.</p></div>
@@ -621,14 +621,22 @@ Mike, Fig Street Café</blockquote>
             <div class="field field--full"><label for="f-email">Email</label>
               <input id="f-email" name="email" type="email" maxlength="200" autocomplete="email" inputmode="email" required aria-describedby="f-email-err">
               <p class="field__error" id="f-email-err" hidden>Write an email address with an @, like name@business.com.</p></div>
-            <div class="field field--full"><label for="f-phone">Cell</label>
-              <input id="f-phone" name="phoneNumber" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" required aria-describedby="f-phone-err">
+            <fieldset class="reply field--full">
+              <legend>How should Omnia answer?</legend>
+              <div class="reply__row">
+                <label class="reply__opt"><input type="radio" name="reply" value="call" checked><span>Call me</span></label>
+                <label class="reply__opt"><input type="radio" name="reply" value="email"><span>Email me</span></label>
+              </div>
+            </fieldset>
+            <!-- no "required" here: with no script a hidden required field blocks the form. door.js asks for it for a call, and the server does too. -->
+            <div class="field field--full reply__cell"><label for="f-phone">Cell</label>
+              <input id="f-phone" name="phoneNumber" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" aria-describedby="f-phone-err">
               <p class="field__error" id="f-phone-err" hidden>Write a cell number so Omnia can call you back.</p></div>
             <input type="hidden" name="interest" value="">
             <p class="hp" hidden><label>Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
-            <div class="btn-row"><button class="btn btn--primary btn--xl" type="submit">Request a call</button></div>
+            <div class="btn-row"><button class="btn btn--primary btn--xl" type="submit">Request a call or email</button></div>
             <p class="form__status" role="status" data-form-status></p>
-            <p class="form__sent" id="sent" tabindex="-1">Your call request is in. Omnia will call you.</p>
+            <p class="form__sent" id="sent" tabindex="-1">Your request is in. Omnia will call or email you.</p>
           </form>
         </div>
       </div>
@@ -641,8 +649,8 @@ Mike, Fig Street Café</blockquote>
   <div class="wrap">
     <div class="closing__cta close--word">
       <div class="section-head--split">
-        <div><h2 id="close-h">Put three hires to work</h2><p class="t-lead">One call with Omnia starts it.</p></div>
-        <a class="btn btn--primary btn--xl" href="#start">Request a call<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+        <div><h2 id="close-h">Put three hires to work</h2><p class="t-lead">A call or an email with Omnia starts it.</p></div>
+        <a class="btn btn--primary btn--xl" href="#start">Request a call or email<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
       </div>
       <p class="close__word" aria-hidden="true">Jarvis</p>
     </div>

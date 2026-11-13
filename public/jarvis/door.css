@@ -303,6 +303,11 @@
   .tap__kind { display: none; }
   #assistant .stack-2 { display: none; }
   #assistant .frame--split { --ratio: 56%; }
+  /* the bar's longer action keeps the menu button on the screen */
+  header.nav .nav__bar .nav__actions .btn { padding-inline: 8px; font-size: 12px; letter-spacing: 0; }
+  header.nav .nav__bar { column-gap: var(--s-2); }
+  /* the two answers stay one line each */
+  .reply__opt { gap: var(--s-2); padding: 0 10px; white-space: nowrap; }
   /* the four business names share the row by their own lengths, so the long one does not meet the next */
   .app__biz label { flex: 1 1 auto; }
   /* the list keeps a height a thumb can work in, and its section grows by it */
@@ -353,6 +358,25 @@
 /* the bar's mark on the section on screen (the kit draws the same line for the current page) */
 .nav__link[aria-current="location"]::after { content: ""; position: absolute; left: var(--s-3); right: var(--s-3); bottom: -2px; height: 2px; border-radius: 2px; background: currentColor; }
 @media (max-width: 1023px) { .nav__link[aria-current="location"]::after { display: none; } }
+/* the form's one choice: a call or an email. Two boxes of the fields' own height and line, each with its ring
+   (the radio itself, drawn as the ring); the box of the one picked takes the ink line. With "Email me" picked the
+   cell field leaves the form (no script needed). */
+.reply { margin: 0; padding: 0; border: 0; min-width: 0; }
+.reply legend { padding: 0; margin-bottom: var(--s-2); font: 500 var(--t-small)/1.4 var(--font-text); color: var(--ink); }
+.reply__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-3); }
+.reply__opt { display: flex; align-items: center; gap: var(--s-3); height: var(--btn-h); padding: 0 var(--s-3); border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--bg); font: 400 var(--t-body)/1.2 var(--font-text); color: var(--ink); cursor: pointer; transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.reply__opt:hover, .reply__opt:has(input:checked) { border-color: var(--ink); }
+.reply__opt:has(input:checked) { box-shadow: inset 0 0 0 1px var(--ink); }
+.reply__opt:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.reply__opt input { appearance: none; -webkit-appearance: none; flex: none; width: 18px; height: 18px; margin: 0; border: 1.5px solid var(--line-strong); border-radius: 50%; background: var(--bg); cursor: pointer; outline: 0; transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease); }
+.reply__opt input:checked { border-color: var(--ink); box-shadow: inset 0 0 0 3px var(--bg), inset 0 0 0 9px var(--ink); }
+.form:has(input[name="reply"][value="email"]:checked) .reply__cell { display: none; }
+/* a phone: the two boxes say the question themselves, and the rows stand closer, so the form ends on its screen */
+@media (max-width: 639px) {
+  .reply legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  #start .form { gap: var(--s-3); }
+}
+
 /* a desktop: the form's rows run from the panel's top to its foot, as the photograph beside it does */
 @media (min-width: 1024px) {
   .start__panel { justify-content: flex-start; }

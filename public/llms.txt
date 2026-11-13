@@ -3,7 +3,7 @@
 > Jarvis is your assistant for your business and your life, your chief of staff, and your full management team. Jarvis is three hires in one. The owner talks to him like a person. He drafts the replies, quotes and invoices and keeps the follow-through moving. Nothing is spent, sent or deleted without the owner's approval.
 
 ## The site
-- [Jarvis](https://getoios.com/): the list of what needs the owner's tap, the three hires, the tools he works with, how Omnia installs him, and the form to request a call.
+- [Jarvis](https://getoios.com/): the list of what needs the owner's tap, the three hires, the tools he works with, how Omnia installs him, and the form to request a call or an email.
 - [Meet Jarvis](https://meetjarvis.getoios.com): the long version.
 
 ## What he does

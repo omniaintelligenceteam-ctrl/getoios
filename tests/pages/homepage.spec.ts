@@ -71,7 +71,7 @@ test.describe('Homepage', () => {
   test('the bar names Jarvis and carries the one action', async ({ page }) => {
     const header = page.locator('header.nav')
     await expect(header.locator('a.nav__logo')).toContainText('Jarvis')
-    await expect(header.locator('.nav__actions a.btn')).toHaveText('Request a call')
+    await expect(header.locator('.nav__actions a.btn')).toHaveText('Request a call or email')
     await expect(header.locator('.nav__actions a.btn')).toHaveAttribute('href', '#start')
   })
 
@@ -321,15 +321,18 @@ test.describe('Homepage', () => {
     const form = page.locator('form#handoff')
     await expect(form).toHaveAttribute('action', '/api/handoff')
     await expect(form).toHaveAttribute('method', 'post')
-    // Wes, 10 Nov 2026: a name, an industry, an email and a cell. Nothing else shows.
+    // Wes, 10 Nov 2026: a name, an industry, an email and a cell. 13 Nov 2026: and one choice,
+    // a call or an email. Nothing else shows.
     const shown = await form
       .locator('input, textarea, select')
       .evaluateAll((els) => els.filter((el) => (el as HTMLElement).offsetParent && (el as HTMLInputElement).name !== 'company').map((el) => (el as HTMLInputElement).name))
-    expect(shown).toEqual(['fullName', 'industry', 'email', 'phoneNumber'])
+    expect(shown).toEqual(['fullName', 'industry', 'email', 'reply', 'reply', 'phoneNumber'])
+    await expect(form.locator('input[name="reply"][value="call"]')).toBeChecked()
+    await expect(form.locator('fieldset.reply legend')).toHaveText('How should Omnia answer?')
     for (const name of ['interest', 'company']) await expect(form.locator(`[name="${name}"]`)).toHaveCount(1)
     await expect(form.locator('input[name="interest"]')).toHaveAttribute('type', 'hidden')
     await expect(form.locator('input[name="company"]')).toBeHidden()
-    await expect(form.locator('[type="submit"]')).toHaveText('Request a call')
+    await expect(form.locator('[type="submit"]')).toHaveText('Request a call or email')
     await expect(form.locator('#sent')).toBeHidden()
     for (const id of ['f-name', 'f-industry', 'f-email', 'f-phone']) await expect(page.locator(`label[for="${id}"]`)).toBeVisible()
   })
@@ -383,15 +386,63 @@ test.describe('Homepage', () => {
     await page.fill('input[name="email"]', 'test@example.com')
     await page.fill('input[name="phoneNumber"]', '(512) 555-0100')
     await page.locator('form#handoff [type="submit"]').click()
-    await expect(page.locator('form#handoff [data-form-status]')).toHaveText('Your call request is in. Omnia will call you.')
+    await expect(page.locator('form#handoff [data-form-status]')).toHaveText('Your request is in. Omnia will call you.')
     expect(posts.length).toBe(1)
     // the server answers a script with JSON only when the post asks for it (route.ts)
     expect(posts[0].accept).toContain('application/json')
     expect(posts[0].accept).not.toContain('text/html')
-    for (const [name, value] of Object.entries({ fullName: 'Test User', industry: 'Bakery', email: 'test@example.com', phoneNumber: '(512) 555-0100', interest: 'Chief of staff', company: '' })) {
+    for (const [name, value] of Object.entries({ fullName: 'Test User', industry: 'Bakery', email: 'test@example.com', phoneNumber: '(512) 555-0100', reply: 'call', interest: 'Chief of staff', company: '' })) {
       expect(posts[0].body).toMatch(new RegExp(`name="${name}"\\r\\n\\r\\n${value.replace(/[()]/g, '\\$&')}\\r\\n`))
     }
     await expect(page.locator('input[name="fullName"]')).toHaveValue('')
+  })
+
+  test('a visitor who asks for an email is not asked for a cell number', async ({ page }) => {
+    const posts: string[] = []
+    await page.route('**/api/handoff', async (route) => {
+      posts.push(route.request().postData() || '')
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' })
+    })
+    await page.goto('/?fresh=1#start')
+    await ready(page)
+    const form = page.locator('form#handoff')
+    const cell = form.locator('input[name="phoneNumber"]')
+    await expect(cell).toBeVisible()
+    await form.locator('label', { hasText: 'Email me' }).click()
+    await expect(form.locator('input[name="reply"][value="email"]')).toBeChecked()
+    await expect(cell).toBeHidden()
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
+    await form.locator('[type="submit"]').click()
+    await expect(form.locator('[data-form-status]')).toHaveText('Your request is in. Omnia will email you.')
+    expect(posts.length).toBe(1)
+    expect(posts[0]).toMatch(/name="reply"\r\n\r\nemail\r\n/)
+    expect(posts[0]).toMatch(/name="phoneNumber"\r\n\r\n\r\n/)
+    // the sent form is as it was at the start: a call, with its cell field
+    await expect(form.locator('input[name="reply"][value="call"]')).toBeChecked()
+    await expect(cell).toBeVisible()
+  })
+
+  test('a visitor who asks for a call and gives no cell number is told so', async ({ page }) => {
+    let posts = 0
+    await page.route('**/api/handoff', async (route) => {
+      posts++
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' })
+    })
+    await page.goto('/?fresh=1#start')
+    await ready(page)
+    const form = page.locator('form#handoff')
+    // the email choice and back again: the cell is needed once more
+    await form.locator('label', { hasText: 'Email me' }).click()
+    await form.locator('label', { hasText: 'Call me' }).click()
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
+    await form.locator('[type="submit"]').click()
+    await expect(page.locator('#f-phone-err')).toBeVisible()
+    await expect(form.locator('[data-form-status]')).toHaveText('1 field to fix.')
+    expect(posts).toBe(0)
   })
 
   test('a refused post says so, keeps what was typed and lets the visitor try again', async ({ page }) => {
@@ -423,7 +474,7 @@ test.describe('Homepage', () => {
   test('/#sent, where the no-script post lands, shows the confirmation', async ({ page }) => {
     await page.goto('/?fresh=1#sent')
     await expect(page.locator('#sent')).toBeVisible()
-    await expect(page.locator('#sent')).toHaveText('Your call request is in. Omnia will call you.')
+    await expect(page.locator('#sent')).toHaveText('Your request is in. Omnia will call or email you.')
   })
 
   // ─── Words ───────────────────────────────────────────────────────────
@@ -458,7 +509,7 @@ test.describe('Homepage', () => {
   test('the footer repeats the one action and links the legal pages', async ({ page }) => {
     const footer = page.locator('footer')
     await footer.scrollIntoViewIfNeeded()
-    await expect(footer.locator('a.btn')).toHaveText('Request a call')
+    await expect(footer.locator('a.btn')).toHaveText('Request a call or email')
     for (const href of ['/privacy', '/terms', '/sms']) await expect(footer.locator(`a[href="${href}"]`)).toBeVisible()
     await expect(footer.locator('a[href="mailto:team@getoios.com"]')).toBeVisible()
     await expect(footer).toContainText('Product names and logos are trademarks of their owners.')
@@ -542,9 +593,32 @@ test.describe('Homepage without script', () => {
       fullName: 'Test User',
       industry: 'Bakery',
       email: 'test@example.com',
+      reply: 'call',
       phoneNumber: '512 555 0100',
       interest: '',
       company: '',
     })
+  })
+
+  test('with no script, the email choice takes the cell field away and the form still posts', async ({ page }) => {
+    let body = ''
+    await page.route('**/api/handoff', async (route) => {
+      body = route.request().postData() || ''
+      await route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>answered</title>' })
+    })
+    await page.goto('/')
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
+    // a click waits on animation frames (see above): the arrow key moves the choice
+    await page.locator('input[name="reply"][value="call"]').focus()
+    await page.keyboard.press('ArrowRight')
+    await expect(page.locator('input[name="reply"][value="email"]')).toBeChecked()
+    await expect(page.locator('input[name="phoneNumber"]')).toBeHidden()
+    await page.locator('input[name="email"]').press('Enter')
+    await expect(page).toHaveTitle('answered')
+    const sent = Object.fromEntries(new URLSearchParams(body))
+    expect(sent.reply).toBe('email')
+    expect(sent.phoneNumber).toBe('')
   })
 })
