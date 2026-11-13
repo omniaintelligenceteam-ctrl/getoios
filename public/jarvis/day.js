@@ -38,12 +38,12 @@
           { t: 'Tomorrow', what: 'Your brief is ready for 7:40.', status: 'Delgado pricing and the Ridge Farms delivery are on it.' },
         ],
         kind: 'Text message',
-        title: 'Send this reminder to Dana Harper?',
-        draft: 'Hi Dana, a quick note that invoice 2041 for the rehearsal dinner is still open. The pay link is below. Thank you again for having us.\nMike, Fig Street Café',
+        title: 'Send this reminder to Joan Harper?',
+        draft: 'Hi Joan, a quick note that invoice 2041 for the rehearsal dinner is still open. The pay link is below. Thank you again for having us.\nMike, Fig Street Café',
         does: 'Sends from your business number with the pay link and goes in the Harper file.',
-        sent: 'The reminder went to Dana with the pay link.',
-        held: 'Nothing went to Dana. Jarvis keeps the draft until you say.',
-        receipt: 'Reminder to Dana Harper',
+        sent: 'The reminder went to Joan with the pay link.',
+        held: 'Nothing went to Joan. Jarvis keeps the draft until you say.',
+        receipt: 'Reminder to Joan Harper',
       },
     },
 
@@ -52,41 +52,41 @@
       s1: {
         lead: 'Three things need you before nine.',
         items: [
-          { t: '8:15', what: 'Dana Reyes asked if you can see her son before school on Thursday.', status: 'Reply drafted. Your tap.', needs: true },
+          { t: '8:15', what: 'Carla Reyes asked if you can see her son before school on Thursday.', status: 'Reply drafted. Your tap.', needs: true },
           { t: '9:00', what: 'Marcus Bell interviews for the hygienist job, and his résumé is on your screen.', status: 'On your calendar.' },
           { t: '10:30', what: 'The lab has not confirmed Friday’s crown delivery.', status: 'Call them. The number is ready.' },
         ],
         kind: 'Text message',
-        title: 'Send this text to Dana Reyes?',
-        draft: 'Hi Dana, yes, we can see Eli at 7:30 on Thursday, before school. Reply here if that works and we will hold the chair.\nLarkin Family Dental',
+        title: 'Send this text to Carla Reyes?',
+        draft: 'Hi Carla, yes, we can see Eli at 7:30 on Thursday, before school. Reply here if that works and we will hold the chair.\nLarkin Family Dental',
         does: 'Sends from your office number and goes in the Reyes file.',
         sent: 'It went from your office number and it is in the Reyes file.',
-        held: 'Nothing went to Dana. Jarvis keeps the draft until you say.',
-        receipt: 'Reply to Dana Reyes',
+        held: 'Nothing went to Carla. Jarvis keeps the draft until you say.',
+        receipt: 'Reply to Carla Reyes',
       },
       s2: {
-        say: '“Estimate for Dana Reyes. Exam and X-rays, a cleaning, and she asked about whitening trays.”',
+        say: '“Estimate for Carla Reyes. Exam and X-rays, a cleaning, and she asked about whitening trays.”',
         lead: 'Estimate 212 is drafted from your fee list. Whitening trays are not on it, so I left that line blank instead of guessing.',
-        docNo: 'Estimate 212', docName: 'Dana Reyes', approve: 'Approve the estimate',
+        docNo: 'Estimate 212', docName: 'Carla Reyes', approve: 'Approve the estimate',
         lines: [['Exam and X-rays', '', 210], ['Cleaning', '', 140]],
         flag: 'Whitening trays',
-        sent: 'Estimate 212 went to Dana. When she says yes, it becomes an invoice with a pay-by-card link.',
-        held: 'Nothing went to Dana. Jarvis keeps the draft until you say.',
-        receipt: 'Estimate 212, Dana Reyes',
+        sent: 'Estimate 212 went to Carla. When she says yes, it becomes an invoice with a pay-by-card link.',
+        held: 'Nothing went to Carla. Jarvis keeps the draft until you say.',
+        receipt: 'Estimate 212, Carla Reyes',
       },
       s3: {
         items: [
-          { t: 'Unpaid', what: 'Mr. Okafor’s balance of $180 from October is still open.', status: 'Reminder drafted. Your tap.', needs: true },
+          { t: 'Unpaid', what: 'Mr. Brandt’s balance of $180 from October is still open.', status: 'Reminder drafted. Your tap.', needs: true },
           { t: 'Quiet', what: 'Two patients have not confirmed for tomorrow.', status: 'Confirmation texts drafted for 8:00, the time you set.' },
           { t: 'Tomorrow', what: 'Your brief is ready for 7:40.', status: 'The hygienist offer and the lab delivery are on it.' },
         ],
         kind: 'Text message',
-        title: 'Send this reminder to Mr. Okafor?',
-        draft: 'Hello Mr. Okafor, a reminder that $180 from your October visit is still open. You can pay by card at the link below. Thank you.\nLarkin Family Dental',
-        does: 'Sends from your office number with the pay link and goes in the Okafor file.',
-        sent: 'The reminder went to Mr. Okafor with the pay link.',
-        held: 'Nothing went to Mr. Okafor. Jarvis keeps the draft until you say.',
-        receipt: 'Reminder to Mr. Okafor',
+        title: 'Send this reminder to Mr. Brandt?',
+        draft: 'Hello Mr. Brandt, a reminder that $180 from your October visit is still open. You can pay by card at the link below. Thank you.\nLarkin Family Dental',
+        does: 'Sends from your office number with the pay link and goes in the Brandt file.',
+        sent: 'The reminder went to Mr. Brandt with the pay link.',
+        held: 'Nothing went to Mr. Brandt. Jarvis keeps the draft until you say.',
+        receipt: 'Reminder to Mr. Brandt',
       },
     },
 
@@ -163,7 +163,7 @@
       s3: {
         items: [
           { t: 'Unpaid', what: 'Invoice 1207 for the Chen rough-in was opened Monday and is not paid.', status: 'Reminder drafted. Your tap.', needs: true },
-          { t: 'Quiet', what: 'The Okafor repipe quote has been quiet for six days.', status: 'Reminder drafted for Friday, the day you set.' },
+          { t: 'Quiet', what: 'The Brandt repipe quote has been quiet for six days.', status: 'Reminder drafted for Friday, the day you set.' },
           { t: 'Tomorrow', what: 'Your brief is ready for 7:40.', status: 'The Alvarez visit and the tankless unit are on it.' },
         ],
         kind: 'Text message',
@@ -358,7 +358,7 @@
       video.controls = true;
       video.playsInline = true;
       video.setAttribute('aria-label', 'Jarvis, a prerecorded 30-second introduction');
-      $('img', film).replaceWith(video);
+      $('picture', film).replaceWith(video);
       $('[data-play]', film).remove();
       video.play().catch(() => {});
       video.focus();
