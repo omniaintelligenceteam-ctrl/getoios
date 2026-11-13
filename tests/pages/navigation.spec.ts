@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const routes = [
-  { path: '/', titlePattern: /Jarvis, a chief of staff/ },
+  { path: '/', titlePattern: /Jarvis, three hires in one/ },
   { path: '/sms', titlePattern: /Text Alerts/i },
   { path: '/privacy', titlePattern: /Privacy/i },
   { path: '/terms', titlePattern: /Terms/i },

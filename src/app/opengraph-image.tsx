@@ -38,7 +38,7 @@ export default async function Image() {
             letterSpacing: '0.05em',
           }}
         >
-          Your AI-Powered Back Office
+          Three hires in one
         </span>
       </div>
     ),

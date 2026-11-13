@@ -70,7 +70,7 @@ test.describe('POST /api/handoff — Call request', () => {
   })
 
   test('the old pillar and first-handoff answers are not needed', async ({ request }) => {
-    const response = await request.post('/api/handoff', { data: { ...validPayload, interest: 'Back office' }, headers: headers() })
+    const response = await request.post('/api/handoff', { data: { ...validPayload, interest: 'Full management team' }, headers: headers() })
     expect([200, 500]).toContain(response.status())
   })
 

@@ -21,7 +21,7 @@ test.describe('Homepage', () => {
 
   // ─── Page load ───────────────────────────────────────────────────────
   test('loads with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/Jarvis, a chief of staff.*Omnia AI Intelligence/)
+    await expect(page).toHaveTitle(/Jarvis, three hires in one.*Omnia AI Intelligence/)
   })
 
   test('returns 200 status', async ({ page }) => {
@@ -39,7 +39,7 @@ test.describe('Homepage', () => {
   test('carries the one h1', async ({ page }) => {
     const h1 = page.locator('h1#page-title')
     await expect(h1).toBeVisible()
-    await expect(h1).toContainText('chief of staff for small-business owners')
+    await expect(h1).toContainText('your assistant for your business and your life, your chief of staff, and your full management team')
     await expect(page.locator('h1')).toHaveCount(1)
   })
 
@@ -112,8 +112,8 @@ test.describe('Homepage', () => {
   })
 
   // ─── Pillars ─────────────────────────────────────────────────────────
-  test('work section shows the three pillars with a picture each', async ({ page }) => {
-    await expect(page.locator('#work .pillar h3')).toHaveText(['Right hand', 'Back office', 'Follow-through'])
+  test('work section shows the three hires with a picture each', async ({ page }) => {
+    await expect(page.locator('#work .pillar h3')).toHaveText(['Assistant', 'Full management team', 'Chief of staff'])
     const pictures = page.locator('#work .pillar img')
     await expect(pictures).toHaveCount(3)
     for (let i = 0; i < 3; i++) {
@@ -131,7 +131,7 @@ test.describe('Homepage', () => {
     await expect(page.locator('#work a[data-pillar]')).toHaveCount(3)
     await page.locator('#work a[data-pillar="back-office"]').click()
     await expect(page).toHaveURL(/#start$/)
-    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Back office')
+    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Full management team')
   })
 
   // ─── Handoff form ────────────────────────────────────────────────────
@@ -232,7 +232,7 @@ test.describe('Homepage', () => {
   test('a ?pillar= link from another page sends its pillar along unseen', async ({ page }) => {
     await page.goto('/?pillar=assistant#start')
     await ready(page)
-    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Right hand')
+    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Assistant')
     await page.goto('/?pillar=everything#start')
     await ready(page)
     await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('')
