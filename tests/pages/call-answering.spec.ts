@@ -3,7 +3,7 @@ import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 /**
- * Wes, 2 Nov 2026: Jarvis is sold as the owner's chief of staff. Jarvis
+ * Wes, 2 Nov 2026 (definition updated 12 Nov 2026): Jarvis is sold as the three hires, never as a receptionist. Jarvis
  * answering a business's customers' calls is not sold or shown anywhere.
  * The Front Desk is customer messages, with the reply drafted in the owner's
  * voice and sent on his tap.
@@ -80,7 +80,7 @@ async function readSurfaces(page: Page): Promise<Surface[]> {
 
 test.describe('No call-answering claims', () => {
   for (const route of ROUTES) {
-    test(`${route} sells a chief of staff, not a receptionist`, async ({ page }) => {
+    test(`${route} sells the three hires, not a receptionist`, async ({ page }) => {
       await page.goto(route)
       await page.waitForLoadState('networkidle')
       if (route === '/') await expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })

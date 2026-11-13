@@ -28,7 +28,7 @@ export function Footer() {
             </a>
             <p className="text-slate-600 text-xs font-mono mb-5">by Omnia AI Intelligence</p>
             <p className="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
-              We install AI Operating Systems for small businesses. Replies drafted, admin handled, pipeline visible.
+              Jarvis is your assistant for your business and your life, your chief of staff, and your full management team.
             </p>
             <a
               href="mailto:team@getoios.com"

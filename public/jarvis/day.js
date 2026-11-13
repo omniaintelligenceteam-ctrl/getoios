@@ -368,7 +368,7 @@
   // ---- The call form. It posts to /api/handoff, which emails the team inbox. ----
   const form = $('#handoff');
   const interest = $('[name="interest"]', form);
-  const INTERESTS = { assistant: 'Right hand', 'back-office': 'Back office', workflows: 'Follow-through' };
+  const INTERESTS = { assistant: 'Assistant', 'back-office': 'Full management team', workflows: 'Chief of staff' };
 
   // The pillar a visitor came from goes along unseen, so the call starts in the right place.
   function setInterest(value) {
