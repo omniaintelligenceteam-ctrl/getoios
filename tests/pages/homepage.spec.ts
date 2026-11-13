@@ -1,17 +1,23 @@
 import { test, expect, type Page } from '@playwright/test'
 
 /**
- * The front door. `/` is the static sample-day page in public/jarvis, served by
- * the rewrite in next.config.ts. The visitor plays the owner: three approval
- * taps, a receipt of what they decided, then the call form that posts to
- * /api/handoff. day.js marks <html data-ready> once the page has booted.
+ * The front door. `/` is the static page in public/jarvis, served by the
+ * rewrite in next.config.ts. Wes, 12 Nov 2026: Jarvis is three hires in one,
+ * an assistant for your business and your life, a chief of staff and a full
+ * management team. The page says that first, shows each hire in its own
+ * section, and lets the visitor approve or decline three sample items.
+ * door.js marks <html data-ready> once the page has booted.
  *
  * No test here lets a form post reach the server: each one answers
  * /api/handoff itself, because a real post emails the team inbox.
  */
 const ready = (page: Page) => expect(page.locator('html[data-ready]')).toHaveCount(1, { timeout: 15_000 })
-const card = (page: Page, scene: 's1' | 's2' | 's3') => page.locator(`[data-scene="${scene}"]`)
-const receipt = (page: Page, scene: 's1' | 's2' | 's3') => page.locator(`[data-row="${scene}"] [data-state]`)
+type Scene = 's1' | 's2' | 's3'
+const card = (page: Page, scene: Scene) => page.locator(`#today [data-item="${scene}"]`)
+const row = (page: Page, scene: Scene) => page.locator(`#today [data-row="${scene}"]`)
+const pick = (page: Page, scene: Scene) => page.locator(`#today [data-pick="${scene}"]`).click()
+
+const SECTIONS = ['today', 'assistant', 'chief', 'team', 'tools', 'rule', 'setup', 'behind', 'questions', 'start']
 
 test.describe('Homepage', () => {
   test.beforeEach(async ({ page }) => {
@@ -20,8 +26,8 @@ test.describe('Homepage', () => {
   })
 
   // ─── Page load ───────────────────────────────────────────────────────
-  test('loads with correct title', async ({ page }) => {
-    await expect(page).toHaveTitle(/Jarvis, a chief of staff.*Omnia AI Intelligence/)
+  test('loads with the three-hire title', async ({ page }) => {
+    await expect(page).toHaveTitle('Jarvis: three hires in one for small-business owners')
   })
 
   test('returns 200 status', async ({ page }) => {
@@ -33,123 +39,393 @@ test.describe('Homepage', () => {
     await ready(page)
     await expect(page.locator('meta[name="robots"]')).toHaveCount(0)
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://getoios.com/')
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /assistant for your business and your life, your chief of staff, and your full management team/)
   })
 
   // ─── First screen ────────────────────────────────────────────────────
-  test('carries the one h1', async ({ page }) => {
-    const h1 = page.locator('h1#page-title')
+  test('the one h1 says Jarvis is three hires in one', async ({ page }) => {
+    const h1 = page.locator('h1#hero-h')
     await expect(h1).toBeVisible()
-    await expect(h1).toContainText('chief of staff for small-business owners')
+    await expect(h1).toHaveText('Jarvis is three hires in one')
     await expect(page.locator('h1')).toHaveCount(1)
-  })
-
-  test('header names Jarvis, the installer and the one action', async ({ page }) => {
-    const header = page.locator('header.top')
-    await expect(header.locator('a.brand')).toBeVisible()
-    await expect(header.locator('.top__by')).toHaveText('installed by Omnia AI Intelligence')
-    await expect(header.locator('a[href="#start"]')).toHaveText('Request a call')
-  })
-
-  test('section links reach every section', async ({ page }) => {
-    const nav = page.locator('nav[aria-label="Sections"]')
-    await expect(nav).toBeVisible()
-    for (const id of ['work', 'install', 'behind']) {
-      await expect(nav.locator(`a[href="#${id}"]`)).toBeVisible()
-      await expect(page.locator(`section#${id}`)).toHaveCount(1)
+    const lead = page.locator('.hero .hero__lead')
+    for (const hire of ['assistant for your business and your life', 'chief of staff', 'full management team']) {
+      await expect(lead).toContainText(hire)
     }
-    for (const id of ['day', 'pm', 'night', 'rule', 'start']) await expect(page.locator(`section#${id}`)).toHaveCount(1)
   })
 
-  // ─── The three taps ──────────────────────────────────────────────────
-  test('the first approval is on the first screen and stamps the card', async ({ page }) => {
+  test('the first screen shows the three hires and nothing of the next section', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
     await ready(page)
+    await expect(page.locator('.hero .h3d__label')).toHaveText(['Assistant', 'Chief of staff', 'Management team'])
+    const next = await page.locator('#today').boundingBox()
+    expect(next!.y).toBeGreaterThanOrEqual(899)
+    // the model's still has drawn, and each room's name stands inside the stage
+    const still = page.locator('.hero .h3d__still')
+    await expect.poll(() => still.evaluate((el) => (el as HTMLImageElement).naturalWidth), { timeout: 10_000 }).toBeGreaterThan(0)
+    const stage = (await page.locator('.hero .h3d').boundingBox())!
+    for (const label of await page.locator('.hero .h3d__label').all()) {
+      const box = (await label.boundingBox())!
+      expect(box.x).toBeGreaterThanOrEqual(stage.x)
+      expect(box.x + box.width).toBeLessThanOrEqual(stage.x + stage.width)
+      expect(box.y).toBeGreaterThanOrEqual(stage.y)
+      expect(box.y + box.height).toBeLessThanOrEqual(stage.y + stage.height)
+    }
+  })
+
+  // ─── The hero's model ────────────────────────────────────────────────
+  // The card and the business switch are plain page script: they work on the still, with no WebGL.
+  test('the model: an Approve tap in the hero sends the sample item and brings the next hire', async ({ page }) => {
+    test.setTimeout(60_000)
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await ready(page)
+    const tap = page.locator('.hero [data-h3d-tap]')
+    await expect(tap.locator('[data-h3d-hire]')).toHaveText('Assistant')
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Sam Ortiz?')
+    await expect(tap).toContainText('A sample. Nothing really goes out.')
+    await tap.locator('[data-h3d-yes]').click()
+    await expect(tap).toHaveAttribute('data-state', 'sent')
+    await expect(tap.locator('[data-h3d-flag]')).toHaveText('Sent')
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('It went from your business number and it is in Sam’s file.')
+    await expect(page.locator('.hero .h3d')).toHaveAttribute('data-last', 's1:sent')
+    // the next hire's item follows by itself
+    await expect(tap.locator('[data-h3d-hire]')).toHaveText('Chief of staff', { timeout: 8_000 })
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Ridge Farms?')
+    await tap.locator('[data-h3d-no]').click()
+    await expect(tap).toHaveAttribute('data-state', 'held')
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Nothing went to Ridge Farms. Jarvis keeps the draft until you say.')
+    await expect(tap.locator('[data-h3d-hire]')).toHaveText('Management team', { timeout: 8_000 })
+    await tap.locator('[data-h3d-yes]').click()
+    await expect(tap).toHaveAttribute('data-state', 'done', { timeout: 8_000 })
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('2 went out on your tap. Jarvis holds the rest.')
+    await tap.locator('[data-h3d-yes]').click()
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Sam Ortiz?')
+  })
+
+  test('the model: its business switch and the product’s switch are one choice', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await ready(page)
+    const tap = page.locator('.hero [data-h3d-tap]')
+    await page.locator('.hero .h3d__biz label', { hasText: 'Dental office' }).click()
+    await expect(tap.locator('[data-h3d-title]')).toHaveText('Send this text to Carla Reyes?')
+    await expect(page.locator('#today input[name="biz"][value="dental"]')).toBeChecked()
+    await expect(page.locator('#today [data-k="name"]')).toHaveText('Larkin Family Dental')
+    await page.locator('#today .app__biz label', { hasText: 'Plumber' }).click()
+    await expect(page.locator('.hero input[name="hbiz"][value="plumbing"]')).toBeChecked()
+  })
+
+  test('the model: reduced motion keeps the still and loads no 3D engine', async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 1440, height: 900 } })
+    const page = await context.newPage()
+    const engine: string[] = []
+    page.on('request', (request) => { if (/\/hero3d\/(hero3d\.js|shop\.bin|atlas-)/.test(request.url())) engine.push(request.url()) })
+    await page.goto('/')
+    await ready(page)
+    await page.waitForLoadState('load')
+    await expect(page.locator('html')).toHaveAttribute('data-hero3d', 'still')
+    await expect(page.locator('.hero .h3d')).toHaveAttribute('data-why', 'reduced motion')
+    await page.waitForTimeout(2_000)
+    await expect(page.locator('.hero .h3d canvas')).toHaveCount(0)
+    expect(engine).toEqual([])
+    await expect(page.locator('.hero .h3d__still')).toBeVisible()
+    await context.close()
+  })
+
+  // A browser with WebGL 2 runs the live scene; one with none keeps the still. CI's browser may be either.
+  test('the model: the live scene draws, and a tap reaches it', async ({ page }) => {
+    test.setTimeout(90_000)
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/?h3d=force')
+    await ready(page)
+    const html = page.locator('html')
+    await expect(html).toHaveAttribute('data-hero3d', /live|still/, { timeout: 25_000 })
+    const state = await html.getAttribute('data-hero3d')
+    const stage = page.locator('.hero .h3d')
+    if (state === 'still') {
+      await expect(stage).toHaveAttribute('data-why', /no WebGL|failed/)
+      await expect(page.locator('.hero .h3d__still')).toBeVisible()
+      return
+    }
+    await expect(stage.locator('canvas.h3d__canvas')).toHaveCount(1)
+    await expect(page.locator('.hero [data-h3d-play]')).toBeVisible()
+    await expect.poll(() => page.evaluate(() => (window as any).__hero3d.state().frames), { timeout: 20_000 }).toBeGreaterThan(10)
+    expect(await page.evaluate(() => (window as any).__hero3d.state().need)).toBe(3)
+    await page.locator('.hero [data-h3d-yes]').click()
+    await expect.poll(() => page.evaluate(() => (window as any).__hero3d.state().done.s1), { timeout: 45_000 }).toBe('sent')
+    expect(await page.evaluate(() => (window as any).__hero3d.state().need)).toBe(2)
+    // pause stops the frames
+    await page.locator('.hero [data-h3d-play]').click()
+    await expect(page.locator('.hero [data-h3d-play]')).toHaveAttribute('aria-pressed', 'true')
+    expect(await page.evaluate(() => (window as any).__hero3d.state().running)).toBe(false)
+  })
+
+  test('the bar names Jarvis and carries the one action', async ({ page }) => {
+    const header = page.locator('header.nav')
+    await expect(header.locator('a.nav__logo')).toContainText('Jarvis')
+    await expect(header.locator('.nav__actions a.btn')).toHaveText('Request a call or email')
+    await expect(header.locator('.nav__actions a.btn')).toHaveAttribute('href', '#start')
+  })
+
+  test('every section is on the page and every link on it lands on one', async ({ page }) => {
+    for (const id of SECTIONS) await expect(page.locator(`section#${id}`)).toHaveCount(1)
+    const targets = await page.locator('a[href^="#"]').evaluateAll((links) => [...new Set(links.map((a) => a.getAttribute('href')!.slice(1)))])
+    expect(targets.length).toBeGreaterThan(8)
+    for (const id of targets) await expect(page.locator(`[id="${id}"]`), `#${id}`).toHaveCount(1)
+  })
+
+  test('the bar marks the section on screen', async ({ page }) => {
+    await ready(page)
+    const current = () => page.locator('header .nav__link[aria-current="location"]')
+    await expect(current()).toHaveCount(0)
+    for (const [section, link] of [['chief', '#today'], ['setup', '#setup'], ['rule', '#tools'], ['questions', '#questions']]) {
+      await page.locator(`#${section}`).evaluate((el) => el.scrollIntoView())
+      await expect(current()).toHaveCount(1)
+      await expect(current()).toHaveAttribute('href', link)
+    }
+    await page.locator('#start').evaluate((el) => el.scrollIntoView())
+    await expect(current()).toHaveCount(0)
+  })
+
+  // The page before this one had sections #day, #pm, #night, #work and #install. Links to them are out
+  // in emails and on meetjarvis.getoios.com, so each one lands on the section that took its place.
+  for (const [old, now] of [['day', 'today'], ['pm', 'today'], ['night', 'chief'], ['work', 'assistant'], ['install', 'setup']]) {
+    test(`an old link to /#${old} opens #${now}`, async ({ page }) => {
+      await page.goto('about:blank')
+      await page.goto(`/#${old}`)
+      await ready(page)
+      await expect.poll(() => new URL(page.url()).hash).toBe(`#${now}`)
+      await expect(page.locator(`section#${now}`)).toBeInViewport()
+    })
+  }
+
+  test('an old section link followed on the page itself opens the new section too', async ({ page }) => {
+    await ready(page)
+    await page.evaluate(() => { location.hash = '#install' })
+    await expect.poll(() => new URL(page.url()).hash).toBe('#setup')
+    await expect(page.locator('section#setup')).toBeInViewport()
+  })
+
+  test('each hire has its own section, named in the owner’s words', async ({ page }) => {
+    await expect(page.locator('#assistant h2')).toContainText('assistant for business and life')
+    await expect(page.locator('#assistant')).toContainText('everything runs smoothly and stays organized')
+    await expect(page.locator('#chief h2')).toContainText('chief of staff')
+    await expect(page.locator('#chief h2')).toContainText('brings you only what needs you')
+    await expect(page.locator('#team h2')).toContainText('full management team')
+    await expect(page.locator('#team h2')).toContainText('The money, the sales, the customers and the paperwork get done')
+    await expect(page.locator('#team article h3')).toHaveCount(4)
+    for (const id of ['money', 'sales', 'customers', 'paperwork']) await expect(page.locator(`#team article#${id}`)).toHaveCount(1)
+  })
+
+  test('the rule is stated once, in full', async ({ page }) => {
+    await expect(page.locator('#rule h2')).toHaveText('Nothing without your tap')
+    await expect(page.locator('#rule')).toContainText('Nothing is spent, sent or deleted until you approve it')
+  })
+
+  // ─── The live list ───────────────────────────────────────────────────
+  test('the list says it is a sample, so no visitor thinks a tap sends a real message', async ({ page }) => {
+    await ready(page)
+    await expect(page.locator('#today')).toContainText('This is a sample, so nothing really goes out.')
+  })
+
+  test('the page makes no promise the business has not made', async ({ page }) => {
+    await ready(page)
+    const text = await page.locator('body').innerText()
+    // A callback time, a call length and a week-by-week schedule were never promised by Omnia.
+    expect(text).not.toMatch(/business day|\b\d+ minutes\b|\bWeek \d\b/i)
+  })
+
+  test('the list holds one item for each hire and the work already handled', async ({ page }) => {
+    await ready(page)
+    await expect(page.locator('#today [data-pick]')).toHaveCount(3)
+    await expect(page.locator('#today [data-item] .tap__hire')).toHaveText(['Assistant', 'Chief of staff', 'Management team'])
+    expect(await page.locator('#today [data-rows] li').count()).toBeGreaterThanOrEqual(9)
+    await expect(page.locator('#today [data-need-count]')).toHaveText('3 need you')
+  })
+
+  test('an approval stamps the item and its row, and Undo takes it back', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await ready(page)
+    await page.locator('#today').scrollIntoViewIfNeeded()
     const approve = card(page, 's1').locator('[data-approve]')
-    await expect(approve).toBeInViewport()
     await expect(card(page, 's1').locator('[data-flag]')).toHaveText('Needs your tap')
+    await expect(row(page, 's1').locator('[data-st]')).toHaveText('Needs you')
     await approve.click()
     await expect(card(page, 's1').locator('[data-flag]')).toHaveText('Sent on your tap')
-    await expect(card(page, 's1').locator('[data-stamp]')).toHaveText('Sent 7:42 am, on your tap')
-    await expect(receipt(page, 's1')).toHaveText('Sent 7:42 am, on your tap')
+    await expect(card(page, 's1').locator('[data-stamp]')).toContainText('Sent 7:42 am, on your tap.')
+    await expect(row(page, 's1').locator('[data-st]')).toHaveText('Sent')
+    await expect(page.locator('#today [data-need-count]')).toHaveText('2 need you')
     await card(page, 's1').locator('[data-undo]').click()
     await expect(card(page, 's1').locator('[data-flag]')).toHaveText('Needs your tap')
-    await expect(receipt(page, 's1')).toHaveText('Waiting on you')
+    await expect(row(page, 's1').locator('[data-st]')).toHaveText('Needs you')
+    await expect(page.locator('#today [data-need-count]')).toHaveText('3 need you')
   })
 
-  test('a decline sends nothing and the receipt says so', async ({ page }) => {
+  test('a decline sends nothing and says so', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await ready(page)
-    await card(page, 's3').locator('[data-decline]').click()
-    await expect(card(page, 's3').locator('[data-flag]')).toHaveText('Declined')
-    await expect(card(page, 's3').locator('[data-stamp]')).toHaveText('Declined 9:01 pm, nothing sent')
-    await expect(receipt(page, 's3')).toHaveText('Declined, nothing sent')
+    await pick(page, 's2')
+    await expect(card(page, 's2')).toBeVisible()
+    await expect(card(page, 's1')).toBeHidden()
+    await card(page, 's2').locator('[data-decline]').click()
+    await expect(card(page, 's2').locator('[data-flag]')).toHaveText('Declined')
+    await expect(card(page, 's2').locator('[data-stamp]')).toContainText('Declined, nothing sent.')
+    await expect(row(page, 's2').locator('[data-st]')).toHaveText('Declined')
   })
 
-  test('three taps close the day and no tap talks to a server', async ({ page }) => {
+  test('three taps clear the list and no tap talks to a server', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await ready(page)
     const writes: string[] = []
     page.on('request', (request) => {
       if (request.method() !== 'GET') writes.push(`${request.method()} ${request.url()}`)
     })
-    await expect(page.locator('[data-receipt-next]')).toBeHidden()
     await card(page, 's1').locator('[data-approve]').click()
-    await page.locator('[data-gap-input]').fill('45')
-    await expect(page.locator('[data-total]')).toHaveText('$1,970')
+    await pick(page, 's2')
     await card(page, 's2').locator('[data-approve]').click()
+    await pick(page, 's3')
+    await expect(page.locator('#today [data-total]')).toHaveText('$1,925')
+    await page.locator('#today [data-gap-input]').fill('45')
+    await expect(page.locator('#today [data-total]')).toHaveText('$1,970')
     await card(page, 's3').locator('[data-approve]').click()
-    await expect(page.locator('[data-receipt-next] a')).toHaveAttribute('href', '#start')
-    await expect(page.locator('[data-receipt-next]')).toBeVisible()
-    await expect(page.locator('[data-tally-text]')).toHaveText('Nothing waiting on you')
+    await expect(page.locator('#today [data-need-count]')).toHaveText('Nothing needs you. The rest is handled.')
     expect(writes).toEqual([])
   })
 
-  test('the business switch rewrites the day', async ({ page }) => {
+  test('the business switch rewrites the list', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await ready(page)
-    await expect(page.locator('[data-k="name"]')).toHaveText('Fig Street Café & Catering')
-    const before = await card(page, 's1').locator('.tapcard__title').textContent()
+    await expect(page.locator('#today [data-k="name"]')).toHaveText('Fig Street Café')
+    const before = await card(page, 's1').locator('.tap__title').textContent()
+    await card(page, 's1').locator('[data-approve]').click()
     await page.locator('input[name="biz"][value="dental"]').check()
-    await expect(page.locator('[data-k="name"]')).toHaveText('Larkin Family Dental')
-    await expect(card(page, 's1').locator('.tapcard__title')).not.toHaveText(before!)
+    await expect(page.locator('#today [data-k="name"]')).toHaveText('Larkin Family Dental')
+    await expect(card(page, 's1').locator('.tap__title')).not.toHaveText(before!)
+    await expect(page.locator('#today [data-need-count]')).toHaveText('3 need you')
   })
 
-  // ─── Pillars ─────────────────────────────────────────────────────────
-  test('work section shows the three pillars with a picture each', async ({ page }) => {
-    await expect(page.locator('#work .pillar h3')).toHaveText(['Right hand', 'Back office', 'Follow-through'])
-    const pictures = page.locator('#work .pillar img')
-    await expect(pictures).toHaveCount(3)
-    for (let i = 0; i < 3; i++) {
-      const img = pictures.nth(i)
-      await img.scrollIntoViewIfNeeded()
-      expect((await img.getAttribute('alt'))!.trim().length).toBeGreaterThan(0)
-      await expect
-        .poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth), { timeout: 10_000 })
-        .toBeGreaterThan(0)
+  test('a sample message to a customer opens with "Hey" and the name', async ({ page }) => {
+    await ready(page)
+    for (const biz of ['cafe', 'dental', 'shop', 'plumbing']) {
+      await page.locator(`input[name="biz"][value="${biz}"]`).check({ force: true })
+      const drafts = await page.locator('#today .tap__draft').allTextContents()
+      expect(drafts.length).toBe(2)
+      for (const draft of drafts) expect(draft).toMatch(/^Hey [A-ZÀ-Ý][\p{L}.]+,/u)
     }
   })
 
-  test('each pillar links to the form and its name goes along unseen', async ({ page }) => {
-    await ready(page)
-    await expect(page.locator('#work a[data-pillar]')).toHaveCount(3)
-    await page.locator('#work a[data-pillar="back-office"]').click()
-    await expect(page).toHaveURL(/#start$/)
-    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Back office')
+  // ─── Pictures and diagrams ───────────────────────────────────────────
+  test('a pointer that leaves a management card leaves its picture whole', async ({ page }) => {
+    // The colour moment keeps each block of #team invisible until its line has passed. A card's loop
+    // keeps its finished picture from the markup it met at boot and puts it back when the pointer leaves
+    // the card. Rows the moment had hidden at boot came back hidden, and the picture stayed empty.
+    await page.setViewportSize({ width: 1440, height: 900 })
+    const shown = (id: string) =>
+      page.evaluate((cardId) => {
+        const panel = document.querySelector(`#${cardId} .panel`)!
+        const out: string[] = []
+        for (const el of panel.querySelectorAll<HTMLElement>('*')) {
+          const own = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent!.trim())
+          if (!own) continue
+          let seen = 1
+          for (let up: HTMLElement | null = el; up && up !== panel.parentElement; up = up.parentElement) {
+            const style = getComputedStyle(up)
+            seen *= style.visibility === 'hidden' || style.display === 'none' ? 0 : parseFloat(style.opacity)
+          }
+          if (seen >= 0.5) out.push(el.textContent!.trim())
+        }
+        return out.sort()
+      }, id)
+    for (const id of ['money', 'sales', 'customers', 'paperwork']) {
+      const held = page.locator(`#${id} .ui.is-ui-held`)
+      await page.evaluate((cardId) => {
+        const top = document.querySelector(`#${cardId}`)!.getBoundingClientRect().top + scrollY
+        scrollTo({ top: top - 120, behavior: 'instant' })
+      }, id)
+      await expect(held, `${id}: the picture rests`).toHaveCount(1, { timeout: 20_000 })
+      await page.waitForTimeout(800)
+      const before = await shown(id)
+      expect(before.length, `${id}: the picture shows words at rest`).toBeGreaterThan(0)
+      const box = (await page.locator(`#${id} h3`).boundingBox())!
+      await page.mouse.move(box.x + 20, box.y + box.height / 2)
+      await page.waitForTimeout(1500)
+      await page.mouse.move(box.x + 20, 20)
+      await expect(held, `${id}: the picture rests again`).toHaveCount(1, { timeout: 20_000 })
+      await page.waitForTimeout(1200)
+      expect(await shown(id), `${id}: every word shown before the hover is shown after it`).toEqual(expect.arrayContaining(before))
+    }
   })
 
-  // ─── Handoff form ────────────────────────────────────────────────────
-  test('handoff form keeps the /api/handoff contract', async ({ page }) => {
+  test('the tools diagram draws the real tools around Jarvis', async ({ page }) => {
+    await ready(page)
+    const diagram = page.locator('#tools .dg')
+    await diagram.scrollIntoViewIfNeeded()
+    for (const label of ['Gmail', 'Google Calendar', 'QuickBooks', 'Stripe', 'Slack', 'Jarvis', 'Chief of staff']) {
+      await expect(diagram).toContainText(label)
+    }
+    // The diagram draws each tool's own icon file inline. A file that did not load shows as a letter.
+    for (const id of ['gmail', 'google-calendar', 'quickbooks', 'stripe', 'slack']) {
+      await expect(diagram.locator(`.dg-ic[data-icon="${id}"] svg`).first()).toBeAttached()
+    }
+    await expect(diagram.locator('.dg-ic--missing')).toHaveCount(0)
+  })
+
+  test('the film plays only on a tap', async ({ page }) => {
+    await ready(page)
+    const film = page.locator('[data-film]')
+    await film.scrollIntoViewIfNeeded()
+    await expect(film.locator('video')).toHaveCount(0)
+    await expect(film.locator('[data-play]')).toHaveAccessibleName('Play the 30-second introduction, with sound')
+    await page.evaluate(() => { HTMLMediaElement.prototype.play = () => Promise.resolve() })
+    await film.locator('[data-play]').click()
+    await expect(film.locator('video')).toHaveAttribute('src', '/jarvis/visor/keeper-final-owner-approved-v2.mp4')
+    await expect(film.locator('video')).toHaveJSProperty('controls', true)
+    await expect(film.locator('[data-play]')).toHaveCount(0)
+  })
+
+  test('the two voices play one at a time, and a clip that fails says so', async ({ page }) => {
+    await ready(page)
+    const voices = page.locator('[data-voices]')
+    await voices.scrollIntoViewIfNeeded()
+    const ava = voices.locator('[data-voice="ava"]')
+    const jarvis = voices.locator('[data-voice="jarvis"]')
+    await expect(ava).toHaveAttribute('href', '/jarvis/assets/voice/ava-heart.mp3')
+    await expect(jarvis).toHaveAttribute('href', '/jarvis/assets/voice/jarvis-liam.mp3')
+    for (const href of ['/jarvis/assets/voice/ava-heart.mp3', '/jarvis/assets/voice/jarvis-liam.mp3']) {
+      expect((await page.request.head(href)).status()).toBe(200)
+    }
+    await page.evaluate(() => { HTMLMediaElement.prototype.play = () => Promise.resolve() })
+    await ava.click()
+    await expect(ava).toHaveAttribute('aria-pressed', 'true')
+    await jarvis.click()
+    await expect(jarvis).toHaveAttribute('aria-pressed', 'true')
+    await expect(ava).toHaveAttribute('aria-pressed', 'false')
+    await jarvis.click()
+    await expect(jarvis).toHaveAttribute('aria-pressed', 'false')
+    await page.evaluate(() => { HTMLMediaElement.prototype.play = () => Promise.reject(new Error('no clip')) })
+    await ava.click()
+    await expect(voices.locator('[data-voice-status]')).toHaveText('That clip did not load. Try it again in a minute.')
+    await expect(ava).toHaveAttribute('aria-pressed', 'false')
+  })
+
+  // ─── Call form ───────────────────────────────────────────────────────
+  test('the call form keeps the /api/handoff contract', async ({ page }) => {
     const form = page.locator('form#handoff')
     await expect(form).toHaveAttribute('action', '/api/handoff')
     await expect(form).toHaveAttribute('method', 'post')
-    // Wes, 10 Nov 2026: a name, an industry, an email and a cell. Nothing else shows.
+    // Wes, 10 Nov 2026: a name, an industry, an email and a cell. 13 Nov 2026: and one choice,
+    // a call or an email. Nothing else shows.
     const shown = await form
       .locator('input, textarea, select')
       .evaluateAll((els) => els.filter((el) => (el as HTMLElement).offsetParent && (el as HTMLInputElement).name !== 'company').map((el) => (el as HTMLInputElement).name))
-    expect(shown).toEqual(['fullName', 'industry', 'email', 'phoneNumber'])
-    for (const name of ['interest', 'company']) {
-      await expect(form.locator(`[name="${name}"]`)).toHaveCount(1)
-    }
+    expect(shown).toEqual(['fullName', 'industry', 'email', 'reply', 'reply', 'phoneNumber'])
+    await expect(form.locator('input[name="reply"][value="call"]')).toBeChecked()
+    await expect(form.locator('fieldset.reply legend')).toHaveText('How should Omnia answer?')
+    for (const name of ['interest', 'company']) await expect(form.locator(`[name="${name}"]`)).toHaveCount(1)
     await expect(form.locator('input[name="interest"]')).toHaveAttribute('type', 'hidden')
-    await expect(form.locator('[type="submit"]')).toBeEnabled()
+    await expect(form.locator('input[name="company"]')).toBeHidden()
+    await expect(form.locator('[type="submit"]')).toHaveText('Request a call or email')
     await expect(form.locator('#sent')).toBeHidden()
+    for (const id of ['f-name', 'f-industry', 'f-email', 'f-phone']) await expect(page.locator(`label[for="${id}"]`)).toBeVisible()
   })
 
   test('an empty form names what is missing and posts nothing', async ({ page }) => {
@@ -161,9 +437,11 @@ test.describe('Homepage', () => {
     await page.goto('/?fresh=1#start')
     await ready(page)
     await page.locator('form#handoff [type="submit"]').click()
-    for (const field of ['fullName', 'industry', 'email', 'phoneNumber']) {
-      await expect(page.locator(`[data-field="${field}"] [data-err]`)).toBeVisible()
+    for (const id of ['f-name', 'f-industry', 'f-email', 'f-phone']) {
+      await expect(page.locator(`#${id}`)).toHaveAttribute('aria-invalid', 'true')
+      await expect(page.locator(`#${id}-err`)).toBeVisible()
     }
+    await expect(page.locator('form#handoff [data-form-status]')).toHaveText('4 fields to fix.')
     expect(await page.evaluate(() => (document.activeElement as HTMLInputElement | null)?.name)).toBe('fullName')
     expect(posts).toBe(0)
   })
@@ -181,58 +459,104 @@ test.describe('Homepage', () => {
     await page.fill('input[name="email"]', 'test.example.com')
     await page.fill('input[name="phoneNumber"]', '(512) 555-0100')
     await page.locator('form#handoff [type="submit"]').click()
-    await expect(page.locator('[data-field="email"] [data-err]')).toBeVisible()
-    await expect(page.locator('[data-field="fullName"] [data-err]')).toBeHidden()
+    await expect(page.locator('#f-email-err')).toBeVisible()
+    await expect(page.locator('#f-name-err')).toBeHidden()
     expect(posts).toBe(0)
   })
 
-  test('a filled form posts its four answers to /api/handoff and shows the sent state', async ({ page }) => {
-    let posted: Record<string, string> | null = null
+  test('a filled form posts its four answers once and asks for a JSON answer', async ({ page }) => {
+    const posts: { accept: string; body: string }[] = []
     await page.route('**/api/handoff', async (route) => {
-      posted = route.request().postDataJSON()
+      posts.push({ accept: route.request().headers()['accept'] || '', body: route.request().postData() || '' })
       await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' })
     })
-    await page.goto('/?fresh=1#start')
+    await page.goto('/?hire=chief#start')
     await ready(page)
     await page.fill('input[name="fullName"]', 'Test User')
     await page.fill('input[name="industry"]', 'Bakery')
     await page.fill('input[name="email"]', 'test@example.com')
     await page.fill('input[name="phoneNumber"]', '(512) 555-0100')
     await page.locator('form#handoff [type="submit"]').click()
-    await expect(page.locator('form#handoff')).toHaveClass(/is-sent/)
-    await expect(page.locator('#sent')).toHaveText('Got it, Test. Omnia will call you.')
-    await expect(page.locator('form#handoff [type="submit"]')).toBeDisabled()
-    expect(posted).toEqual({
-      fullName: 'Test User',
-      industry: 'Bakery',
-      email: 'test@example.com',
-      phoneNumber: '(512) 555-0100',
-      interest: '',
-      company: '',
-    })
+    await expect(page.locator('form#handoff [data-form-status]')).toHaveText('Your request is in. Omnia will call you.')
+    expect(posts.length).toBe(1)
+    // the server answers a script with JSON only when the post asks for it (route.ts)
+    expect(posts[0].accept).toContain('application/json')
+    expect(posts[0].accept).not.toContain('text/html')
+    for (const [name, value] of Object.entries({ fullName: 'Test User', industry: 'Bakery', email: 'test@example.com', phoneNumber: '(512) 555-0100', reply: 'call', interest: 'Chief of staff', company: '' })) {
+      expect(posts[0].body).toMatch(new RegExp(`name="${name}"\\r\\n\\r\\n${value.replace(/[()]/g, '\\$&')}\\r\\n`))
+    }
+    await expect(page.locator('input[name="fullName"]')).toHaveValue('')
   })
 
-  test('a refused post says so and lets the visitor try again', async ({ page }) => {
+  test('a visitor who asks for an email is not asked for a cell number', async ({ page }) => {
+    const posts: string[] = []
+    await page.route('**/api/handoff', async (route) => {
+      posts.push(route.request().postData() || '')
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' })
+    })
+    await page.goto('/?fresh=1#start')
+    await ready(page)
+    const form = page.locator('form#handoff')
+    const cell = form.locator('input[name="phoneNumber"]')
+    await expect(cell).toBeVisible()
+    await form.locator('label', { hasText: 'Email me' }).click()
+    await expect(form.locator('input[name="reply"][value="email"]')).toBeChecked()
+    await expect(cell).toBeHidden()
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
+    await form.locator('[type="submit"]').click()
+    await expect(form.locator('[data-form-status]')).toHaveText('Your request is in. Omnia will email you.')
+    expect(posts.length).toBe(1)
+    expect(posts[0]).toMatch(/name="reply"\r\n\r\nemail\r\n/)
+    expect(posts[0]).toMatch(/name="phoneNumber"\r\n\r\n\r\n/)
+    // the sent form is as it was at the start: a call, with its cell field
+    await expect(form.locator('input[name="reply"][value="call"]')).toBeChecked()
+    await expect(cell).toBeVisible()
+  })
+
+  test('a visitor who asks for a call and gives no cell number is told so', async ({ page }) => {
+    let posts = 0
+    await page.route('**/api/handoff', async (route) => {
+      posts++
+      await route.fulfill({ status: 200, contentType: 'application/json', body: '{"success":true}' })
+    })
+    await page.goto('/?fresh=1#start')
+    await ready(page)
+    const form = page.locator('form#handoff')
+    // the email choice and back again: the cell is needed once more
+    await form.locator('label', { hasText: 'Email me' }).click()
+    await form.locator('label', { hasText: 'Call me' }).click()
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
+    await form.locator('[type="submit"]').click()
+    await expect(page.locator('#f-phone-err')).toBeVisible()
+    await expect(form.locator('[data-form-status]')).toHaveText('1 field to fix.')
+    expect(posts).toBe(0)
+  })
+
+  test('a refused post says so, keeps what was typed and lets the visitor try again', async ({ page }) => {
     await page.route('**/api/handoff', (route) =>
       route.fulfill({ status: 500, contentType: 'application/json', body: '{"error":"Failed to send notification"}' })
     )
-    await page.goto('/?pillar=assistant#start')
+    await page.goto('/?fresh=1#start')
     await ready(page)
     await page.fill('input[name="fullName"]', 'Test User')
     await page.fill('input[name="industry"]', 'Bakery')
     await page.fill('input[name="email"]', 'test@example.com')
     await page.fill('input[name="phoneNumber"]', '512 555 0100')
     await page.locator('form#handoff [type="submit"]').click()
-    await expect(page.locator('[data-form-err]')).toContainText('Your request did not send')
-    await expect(page.locator('[data-form-err] a')).toHaveAttribute('href', 'mailto:team@getoios.com')
+    await expect(page.locator('form#handoff [data-form-status]')).toHaveText('Your request did not send. Try again in a minute, or email team@getoios.com.')
     await expect(page.locator('form#handoff [type="submit"]')).toBeEnabled()
-    await expect(page.locator('form#handoff')).not.toHaveClass(/is-sent/)
+    await expect(page.locator('input[name="fullName"]')).toHaveValue('Test User')
+    await expect(page.locator('#sent')).toBeHidden()
   })
 
-  test('a ?pillar= link from another page sends its pillar along unseen', async ({ page }) => {
-    await page.goto('/?pillar=assistant#start')
+  test('an old ?pillar= link still sends its hire along unseen', async ({ page }) => {
+    await page.goto('/?pillar=back-office#start')
     await ready(page)
-    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Right hand')
+    await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('Management team')
     await page.goto('/?pillar=everything#start')
     await ready(page)
     await expect(page.locator('form#handoff input[name="interest"]')).toHaveValue('')
@@ -241,88 +565,68 @@ test.describe('Homepage', () => {
   test('/#sent, where the no-script post lands, shows the confirmation', async ({ page }) => {
     await page.goto('/?fresh=1#sent')
     await expect(page.locator('#sent')).toBeVisible()
-    await expect(page.locator('#sent')).toHaveText('Got it. Omnia will call you.')
+    await expect(page.locator('#sent')).toHaveText('Your request is in. Omnia will call or email you.')
   })
 
-  // ─── Audience ────────────────────────────────────────────────────────
+  // ─── Words ───────────────────────────────────────────────────────────
+  // Wes: his name stays off the public pages. No em dash in copy a customer reads.
+  test('the page holds no owner name and no em dash', async ({ page }) => {
+    await ready(page)
+    const html = await page.content()
+    expect(html).not.toMatch(/Overstreet/i)
+    expect(html).not.toMatch(/\bWes\b/)
+    const text = await page.evaluate(() => document.body.innerText)
+    expect(text).not.toContain('—')
+  })
+
   // Wes, 2 Nov 2026: OIOS is for all small businesses, not just the trades.
   // The business switch offers one trade (the plumber) among four. The page as
   // it loads, and the other two businesses, must not read as trades-only.
   const TRADE_WORDS = /\b(truck|roof|crews?|price book|walkthrough|lumber|decks?|fence|hvac|contractors?)\b/i
 
   for (const biz of ['cafe', 'dental', 'shop']) {
-    test(`the ${biz} day speaks to every small business, not just the trades`, async ({ page }) => {
+    test(`the ${biz} list speaks to every small business, not just the trades`, async ({ page }) => {
       await ready(page)
-      await page.locator(`input[name="biz"][value="${biz}"]`).check()
-      await page.waitForTimeout(400)
-      const text = await page.evaluate(() => document.body.innerText)
+      await page.locator(`input[name="biz"][value="${biz}"]`).check({ force: true })
+      await page.waitForTimeout(200)
+      const text = await page.evaluate(() => document.body.textContent || '')
       expect(text).not.toMatch(TRADE_WORDS)
       const alts = await page.locator('img[alt]').evaluateAll((els) => els.map((el) => el.getAttribute('alt') || ''))
-      expect(alts.length).toBeGreaterThanOrEqual(3)
       for (const alt of alts) expect(alt).not.toMatch(TRADE_WORDS)
-      const placeholder = await page.locator('input[name="industry"]').getAttribute('placeholder')
-      expect(placeholder).not.toMatch(TRADE_WORDS)
     })
   }
 
   // ─── Footer ──────────────────────────────────────────────────────────
-  // Wes, 10 Nov 2026: the same voice sample as meetjarvis. One morning brief, two voices to choose.
-  test('the voice sample plays one morning brief in two voices', async ({ page }) => {
-    await ready(page)
-    const voice = page.locator('[data-voice-sample]')
-    const audio = voice.locator('audio')
-    await voice.scrollIntoViewIfNeeded()
-    await expect(voice.getByRole('button', { name: 'Ava' })).toHaveAttribute('aria-pressed', 'true')
-    await expect(voice.locator('[data-voice-label]')).toHaveText(/Ava’s voice · 20 seconds/)
-    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentSrc)).toMatch(/\/jarvis\/assets\/voice\/ava-heart\.mp3$/)
-    await audio.evaluate(async (a: HTMLAudioElement) => { a.muted = true; await a.play() })
-    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentTime > 0 && a.duration > 19.5 && a.duration < 21)).toBe(true)
-
-    await voice.getByRole('button', { name: 'Jarvis' }).click()
-    await expect(voice.getByRole('button', { name: 'Jarvis' })).toHaveAttribute('aria-pressed', 'true')
-    await expect(voice.getByRole('button', { name: 'Ava' })).toHaveAttribute('aria-pressed', 'false')
-    await expect(voice.locator('[data-voice-label]')).toHaveText(/Jarvis’s voice · 16 seconds/)
-    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.currentSrc)).toMatch(/jarvis-liam\.mp3$/)
-    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.paused)).toBe(true)
-    await expect.poll(() => audio.evaluate((a: HTMLAudioElement) => a.duration > 16 && a.duration < 18)).toBe(true)
-
-    await voice.locator('summary').click()
-    await expect(voice.locator('details')).toContainText('Good morning. Three things need you today.')
-    await expect(voice.locator('[data-voice-alt]')).toBeHidden()
-  })
-
-  test('a voice clip that cannot load says so', async ({ page }) => {
-    await page.route('**/ava-heart.mp3', (route) => route.abort())
-    await page.goto('/')
-    await ready(page)
-    await expect(page.locator('[data-voice-error]')).toBeVisible()
-  })
-
-  test('footer is visible with correct links', async ({ page }) => {
+  test('the footer repeats the one action and links the legal pages', async ({ page }) => {
     const footer = page.locator('footer')
     await footer.scrollIntoViewIfNeeded()
-    await expect(footer).toBeVisible()
+    await expect(footer.locator('a.btn')).toHaveText('Request a call or email')
     for (const href of ['/privacy', '/terms', '/sms']) await expect(footer.locator(`a[href="${href}"]`)).toBeVisible()
-  })
-
-  test('footer contains contact email', async ({ page }) => {
-    const footer = page.locator('footer')
-    await footer.scrollIntoViewIfNeeded()
     await expect(footer.locator('a[href="mailto:team@getoios.com"]')).toBeVisible()
+    await expect(footer).toContainText('Product names and logos are trademarks of their owners.')
   })
 
   // ─── Phone ───────────────────────────────────────────────────────────
-  test('fits a 390 px phone with no sideways scroll', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 })
-    await page.goto('/')
-    await ready(page)
-    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(391)
-    await expect(page.locator('.top__by')).toBeVisible()
-    await expect(card(page, 's1').locator('[data-approve]')).toBeVisible()
-  })
+  for (const width of [390, 320]) {
+    test(`fits a ${width} px phone with no sideways scroll, and the taps work there`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 844 })
+      await page.goto('/')
+      await ready(page)
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width + 1)
+      await expect(page.locator('h1')).toBeVisible()
+      await page.locator('#today').scrollIntoViewIfNeeded()
+      await page.locator('#today [data-tab="s2"]').click()
+      await expect(card(page, 's2')).toBeVisible()
+      const approve = card(page, 's2').locator('[data-approve]')
+      const box = await approve.boundingBox()
+      expect(box!.height).toBeGreaterThanOrEqual(44)
+      await approve.click()
+      await expect(card(page, 's2').locator('[data-flag]')).toHaveText('Sent on your tap')
+    })
+  }
 
   // ─── Console errors ──────────────────────────────────────────────────
-  test('no console errors on load', async ({ page }) => {
+  test('no console errors on load or down the page', async ({ page }) => {
     const errors: string[] = []
     page.on('console', (msg) => {
       if (msg.type() === 'error') errors.push(msg.text())
@@ -330,14 +634,19 @@ test.describe('Homepage', () => {
     page.on('pageerror', (error) => errors.push(error.message))
 
     await page.goto('/')
+    await ready(page)
+    await page.waitForLoadState('networkidle')
+    const height = await page.evaluate(() => document.documentElement.scrollHeight)
+    for (let y = 0; y < height; y += 800) {
+      await page.evaluate((top) => window.scrollTo(0, top), y)
+      await page.waitForTimeout(120)
+    }
     await page.waitForLoadState('networkidle')
 
-    // Filter out known benign errors (e.g. third-party scripts, favicon)
     const realErrors = errors.filter(
       (e) => !e.includes('favicon') && !e.includes('ERR_BLOCKED_BY_CLIENT') && !e.includes('third-party')
     )
-
-    expect(realErrors).toHaveLength(0)
+    expect(realErrors).toEqual([])
   })
 })
 
@@ -345,12 +654,11 @@ test.describe('Homepage', () => {
 test.describe('Homepage without script', () => {
   test.use({ javaScriptEnabled: false })
 
-  test('the voice sample keeps one clip and a link to the other voice', async ({ page }) => {
+  test('the page still says what Jarvis is and shows the first item', async ({ page }) => {
     await page.goto('/')
-    const voice = page.locator('[data-voice-sample]')
-    await expect(voice.locator('audio')).toHaveCount(1)
-    await expect(voice.locator('[data-voice-pick]')).toBeHidden()
-    await expect(voice.locator('[data-voice-alt] a')).toHaveAttribute('href', '/jarvis/assets/voice/jarvis-liam.mp3')
+    await expect(page.locator('h1')).toHaveText('Jarvis is three hires in one')
+    await expect(page.locator('#today [data-item="s1"] .tap__title')).toHaveText('Send this text to Sam Ortiz?')
+    await expect(page.locator('[data-voices] [data-voice="ava"]')).toHaveAttribute('href', '/jarvis/assets/voice/ava-heart.mp3')
   })
 
   test('the form posts its four fields form-encoded to /api/handoff', async ({ page }) => {
@@ -376,9 +684,32 @@ test.describe('Homepage without script', () => {
       fullName: 'Test User',
       industry: 'Bakery',
       email: 'test@example.com',
+      reply: 'call',
       phoneNumber: '512 555 0100',
       interest: '',
       company: '',
     })
+  })
+
+  test('with no script, the email choice takes the cell field away and the form still posts', async ({ page }) => {
+    let body = ''
+    await page.route('**/api/handoff', async (route) => {
+      body = route.request().postData() || ''
+      await route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>answered</title>' })
+    })
+    await page.goto('/')
+    await page.fill('input[name="fullName"]', 'Test User')
+    await page.fill('input[name="industry"]', 'Bakery')
+    await page.fill('input[name="email"]', 'test@example.com')
+    // a click waits on animation frames (see above): the arrow key moves the choice
+    await page.locator('input[name="reply"][value="call"]').focus()
+    await page.keyboard.press('ArrowRight')
+    await expect(page.locator('input[name="reply"][value="email"]')).toBeChecked()
+    await expect(page.locator('input[name="phoneNumber"]')).toBeHidden()
+    await page.locator('input[name="email"]').press('Enter')
+    await expect(page).toHaveTitle('answered')
+    const sent = Object.fromEntries(new URLSearchParams(body))
+    expect(sent.reply).toBe('email')
+    expect(sent.phoneNumber).toBe('')
   })
 })

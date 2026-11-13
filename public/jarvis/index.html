@@ -1,434 +1,668 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-type="software" data-radius="soft" data-ground="sand" data-buttons="tonal" data-motion>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jarvis, a chief of staff for small-business owners | Omnia AI Intelligence</title>
-<meta name="description" content="Jarvis is a chief of staff for small-business owners, installed by Omnia AI Intelligence. You talk to him like a person. He drafts the replies, quotes and invoices and keeps the follow-through moving, and nothing is spent, sent or deleted without your tap.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jarvis: three hires in one for small-business owners</title>
+<meta name="description" content="Jarvis is your assistant for your business and your life, your chief of staff, and your full management team. Omnia AI Intelligence installs him, and nothing is spent, sent or deleted without your tap.">
 <link rel="canonical" href="https://getoios.com/">
-<meta name="theme-color" content="#762BEE">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OIOS by Omnia AI Intelligence">
 <meta property="og:url" content="https://getoios.com/">
-<meta property="og:title" content="Jarvis, a chief of staff for small-business owners">
-<meta property="og:description" content="Try a sample day with Jarvis. He drafts the replies, quotes and invoices and keeps the follow-through moving. Nothing is spent, sent or deleted without your tap.">
-<meta property="og:image" content="https://getoios.com/jarvis/og-day.png">
+<meta property="og:title" content="Jarvis: three hires in one for small-business owners">
+<meta property="og:description" content="An assistant for your business and your life, a chief of staff and a full management team. Nothing is spent, sent or deleted without your tap.">
+<meta property="og:image" content="https://getoios.com/jarvis/share-three-hires.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Jarvis, a chief of staff for small-business owners, installed by Omnia AI Intelligence">
+<meta property="og:image:alt" content="Jarvis is three hires in one: an assistant, a chief of staff and a management team for small-business owners">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jarvis, a chief of staff for small-business owners">
-<meta name="twitter:description" content="Try a sample day with Jarvis. He drafts the replies, quotes and invoices and keeps the follow-through moving. Nothing is spent, sent or deleted without your tap.">
-<meta name="twitter:image" content="https://getoios.com/jarvis/og-day.png">
+<meta name="twitter:title" content="Jarvis: three hires in one for small-business owners">
+<meta name="twitter:description" content="An assistant for your business and your life, a chief of staff and a full management team. Nothing is spent, sent or deleted without your tap.">
+<meta name="twitter:image" content="https://getoios.com/jarvis/share-three-hires.jpg">
 <link rel="icon" href="/icon.png" type="image/png" sizes="512x512">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/jarvis/assets/fonts/besley-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/jarvis/assets/fonts/hanken-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/jarvis/day.css?v=3">
+<meta name="theme-color" content="#ffffff">
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/jarvis/assets/system.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/cards.css">
+<link rel="stylesheet" href="/jarvis/assets/motion/motion.css">
+<link rel="stylesheet" href="/jarvis/assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="/jarvis/assets/layout/layout.css">
+<link rel="stylesheet" href="/jarvis/assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #ffffff; --p-surface: #f1f1f1; --p-ink: #090909; --p-muted: #575757;
+  --p-accent: #762bee; --p-accent-ink: #ffffff; --p-action: #762bee; --p-action-ink: #ffffff;
+  --p-inv-bg: #090909; --p-inv-surface: #161616; --p-inv-ink: #ffffff; --p-inv-muted: #969696;
+  --p-inv-accent: #762bee; --p-inv-accent-ink: #ffffff; --p-inv-action: #762bee; --p-inv-action-ink: #ffffff;
+  --font-display: "Host Grotesk", system-ui, sans-serif;
+  --font-text: "Host Grotesk", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.04em;
+}
+</style>
+<link rel="stylesheet" href="/jarvis/assets/ui/base.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/window/fragment.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/chat/fragment.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/search/fragment.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/notify/fragment.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/checklist/fragment.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/files/fragment.css">
+<link rel="stylesheet" href="/jarvis/assets/ui/doc/fragment.css">
+<link rel="stylesheet" href="/jarvis/assets/diagrams/diagram.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="/jarvis/assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="/jarvis/assets/moments/moments.js">
+<link rel="modulepreload" href="/jarvis/assets/moments/lib.js">
+<link rel="modulepreload" href="/jarvis/assets/moments/letters-assemble/moment.js">
+<link rel="modulepreload" href="/jarvis/assets/moments/line-carries-colour/moment.js">
+<link rel="stylesheet" href="/jarvis/door.css?v=2">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://getoios.com/#org","name":"Omnia AI Intelligence","alternateName":"OIOS","url":"https://getoios.com","logo":"https://getoios.com/icon.png"},
- {"@type":"SoftwareApplication","name":"Jarvis","applicationCategory":"BusinessApplication","operatingSystem":"Web, iPhone","description":"A chief of staff for small-business owners, installed by Omnia AI Intelligence. He drafts quotes, customer replies and invoices and keeps the follow-through moving. Every outbound message waits for the owner's approval.","publisher":{"@id":"https://getoios.com/#org"},"url":"https://getoios.com/"},
- {"@type":"WebPage","@id":"https://getoios.com/","url":"https://getoios.com/","name":"Jarvis, a chief of staff for small-business owners","isPartOf":{"@type":"WebSite","url":"https://getoios.com","name":"OIOS by Omnia AI Intelligence"}}
+ {"@type":"SoftwareApplication","name":"Jarvis","applicationCategory":"BusinessApplication","operatingSystem":"Web, iPhone","description":"Three hires in one for small-business owners: an assistant for your business and your life, a chief of staff and a full management team. Installed by Omnia AI Intelligence. Every outbound message waits for the owner's approval.","publisher":{"@id":"https://getoios.com/#org"},"url":"https://getoios.com/"},
+ {"@type":"WebPage","@id":"https://getoios.com/","url":"https://getoios.com/","name":"Jarvis: three hires in one for small-business owners","isPartOf":{"@type":"WebSite","url":"https://getoios.com","name":"OIOS by Omnia AI Intelligence"}}
 ]}
 </script>
 </head>
 <body>
-<a class="skip" href="#day">Skip to the sample day</a>
+<!-- type: software
+     deal: hero triptych, nav nav-mega, close close-word, footer footer-dark, rhythm space, buttons tonal,
+           mark the client's own Omnia mark, grounds none (the lit ground is sand), type host, radius soft
+     effect: gradient-mesh in the one [data-visual] frame (#assistant); card ground painterly-landscape (#chief)
+     moments: line-carries-colour (#team), letters-assemble (#rule)
+     The page is a stack of screens: the hero alone on the first, every other section one or two. -->
 
-<main id="top">
-
-<!-- 7:40 am. The visitor's first tap. -->
-<section class="scene scene--am" id="day" aria-labelledby="page-title">
-  <img class="scene__mark" src="/jarvis/assets/brand/mark-white.svg" alt="" width="600" height="600">
-  <div class="wrap">
-    <header class="top">
-      <a class="brand" href="#top" aria-label="Jarvis. Top of page">
-        <img src="/jarvis/assets/brand/mark-white.svg" alt="" width="36" height="36">
-        <span class="brand__name">Jarvis</span>
-      </a>
-      <p class="top__by">installed by Omnia AI Intelligence</p>
-      <nav class="top__nav" aria-label="Sections">
-        <a href="#work">What he does</a>
-        <a href="#install">Getting set up</a>
-        <a href="#behind">Who&rsquo;s behind it</a>
-      </nav>
-      <a class="btn btn--tap btn--sm" href="#start">Request a call</a>
-    </header>
-
-    <div class="intro">
-      <h1 id="page-title">Jarvis is a chief of staff for small-business owners. This is a sample day with him, and your part of it is three taps.</h1>
-      <fieldset class="pick">
-        <legend>Show the day for a</legend>
-        <div class="pick__row">
-          <label><input type="radio" name="biz" value="cafe" checked><span>caf&eacute;</span></label>
-          <label><input type="radio" name="biz" value="dental"><span>dental office</span></label>
-          <label><input type="radio" name="biz" value="shop"><span>shop</span></label>
-          <label><input type="radio" name="biz" value="plumbing"><span>plumber</span></label>
+<header class="nav">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="nav__logo" href="#top"><img src="/jarvis/assets/brand/mark-purple-black.svg" alt="" width="24" height="24">Jarvis</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item">
+        <a class="nav__link" href="#today">Product <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3">
+              <p class="t-label">The three hires</p>
+              <a href="#assistant">Assistant <span>For business and for life</span></a>
+              <a href="#chief">Chief of staff <span>Brings you what needs you</span></a>
+              <a href="#team">Management team <span>Money, sales and paperwork</span></a>
+            </div>
+            <div class="menu-col span-3">
+              <p class="t-label">The management team</p>
+              <a href="#money">Money <span>Invoices sent and chased</span></a>
+              <a href="#sales">Sales <span>Quotes from your prices</span></a>
+              <a href="#customers">Customers <span>Replies in your voice</span></a>
+              <a href="#paperwork">Paperwork <span>Forms filled and filed</span></a>
+            </div>
+            <a class="menu-card span-3 start-10" href="#rule">
+              <div class="panel"><img class="frame__img" src="/jarvis/assets/pillars/workflows-720.webp" alt="A shop owner turns the sign on the door to closed at the end of the day" width="720" height="480" loading="lazy"></div>
+              <span class="t-card">The rule</span>
+              <span class="t-small muted">Nothing without your tap</span>
+            </a>
+          </div>
         </div>
-      </fieldset>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#tools">Tools</a></div>
+      <div class="nav__item"><a class="nav__link" href="#setup">Setup</a></div>
+      <div class="nav__item"><a class="nav__link" href="#behind">Story</a></div>
+      <div class="nav__item"><a class="nav__link" href="#questions">Questions</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="#start">Request a call or email</a>
     </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
 
-    <div class="stage" data-swap>
-      <div class="stage__say">
-        <p class="said"><time>7:40 am</time>, you say</p>
-        <blockquote class="quote quote--xl">&ldquo;Jarvis, what needs me before&nbsp;nine?&rdquo;</blockquote>
-      <div class="reply">
-        <p class="reply__who"><img src="/jarvis/assets/brand/mark-white.svg" alt="" width="22" height="22">Jarvis</p>
-        <p class="reply__lead" data-k="s1.lead">Three things need you before nine.</p>
-        <ol class="needs" data-list="s1">
-          <li class="is-needs"><span class="needs__t">8:30</span><span class="needs__what">Sam Ortiz wants a yes on Saturday&rsquo;s catering order.</span><span class="needs__status"><mark>Reply drafted. Your tap.</mark></span></li>
-          <li><span class="needs__t">9:00</span><span class="needs__what">The Delgado tasting is in the back room, and Luis is plating it.</span><span class="needs__status">On your calendar.</span></li>
-          <li><span class="needs__t">11:00</span><span class="needs__what">Ridge Farms has not confirmed Thursday&rsquo;s delivery.</span><span class="needs__status">Call them. The number is ready.</span></li>
-        </ol>
-        <p class="reply__src">He read these from your texts, your email and your calendar. You typed nothing.</p>
-      </div>
-      </div>
+<main id="main">
 
-      <article class="tapcard" data-scene="s1" aria-labelledby="s1-title">
-        <header class="tapcard__top">
-          <span class="flag" data-flag>Needs your tap</span>
-          <span class="tapcard__kind" data-k="s1.kind">Text message</span>
-        </header>
-        <h2 class="tapcard__title" id="s1-title" data-k="s1.title">Send this text to Sam Ortiz?</h2>
-        <p class="draft" data-k="s1.draft">Hi Sam, yes, Saturday works and forty is fine. I need the final headcount by Wednesday.
-Mike, Fig Street Caf&eacute;</p>
-        <dl class="does">
-          <dt>What it does</dt>
-          <dd data-k="s1.does">Sends from your business number and goes in Sam&rsquo;s file.</dd>
-        </dl>
-        <div class="tapcard__act" data-act>
-          <button type="button" class="btn btn--tap" data-approve>Approve, send it</button>
-          <button type="button" class="btn btn--quiet" data-decline>Decline</button>
+  <!-- 1. HERO: triptych. Three sets, one per hire. -->
+  <section class="hero hero--split" id="top" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="hero__text span-5">
+        <h1 id="hero-h">Jarvis is three hires in one</h1>
+        <p class="hero__lead">He is your assistant for your business and your life, your chief of staff and your full management team. Omnia AI Intelligence installs him for small-business owners in 4 steps.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#start">Request a call or email</a></div>
+        <!-- one sample item that waits for the owner: a tap here is answered in the model -->
+        <div class="h3d-tap" data-h3d-tap data-state="wait">
+          <div class="h3d-tap__row"><span data-h3d-hire>Assistant</span><span class="h3d__flag" data-h3d-flag>Needs your tap</span></div>
+          <p class="h3d-tap__title" data-h3d-title aria-live="polite">Send this text to Sam Ortiz?</p>
+          <div class="h3d__acts" data-h3d-acts>
+            <button type="button" class="h3d__btn h3d__btn--yes" data-h3d-yes>Approve</button>
+            <button type="button" class="h3d__btn" data-h3d-no>Decline</button>
+          </div>
+          <p class="h3d__note">A sample. Nothing really goes out.</p>
         </div>
-        <div class="tapcard__done" data-done hidden>
-          <p class="stamp" data-stamp></p>
-          <p class="tapcard__after" data-after></p>
-          <p class="tapcard__next"><a href="#pm">Go on to 2:10 pm</a><button type="button" class="undo" data-undo>Undo</button></p>
+      </div>
+      <!-- The model: a small business cut open, at dusk. The still shows first; door.js loads the live scene after the page (hero3d/hero3d.js). -->
+      <div class="hero__media h3d span-6 start-7" data-h3d>
+        <img class="h3d__still" src="/jarvis/hero3d/still-1470.webp" srcset="/jarvis/hero3d/still-735.webp 735w, /jarvis/hero3d/still-1470.webp 1470w" sizes="(max-width: 1023px) 92vw, 680px" width="1470" height="1336" fetchpriority="high" alt="A model of a small business at dusk, cut open, with nobody inside. Three rooms are lit: a home for the assistant, an office with the whole picture on its wall for the chief of staff, and a back office for the management team.">
+        <span class="h3d__label" data-room="2" style="--x: 0.2796; --y: 0.2650" aria-hidden="true">Assistant</span>
+        <span class="h3d__label" data-room="3" style="--x: 0.5467; --y: 0.2892" aria-hidden="true">Chief of staff</span>
+        <span class="h3d__label" data-room="4" style="--x: 0.5459; --y: 0.5271" aria-hidden="true">Management team</span>
+        <fieldset class="h3d__biz">
+          <legend class="sr-only">Sample business in the model</legend>
+          <label><input type="radio" name="hbiz" value="cafe" checked><span>Café</span></label>
+          <label><input type="radio" name="hbiz" value="dental"><span>Dental office</span></label>
+          <label><input type="radio" name="hbiz" value="shop"><span>Shop</span></label>
+          <label><input type="radio" name="hbiz" value="plumbing"><span>Plumber</span></label>
+        </fieldset>
+        <button type="button" class="h3d__play" data-h3d-play aria-pressed="false" aria-label="Pause the model" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path class="h3d__pause" d="M5 3.5v9M11 3.5v9"/><path class="h3d__go" d="M5.5 3.5v9l7-4.5z"/></svg></button>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 2. TODAY: the product whole, live. The list beside the open item. door.js draws both panes
+       from its sample data; the markup here is the café's first item, for a page without script. -->
+  <section class="section" id="today" aria-labelledby="today-h" data-today>
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="span-5" id="today-h">The product is one list of what needs your tap</h2>
+        <div class="span-6 start-7 stack-4">
+          <p class="muted">Jarvis reads your texts, email and calendar and does the work. What is left is a short list. Open an item, read the draft, then approve or decline it. This is a sample, so nothing really goes out.</p>
+          <p class="desk-only"><a class="link" href="#rule">See the rule he follows</a></p>
         </div>
-        <p class="fine">Approve sends it now. Decline sends nothing, and he keeps the draft. This is a sample, so nothing really goes out.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- 2:10 pm. A quote from a conversation. -->
-<section class="scene scene--pm" id="pm" aria-labelledby="pm-title">
-  <div class="wrap split" data-swap>
-    <div class="split__say">
-      <h2 class="vh" id="pm-title">2:10 pm, a quote from a conversation</h2>
-      <p class="said"><time>2:10 pm</time>, you say</p>
-      <blockquote class="quote quote--lg" data-k="s2.say">&ldquo;Quote the Delgado dinner. Forty plates, the short rib menu, two servers, and they asked about a cake stand.&rdquo;</blockquote>
-      <div class="reply reply--ink">
-        <p class="reply__who"><img src="/jarvis/assets/brand/mark-purple-black.svg" alt="" width="22" height="22">Jarvis</p>
-        <p class="reply__lead" data-k="s2.lead">Quote 119 is drafted from your prices. The cake stand is not on your price list, so I left that line blank instead of guessing.</p>
+      </div>
+      <div class="ui app ui-app fill" role="group" aria-label="Jarvis, today's list for a sample business">
+        <div class="app__bar">
+          <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="ui-win__crumb"><img class="app__mark" src="/jarvis/assets/brand/mark-purple-black.svg" alt="" width="14" height="14" loading="lazy">Jarvis <i>/</i> <b data-k="name">Fig Street Café</b></span>
+          <span class="ui-spacer"></span>
+          <fieldset class="app__biz">
+            <legend class="sr-only">Sample business</legend>
+            <label><input type="radio" name="biz" value="cafe" checked><span>Café</span></label>
+            <label><input type="radio" name="biz" value="dental"><span>Dental office</span></label>
+            <label><input type="radio" name="biz" value="shop"><span>Shop</span></label>
+            <label><input type="radio" name="biz" value="plumbing"><span>Plumber</span></label>
+          </fieldset>
+        </div>
+        <div class="app__pane app__pane--list">
+          <div class="ui ui-panel ui-win">
+            <div class="ui-win__body">
+              <nav class="ui-win__side" aria-hidden="true">
+                <span class="ui-win__nav is-on"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 9h3l1 1.5h3l1-1.5h3"/><path d="M2.5 9 4 3.5h8L13.5 9v3.5h-11z"/></svg>Today<em data-need-num>3</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg>Handled<em>14</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2 1.5"/></svg>Waiting<em>2</em></span>
+                <span class="ui-win__label">Hires</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>Assistant</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>Chief of staff</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>Team</span>
+              </nav>
+              <div class="ui-win__main">
+                <div class="ui-win__cols" aria-hidden="true"><span>From</span><span>What</span><span>Status</span><span>Time</span></div>
+                <ul class="ui-win__rows" data-rows>
+                  <li class="ui-win__row is-sel" data-row="s1"><span class="ui-avatar" data-tone="1">SO</span><span class="ui-win__who"><button type="button" class="today__pick" data-pick="s1" aria-pressed="true">Sam Ortiz</button></span><span class="ui-win__sub">Move Saturday pickup to 4:00</span><span class="ui-win__st is-you" data-st>Needs you</span><span class="ui-win__age">7:36</span></li>
+                  <li class="ui-win__row" data-row="s2"><span class="ui-avatar" data-tone="2">RF</span><span class="ui-win__who"><button type="button" class="today__pick" data-pick="s2" aria-pressed="false">Ridge Farms</button></span><span class="ui-win__sub">Thursday delivery not confirmed</span><span class="ui-win__st is-you" data-st>Needs you</span><span class="ui-win__age">7:22</span></li>
+                  <li class="ui-win__row" data-row="s3"><span class="ui-avatar" data-tone="3">DD</span><span class="ui-win__who"><button type="button" class="today__pick" data-pick="s3" aria-pressed="false">Delgado dinner</button></span><span class="ui-win__sub">Quote 119, one price missing</span><span class="ui-win__st is-you" data-st>Needs you</span><span class="ui-win__age">7:10</span></li>
+                  <li class="ui-win__row"><span class="ui-avatar" data-tone="1">Ca</span><span class="ui-win__who">Calendar</span><span class="ui-win__sub">Dentist moved to 12:15</span><span class="ui-win__st is-done">Handled</span><span class="ui-win__age">7:31</span></li>
+                  <li class="ui-win__row"><span class="ui-avatar" data-tone="2">Pa</span><span class="ui-win__who">Paperwork</span><span class="ui-win__sub">Food permit renewal filed</span><span class="ui-win__st is-done">Handled</span><span class="ui-win__age">7:20</span></li>
+                  <li class="ui-win__row"><span class="ui-avatar" data-tone="3">Mo</span><span class="ui-win__who">Money</span><span class="ui-win__sub">Delgado deposit logged, $400</span><span class="ui-win__st is-done">Handled</span><span class="ui-win__age">7:12</span></li>
+                  <li class="ui-win__row"><span class="ui-avatar" data-tone="4">Sa</span><span class="ui-win__who">Sales</span><span class="ui-win__sub">Round Rock reminder set, Thursday</span><span class="ui-win__st is-done">Handled</span><span class="ui-win__age">7:05</span></li>
+                  <li class="ui-win__row"><span class="ui-avatar" data-tone="5">Cu</span><span class="ui-win__who">Customers</span><span class="ui-win__sub">3 replies drafted overnight</span><span class="ui-win__st is-done">Handled</span><span class="ui-win__age">6:58</span></li>
+                  <li class="ui-win__row"><span class="ui-avatar" data-tone="1">Te</span><span class="ui-win__who">Team</span><span class="ui-win__sub">Saturday rota filled, Jo covers</span><span class="ui-win__st is-done">Handled</span><span class="ui-win__age">6:40</span></li>
+                  <li class="ui-win__row"><span class="ui-avatar" data-tone="2">Br</span><span class="ui-win__who">Brief</span><span class="ui-win__sub">Morning brief ready for 7:40</span><span class="ui-win__st is-done">Handled</span><span class="ui-win__age">6:30</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app__pane app__pane--open">
+          <div class="today__tabs" role="tablist" aria-label="The three items that need you">
+            <button type="button" role="tab" data-tab="s1" aria-selected="true">Assistant</button>
+            <button type="button" role="tab" data-tab="s2" aria-selected="false">Chief of staff</button>
+            <button type="button" role="tab" data-tab="s3" aria-selected="false">Team</button>
+          </div>
+          <div class="today__open" data-open>
+            <article class="tap" data-item="s1" data-state="wait">
+              <div class="tap__head"><span class="tap__hire">Assistant</span><span class="tap__kind">Text message</span><span class="ui-win__st is-you tap__flag" data-flag>Needs your tap</span></div>
+              <p class="tap__title">Send this text to Sam Ortiz?</p>
+              <p class="tap__why">Sam asked to move Saturday&rsquo;s pickup to 4:00. Your calendar is free then, and your dentist moved to 12:15.</p>
+              <blockquote class="tap__draft">Hey Sam, yes, 4:00 on Saturday works and forty is fine. I need the final headcount by Wednesday.
+Mike, Fig Street Café</blockquote>
+              <p class="tap__does">Sends from your business number and goes in Sam&rsquo;s file.</p>
+              <div class="tap__acts">
+                <button type="button" class="tap__btn tap__btn--yes" data-approve>Approve and send</button>
+                <button type="button" class="tap__btn" data-decline>Decline</button>
+              </div>
+            </article>
+          </div>
+          <p class="today__count" data-need-count aria-live="polite">3 need you</p>
+        </div>
       </div>
     </div>
+  </section>
 
-    <article class="tapcard sheet" data-scene="s2" aria-labelledby="s2-title">
-      <header class="tapcard__top">
-        <span class="flag" data-flag>Needs your tap</span>
-        <span class="tapcard__kind">Drafted from your prices</span>
-      </header>
-      <h3 class="tapcard__title" id="s2-title"><span data-k="s2.docNo">Quote 119</span><span class="sheet__for" data-k="s2.docName">Delgado anniversary dinner</span></h3>
-      <ul class="lines" data-lines>
-        <li><span class="lines__label">Short rib dinner<small>40 plates at $38</small></span><span class="lines__amt">$1,520</span></li>
-        <li><span class="lines__label">Servers<small>2 for 4 hours</small></span><span class="lines__amt">$320</span></li>
-        <li><span class="lines__label">Delivery and setup</span><span class="lines__amt">$85</span></li>
-      </ul>
-      <div class="gap" data-gap>
-        <label class="gap__label" for="gap-price"><span data-k="s2.flag">Cake stand rental</span><small data-gap-note>Not on your price list. Add a price or leave it off.</small></label>
-        <span class="gap__field"><span aria-hidden="true">$</span><input id="gap-price" type="text" inputmode="decimal" autocomplete="off" placeholder="0" maxlength="7" data-gap-input></span>
+  <!-- 3. ASSISTANT: hire one. The page's one effect sits in this frame. -->
+  <section class="section" id="assistant" aria-labelledby="assistant-h">
+    <div class="wrap">
+      <div class="grid fill">
+        <div class="span-5 stack-5">
+          <h2 id="assistant-h">Your assistant for business and life</h2>
+          <p class="t-lead">Talk to him like a person, by phone, web or iPhone. He keeps your calendar, your promises and your tasks in one place, so everything runs smoothly and stays organized.</p>
+          <div class="stack-2">
+            <p>He remembers every conversation.</p>
+            <p>He writes in your voice.</p>
+            <p>He knows what needs you before the day starts.</p>
+          </div>
+          <p><a class="link" href="#voice">Hear how he sounds</a></p>
+        </div>
+        <div class="frame frame--split frame--fill span-6 start-7" data-visual data-fx="gradient-mesh" data-fx-seed="7" data-fx-params='{"speed":0,"calm":0.2,"calmX":0.5,"calmY":0.95,"tint":0.6,"relief":0.35}'>
+          <div class="stage stage--fade-b">
+            <div class="at-rise to-edge fit" style="--fit-max: 400px; --ax: max(24px, 50% - 200px); --ay: 56px; --ay-sm: 24px" data-ui-loop>
+              <div class="ui ui-panel ui-chat" data-ui="chat">
+                <div class="ui-head">
+                  <span class="ui-agent" aria-hidden="true"></span>
+                  <div class="ui-title">Jarvis</div>
+                  <span class="ui-chat__online">Listening</span>
+                  <span class="ui-spacer"></span>
+                </div>
+                <div class="ui-chat__body">
+                  <div class="ui-chat__day">Thursday, 7:42</div>
+                  <div class="ui-msg ui-msg--me">
+                    <span class="ui-msg__text">Remind me about the school form tonight.</span>
+                  </div>
+                  <div class="ui-msg ui-msg--bot">
+                    <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
+                    <span class="ui-msg__col"><span>It is on your list for <b>7:30 tonight</b>, after soccer pickup.</span></span>
+                  </div>
+                  <div class="ui-msg ui-msg--me" data-chat-q>
+                    <span class="ui-msg__text">Move my dentist to after the Delgado tasting, and ask Ridge Farms to confirm Thursday.</span>
+                  </div>
+                  <div class="ui-msg ui-msg--bot" data-chat-a>
+                    <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
+                    <span class="ui-msg__col">
+                      <span class="ui-chat__answer">Your dentist is now <b>12:15</b>, after the tasting. The text to Ridge Farms is drafted and <b>waits for your tap</b>.</span>
+                      <span class="ui-chat__srcs">
+                        <span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3"/></svg>Calendar</span>
+                        <span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 4.5h11v8h-11z"/><path d="m2.5 5 5.5 4 5.5-4"/></svg>Draft to Ridge Farms</span>
+                      </span>
+                    </span>
+                  </div>
+                  <div class="ui-msg ui-msg--me">
+                    <span class="ui-msg__text">Good. I will read the draft now.</span>
+                  </div>
+                </div>
+                <div class="ui-chat__input">
+                  <span class="ui-chat__ph">Say it or type it</span>
+                  <span class="ui-chat__send" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 13V3.5M3.8 7.5 8 3.3l4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="total"><span>Total</span><strong data-total>$1,925</strong></p>
-      <div class="tapcard__act" data-act>
-        <button type="button" class="btn btn--tap" data-approve data-k="s2.approve">Approve the quote</button>
-        <button type="button" class="btn btn--quiet" data-decline>Decline</button>
-      </div>
-      <div class="tapcard__done" data-done hidden>
-        <p class="stamp" data-stamp></p>
-        <p class="tapcard__after" data-after></p>
-        <p class="tapcard__next"><a href="#night">Go on to 9:00 pm</a><button type="button" class="undo" data-undo>Undo</button></p>
-      </div>
-      <p class="fine">Approve sends it now. Decline sends nothing, and he keeps the draft.</p>
-    </article>
-  </div>
-</section>
-
-<!-- 9:00 pm. Jarvis speaks first. -->
-<section class="scene scene--night" id="night" aria-labelledby="night-title">
-  <div class="wrap split" data-swap>
-    <div class="split__say">
-      <h2 class="vh" id="night-title">9:00 pm, the closing sweep</h2>
-      <p class="said"><time>9:00 pm</time>, Jarvis says</p>
-      <p class="quote quote--jarvis">You were closing up, so I kept three things moving.</p>
-      <ol class="needs needs--wide" data-list="s3">
-        <li class="is-needs"><span class="needs__t">Unpaid</span><span class="needs__what">Invoice 2041 for the Harper rehearsal dinner was opened yesterday and is not paid.</span><span class="needs__status"><mark>Reminder drafted. Your tap.</mark></span></li>
-        <li><span class="needs__t">Quiet</span><span class="needs__what">The Round Rock birthday quote has been quiet for four days.</span><span class="needs__status">Reminder drafted for Thursday, the day you set.</span></li>
-        <li><span class="needs__t">Tomorrow</span><span class="needs__what">Your brief is ready for 7:40.</span><span class="needs__status">Delgado pricing and the Ridge Farms delivery are on it.</span></li>
-      </ol>
     </div>
+  </section>
 
-    <article class="tapcard" data-scene="s3" aria-labelledby="s3-title">
-      <header class="tapcard__top">
-        <span class="flag" data-flag>Needs your tap</span>
-        <span class="tapcard__kind" data-k="s3.kind">Text message</span>
-      </header>
-      <h3 class="tapcard__title" id="s3-title" data-k="s3.title">Send this reminder to Dana Harper?</h3>
-      <p class="draft" data-k="s3.draft">Hi Dana, a quick note that invoice 2041 for the rehearsal dinner is still open. The pay link is below. Thank you again for having us.
-Mike, Fig Street Caf&eacute;</p>
-      <dl class="does">
-        <dt>What it does</dt>
-        <dd data-k="s3.does">Sends from your business number with the pay link and goes in the Harper file.</dd>
-      </dl>
-      <div class="tapcard__act" data-act>
-        <button type="button" class="btn btn--tap" data-approve>Approve, send it</button>
-        <button type="button" class="btn btn--quiet" data-decline>Decline</button>
+  <!-- 4. CHIEF OF STAFF: hire two. Three cards on the painted card ground. -->
+  <section class="section" id="chief" aria-labelledby="chief-h" style="--hm: 2">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="chief-h">Your chief of staff. <span class="muted">He brings you only what needs you.</span></h2>
       </div>
-      <div class="tapcard__done" data-done hidden>
-        <p class="stamp" data-stamp></p>
-        <p class="tapcard__after" data-after></p>
-        <p class="tapcard__next"><a href="#rule">See your day</a><button type="button" class="undo" data-undo>Undo</button></p>
+      <div class="grid">
+        <article class="card card--row card--open m-nolift span-4">
+          <h3>Keeps the whole picture of your business</h3>
+          <p>Every conversation, quote, invoice and promise is kept in one place. Ask for any of them by name.</p>
+          <div class="panel" data-fx="painterly-landscape" data-fx-seed="11" data-fx-palette='{"bg":"#a3b0b6","accent":"#c49a6c"}' data-fx-params='{"blur":1,"brush":0.35,"slope":0,"hillY":0.3,"horizon":0.62,"calm":0.2,"calmX":0.5,"calmY":0.8,"drift":0}' style="--calm-k:0%">
+            <div class="stage stage--fade-b"><div class="at-rise to-edge fit" style="--fit-max: 380px; --ax: 24px; --ay: 40px; --ay-sm: 24px">
+              <div class="ui ui-panel ui-search" data-ui="search">
+                <div class="ui-search__field">
+                  <svg class="ui-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>
+                  <span class="ui-search__q"><span data-search-q>delgado</span><i class="ui-search__caret"></i></span>
+                </div>
+                <div class="ui-search__group">Everything about Delgado</div>
+                <ul class="ui-search__list" data-search-list>
+                  <li class="ui-search__row is-sel"><span class="ui-search__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg></span><span class="ui-search__t">Quote 119, <b>Delgado</b> dinner</span><span class="ui-search__m">Quote</span></li>
+                  <li class="ui-search__row"><span class="ui-search__ico"><svg class="ui-icon" viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3"/></svg></span><span class="ui-search__t"><b>Delgado</b> tasting, Thu 9:00</span><span class="ui-search__m">Calendar</span></li>
+                  <li class="ui-search__row"><span class="ui-search__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 4.5h11v8h-11z"/><path d="m2.5 5 5.5 4 5.5-4"/></svg></span><span class="ui-search__t">Re: cake stand, Ana <b>Delgado</b></span><span class="ui-search__m">Mail</span></li>
+                  <li class="ui-search__row"><span class="ui-search__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M3 12.5V5l5-2.5L13 5v7.5"/><path d="M6.5 12.5v-4h3v4"/></svg></span><span class="ui-search__t"><b>Delgado</b> deposit, $400 paid</span><span class="ui-search__m">Money</span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row card--open m-nolift span-4">
+          <h3>Watches every customer, quote and invoice</h3>
+          <p>He watches for problems. A late invoice or a quiet quote is caught before it reaches you.</p>
+          <div class="panel" data-fx="painterly-landscape" data-fx-seed="23" data-fx-palette='{"bg":"#d9ccb7","surface":"#e9e0d2","ink":"#2a2622","accent":"#a8794a"}' data-fx-params='{"blur":1,"brush":0.35,"slope":0,"hillY":0.3,"horizon":0.62,"calm":0.2,"calmX":0.5,"calmY":0.8,"drift":0}' style="--calm-k:0%">
+            <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max: 380px; --ax: 24px; --ay: calc(100% - 180px); --ay-sm: calc(100% - 180px)">
+              <div class="ui ui-notify" data-ui="notify">
+                <ul class="ui-notify__list" data-notify-list>
+                  <li class="ui-note"><span class="ui-agent ui-note__av" aria-hidden="true"></span><span class="ui-note__text"><span class="ui-note__title">Ridge Farms has not confirmed<time>now</time></span><span class="ui-note__body">Thursday delivery. A text is drafted.</span></span></li>
+                  <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5v3l2 1.5"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Invoice 2041 is 9 days late<time>8:05</time></span><span class="ui-note__body">Harper rehearsal dinner, $640</span></span></li>
+                  <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 4.5h11v8h-11z"/><path d="m2.5 5 5.5 4 5.5-4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Round Rock quote quiet 4 days<time>7:40</time></span><span class="ui-note__body">A reminder is set for Thursday</span></span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row card--open m-nolift span-4">
+          <h3>Puts what needs you in order</h3>
+          <p>A morning brief opens the day. He wakes you only for money, a promise or a fire.</p>
+          <div class="panel" data-fx="painterly-landscape" data-fx-seed="37" data-fx-palette='{"bg":"#cdd6c6","surface":"#dce3d6","ink":"#262d24","accent":"#6c8e63"}' data-fx-params='{"blur":1,"brush":0.35,"slope":0,"hillY":0.3,"horizon":0.62,"calm":0.2,"calmX":0.5,"calmY":0.8,"drift":0}' style="--calm-k:0%">
+            <div class="stage"><div class="at-rise fit" style="--fit-max: 340px; --ax: 24px; --ay: 34px; --ay-sm: 24px">
+              <div class="ui ui-panel ui-checks" data-ui="checklist">
+                <div class="ui-checks__head">
+                  <div class="ui-title">Morning brief, 7:40</div>
+                  <span class="ui-spacer"></span>
+                  <div class="ui-meta" data-checks-count>3 of 5</div>
+                </div>
+                <div class="ui-checks__bar"><i data-checks-bar style="--k:0.6"></i></div>
+                <ul class="ui-checks__list">
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Two invoices drafted</span></li>
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Saturday rota filled</span></li>
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Permit renewal filed</span></li>
+                  <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Approve the reply to Sam</span></li>
+                  <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Price the cake stand</span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
       </div>
-      <p class="fine">Approve sends it now. Decline sends nothing, and he keeps the draft.</p>
-    </article>
-  </div>
-</section>
-
-<!-- The rule, and the receipt of what the visitor decided. -->
-<section class="rule" id="rule" aria-labelledby="rule-title">
-  <div class="wrap rule__grid">
-    <div>
-      <h2 class="rule__line" id="rule-title">Nothing is spent, sent or deleted without your&nbsp;tap.</h2>
-      <dl class="rule__facts">
-        <div><dt>Approve</dt><dd>It goes now, from your business.</dd></div>
-        <div><dt>Decline</dt><dd>Nothing is sent, and he keeps the draft.</dd></div>
-        <div><dt>When he wakes you</dt><dd>For money, a promise or a fire.</dd></div>
-      </dl>
     </div>
-    <aside class="receipt" aria-labelledby="receipt-title">
-      <h3 id="receipt-title">Your sample day</h3>
-      <p class="receipt__biz" data-k="name">Fig Street Caf&eacute; &amp; Catering</p>
-      <ol class="receipt__rows">
-        <li data-row="s1"><a href="#day"><span class="receipt__t">7:40 am</span><span class="receipt__what" data-k="s1.receipt">Reply to Sam Ortiz</span><span class="receipt__state" data-state><mark>Waiting on you</mark></span></a></li>
-        <li data-row="s2"><a href="#pm"><span class="receipt__t">2:10 pm</span><span class="receipt__what" data-k="s2.receipt">Quote 119, Delgado dinner</span><span class="receipt__state" data-state><mark>Waiting on you</mark></span></a></li>
-        <li data-row="s3"><a href="#night"><span class="receipt__t">9:00 pm</span><span class="receipt__what" data-k="s3.receipt">Reminder to Dana Harper</span><span class="receipt__state" data-state><mark>Waiting on you</mark></span></a></li>
-      </ol>
-      <p class="receipt__total"><span>Sent without your tap</span><strong>0</strong></p>
-      <p class="receipt__next" data-receipt-next hidden><a href="#start">Next, what would you hand him first?</a></p>
-    </aside>
-  </div>
-</section>
+  </section>
 
-<!-- What he does. One set of names. -->
-<section class="work" id="work" aria-labelledby="work-title">
-  <div class="wrap">
-    <h2 class="h2" id="work-title">That was one day and three kinds of work. Most owners hand him one first.</h2>
+  <!-- 5. MANAGEMENT TEAM: hire three. Two screens on the inverse ground; the line carries the colour in. -->
+  <section class="section g2 ground-inverse" id="team" aria-labelledby="team-h" data-moment="line-carries-colour" data-moment-opts='{"from": "base"}'>
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="team-h">Your full management team. <span class="muted">The money, the sales, the customers and the paperwork get done.</span></h2>
+          <p class="desk-only"><a class="link" href="#rule">See the rule he follows</a></p>
+        </div>
+        <div class="grid">
+          <!-- data-moment-block: the colour moment fades each picture in whole and never writes into its rows (a card loop keeps its rows from the markup) -->
+          <article class="card card--row m-nolift span-6" id="money">
+            <h3>Bills the customer and chases late invoices</h3>
+            <p>A yes on a quote becomes an invoice with a pay link. A late one gets a reminder you approve.</p>
+            <div class="panel panel--flush" data-moment-block>
+              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max: 380px; --ax: max(24px, 50% - 190px); --ay: max(36px, calc(50% - 104px)); --ay-sm: calc(100% - 180px)">
+                <div class="ui ui-notify" data-ui="notify">
+                  <ul class="ui-notify__list" data-notify-list>
+                    <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Invoice 2041 paid<time>9:12</time></span><span class="ui-note__body">Harper rehearsal dinner, $640 by card</span></span></li>
+                    <li class="ui-note"><span class="ui-agent ui-note__av" aria-hidden="true"></span><span class="ui-note__text"><span class="ui-note__title">Reminder ready for your tap<time>8:05</time></span><span class="ui-note__body">Invoice 2038, Brandt, 6 days late</span></span></li>
+                    <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Invoice 2044 drafted<time>7:58</time></span><span class="ui-note__body">Delgado deposit, $400</span></span></li>
+                  </ul>
+                </div>
+              </div></div>
+            </div>
+          </article>
+          <article class="card card--row m-nolift span-6" id="sales">
+            <h3>Quotes from your prices</h3>
+            <p>Say the job out loud. The quote is drafted from your price list, and a missing price stays blank.</p>
+            <div class="panel panel--flush" data-moment-block>
+              <div class="stage stage--fade-b"><div class="at-corner to-edge fit" style="--fit-max: 440px; --ax: 32px; --ay: 36px; --ay-sm: 24px">
+                <div class="ui ui-doc" data-ui="doc">
+                  <article class="ui-doc__page">
+                    <div class="ui-doc__label">Quote 119, draft</div>
+                    <div class="ui-doc__title">Delgado anniversary dinner</div>
+                    <div class="ui-doc__text">Short rib dinner, 40 plates at $38. Two servers for 4 hours. Delivery and setup. Total so far <mark class="ui-doc__mark is-on">$1,925</mark>.</div>
+                    <div class="ui-doc__text"><mark class="ui-doc__mark" data-kind="Blank" data-msg="Not on your price list. Add a price." data-where="Price list, updated 2 Nov">Cake stand rental</mark> is not priced yet.</div>
+                    <div class="ui-doc__text">The Delgados get the quote when you approve it. A yes becomes an invoice with a pay link.</div>
+                  </article>
+                  <aside class="ui-doc__note ui-panel is-on" aria-live="off">
+                    <div class="ui-doc__kind"><span class="ui-doc__dot"></span><span data-doc-kind>From your prices</span></div>
+                    <div class="ui-doc__msg" data-doc-msg>40 plates at $38, 2 servers at $40 an hour.</div>
+                    <div class="ui-doc__where" data-doc-where>Price list, updated 2 Nov</div>
+                  </aside>
+                </div>
+              </div></div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card card--row m-nolift span-6" id="customers">
+          <h3>Drafts every customer reply</h3>
+          <p>Each message gets an answer in your voice, with the facts from the file. You tap to send it.</p>
+          <div class="panel panel--flush" data-moment-block>
+            <div class="stage stage--fade-b"><div class="at-rise to-edge fit" style="--fit-max: 400px; --ax: max(24px, 50% - 200px); --ay: 40px; --ay-sm: 24px">
+              <div class="ui ui-panel ui-chat" data-ui="chat">
+                <div class="ui-head">
+                  <span class="ui-avatar" data-tone="3" aria-hidden="true">SO</span>
+                  <div class="ui-title">Sam Ortiz</div>
+                  <span class="ui-spacer"></span>
+                </div>
+                <div class="ui-chat__body">
+                  <div class="ui-chat__day">Today, 8:26</div>
+                  <div class="ui-msg ui-msg--me">
+                    <span class="ui-msg__text">Can we move Saturday&rsquo;s pickup to 4:00? And is forty still fine?</span>
+                  </div>
+                  <div class="ui-msg ui-msg--bot">
+                    <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
+                    <span class="ui-msg__col"><span>Hey Sam, yes, 4:00 on Saturday works and forty is fine. I need the final headcount by Wednesday.</span></span>
+                  </div>
+                  <div class="ui-chat__day">Sent on your tap, 8:31</div>
+                  <div class="ui-msg ui-msg--me" data-chat-q>
+                    <span class="ui-msg__text">Thank you. Can two of the plates be gluten-free?</span>
+                  </div>
+                  <div class="ui-msg ui-msg--bot" data-chat-a>
+                    <span class="ui-agent ui-msg__av" aria-hidden="true"></span>
+                    <span class="ui-msg__col">
+                      <span class="ui-chat__answer">Hey Sam, yes. <b>Two of the forty plates will be gluten-free.</b></span>
+                      <span class="ui-chat__srcs">
+                        <span class="ui-chat__src"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>Draft, waits for your tap</span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div class="ui-chat__input">
+                  <span class="ui-chat__ph">Change the draft</span>
+                  <span class="ui-chat__send" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M8 13V3.5M3.8 7.5 8 3.3l4.2 4.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+              </div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row m-nolift span-6" id="paperwork">
+          <h3>Files the forms and the uploads</h3>
+          <p>He chases the paperwork and runs the web errands in a real browser: the portals, the forms and the uploads.</p>
+          <div class="panel panel--flush" data-moment-block>
+            <div class="stage stage--fade-br"><div class="at-corner wide" style="--w: 680px; --ax: 32px; --ay: 36px; --ay-sm: 24px">
+              <div class="ui ui-files" data-ui="files" data-reading="Filing {n} of {total}">
+                <div class="ui-files__status"><span class="ui-dot"></span><span data-files-status>12 documents filed</span></div>
+                <ul class="ui-files__grid">
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="/jarvis/assets/icons/pdf.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Food permit renewal</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="xlsx" src="/jarvis/assets/icons/xlsx.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Price list, November</span><span class="ui-file__kind">Excel</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="google-drive" src="/jarvis/assets/icons/google-drive.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Insurance certificate</span><span class="ui-file__kind">Google Drive</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="docx" src="/jarvis/assets/icons/docx.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Vendor form, Ridge Farms</span><span class="ui-file__kind">Word</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="quickbooks" src="/jarvis/assets/icons/quickbooks.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">October receipts</span><span class="ui-file__kind">QuickBooks</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="/jarvis/assets/icons/pdf.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Signed contract</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="image" src="/jarvis/assets/icons/image.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Tasting photos, 12</span><span class="ui-file__kind">Images</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="google-sheets" src="/jarvis/assets/icons/google-sheets.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Staff hours, week 45</span><span class="ui-file__kind">Google Sheets</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="/jarvis/assets/icons/pdf.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Sales tax filing, Q3</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="google-docs" src="/jarvis/assets/icons/google-docs.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Catering terms</span><span class="ui-file__kind">Google Docs</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="xlsx" src="/jarvis/assets/icons/xlsx.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Inventory count</span><span class="ui-file__kind">Excel</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="image" src="/jarvis/assets/icons/image.svg" alt="" width="24" height="24" loading="lazy"></span><span class="ui-file__name">Receipt scans, 9</span><span class="ui-file__kind">Images</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    <article class="pillar">
-      <figure class="pillar__pic">
-        <picture>
-          <source type="image/webp" srcset="/jarvis/assets/pillars/assistant-720.webp 720w, /jarvis/assets/pillars/assistant-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
-          <img src="/jarvis/assets/pillars/assistant-1200.jpg" alt="An owner making coffee behind the counter before the caf&eacute; opens." width="1200" height="900" loading="lazy">
-        </picture>
-        <figcaption>7:40 am</figcaption>
+  <!-- 6. TOOLS: the tools he works in, into Jarvis, out to the three hires. -->
+  <section class="section" id="tools" aria-labelledby="tools-h">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="span-5" id="tools-h">He works with the tools you use</h2>
+        <div class="span-6 start-7 stack-4">
+          <p class="muted">Google Calendar, Gmail, QuickBooks, Stripe, Slack and Jobber are the usual six. Access follows the scope you approve.</p>
+          <p class="muted">Connecting an account does not let him message a customer or move money. Each of those still waits for your tap.</p>
+        </div>
+      </div>
+      <div class="frame frame--lit fill tools__map" data-icon-base="/jarvis/assets/icons">
+        <div class="dg" data-diagram><script type="application/json">{"layout": "bowtie", "alt": "Gmail, Google Calendar, QuickBooks, Stripe and Slack feed Jarvis, and Jarvis works as your assistant, your chief of staff and your management team.", "sources": [{"label": "Gmail", "icon": "gmail", "sub": "Mail"}, {"label": "Google Calendar", "icon": "google-calendar", "sub": "Your day"}, {"label": "QuickBooks", "icon": "quickbooks", "sub": "Invoices"}, {"label": "Stripe", "icon": "stripe", "sub": "Payments"}, {"label": "Slack", "icon": "slack", "sub": "Your team"}], "core": {"label": "Jarvis"}, "targets": [{"label": "Assistant", "icon": "ui:calendar-check", "sub": "Business and life"}, {"label": "Chief of staff", "icon": "ui:list-checks", "sub": "What needs you"}, {"label": "Management team", "icon": "ui:briefcase", "sub": "The work done"}], "motion": {"cycle": 3.2}}</script></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. THE RULE: the statement, built in front of the visitor. -->
+  <section class="section statement" id="rule" aria-labelledby="rule-h" data-moment="letters-assemble">
+    <div class="wrap">
+      <h2 class="mo-la__type" id="rule-h">Nothing without your tap</h2>
+      <p class="mo-la__sub">Nothing is spent, sent or deleted until you approve it. Approve, and it goes now, from your business.</p>
+    </div>
+  </section>
+
+  <!-- 8. SETUP: an Omnia partner installs him with you. -->
+  <section class="section" id="setup" aria-labelledby="setup-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="setup-h">Setup in 4 steps with an Omnia partner. <span class="muted">Then one meeting a month to build the next thing.</span></h2>
+      </div>
+      <div class="grid fill">
+        <div class="span-5 stack-5 setup__steps">
+          <div class="stack-2"><h3>1. Choose the first handoff</h3><p>Together you pick the first job for Jarvis and the point where you review it.</p></div>
+          <div class="stack-2"><h3>2. Connect the agreed tools</h3><p>Only what you agreed to. Your rules, prices and tone shape his work.</p></div>
+          <div class="stack-2"><h3>3. Review the working result</h3><p>You check the first result. Omnia tunes it before it goes live.</p></div>
+          <div class="stack-2"><h3>4. Put it to work</h3><p>Omnia then ships one big build or two small ones each month.</p></div>
+        </div>
+        <figure class="frame frame--photo frame--fill span-6 start-7 setup__photo">
+          <img class="frame__img" src="/jarvis/assets/hires/install-table-1600.webp" srcset="/jarvis/assets/hires/install-table-960.webp 960w, /jarvis/assets/hires/install-table-1600.webp 1600w" sizes="(max-width: 1023px) 160vw, 840px" alt="A shop owner and an Omnia partner sit side by side at a work table with a laptop and a price list" width="1600" height="905" loading="lazy">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. BEHIND: the owner's story and the 30-second film, across the wrap. -->
+  <section class="section" id="behind" aria-labelledby="behind-h">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="span-5" id="behind-h">The story behind Jarvis</h2>
+        <div class="span-6 start-7 stack-4">
+          <p>The owner behind Jarvis ran a small business across eight cities for ten years. Customer messages sat unanswered for days, leads slipped and the admin pulled him away from the work he loved. He built Jarvis to fix that.</p>
+          <p><a class="link" href="https://meetjarvis.getoios.com">Meet Jarvis, the long version</a></p>
+        </div>
+      </div>
+      <!-- CLIENT FILE film: /jarvis/visor/keeper-final-owner-approved-v2.mp4 (854x480, H.264, the 30 s introduction) and /jarvis/visor/keeper-v2-poster.png (its poster) -->
+      <figure class="frame frame--photo fill film" data-film>
+        <img class="frame__img" src="/jarvis/visor/keeper-v2-poster.png" alt="Jarvis, a figure in a suit and a dark visor, stands in front of a wall of screens" width="854" height="480" loading="lazy">
+        <button type="button" class="film__play" data-play aria-label="Play the 30-second introduction, with sound"><span class="film__disc" aria-hidden="true"><svg viewBox="0 0 18 18"><path d="M4 2.5v13l11-6.5z" fill="currentColor"/></svg></span></button>
       </figure>
-      <div class="pillar__body">
-        <h3>Right hand</h3>
-        <p class="pillar__sub">Your chief of staff, by voice. Talk to him by phone, web or iPhone.</p>
-        <ul>
-          <li>Knows what needs you before the day starts.</li>
-          <li>Talks a decision through and leaves you one next step.</li>
-          <li>Remembers every conversation and writes in your voice.</li>
-          <li>Keeps your promises, calendar and tasks in one place.</li>
-        </ul>
-        <a class="btn btn--line" href="#start" data-pillar="assistant">Start with your right hand</a>
-      </div>
-    </article>
-
-    <article class="pillar pillar--flip">
-      <figure class="pillar__pic">
-        <picture>
-          <source type="image/webp" srcset="/jarvis/assets/pillars/back-office-720.webp 720w, /jarvis/assets/pillars/back-office-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
-          <img src="/jarvis/assets/pillars/back-office-1200.jpg" alt="A front-desk manager on the phone with an appointment book open beside her laptop." width="1200" height="900" loading="lazy">
-        </picture>
-        <figcaption>2:10 pm</figcaption>
-      </figure>
-      <div class="pillar__body">
-        <h3>Back office</h3>
-        <p class="pillar__sub">The operation behind the work, from the first message to the money.</p>
-        <ul>
-          <li>Turns a conversation into a quote from your prices.</li>
-          <li>Drafts customer replies in your voice and sends them on your tap.</li>
-          <li>Turns an approved quote into an invoice with a pay link.</li>
-          <li>Schedules staff, keeps jobs on the board and chases the paperwork.</li>
-        </ul>
-        <a class="btn btn--line" href="#start" data-pillar="back-office">Start with the back office</a>
-      </div>
-    </article>
-
-    <article class="pillar">
-      <figure class="pillar__pic">
-        <picture>
-          <source type="image/webp" srcset="/jarvis/assets/pillars/workflows-720.webp 720w, /jarvis/assets/pillars/workflows-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
-          <img src="/jarvis/assets/pillars/workflows-1200.jpg" alt="A shop owner turning the door sign to closed at night, a phone lit on the counter." width="1200" height="900" loading="lazy">
-        </picture>
-        <figcaption>9:00 pm</figcaption>
-      </figure>
-      <div class="pillar__body">
-        <h3>Follow-through</h3>
-        <p class="pillar__sub">The work that keeps going after you have gone home.</p>
-        <ul>
-          <li>Opens the day with a morning brief and ends it with a closing sweep.</li>
-          <li>Chases quiet quotes and overdue invoices on the schedule you set.</li>
-          <li>Runs web errands in a real browser, such as portals, forms and uploads.</li>
-          <li>Holds the fort while you are away and wakes you only for money, a promise or a fire.</li>
-        </ul>
-        <a class="btn btn--line" href="#start" data-pillar="workflows">Start with follow-through</a>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- Getting set up. Omnia does the install. -->
-<section class="install" id="install" aria-labelledby="install-title">
-  <div class="wrap">
-    <h2 class="h2" id="install-title">Omnia installs him while you keep running the business.</h2>
-    <p class="lede">An Omnia partner does the install with you in the first month, then meets you once a month to build the next thing.</p>
-    <ol class="steps">
-      <li><h3>Choose the first handoff</h3><p>Together we pick the first job for Jarvis: the request coming in, the result you need and the point where you want to review it.</p></li>
-      <li><h3>Connect the agreed tools</h3><p>We set up your workspace and the connections you agreed to. Your rules, prices and tone shape how he works.</p></li>
-      <li><h3>Review the working result</h3><p>You check the first result against the way your business runs, and we tune it before anything goes live.</p></li>
-      <li><h3>Put it to work</h3><p>After that we meet once a month and ship one big build or two small ones. Everything already built keeps running.</p></li>
-    </ol>
-    <div class="notes">
-      <div>
-        <h3>He works with what you already use</h3>
-        <p>Google Calendar, Gmail, QuickBooks, Stripe, Slack and Jobber are the usual ones. We check access during the install and agree which connections your build needs. Access follows the scope you approve, and connecting an account does not let him message a customer or move money.</p>
-      </div>
-      <div>
-        <h3>You own what we build</h3>
-        <p>Every tool, connection and piece of data is yours. If you leave, it goes with you.</p>
-      </div>
     </div>
-    <!-- The voice. One morning brief, two of the voices an owner can choose. -->
-    <div class="voice" data-voice-sample>
-      <div class="voice__text">
-        <h3>Choose the voice you work with</h3>
-        <p>Here is one morning brief in two of the voices you can choose. Both voices are synthetic.</p>
-      </div>
-      <div class="voice__card">
-        <p class="voice__label" data-voice-label>Ava’s voice · 20 seconds</p>
-        <div class="voice__pick" role="group" aria-label="Choose a voice" data-voice-pick hidden>
-          <button type="button" data-src="/jarvis/assets/voice/ava-heart.mp3" data-label="Ava’s voice · 20 seconds" aria-pressed="true">Ava</button>
-          <button type="button" data-src="/jarvis/assets/voice/jarvis-liam.mp3" data-label="Jarvis’s voice · 16 seconds" aria-pressed="false">Jarvis</button>
+  </section>
+
+  <!-- 10. QUESTIONS: the voice player beside the short answers. -->
+  <section class="section g2m" id="questions" aria-labelledby="questions-h">
+    <div class="wrap grid">
+        <div class="span-5 stack-5">
+          <h2 id="questions-h">Questions owners ask</h2>
+          <p>The short answers. The long ones come on the call.</p>
+          <div class="ui ui-panel ui-voices" id="voice" data-voices>
+            <div class="ui-head"><span class="ui-agent" aria-hidden="true"></span><div class="ui-title">One morning brief in two voices</div></div>
+            <a class="voices__row" href="/jarvis/assets/voice/ava-heart.mp3" data-voice="ava" data-stop="Stop Ava&rsquo;s voice"><span class="voices__disc" aria-hidden="true"><svg class="voices__go" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg><svg class="voices__halt" viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" rx="1" fill="currentColor"/></svg></span><span class="voices__name" data-voice-label>Play Ava&rsquo;s voice</span><svg class="voices__wave" viewBox="0 0 119 24" preserveAspectRatio="none" aria-hidden="true"><rect x="0.0" y="7.2" width="1.6" height="9.6" rx=".8"/><rect x="3.5" y="5.0" width="1.6" height="14.1" rx=".8"/><rect x="7.0" y="1.7" width="1.6" height="20.6" rx=".8"/><rect x="10.5" y="5.8" width="1.6" height="12.4" rx=".8"/><rect x="14.0" y="5.5" width="1.6" height="13.1" rx=".8"/><rect x="17.5" y="6.7" width="1.6" height="10.7" rx=".8"/><rect x="21.0" y="8.3" width="1.6" height="7.3" rx=".8"/><rect x="24.5" y="5.4" width="1.6" height="13.2" rx=".8"/><rect x="28.0" y="4.3" width="1.6" height="15.3" rx=".8"/><rect x="31.5" y="2.8" width="1.6" height="18.3" rx=".8"/><rect x="35.0" y="8.6" width="1.6" height="6.8" rx=".8"/><rect x="38.5" y="7.2" width="1.6" height="9.5" rx=".8"/><rect x="42.0" y="9.2" width="1.6" height="5.6" rx=".8"/><rect x="45.5" y="2.7" width="1.6" height="18.6" rx=".8"/><rect x="49.0" y="3.8" width="1.6" height="16.5" rx=".8"/><rect x="52.5" y="8.8" width="1.6" height="6.3" rx=".8"/><rect x="56.0" y="1.2" width="1.6" height="21.7" rx=".8"/><rect x="59.5" y="1.3" width="1.6" height="21.4" rx=".8"/><rect x="63.0" y="4.1" width="1.6" height="15.8" rx=".8"/><rect x="66.5" y="4.5" width="1.6" height="15.1" rx=".8"/><rect x="70.0" y="8.3" width="1.6" height="7.3" rx=".8"/><rect x="73.5" y="9.8" width="1.6" height="4.3" rx=".8"/><rect x="77.0" y="5.2" width="1.6" height="13.5" rx=".8"/><rect x="80.5" y="9.4" width="1.6" height="5.1" rx=".8"/><rect x="84.0" y="8.3" width="1.6" height="7.4" rx=".8"/><rect x="87.5" y="8.1" width="1.6" height="7.9" rx=".8"/><rect x="91.0" y="9.8" width="1.6" height="4.5" rx=".8"/><rect x="94.5" y="5.8" width="1.6" height="12.4" rx=".8"/><rect x="98.0" y="6.0" width="1.6" height="11.9" rx=".8"/><rect x="101.5" y="2.4" width="1.6" height="19.2" rx=".8"/><rect x="105.0" y="6.9" width="1.6" height="10.2" rx=".8"/><rect x="108.5" y="4.2" width="1.6" height="15.5" rx=".8"/><rect x="112.0" y="5.5" width="1.6" height="13.0" rx=".8"/><rect x="115.5" y="4.0" width="1.6" height="15.9" rx=".8"/></svg><span class="voices__len">0:20</span></a>
+            <a class="voices__row" href="/jarvis/assets/voice/jarvis-liam.mp3" data-voice="jarvis" data-stop="Stop Jarvis&rsquo;s voice"><span class="voices__disc" aria-hidden="true"><svg class="voices__go" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg><svg class="voices__halt" viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" rx="1" fill="currentColor"/></svg></span><span class="voices__name" data-voice-label>Play Jarvis&rsquo;s voice</span><svg class="voices__wave" viewBox="0 0 119 24" preserveAspectRatio="none" aria-hidden="true"><rect x="0.0" y="6.8" width="1.6" height="10.4" rx=".8"/><rect x="3.5" y="6.9" width="1.6" height="10.2" rx=".8"/><rect x="7.0" y="2.4" width="1.6" height="19.2" rx=".8"/><rect x="10.5" y="7.4" width="1.6" height="9.2" rx=".8"/><rect x="14.0" y="5.4" width="1.6" height="13.2" rx=".8"/><rect x="17.5" y="7.6" width="1.6" height="8.8" rx=".8"/><rect x="21.0" y="6.2" width="1.6" height="11.5" rx=".8"/><rect x="24.5" y="1.2" width="1.6" height="21.5" rx=".8"/><rect x="28.0" y="9.1" width="1.6" height="5.9" rx=".8"/><rect x="31.5" y="6.0" width="1.6" height="12.0" rx=".8"/><rect x="35.0" y="8.1" width="1.6" height="7.8" rx=".8"/><rect x="38.5" y="6.8" width="1.6" height="10.3" rx=".8"/><rect x="42.0" y="1.0" width="1.6" height="22.0" rx=".8"/><rect x="45.5" y="7.0" width="1.6" height="9.9" rx=".8"/><rect x="49.0" y="4.5" width="1.6" height="14.9" rx=".8"/><rect x="52.5" y="7.3" width="1.6" height="9.4" rx=".8"/><rect x="56.0" y="3.4" width="1.6" height="17.1" rx=".8"/><rect x="59.5" y="6.0" width="1.6" height="12.0" rx=".8"/><rect x="63.0" y="8.4" width="1.6" height="7.1" rx=".8"/><rect x="66.5" y="6.1" width="1.6" height="11.8" rx=".8"/><rect x="70.0" y="7.3" width="1.6" height="9.3" rx=".8"/><rect x="73.5" y="2.8" width="1.6" height="18.3" rx=".8"/><rect x="77.0" y="5.0" width="1.6" height="14.1" rx=".8"/><rect x="80.5" y="8.2" width="1.6" height="7.5" rx=".8"/><rect x="84.0" y="3.9" width="1.6" height="16.1" rx=".8"/><rect x="87.5" y="7.8" width="1.6" height="8.4" rx=".8"/><rect x="91.0" y="5.4" width="1.6" height="13.2" rx=".8"/><rect x="94.5" y="8.0" width="1.6" height="8.0" rx=".8"/><rect x="98.0" y="6.3" width="1.6" height="11.4" rx=".8"/><rect x="101.5" y="2.9" width="1.6" height="18.2" rx=".8"/><rect x="105.0" y="7.0" width="1.6" height="10.1" rx=".8"/><rect x="108.5" y="3.2" width="1.6" height="17.5" rx=".8"/><rect x="112.0" y="3.2" width="1.6" height="17.6" rx=".8"/><rect x="115.5" y="4.7" width="1.6" height="14.6" rx=".8"/></svg><span class="voices__len">0:16</span></a>
+            <p class="voices__note">You choose the voice he uses. Both voices are synthetic.</p>
+            <p class="voices__status" role="status" data-voice-status></p>
+          </div>
         </div>
-        <audio controls preload="metadata" aria-label="Play the recorded voice sample"><source src="/jarvis/assets/voice/ava-heart.mp3" type="audio/mpeg"><a href="/jarvis/assets/voice/ava-heart.mp3">Download the voice sample</a></audio>
-        <p class="voice__alt" data-voice-alt><a href="/jarvis/assets/voice/jarvis-liam.mp3">Hear the same brief in Jarvis’s voice</a></p>
-        <p class="voice__error" data-voice-error role="status" hidden>The audio did not load. You can read every word below.</p>
-        <details class="voice__words">
-          <summary>Read the transcript</summary>
-          <p>Good morning. Three things need you today.</p>
-          <p>First, the catering order for Friday needs one price before the quote can go.</p>
-          <p>Second, Sam asked to move the pickup time, and a reply is ready for you to approve.</p>
-          <p>Third, one invoice is nine days late, and a reminder is drafted.</p>
-          <p>Everything else is handled. Where do you want to start?</p>
-        </details>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Who's behind it, and the 30-second recording. -->
-<section class="behind" id="behind" aria-labelledby="behind-title">
-  <div class="wrap behind__grid">
-    <div class="film" data-film>
-      <img src="/jarvis/visor/keeper-v2-poster.png" alt="Jarvis, a figure in a suit and a dark visor, standing in front of a wall of screens." width="854" height="480" loading="lazy">
-      <button type="button" class="film__play" data-play>
-        <span class="film__disc" aria-hidden="true"></span>
-        <span class="film__label">Play the 30-second introduction</span>
-      </button>
-      <p class="film__note">It plays with sound. Your microphone stays off.</p>
-    </div>
-    <div class="behind__text">
-      <h2 class="h2 h2--sm" id="behind-title">Wes Overstreet ran a small business across eight cities for ten years.</h2>
-      <p>Customer messages sat unanswered for days, leads slipped and the admin pulled him away from the work he loved. He built Jarvis to fix that.</p>
-      <p><a href="https://meetjarvis.getoios.com">Meet Jarvis, the long version</a></p>
-    </div>
-  </div>
-</section>
-
-<!-- The fourth tap. -->
-<section class="start" id="start" aria-labelledby="start-title">
-  <div class="wrap start__grid">
-    <div class="start__ask">
-      <h2 class="h2" id="start-title">Request a call.</h2>
-      <p class="lede">Four details are enough. Omnia calls you back, and you don&rsquo;t need an account or a card.</p>
-    </div>
-
-    <form class="form" id="handoff" action="/api/handoff" method="post">
-      <div class="form__pair">
-        <div class="form__group" data-field="fullName">
-          <label for="f-name">Your name</label>
-          <input id="f-name" name="fullName" type="text" maxlength="120" autocomplete="name" required>
-          <p class="err" data-err hidden>Add your name.</p>
+        <div class="faq span-6 start-7">
+          <div class="faq__item"><h3>Is Jarvis for my kind of business?</h3><p>Yes, if you own a small business. The three hires do the same jobs in a café, a dental office, a shop or a plumbing company.</p></div>
+          <div class="faq__item"><h3>What can Jarvis do without asking me?</h3><p>He reads, drafts, files and reminds. He does not spend, send or delete until you tap.</p></div>
+          <div class="faq__item"><h3>What happens when I decline what Jarvis drafted?</h3><p>Nothing goes out, and he keeps the draft.</p></div>
+          <div class="faq__item"><h3>How long does it take to install Jarvis?</h3><p>The first month. An Omnia partner does the install with you while you keep running the business.</p></div>
+          <div class="faq__item"><h3>Who owns what Omnia builds for my business?</h3><p>You do. Every tool, connection and piece of data is yours. If you leave, it goes with you.</p></div>
         </div>
-        <div class="form__group" data-field="industry">
-          <label for="f-industry">Industry</label>
-          <input id="f-industry" name="industry" type="text" maxlength="120" required placeholder="Caf&eacute;, dental office, retail shop">
-          <p class="err" data-err hidden>Add your industry.</p>
+    </div>
+  </section>
+
+  <!-- 11. START: the request. A name, an industry, an email, the choice of a call or an email, and a cell for a call. -->
+  <section class="section section--contact" id="start" aria-labelledby="start-h">
+    <div class="wrap">
+      <div class="grid fill">
+        <div class="span-5 split-col">
+          <h2 id="start-h">Request a call or email for your business</h2>
+          <p class="t-lead">Omnia calls or emails you back. <span class="desk-only">A few details are enough, and you don&rsquo;t need an account or a card.</span></p>
+          <p class="desk-only">On the call, you and an Omnia partner pick the first job for Jarvis.</p>
+          <figure class="frame frame--photo start__photo">
+            <img class="frame__img" src="/jarvis/assets/pillars/back-office-1200.webp" srcset="/jarvis/assets/pillars/back-office-720.webp 720w, /jarvis/assets/pillars/back-office-1200.webp 1200w" sizes="(max-width: 1023px) 1100px, 520px" alt="A front-desk manager talks on the phone with an appointment book open on the desk" width="1200" height="800" loading="lazy">
+          </figure>
+        </div>
+        <div class="span-6 start-7 start__panel">
+          <p class="start__mark"><img src="/jarvis/assets/brand/mark-purple-black.svg" alt="" width="28" height="28" loading="lazy">Jarvis, installed by Omnia AI Intelligence</p>
+          <form class="form" id="handoff" action="/api/handoff" method="post" data-endpoint="/api/handoff" data-sent="Your request is in. Omnia will call you." data-sent-call="Your request is in. Omnia will call you." data-sent-email="Your request is in. Omnia will email you." data-failed="Your request did not send. Try again in a minute, or email team@getoios.com." novalidate>
+            <div class="field field--full"><label for="f-name">Your name</label>
+              <input id="f-name" name="fullName" type="text" maxlength="120" autocomplete="name" required aria-describedby="f-name-err">
+              <p class="field__error" id="f-name-err" hidden>Write your name.</p></div>
+            <div class="field field--full"><label for="f-industry">Industry</label>
+              <input id="f-industry" name="industry" type="text" maxlength="120" autocomplete="off" required aria-describedby="f-industry-err">
+              <p class="field__error" id="f-industry-err" hidden>Write your industry, like bakery or dental office.</p></div>
+            <div class="field field--full"><label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" maxlength="200" autocomplete="email" inputmode="email" required aria-describedby="f-email-err">
+              <p class="field__error" id="f-email-err" hidden>Write an email address with an @, like name@business.com.</p></div>
+            <fieldset class="reply field--full">
+              <legend>How should Omnia answer?</legend>
+              <div class="reply__row">
+                <label class="reply__opt"><input type="radio" name="reply" value="call" checked><span>Call me</span></label>
+                <label class="reply__opt"><input type="radio" name="reply" value="email"><span>Email me</span></label>
+              </div>
+            </fieldset>
+            <!-- no "required" here: with no script a hidden required field blocks the form. door.js asks for it for a call, and the server does too. -->
+            <div class="field field--full reply__cell"><label for="f-phone">Cell</label>
+              <input id="f-phone" name="phoneNumber" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" aria-describedby="f-phone-err">
+              <p class="field__error" id="f-phone-err" hidden>Write a cell number so Omnia can call you back.</p></div>
+            <input type="hidden" name="interest" value="">
+            <p class="hp" hidden><label>Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
+            <div class="btn-row"><button class="btn btn--primary btn--xl" type="submit">Request a call or email</button></div>
+            <p class="form__status" role="status" data-form-status></p>
+            <p class="form__sent" id="sent" tabindex="-1">Your request is in. Omnia will call or email you.</p>
+          </form>
         </div>
       </div>
-      <div class="form__pair">
-        <div class="form__group" data-field="email">
-          <label for="f-email">Email</label>
-          <input id="f-email" name="email" type="email" maxlength="200" autocomplete="email" inputmode="email" required>
-          <p class="err" data-err hidden>Add an email address, like name@business.com.</p>
-        </div>
-        <div class="form__group" data-field="phoneNumber">
-          <label for="f-phone">Cell</label>
-          <input id="f-phone" name="phoneNumber" type="tel" maxlength="40" autocomplete="tel" inputmode="tel" required>
-          <p class="err" data-err hidden>Add a cell number so Omnia can call you back.</p>
-        </div>
-      </div>
-      <input type="hidden" name="interest" value="">
-      <p class="hp" aria-hidden="true"><label>Company<input name="company" type="text" tabindex="-1" autocomplete="off"></label></p>
-      <button type="submit" class="btn btn--tap btn--wide" data-submit>Request a call</button>
-      <p class="err err--form" data-form-err role="alert" tabindex="-1" hidden>Your request did not send. Try again in a minute, or email <a href="mailto:team@getoios.com">team@getoios.com</a>.</p>
-      <p class="form__sent" id="sent" data-sent tabindex="-1">Got it. Omnia will call you.</p>
-    </form>
-  </div>
-</section>
+    </div>
+  </section>
 
 </main>
 
-<footer class="foot">
-  <div class="wrap foot__grid">
-    <p class="foot__brand"><img src="/jarvis/assets/brand/mark-purple-white.svg" alt="" width="28" height="28">OIOS by Omnia AI Intelligence</p>
-    <nav aria-label="Footer">
-      <a href="https://meetjarvis.getoios.com">Meet Jarvis</a>
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/sms">Texting</a>
-      <a href="mailto:team@getoios.com">team@getoios.com</a>
-    </nav>
+<footer class="footer closing g2m footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--word">
+      <div class="section-head--split">
+        <div><h2 id="close-h">Put three hires to work</h2><p class="t-lead">A call or an email with Omnia starts it.</p></div>
+        <a class="btn btn--primary btn--xl" href="#start">Request a call or email<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+      <p class="close__word" aria-hidden="true">Jarvis</p>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top" aria-label="Jarvis, back to the top"><img src="/jarvis/assets/brand/mark-purple-white.svg" alt="" width="24" height="24" loading="lazy"></a>
+          <p class="footer__lede">Three hires in one, installed by Omnia AI Intelligence.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Product</h3><ul><li><a href="#today">Today&rsquo;s list</a></li><li><a href="#assistant">Assistant</a></li><li><a href="#chief">Chief of staff</a></li><li><a href="#team">Management team</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Tools</h3><ul><li><a href="#tools">Tools he works in</a></li><li><a href="#rule">The rule</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Setup</h3><ul><li><a href="#setup">Setup steps</a></li><li><a href="#behind">Story</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Questions</h3><ul><li><a href="#questions">Questions</a></li><li><a href="mailto:team@getoios.com">team@getoios.com</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 Omnia AI Intelligence</span>
+        <span><a href="/privacy">Privacy</a> &nbsp; <a href="/terms">Terms</a> &nbsp; <a href="/sms">Texting</a></span>
+        <span>OIOS by Omnia AI Intelligence. Product names and logos are trademarks of their owners.</span>
+      </div>
+    </div>
   </div>
 </footer>
 
-<!-- The day's tally follows the visitor down the page. -->
-<aside class="tally is-away" data-tally aria-label="Your sample day">
-  <a class="tally__brand" href="#top"><img src="/jarvis/assets/brand/mark-purple-white.svg" alt="" width="26" height="26"><span>Jarvis</span></a>
-  <ol class="tally__dots">
-    <li><a href="#day" data-dot="s1" aria-label="7:40 am, waiting on you"><span aria-hidden="true">7:40</span></a></li>
-    <li><a href="#pm" data-dot="s2" aria-label="2:10 pm, waiting on you"><span aria-hidden="true">2:10</span></a></li>
-    <li><a href="#night" data-dot="s3" aria-label="9:00 pm, waiting on you"><span aria-hidden="true">9:00</span></a></li>
-  </ol>
-  <p class="tally__text" data-tally-text>3 waiting on you</p>
-  <a class="btn btn--tap btn--sm" href="#start">Request a call</a>
-</aside>
-<p class="vh" role="status" aria-live="polite" data-live></p>
-
-<script src="/jarvis/day.js?v=3" defer></script>
+<script type="module" src="/jarvis/assets/system.js"></script>
+<script type="module" src="/jarvis/assets/motion/motion.js"></script>
+<script type="module" src="/jarvis/assets/layout/layout.js"></script>
+<script type="module" src="/jarvis/assets/diagrams/mount.js"></script>
+<script src="/jarvis/door.js?v=2" defer></script>
 </body>
 </html>

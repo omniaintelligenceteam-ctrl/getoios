@@ -1,15 +1,15 @@
 # Jarvis, installed by Omnia AI Intelligence (OIOS)
 
-> Jarvis is a chief of staff for small-business owners. The owner talks to him like a person. He drafts the replies, quotes and invoices and keeps the follow-through moving. Nothing is spent, sent or deleted without the owner's approval.
+> Jarvis is your assistant for your business and your life, your chief of staff, and your full management team. Jarvis is three hires in one. The owner talks to him like a person. He drafts the replies, quotes and invoices and keeps the follow-through moving. Nothing is spent, sent or deleted without the owner's approval.
 
 ## The site
-- [Jarvis](https://getoios.com/): a sample day with Jarvis, the three kinds of work he does, how Omnia installs him, and the form to request a call.
+- [Jarvis](https://getoios.com/): the list of what needs the owner's tap, the three hires, the tools he works with, how Omnia installs him, and the form to request a call or an email.
 - [Meet Jarvis](https://meetjarvis.getoios.com): the long version.
 
 ## What he does
-- Right hand: the owner's chief of staff, by voice.
-- Back office: quotes from the owner's prices, customer replies in the owner's voice, invoices with a pay link, and staff schedules.
-- Follow-through: a morning brief, a closing sweep, and reminders on quiet quotes and overdue invoices on the schedule the owner sets.
+- Assistant, for the owner's business and life: everything runs smoothly and stays organized. The owner talks to him by phone, web or iPhone.
+- Full management team: the money, the sales, the customers and the paperwork get done. Quotes from the owner's prices, customer replies in the owner's voice, invoices with a pay link, and staff schedules.
+- Chief of staff: he keeps the whole picture, watches for problems before they reach the owner, and brings only what needs the owner. A morning brief, a closing sweep, and reminders on quiet quotes and overdue invoices on the schedule the owner sets.
 
 ## Getting set up
 An Omnia partner does the install with the owner in the first month, then meets the owner once a month to build the next thing. The owner owns everything that is built.

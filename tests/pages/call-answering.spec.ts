@@ -3,8 +3,10 @@ import { readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 /**
- * Wes, 2 Nov 2026: Jarvis is sold as the owner's chief of staff. Jarvis
- * answering a business's customers' calls is not sold or shown anywhere.
+ * Wes, 2 Nov 2026: Jarvis is sold as the owner's chief of staff (12 Nov 2026:
+ * as three hires in one: an assistant, a chief of staff and a management
+ * team). Jarvis answering a business's customers' calls is not sold or shown
+ * anywhere.
  * The Front Desk is customer messages, with the reply drafted in the owner's
  * voice and sent on his tap.
  *
@@ -103,12 +105,17 @@ test.describe('No call-answering claims', () => {
       await page.locator(`input[name="biz"][value="${day}"]`).check()
       await page.waitForTimeout(400)
       const found: string[] = []
+      // the list opens one item at a time: pick the item, then tap its card
+      const tapScene = async (scene: string, hook: string) => {
+        await page.locator(`#today [data-pick="${scene}"]`).click()
+        await page.locator(`#today [data-item="${scene}"] [${hook}]`).click()
+      }
       for (const tap of ['data-approve', 'data-decline']) {
-        for (const scene of ['s1', 's2', 's3']) await page.locator(`[data-scene="${scene}"] [${tap}]`).click()
+        for (const scene of ['s1', 's2', 's3']) await tapScene(scene, tap)
         for (const { surface, text } of await readSurfaces(page)) {
           for (const hit of claims(text)) found.push(`${tap} ${surface}: "${hit}"`)
         }
-        for (const scene of ['s1', 's2', 's3']) await page.locator(`[data-scene="${scene}"] [data-undo]`).click()
+        for (const scene of ['s1', 's2', 's3']) await tapScene(scene, 'data-undo')
       }
       expect(found).toEqual([])
     })

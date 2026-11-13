@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "npx playwright test",
     "test:ui": "npx playwright test --ui",
-    "test:report": "npx playwright show-report"
+    "test:report": "npx playwright show-report",
+    "hero3d:build": "esbuild tools/hero3d/src/main.js --bundle --format=esm --minify --target=es2020 --legal-comments=none --outfile=public/jarvis/hero3d/hero3d.js"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
@@ -35,10 +36,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "esbuild": "^0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "puppeteer": "^24.37.5",
     "tailwindcss": "^4",
+    "three": "^0.183.2",
     "typescript": "5.9.3"
   }
 }
