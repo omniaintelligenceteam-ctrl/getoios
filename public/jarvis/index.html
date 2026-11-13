@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" href="/jarvis/assets/fonts/besley-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/jarvis/assets/fonts/hanken-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/jarvis/day.css?v=3">
+<link rel="stylesheet" href="/jarvis/day.css?v=4">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"Organization","@id":"https://getoios.com/#org","name":"Omnia AI Intelligence","alternateName":"OIOS","url":"https://getoios.com","logo":"https://getoios.com/icon.png"},
@@ -72,6 +72,7 @@
 
     <div class="stage" data-swap>
       <div class="stage__say">
+        <h2 class="vh" id="day-title">7:40 am, the morning brief</h2>
         <p class="said"><time>7:40 am</time>, you say</p>
         <blockquote class="quote quote--xl">&ldquo;Jarvis, what needs me before&nbsp;nine?&rdquo;</blockquote>
       <div class="reply">
@@ -91,7 +92,7 @@
           <span class="flag" data-flag>Needs your tap</span>
           <span class="tapcard__kind" data-k="s1.kind">Text message</span>
         </header>
-        <h2 class="tapcard__title" id="s1-title" data-k="s1.title">Send this text to Sam Ortiz?</h2>
+        <h3 class="tapcard__title" id="s1-title" data-k="s1.title">Send this text to Sam Ortiz?</h3>
         <p class="draft" data-k="s1.draft">Hi Sam, yes, Saturday works and forty is fine. I need the final headcount by Wednesday.
 Mike, Fig Street Caf&eacute;</p>
         <dl class="does">
@@ -121,7 +122,7 @@ Mike, Fig Street Caf&eacute;</p>
       <p class="said"><time>2:10 pm</time>, you say</p>
       <blockquote class="quote quote--lg" data-k="s2.say">&ldquo;Quote the Delgado dinner. Forty plates, the short rib menu, two servers, and they asked about a cake stand.&rdquo;</blockquote>
       <div class="reply reply--ink">
-        <p class="reply__who"><img src="/jarvis/assets/brand/mark-purple-black.svg" alt="" width="22" height="22">Jarvis</p>
+        <p class="reply__who"><img src="/jarvis/assets/brand/mark-purple-black.svg" alt="" width="22" height="22" loading="lazy">Jarvis</p>
         <p class="reply__lead" data-k="s2.lead">Quote 119 is drafted from your prices. The cake stand is not on your price list, so I left that line blank instead of guessing.</p>
       </div>
     </div>
@@ -175,8 +176,8 @@ Mike, Fig Street Caf&eacute;</p>
         <span class="flag" data-flag>Needs your tap</span>
         <span class="tapcard__kind" data-k="s3.kind">Text message</span>
       </header>
-      <h3 class="tapcard__title" id="s3-title" data-k="s3.title">Send this reminder to Dana Harper?</h3>
-      <p class="draft" data-k="s3.draft">Hi Dana, a quick note that invoice 2041 for the rehearsal dinner is still open. The pay link is below. Thank you again for having us.
+      <h3 class="tapcard__title" id="s3-title" data-k="s3.title">Send this reminder to Joan Harper?</h3>
+      <p class="draft" data-k="s3.draft">Hi Joan, a quick note that invoice 2041 for the rehearsal dinner is still open. The pay link is below. Thank you again for having us.
 Mike, Fig Street Caf&eacute;</p>
       <dl class="does">
         <dt>What it does</dt>
@@ -200,7 +201,7 @@ Mike, Fig Street Caf&eacute;</p>
 <section class="rule" id="rule" aria-labelledby="rule-title">
   <div class="wrap rule__grid">
     <div>
-      <h2 class="rule__line" id="rule-title">Nothing is spent, sent or deleted without your&nbsp;tap.</h2>
+      <h2 class="h2 rule__line" id="rule-title">Nothing is spent, sent or deleted without your&nbsp;tap.</h2>
       <dl class="rule__facts">
         <div><dt>Approve</dt><dd>It goes now, from your business.</dd></div>
         <div><dt>Decline</dt><dd>Nothing is sent, and he keeps the draft.</dd></div>
@@ -213,7 +214,7 @@ Mike, Fig Street Caf&eacute;</p>
       <ol class="receipt__rows">
         <li data-row="s1"><a href="#day"><span class="receipt__t">7:40 am</span><span class="receipt__what" data-k="s1.receipt">Reply to Sam Ortiz</span><span class="receipt__state" data-state><mark>Waiting on you</mark></span></a></li>
         <li data-row="s2"><a href="#pm"><span class="receipt__t">2:10 pm</span><span class="receipt__what" data-k="s2.receipt">Quote 119, Delgado dinner</span><span class="receipt__state" data-state><mark>Waiting on you</mark></span></a></li>
-        <li data-row="s3"><a href="#night"><span class="receipt__t">9:00 pm</span><span class="receipt__what" data-k="s3.receipt">Reminder to Dana Harper</span><span class="receipt__state" data-state><mark>Waiting on you</mark></span></a></li>
+        <li data-row="s3"><a href="#night"><span class="receipt__t">9:00 pm</span><span class="receipt__what" data-k="s3.receipt">Reminder to Joan Harper</span><span class="receipt__state" data-state><mark>Waiting on you</mark></span></a></li>
       </ol>
       <p class="receipt__total"><span>Sent without your tap</span><strong>0</strong></p>
       <p class="receipt__next" data-receipt-next hidden><a href="#start">Next, what would you hand him first?</a></p>
@@ -224,16 +225,10 @@ Mike, Fig Street Caf&eacute;</p>
 <!-- What he does. One set of names. -->
 <section class="work" id="work" aria-labelledby="work-title">
   <div class="wrap">
-    <h2 class="h2" id="work-title">That was one day and three kinds of work. Most owners hand him one first.</h2>
+    <h2 class="h2" id="work-title">Three kinds of work</h2>
+    <p class="lede">That was one day. Most owners hand him one kind of work first.</p>
 
     <article class="pillar">
-      <figure class="pillar__pic">
-        <picture>
-          <source type="image/webp" srcset="/jarvis/assets/pillars/assistant-720.webp 720w, /jarvis/assets/pillars/assistant-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
-          <img src="/jarvis/assets/pillars/assistant-1200.jpg" alt="An owner making coffee behind the counter before the caf&eacute; opens." width="1200" height="900" loading="lazy">
-        </picture>
-        <figcaption>7:40 am</figcaption>
-      </figure>
       <div class="pillar__body">
         <h3>Right hand</h3>
         <p class="pillar__sub">Your chief of staff, by voice. Talk to him by phone, web or iPhone.</p>
@@ -245,16 +240,15 @@ Mike, Fig Street Caf&eacute;</p>
         </ul>
         <a class="btn btn--line" href="#start" data-pillar="assistant">Start with your right hand</a>
       </div>
-    </article>
-
-    <article class="pillar pillar--flip">
       <figure class="pillar__pic">
         <picture>
-          <source type="image/webp" srcset="/jarvis/assets/pillars/back-office-720.webp 720w, /jarvis/assets/pillars/back-office-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
-          <img src="/jarvis/assets/pillars/back-office-1200.jpg" alt="A front-desk manager on the phone with an appointment book open beside her laptop." width="1200" height="900" loading="lazy">
+          <source type="image/webp" srcset="/jarvis/assets/pillars/assistant-720.webp 720w, /jarvis/assets/pillars/assistant-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
+          <img src="/jarvis/assets/pillars/assistant-1200.jpg" alt="An owner making coffee behind the counter before the caf&eacute; opens." width="1200" height="900" loading="lazy">
         </picture>
-        <figcaption>2:10 pm</figcaption>
       </figure>
+    </article>
+
+    <article class="pillar">
       <div class="pillar__body">
         <h3>Back office</h3>
         <p class="pillar__sub">The operation behind the work, from the first message to the money.</p>
@@ -266,16 +260,15 @@ Mike, Fig Street Caf&eacute;</p>
         </ul>
         <a class="btn btn--line" href="#start" data-pillar="back-office">Start with the back office</a>
       </div>
+      <figure class="pillar__pic">
+        <picture>
+          <source type="image/webp" srcset="/jarvis/assets/pillars/back-office-720.webp 720w, /jarvis/assets/pillars/back-office-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
+          <img src="/jarvis/assets/pillars/back-office-1200.jpg" alt="A front-desk manager on the phone with an appointment book open beside her laptop." width="1200" height="900" loading="lazy">
+        </picture>
+      </figure>
     </article>
 
     <article class="pillar">
-      <figure class="pillar__pic">
-        <picture>
-          <source type="image/webp" srcset="/jarvis/assets/pillars/workflows-720.webp 720w, /jarvis/assets/pillars/workflows-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
-          <img src="/jarvis/assets/pillars/workflows-1200.jpg" alt="A shop owner turning the door sign to closed at night, a phone lit on the counter." width="1200" height="900" loading="lazy">
-        </picture>
-        <figcaption>9:00 pm</figcaption>
-      </figure>
       <div class="pillar__body">
         <h3>Follow-through</h3>
         <p class="pillar__sub">The work that keeps going after you have gone home.</p>
@@ -287,6 +280,12 @@ Mike, Fig Street Caf&eacute;</p>
         </ul>
         <a class="btn btn--line" href="#start" data-pillar="workflows">Start with follow-through</a>
       </div>
+      <figure class="pillar__pic">
+        <picture>
+          <source type="image/webp" srcset="/jarvis/assets/pillars/workflows-720.webp 720w, /jarvis/assets/pillars/workflows-1200.webp 1200w" sizes="(min-width: 1000px) 46vw, 92vw">
+          <img src="/jarvis/assets/pillars/workflows-1200.jpg" alt="A shop owner turning the door sign to closed at night, a phone lit on the counter." width="1200" height="900" loading="lazy">
+        </picture>
+      </figure>
     </article>
   </div>
 </section>
@@ -294,8 +293,8 @@ Mike, Fig Street Caf&eacute;</p>
 <!-- Getting set up. Omnia does the install. -->
 <section class="install" id="install" aria-labelledby="install-title">
   <div class="wrap">
-    <h2 class="h2" id="install-title">Omnia installs him while you keep running the business.</h2>
-    <p class="lede">An Omnia partner does the install with you in the first month, then meets you once a month to build the next thing.</p>
+    <h2 class="h2" id="install-title">Getting set up with Omnia</h2>
+    <p class="lede">Omnia installs him while you keep running the business. An Omnia partner does the install with you in the first month, then meets you once a month to build the next thing.</p>
     <ol class="steps">
       <li><h3>Choose the first handoff</h3><p>Together we pick the first job for Jarvis: the request coming in, the result you need and the point where you want to review it.</p></li>
       <li><h3>Connect the agreed tools</h3><p>We set up your workspace and the connections you agreed to. Your rules, prices and tone shape how he works.</p></li>
@@ -343,18 +342,20 @@ Mike, Fig Street Caf&eacute;</p>
 <!-- Who's behind it, and the 30-second recording. -->
 <section class="behind" id="behind" aria-labelledby="behind-title">
   <div class="wrap behind__grid">
+    <div class="behind__text">
+      <h2 class="h2" id="behind-title">Who&rsquo;s behind Jarvis</h2>
+      <p>Wes Overstreet ran a small business across eight cities for ten years. Customer messages sat unanswered for days, leads slipped and the admin pulled him away from the work he loved. He built Jarvis to fix that.</p>
+      <p><a href="https://meetjarvis.getoios.com">Meet Jarvis, the long version</a></p>
+    </div>
     <div class="film" data-film>
-      <img src="/jarvis/visor/keeper-v2-poster.png" alt="Jarvis, a figure in a suit and a dark visor, standing in front of a wall of screens." width="854" height="480" loading="lazy">
+      <picture>
+        <source type="image/webp" srcset="/jarvis/visor/keeper-v2-poster-480.webp 480w, /jarvis/visor/keeper-v2-poster-854.webp 854w" sizes="(min-width: 62rem) 46vw, 92vw">
+        <img src="/jarvis/visor/keeper-v2-poster.png" alt="Jarvis, a figure in a suit and a dark visor, standing in front of a wall of screens." width="854" height="480" loading="lazy">
+      </picture>
       <button type="button" class="film__play" data-play>
         <span class="film__disc" aria-hidden="true"></span>
-        <span class="film__label">Play the 30-second introduction</span>
+        <span class="film__label">Play the 30-second introduction, with sound</span>
       </button>
-      <p class="film__note">It plays with sound. Your microphone stays off.</p>
-    </div>
-    <div class="behind__text">
-      <h2 class="h2 h2--sm" id="behind-title">Wes Overstreet ran a small business across eight cities for ten years.</h2>
-      <p>Customer messages sat unanswered for days, leads slipped and the admin pulled him away from the work he loved. He built Jarvis to fix that.</p>
-      <p><a href="https://meetjarvis.getoios.com">Meet Jarvis, the long version</a></p>
     </div>
   </div>
 </section>
@@ -405,7 +406,7 @@ Mike, Fig Street Caf&eacute;</p>
 
 <footer class="foot">
   <div class="wrap foot__grid">
-    <p class="foot__brand"><img src="/jarvis/assets/brand/mark-purple-white.svg" alt="" width="28" height="28">OIOS by Omnia AI Intelligence</p>
+    <p class="foot__brand"><img src="/jarvis/assets/brand/mark-purple-white.svg" alt="" width="28" height="28" loading="lazy">OIOS by Omnia AI Intelligence</p>
     <nav aria-label="Footer">
       <a href="https://meetjarvis.getoios.com">Meet Jarvis</a>
       <a href="/privacy">Privacy</a>
@@ -429,6 +430,6 @@ Mike, Fig Street Caf&eacute;</p>
 </aside>
 <p class="vh" role="status" aria-live="polite" data-live></p>
 
-<script src="/jarvis/day.js?v=3" defer></script>
+<script src="/jarvis/day.js?v=4" defer></script>
 </body>
 </html>
