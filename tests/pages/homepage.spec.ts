@@ -223,6 +223,47 @@ test.describe('Homepage', () => {
   })
 
   // ─── Pictures and diagrams ───────────────────────────────────────────
+  test('a pointer that leaves a management card leaves its picture whole', async ({ page }) => {
+    // The colour moment keeps each block of #team invisible until its line has passed. A card's loop
+    // keeps its finished picture from the markup it met at boot and puts it back when the pointer leaves
+    // the card. Rows the moment had hidden at boot came back hidden, and the picture stayed empty.
+    await page.setViewportSize({ width: 1440, height: 900 })
+    const shown = (id: string) =>
+      page.evaluate((cardId) => {
+        const panel = document.querySelector(`#${cardId} .panel`)!
+        const out: string[] = []
+        for (const el of panel.querySelectorAll<HTMLElement>('*')) {
+          const own = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent!.trim())
+          if (!own) continue
+          let seen = 1
+          for (let up: HTMLElement | null = el; up && up !== panel.parentElement; up = up.parentElement) {
+            const style = getComputedStyle(up)
+            seen *= style.visibility === 'hidden' || style.display === 'none' ? 0 : parseFloat(style.opacity)
+          }
+          if (seen >= 0.5) out.push(el.textContent!.trim())
+        }
+        return out.sort()
+      }, id)
+    for (const id of ['money', 'sales', 'customers', 'paperwork']) {
+      const held = page.locator(`#${id} .ui.is-ui-held`)
+      await page.evaluate((cardId) => {
+        const top = document.querySelector(`#${cardId}`)!.getBoundingClientRect().top + scrollY
+        scrollTo({ top: top - 120, behavior: 'instant' })
+      }, id)
+      await expect(held, `${id}: the picture rests`).toHaveCount(1, { timeout: 20_000 })
+      await page.waitForTimeout(800)
+      const before = await shown(id)
+      expect(before.length, `${id}: the picture shows words at rest`).toBeGreaterThan(0)
+      const box = (await page.locator(`#${id} h3`).boundingBox())!
+      await page.mouse.move(box.x + 20, box.y + box.height / 2)
+      await page.waitForTimeout(1500)
+      await page.mouse.move(box.x + 20, 20)
+      await expect(held, `${id}: the picture rests again`).toHaveCount(1, { timeout: 20_000 })
+      await page.waitForTimeout(1200)
+      expect(await shown(id), `${id}: every word shown before the hover is shown after it`).toEqual(expect.arrayContaining(before))
+    }
+  })
+
   test('the tools diagram draws the real tools around Jarvis', async ({ page }) => {
     await ready(page)
     const diagram = page.locator('#tools .dg')

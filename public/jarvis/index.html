@@ -399,11 +399,12 @@ Mike, Fig Street Café</blockquote>
           <p class="desk-only"><a class="link" href="#rule">See the rule he follows</a></p>
         </div>
         <div class="grid">
+          <!-- data-moment-block: the colour moment fades each picture in whole and never writes into its rows (a card loop keeps its rows from the markup) -->
           <article class="card card--row m-nolift span-6" id="money">
             <h3>Bills the customer and chases late invoices</h3>
             <p>A yes on a quote becomes an invoice with a pay link. A late one gets a reminder you approve.</p>
-            <div class="panel panel--flush">
-              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max: 380px; --ax: max(24px, 50% - 190px); --ay: calc(100% - 180px); --ay-sm: calc(100% - 180px)">
+            <div class="panel panel--flush" data-moment-block>
+              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max: 380px; --ax: max(24px, 50% - 190px); --ay: max(36px, calc(50% - 104px)); --ay-sm: calc(100% - 180px)">
                 <div class="ui ui-notify" data-ui="notify">
                   <ul class="ui-notify__list" data-notify-list>
                     <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Invoice 2041 paid<time>9:12</time></span><span class="ui-note__body">Harper rehearsal dinner, $640 by card</span></span></li>
@@ -417,7 +418,7 @@ Mike, Fig Street Café</blockquote>
           <article class="card card--row m-nolift span-6" id="sales">
             <h3>Quotes from your prices</h3>
             <p>Say the job out loud. The quote is drafted from your price list, and a missing price stays blank.</p>
-            <div class="panel panel--flush">
+            <div class="panel panel--flush" data-moment-block>
               <div class="stage stage--fade-b"><div class="at-corner to-edge fit" style="--fit-max: 440px; --ax: 32px; --ay: 36px; --ay-sm: 24px">
                 <div class="ui ui-doc" data-ui="doc">
                   <article class="ui-doc__page">
@@ -442,7 +443,7 @@ Mike, Fig Street Café</blockquote>
         <article class="card card--row m-nolift span-6" id="customers">
           <h3>Drafts every customer reply</h3>
           <p>Each message gets an answer in your voice, with the facts from the file. You tap to send it.</p>
-          <div class="panel panel--flush">
+          <div class="panel panel--flush" data-moment-block>
             <div class="stage stage--fade-b"><div class="at-rise to-edge fit" style="--fit-max: 400px; --ax: max(24px, 50% - 200px); --ay: 40px; --ay-sm: 24px">
               <div class="ui ui-panel ui-chat" data-ui="chat">
                 <div class="ui-head">
@@ -484,7 +485,7 @@ Mike, Fig Street Café</blockquote>
         <article class="card card--row m-nolift span-6" id="paperwork">
           <h3>Files the forms and the uploads</h3>
           <p>He chases the paperwork and runs the web errands in a real browser: the portals, the forms and the uploads.</p>
-          <div class="panel panel--flush">
+          <div class="panel panel--flush" data-moment-block>
             <div class="stage stage--fade-br"><div class="at-corner wide" style="--w: 680px; --ax: 32px; --ay: 36px; --ay-sm: 24px">
               <div class="ui ui-files" data-ui="files" data-reading="Filing {n} of {total}">
                 <div class="ui-files__status"><span class="ui-dot"></span><span data-files-status>12 documents filed</span></div>
