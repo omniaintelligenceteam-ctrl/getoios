@@ -265,6 +265,16 @@ test.describe('Homepage', () => {
     })
   }
 
+  // ─── The owner's name ────────────────────────────────────────────────
+  // Wes, 12 Nov 2026: "remove my name". The page tells the story and does not name him.
+  test('the page does not name the owner', async ({ page }) => {
+    await ready(page)
+    await expect(page.locator('#behind')).toContainText('eight cities for ten years')
+    const html = await page.content()
+    expect(html).not.toMatch(/Overstreet/i)
+    expect(html).not.toMatch(/\bWes\b/)
+  })
+
   // ─── Footer ──────────────────────────────────────────────────────────
   // Wes, 10 Nov 2026: the same voice sample as meetjarvis. One morning brief, two voices to choose.
   test('the voice sample plays one morning brief in two voices', async ({ page }) => {
