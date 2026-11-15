@@ -210,7 +210,7 @@
 .tools__map { --ratio: 0px; margin-top: var(--s-7); }
 
 /* ------------------------------------------------------------------ 8. setup: the photograph beside the four steps */
-.setup__photo > .frame__img { object-position: 46% 40%; }
+.setup__photo > .frame__img { object-position: 50% 42%; }
 .setup__steps h3 { font: 500 var(--t-card)/1.3 var(--font-text); letter-spacing: 0; }
 @media (max-width: 639px) { .setup__steps p { display: none; } }
 
