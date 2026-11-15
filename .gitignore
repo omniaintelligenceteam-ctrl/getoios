@@ -45,3 +45,4 @@ webhook/node_modules/
 # brainstorm mockups
 .superpowers/
 .env*.local
+.taste-skill/

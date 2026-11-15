@@ -21,7 +21,8 @@ const forbidden = [
 
 const form = (html.match(/<form\b[^>]*>[\s\S]*?<\/form>/i) || [''])[0];
 const formTag = (form.match(/<form\b[^>]*>/i) || [''])[0];
-// Wes, 10 Nov 2026: the form asks for a name, an industry, an email and a cell. Nothing else shows.
+// Wes, 10 Nov 2026: the form asks for a name, an industry, an email and a cell. 13 Nov 2026: and one
+// choice, a call or an email (two `reply` radios). Nothing else shows.
 const visible = [...form.matchAll(/<(?:input|textarea|select)\b[^>]*>/gi)]
   .map((m) => m[0])
   .filter((tag) => !/type="hidden"/.test(tag) && !/name="company"/.test(tag))
@@ -29,7 +30,8 @@ const visible = [...form.matchAll(/<(?:input|textarea|select)\b[^>]*>/gi)]
 const required = [
   [/<link rel="canonical" href="https:\/\/getoios\.com\/">/.test(html), 'The canonical address is https://getoios.com/'],
   [/action="\/api\/handoff"/.test(formTag) && /method="post"/i.test(formTag), 'The form posts to /api/handoff'],
-  [visible.join(',') === 'fullName,industry,email,phoneNumber', `The form shows fullName, industry, email, phoneNumber and nothing else (found: ${visible.join(',') || 'none'})`],
+  [visible.join(',') === 'fullName,industry,email,reply,reply,phoneNumber', `The form shows fullName, industry, email, the reply choice, phoneNumber and nothing else (found: ${visible.join(',') || 'none'})`],
+  [!/<input\b[^>]*name="phoneNumber"[^>]*\brequired\b/.test(form), 'The cell field carries no "required": with no script it would block a request for an email'],
   ...['interest', 'company'].map((name) => [
     new RegExp(`<input\\b[^>]*name="${name}"`).test(form),
     `The form has the unseen ${name} field`,

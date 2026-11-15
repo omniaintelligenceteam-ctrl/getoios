@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 const routes = [
-  { path: '/', titlePattern: /Jarvis, a chief of staff/ },
+  { path: '/', titlePattern: /Jarvis: three hires in one/ },
   { path: '/sms', titlePattern: /Text Alerts/i },
   { path: '/privacy', titlePattern: /Privacy/i },
   { path: '/terms', titlePattern: /Terms/i },
@@ -18,15 +18,15 @@ test.describe('Navigation: All pages load', () => {
   }
 })
 
-// The sample-day front door replaced the old site. Each old address
+// The front door (Jarvis as three hires in one) replaced the old site. Each old address
 // answers with a temporary redirect to the matching section (next.config.ts).
 test.describe('Navigation: old page addresses open the front door', () => {
   const moved = [
-    { from: '/features', hash: '#work' },
-    { from: '/how-it-works', hash: '#install' },
-    { from: '/pricing', hash: '#install' },
+    { from: '/features', hash: '#assistant' },
+    { from: '/how-it-works', hash: '#setup' },
+    { from: '/pricing', hash: '#setup' },
     { from: '/about', hash: '#behind' },
-    { from: '/solutions', hash: '#work' },
+    { from: '/solutions', hash: '#assistant' },
     { from: '/form', hash: '#start' },
     { from: '/audit', hash: '#start' },
     { from: '/demo', hash: '#start' },
@@ -47,7 +47,7 @@ test.describe('Navigation: old page addresses open the front door', () => {
 
   test('a redirect keeps the query string of the old address', async ({ request }) => {
     const answer = await request.get('/pricing?utm_source=test', { maxRedirects: 0 })
-    expect(answer.headers()['location']).toBe('/?utm_source=test#install')
+    expect(answer.headers()['location']).toBe('/?utm_source=test#setup')
   })
 })
 
@@ -56,9 +56,9 @@ test.describe('Navigation: old page addresses open the front door', () => {
 // the Next pages, so the header tests start from one of those.
 test.describe('Navigation: Header links work', () => {
   const headerLinks = [
-    { label: 'What It Does', href: '/#work' },
-    { label: 'How It Works', href: '/#install' },
-    { label: 'About', href: '/#behind' },
+    { label: 'Product', href: '/#today' },
+    { label: 'Setup', href: '/#setup' },
+    { label: 'Story', href: '/#behind' },
   ]
 
   for (const link of headerLinks) {
@@ -137,7 +137,7 @@ test.describe('Navigation: Mobile menu', () => {
     await page.waitForTimeout(500)
 
     // the desktop nav keeps its own (hidden) copy of each link; take the visible one
-    const mobileNavLink = page.locator('header a[href="/#work"]:visible').first()
+    const mobileNavLink = page.locator('header a[href="/#today"]:visible').first()
     await expect(mobileNavLink).toBeVisible()
   })
 })
