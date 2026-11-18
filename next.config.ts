@@ -14,13 +14,13 @@ const nextConfig: NextConfig = {
     };
   },
   // The one page replaced the old site. Each old address sends its
-  // visitors to the matching section of the page.
+  // visitors to the homepage or a matching section.
   async redirects() {
     return [
       { source: "/features", destination: "/#assistant", permanent: false },
       { source: "/how-it-works", destination: "/#setup", permanent: false },
       { source: "/pricing", destination: "/#setup", permanent: false },
-      { source: "/about", destination: "/#behind", permanent: false },
+      { source: "/about", destination: "/", permanent: false },
       { source: "/solutions", destination: "/#assistant", permanent: false },
       { source: "/form", destination: "/#start", permanent: false },
       { source: "/audit", destination: "/#start", permanent: false },
