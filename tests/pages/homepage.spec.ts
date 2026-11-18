@@ -17,7 +17,7 @@ const card = (page: Page, scene: Scene) => page.locator(`#today [data-item="${sc
 const row = (page: Page, scene: Scene) => page.locator(`#today [data-row="${scene}"]`)
 const pick = (page: Page, scene: Scene) => page.locator(`#today [data-pick="${scene}"]`).click()
 
-const SECTIONS = ['today', 'assistant', 'chief', 'team', 'tools', 'rule', 'setup', 'behind', 'questions', 'start']
+const SECTIONS = ['today', 'assistant', 'chief', 'team', 'tools', 'rule', 'setup', 'questions', 'start']
 
 test.describe('Homepage', () => {
   test.beforeEach(async ({ page }) => {
@@ -278,17 +278,11 @@ test.describe('Homepage', () => {
     await expect(diagram.locator('.dg-ic--missing')).toHaveCount(0)
   })
 
-  test('the film plays only on a tap', async ({ page }) => {
-    await ready(page)
-    const film = page.locator('[data-film]')
-    await film.scrollIntoViewIfNeeded()
-    await expect(film.locator('video')).toHaveCount(0)
-    await expect(film.locator('[data-play]')).toHaveAccessibleName('Play the 30-second introduction, with sound')
-    await page.evaluate(() => { HTMLMediaElement.prototype.play = () => Promise.resolve() })
-    await film.locator('[data-play]').click()
-    await expect(film.locator('video')).toHaveAttribute('src', '/jarvis/visor/keeper-final-owner-approved-v2.mp4')
-    await expect(film.locator('video')).toHaveJSProperty('controls', true)
-    await expect(film.locator('[data-play]')).toHaveCount(0)
+  test('setup leads straight to questions without the Jarvis story', async ({ page }) => {
+    await expect(page.locator('#setup + #questions')).toHaveCount(1, { timeout: 1000 })
+    await expect(page.getByRole('heading', { name: 'The story behind Jarvis' })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: 'Meet Jarvis, the long version' })).toHaveCount(0)
+    await expect(page.locator('[data-film], a[href="#behind"]')).toHaveCount(0)
   })
 
   test('the two voices play one at a time, and a clip that fails says so', async ({ page }) => {

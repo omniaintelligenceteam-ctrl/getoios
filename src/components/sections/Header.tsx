@@ -11,7 +11,6 @@ import { hostGrotesk } from '@/lib/fonts'
 const navLinks: { href: string; label: string }[] = [
   { href: '/#today', label: 'Product' },
   { href: '/#setup', label: 'Setup' },
-  { href: '/#behind', label: 'Story' },
 ]
 
 // The front door's colours on its dark ground: ink #fff, muted #969696, action #762bee.

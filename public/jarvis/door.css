@@ -1,6 +1,6 @@
 /* getoios.com front door: page CSS. The kit (assets/system.css and its families) builds the page.
    This file holds only what sits inside a visual and the kit lacks: the hero collage's pieces,
-   the live app window, the film frame, the voice player, two photograph frames and one --p-h per card group. */
+   the live app window, the voice player, two photograph frames and one --p-h per card group. */
 
 /* ------------------------------------------------------------------ card groups: one panel height each */
 #chief .panel { --p-h: 300px; }
@@ -213,18 +213,6 @@
 .setup__photo > .frame__img { object-position: 50% 42%; }
 .setup__steps h3 { font: 500 var(--t-card)/1.3 var(--font-text); letter-spacing: 0; }
 @media (max-width: 639px) { .setup__steps p { display: none; } }
-
-/* ------------------------------------------------------------------ 9. the film: its frame across the wrap, the 16:9 poster whole on a dark ground, the control in its centre */
-.film { --ratio: 0px; min-height: 240px; margin-top: var(--s-7); background: #0b0f16; }
-.film > .frame__img { object-fit: contain; background: #0b0f16; }
-/* The kit's own .ly-play is a hero part (layout.js hides it outside a hero), so the control here has its own rules. */
-.film__play { position: absolute; z-index: 2; inset: 0; margin: auto; width: 64px; height: 64px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; }
-.film__disc { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; color: #111; transition: transform var(--dur) var(--ease); }
-.film__disc svg { width: 18px; height: 18px; margin-left: 3px; }
-.film__play:hover .film__disc, .film__play:focus-visible .film__disc { transform: scale(1.06); }
-.film__play:active .film__disc { transform: scale(0.97); }
-.film__play:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
-@media (max-width: 1023px) { .film { --ratio: 56.25%; min-height: 0; margin-top: var(--s-6); } }
 
 /* ------------------------------------------------------------------ 10. the voice player: one morning brief, two voices */
 .ui.ui-voices { width: 100%; max-width: 460px; display: grid; overflow: hidden; }

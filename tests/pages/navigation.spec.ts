@@ -25,7 +25,6 @@ test.describe('Navigation: old page addresses open the front door', () => {
     { from: '/features', hash: '#assistant' },
     { from: '/how-it-works', hash: '#setup' },
     { from: '/pricing', hash: '#setup' },
-    { from: '/about', hash: '#behind' },
     { from: '/solutions', hash: '#assistant' },
     { from: '/form', hash: '#start' },
     { from: '/audit', hash: '#start' },
@@ -45,6 +44,15 @@ test.describe('Navigation: old page addresses open the front door', () => {
     })
   }
 
+  test('/about redirects to the homepage and keeps its query string', async ({ page, request }) => {
+    const answer = await request.get('/about?utm_source=test', { maxRedirects: 0 })
+    expect(answer.status()).toBe(307)
+    expect(answer.headers()['location']).toBe('/?utm_source=test')
+    await page.goto('/about?utm_source=test')
+    await expect(page).toHaveURL('/?utm_source=test')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Jarvis is three hires in one')
+  })
+
   test('a redirect keeps the query string of the old address', async ({ request }) => {
     const answer = await request.get('/pricing?utm_source=test', { maxRedirects: 0 })
     expect(answer.headers()['location']).toBe('/?utm_source=test#setup')
@@ -58,7 +66,6 @@ test.describe('Navigation: Header links work', () => {
   const headerLinks = [
     { label: 'Product', href: '/#today' },
     { label: 'Setup', href: '/#setup' },
-    { label: 'Story', href: '/#behind' },
   ]
 
   for (const link of headerLinks) {
@@ -72,6 +79,12 @@ test.describe('Navigation: Header links work', () => {
       await expect(page).toHaveURL(new RegExp(`/${link.href.slice(1)}$`))
     })
   }
+
+  test('the shared header has no link to the removed Story section', async ({ page }) => {
+    await page.goto('/privacy')
+    await expect(page.getByRole('navigation', { name: 'Main' })).toBeVisible()
+    await expect(page.locator('header a[href="/#behind"]')).toHaveCount(0, { timeout: 1000 })
+  })
 
   test('logo navigates to homepage', async ({ page }) => {
     await page.goto('/privacy')

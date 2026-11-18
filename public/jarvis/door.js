@@ -1,6 +1,6 @@
 /* getoios.com front door: the page's own script. Plain script, no request of its own.
-   It runs four things the kit does not: the live list in #today (open an item, approve or decline it,
-   switch the sample business), the 30-second film, the two voice clips, and the unseen `interest`
+   It adds the live list in #today (open an item, approve or decline it,
+   switch the sample business), the two voice clips, and the unseen `interest`
    field of the call form. The kit's system.js sends the form. Sample names throughout. */
 (() => {
   'use strict';
@@ -283,28 +283,6 @@
     draw();
   }
 
-  // ---- The 30-second film: the poster becomes the player on a tap ----
-  function film() {
-    const frame = $('[data-film]');
-    const play = frame && $('[data-play]', frame);
-    if (!play) return;
-    play.addEventListener('click', () => {
-      const video = document.createElement('video');
-      video.className = 'frame__img';
-      video.controls = true; video.playsInline = true; video.preload = 'auto';
-      video.poster = '/jarvis/visor/keeper-v2-poster.png';
-      video.src = '/jarvis/visor/keeper-final-owner-approved-v2.mp4';
-      video.setAttribute('aria-label', 'The 30-second introduction to Jarvis');
-      const poster = $('img', frame);
-      if (poster) poster.remove();
-      play.remove();
-      frame.append(video);
-      video.focus({ preventScroll: true });
-      const started = video.play();
-      if (started && started.catch) started.catch(() => {});
-    });
-  }
-
   // ---- The two voices: one clip plays at a time; a second tap stops it ----
   function voices() {
     const root = $('[data-voices]');
@@ -396,7 +374,7 @@
   }
 
   // The bar marks the section on screen. A section with no link of its own marks the link it belongs under.
-  const UNDER = { today: 'today', assistant: 'today', chief: 'today', team: 'today', tools: 'tools', rule: 'tools', setup: 'setup', behind: 'behind', questions: 'questions' };
+  const UNDER = { today: 'today', assistant: 'today', chief: 'today', team: 'today', tools: 'tools', rule: 'tools', setup: 'setup', questions: 'questions' };
   function spy() {
     const links = $$('header .nav__link[href^="#"]');
     const sections = $$('main > section[id], footer.closing');
@@ -420,7 +398,7 @@
   }
 
   const boot = () => {
-    [today, film, voices, interest, reply, sent, moved, spy].forEach((part) => { try { part(); } catch (err) { console.error(err); } });
+    [today, voices, interest, reply, sent, moved, spy].forEach((part) => { try { part(); } catch (err) { console.error(err); } });
     document.documentElement.setAttribute('data-ready', '');
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
