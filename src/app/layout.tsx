@@ -134,7 +134,7 @@ export default function RootLayout({
       "itemListElement": [
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Your assistant for your business and your life" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Your chief of staff" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Your full management team: the money, the sales, the customers and the paperwork" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Your full management team: finance, sales, marketing, customer service, operations and your team" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Install by an Omnia partner in the first month" } },
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "One big build or two small ones each month" } },
       ],
